@@ -4,7 +4,7 @@ import PrimaryButton from './../../components/buttons/primary'
 function Home(){
     return (
         <div>
-            <h1 style={{color: 'red'}}>This is a home component</h1>
+            <h1 style={{color: 'red'}}>This is a home component fffdf</h1>
             <PrimaryButton text='Button Text Passed through props' />
         </div>
     )
