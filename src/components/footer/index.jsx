@@ -1,12 +1,16 @@
-import React from 'react'
+import React from "react"
+import "./styles.css"
 
-function Footer(){
-
-    return (
-        <div>
-            <h1>Footer Footer Footer Footer</h1>
-        </div>
-    )
+function Footer() {
+	return (
+		<div className='footer-container'>
+			<div style={{ padding: "30px" }}>
+				if you have any problems with our website
+				<br />
+				Our Contacts: 88000770007
+			</div>
+		</div>
+	)
 }
 
 export default Footer
