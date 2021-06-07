@@ -1,0 +1,38 @@
+$text-color: #0c7c7c;
+
+.form-wrapper{
+    width: 30%;
+    margin: 40px auto;
+    font-size: 20px;
+    color: $text-color;
+
+    .form-item{
+        margin-bottom: 25px;
+    }
+}
+
+.info{
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 50px;
+    margin-top: 30px;
+    
+    color:$text-color;
+    .about-company-wrapper{
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 2em;
+    }
+
+    .statistics-wrapper{
+        font-size: 24px;
+        font-weight: 300;
+        span{
+            font-weight: 900;
+            font-size: 35px;
+        }
+    }
+}
+
+
+
