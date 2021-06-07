@@ -1,6 +1,6 @@
 import React from "react"
-import Filters from "../filters"
-import ProductCard from '../product-card'
+import Filters from "components/filters"
+import ProductCard from 'components/product-card'
 import "./styles.css"
 
 const ProductList = ({ data }) => {

@@ -14,7 +14,7 @@ const Filters = () => {
 				<span htmlFor='search' className='icon'>
 					<Loupe />
 				</span>{" "}
-				<input id='search' type='text' name='' id='' />
+				<input id='search' type='text'/>
 			</div>
 			<span>Sort by</span>
 		</div>
