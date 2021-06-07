@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter, Switch} from 'react-router-dom'
+import { BrowserRouter, Switch } from 'react-router-dom'
 import Context from './store/context'
 import AppRouter from './router'
 
