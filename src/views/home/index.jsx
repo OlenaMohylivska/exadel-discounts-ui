@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Slider from "../../components/slider"
-import ProductList from "./productList"
+import Products from "../../components/products"
 import "./styles.css"
 
 function Home() {
@@ -19,7 +19,7 @@ function Home() {
 	return (
 		<div>
 			<Slider />
-			<ProductList data={data} />
+			<Products data={data} />
 			<div className='about-info'> content about company</div>
 		</div>
 	)

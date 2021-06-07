@@ -1,5 +1,6 @@
 import React from "react"
-import Filters from "../../../components/filters"
+import Filters from "../filters"
+import ProductCard from '../product-card'
 import "./styles.css"
 
 const ProductList = ({ data }) => {
@@ -9,6 +10,7 @@ const ProductList = ({ data }) => {
 		<div className='product-list'>
 			<h1 className='h1-discount'>Discount</h1>
 			<Filters />
+			<ProductCard />
 			<div className='list'>
 				{/* Картки товару не створював оскільки цим Альона займається, не було сенсу */}
 				{fixedArr.length > 0 &&
