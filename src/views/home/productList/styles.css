@@ -1,0 +1,21 @@
+.product-list {
+	padding: 20px 100px;
+	text-align: center;
+}
+.h1-discount {
+	padding: 60px;
+}
+.btn-all {
+	background: #19f422;
+	padding: 20px 40px;
+	font-size: 24px;
+	cursor: pointer;
+	border-radius: 20px;
+	margin: 20px auto;
+}
+.list {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
+}

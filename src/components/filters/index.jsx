@@ -1,7 +1,8 @@
-import React from "react";
-import Loupe from "../../../../components/icons/Loupe";
+import React from "react"
+import Loupe from "../icons/Loupe"
+import "./styles.css"
 
-const SearchHelpers = () => {
+const Filters = () => {
 	return (
 		<div
 			style={{
@@ -10,14 +11,14 @@ const SearchHelpers = () => {
 			}}>
 			<span>Filter</span>
 			<div>
-				<span htmlFor='search' style={{ marginRight: "10px" }}>
+				<span htmlFor='search' className='icon'>
 					<Loupe />
 				</span>{" "}
 				<input id='search' type='text' name='' id='' />
 			</div>
 			<span>Sort by</span>
 		</div>
-	);
-};
+	)
+}
 
-export default SearchHelpers;
+export default Filters

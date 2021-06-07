@@ -1,23 +1,23 @@
-import React from "react";
-import Logout from "../icons/Logout";
+import React from "react"
+import { Nav, Navbar } from "react-bootstrap"
+import Logout from "../icons/Logout"
+import "./styles.css"
 
 function Header() {
 	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "row",
-				justifyContent: "space-between",
-				padding: "20px 50px   ",
-			}}>
+		<Navbar className='justify-content-between padding'>
 			<span>Logo</span>
-			<h2>Main</h2>
-			<h2>Profile</h2>
-			<span>
+			<Nav.Link href='#'>
+				<h2>Main</h2>
+			</Nav.Link>
+			<Nav.Link href='#'>
+				<h2>Profile</h2>
+			</Nav.Link>
+			<Nav.Link href='#'>
 				<Logout />
-			</span>
-		</div>
-	);
+			</Nav.Link>
+		</Navbar>
+	)
 }
 
-export default Header;
+export default Header

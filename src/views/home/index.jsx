@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from "react";
-import PrimaryButton from "./../../components/buttons/primary";
-import MainContent from "./mainContent";
-import Slider from "./slider";
+import React, { useEffect, useState } from "react"
+import PrimaryButton from "./../../components/buttons/primary"
+import Slider from "../../components/slider"
+import ProductList from "./productList"
 
 function Home() {
-	const [data, setData] = useState();
-	const [mounted, setMounted] = useState(false);
+	const [data, setData] = useState()
+	const [mounted, setMounted] = useState(false)
 	useEffect(async () => {
 		if (!mounted) {
 			await fetch("https://jsonplaceholder.typicode.com/posts").then(
 				(response) => response.json().then((res) => setData(res))
-			);
-			setMounted(true);
+			)
+			setMounted(true)
 		}
 		if (mounted) {
-			return;
+			return
 		}
-	});
+	})
 
 	return (
 		<div>
 			<Slider />
-			<MainContent data={data} />
+
+			<ProductList data={data} />
 			<div
 				style={{
 					border: "1px solid black",
@@ -34,7 +35,7 @@ function Home() {
 				content about company
 			</div>
 		</div>
-	);
+	)
 }
 
-export default Home;
+export default Home
