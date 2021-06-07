@@ -1,10 +1,12 @@
 import React from 'react'
+import ProductCard from '../../components/productCard'
 import PrimaryButton from './../../components/buttons/primary'
 
 function Home(){
     return (
         <div>
             <h1 style={{color: 'red'}}>This is a home component fffdf</h1>
+            <ProductCard />
             <PrimaryButton text='Button Text Passed through props' />
         </div>
     )
