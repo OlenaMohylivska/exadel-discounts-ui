@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles.scss'
-import { Form, Button, ButtonGroup, Container } from 'react-bootstrap'
-import { ArrowRight } from 'react-bootstrap-icons';
+import { Form, Button, Container } from 'react-bootstrap'
 
 function Login() {
+
+    const [login, setLogin] = useState("")
+    const [password, setPassword] = useState("")
+
+    const onLoginChange = (event) => {
+        setLogin(event.target.value)
+    }
+
+    const onPasswordChange = (event) => {
+        setPassword(event.target.value)
+    }
+
 
     return (
         <Container>
 
             <div className="info">
-                <ArrowRight />
                 <div className="about-company-wrapper">
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci exercitationem, explicabo ducimus perferendis eligendi, delectus aliquam unde magnam nam sed tempore quae dolorum hic ullam ut expedita quas tenetur nesciunt.</p>
                 </div>
@@ -27,27 +37,25 @@ function Login() {
                 <Form >
                     <Form.Group className="form-item" controlId="formBasicEmail">
                         <Form.Label>Enter your login</Form.Label>
-                        <Form.Control type="text" placeholder="Login" />
+                        <Form.Control type="text" placeholder="Login"
+                            value={login} onChange={event => onLoginChange(event)} />
                     </Form.Group>
 
                     <Form.Group className="form-item" controlId="formBasicPassword">
                         {/* add button "show password" maybe? */}
                         <Form.Label>Enter your password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control type="password" placeholder="Password"
+                            value={password} onChange={event => onPasswordChange(event)} />
                     </Form.Group>
 
                     <Form.Group className="form-item">
                         <Form.Text className="text-secondary">Your data is confidential</Form.Text>
                     </Form.Group>
 
-                    <ButtonGroup className="w-100">
-                        <Button className="mx-4" variant="success" type="submit">
-                            Log in
-                        </Button>
-                        <Button className="mx-4" variant="info" type="reset">
-                            Reset
-                        </Button>
-                    </ButtonGroup>
+
+                    <Button className="w-75 mx-5" variant="success" type="submit">
+                        Log in
+                    </Button>
 
                 </Form>
             </div>
