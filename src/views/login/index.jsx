@@ -1,6 +1,7 @@
 import React from 'react'
 import './styles.scss'
 import { Form, Button, ButtonGroup, Container } from 'react-bootstrap'
+import { ArrowRight } from 'react-bootstrap-icons';
 
 function Login() {
 
@@ -8,7 +9,7 @@ function Login() {
         <Container>
 
             <div className="info">
-
+                <ArrowRight />
                 <div className="about-company-wrapper">
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci exercitationem, explicabo ducimus perferendis eligendi, delectus aliquam unde magnam nam sed tempore quae dolorum hic ullam ut expedita quas tenetur nesciunt.</p>
                 </div>
