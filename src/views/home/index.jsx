@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import PrimaryButton from "./../../components/buttons/primary"
 import Slider from "../../components/slider"
 import ProductList from "./productList"
+import "./styles.css"
 
 function Home() {
 	const [data, setData] = useState()
@@ -16,24 +17,13 @@ function Home() {
 		if (mounted) {
 			return
 		}
-	})
+	}, [mounted])
 
 	return (
 		<div>
 			<Slider />
-
 			<ProductList data={data} />
-			<div
-				style={{
-					border: "1px solid black",
-					margin: "100px auto",
-					width: "1200px",
-					height: "300px",
-					padding: "10px",
-				}}>
-				{" "}
-				content about company
-			</div>
+			<div className='about-info'> content about company</div>
 		</div>
 	)
 }
