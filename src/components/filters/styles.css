@@ -1,3 +1,43 @@
+.filters {
+	display: flex;
+	justify-content: space-between;
+}
+
+@media (max-width: 720px) {
+	.filters {
+		flex-direction: column;
+		text-align: start;
+	}
+	.filters > div {
+		margin: 3px;
+	}
+	#search {
+		width: 85%;
+	}
+}
+
 .icon {
 	margin-right: 10px;
+}
+.form {
+	display: flex;
+	flex-direction: column;
+	border-left: 1px solid #0d6efd;
+	border-right: 1px solid #0d6efd;
+	border-bottom: 1px solid #0d6efd;
+}
+.form > div {
+	text-align: start;
+}
+
+.form > div > input,
+.form > div > label {
+	cursor: pointer;
+	margin-left: 5px;
+}
+#search {
+	outline: none;
+	border-top: none;
+	border-left: none;
+	border-right: none;
 }
