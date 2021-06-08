@@ -1,21 +1,48 @@
-import React from "react"
-import { Nav, Navbar } from "react-bootstrap"
-import Logout from "../icons/Logout"
-import "./styles.css"
+import React from 'react'
+import { Container, Nav, Navbar, NavbarBrand } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
+import Logout from '../icons/Logout'
+import Logo from '../icons/logo.png'
+import './styles.scss'
+import NavbarToggle from 'react-bootstrap/esm/NavbarToggle'
+import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse'
+
 
 function Header() {
 	return (
-		<Navbar className='justify-content-between padding'>
-			<span>Logo</span>
-			<Nav.Link href='#'>
-				<h2>Main</h2>
-			</Nav.Link>
-			<Nav.Link href='#'>
-				<h2>Profile</h2>
-			</Nav.Link>
-			<Nav.Link href='#'>
-				<Logout />
-			</Nav.Link>
+		<Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
+			<Container className="nav-wrapper">
+				<NavbarBrand>
+					<div className="logo">
+						<img src={Logo} alt="Exadel logotype" className="logo" />
+					</div>
+				</NavbarBrand>
+
+				<NavbarToggle aria-controls="responsive-nav"/>
+				<NavbarCollapse id="responsive-nav" className="burger">
+
+					<Nav className="w-100 d-flex justify-content-around ms-5 text-right">
+
+						<NavLink exact to="/" className="nav-item" activeClassName="nav-item-active" >
+							Home
+						</NavLink>
+
+						<NavLink to="/profile" className="nav-item" activeClassName="nav-item-active">
+							My account
+						</NavLink>
+
+						<NavLink to="/catalog" className="nav-item" activeClassName="nav-item-active" >
+							Catalog
+						</NavLink>
+
+						<NavLink to="#" className="nav-item" activeClassName="nav-item-active">
+							<Logout />
+						</NavLink>
+
+					</Nav>
+
+				</NavbarCollapse>
+			</Container>
 		</Navbar>
 	)
 }
