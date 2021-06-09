@@ -52,10 +52,11 @@ function Login() {
                         <Form.Text className="text-secondary">Your data is confidential</Form.Text>
                     </Form.Group>
 
-
-                    <Button className="w-75 mx-5" variant="success" type="submit">
-                        Log in
+                    <div className="d-flex justify-content-center" >
+                        <Button className="w-75" variant="success" type="submit">
+                            Log in
                     </Button>
+                    </div>
 
                 </Form>
             </div>
