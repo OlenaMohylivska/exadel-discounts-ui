@@ -1,3 +1,59 @@
-.check-class{
-    background-color: wheat;
-}
+.profile {
+    max-width: 80%;
+    margin: 10px auto;
+  
+    &__container {
+      background-color: lightgoldenrodyellow;
+      text-align: left;
+      padding: 10px 10px;
+      max-width: 80vw;
+    }
+  
+    &__title {
+      text-align: left;
+    }
+  
+    &__table-wrapper {
+      overflow-x: auto;
+    }
+  
+    &__icons {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding-left: 18px;
+    }
+  
+    &__icons-left {
+      display: flex;
+    }
+  
+    &__icons-right {
+      display: flex;
+    }
+  
+    &__icons-title {
+      margin-left: 10px;
+    }
+  }
+  
+  th,
+  td {
+    padding: 1rem;
+  }
+  
+  th {
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  td {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  .profile-tabs {
+    padding: 10px 0;
+    margin: 0 auto;
+  }
+  
