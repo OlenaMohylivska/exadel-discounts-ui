@@ -21,7 +21,7 @@ function Header() {
 				<NavbarToggle aria-controls="responsive-nav"/>
 				<NavbarCollapse id="responsive-nav" className="burger">
 
-					<Nav className="w-100 d-flex justify-content-around ms-5 text-right">
+					<Nav className="w-100 d-flex justify-content-between ps-2">
 
 						<NavLink exact to="/" className="nav-item" activeClassName="nav-item-active" >
 							Home

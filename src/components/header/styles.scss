@@ -2,7 +2,7 @@
 	background-color: #88f1ff;
 
 	.nav-wrapper {
-		padding: 3px 0;
+		padding: 10px;
 
 		.nav-item {
 			text-decoration: none;
@@ -20,15 +20,16 @@
 		}
 
 		.logo {
-			width: 150px;
+		margin-right: 5vw;
+			img{
+				width: 150px;
+			}
 		}
 
 
 		.burger {
-			padding: 15px 50px;
-			text-align: right;
-
-			a {
+			text-align: center;
+			.nav-item{
 				padding-top: 10px;
 			}
 		}
