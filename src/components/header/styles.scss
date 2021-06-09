@@ -1,0 +1,37 @@
+.navbar {
+	background-color: #88f1ff;
+
+	.nav-wrapper {
+		padding: 3px 0;
+
+		.nav-item {
+			text-decoration: none;
+			color: #000;
+			font-size: 20px;
+		}
+
+		.nav-item:hover {
+			color: #0082CA;
+			transition: 0.4s ease-in;
+		}
+
+		.nav-item-active {
+			color: #0082CA;
+		}
+
+		.logo {
+			width: 150px;
+		}
+
+
+		.burger {
+			padding: 15px 50px;
+			text-align: right;
+
+			a {
+				padding-top: 10px;
+			}
+		}
+	}
+
+}
