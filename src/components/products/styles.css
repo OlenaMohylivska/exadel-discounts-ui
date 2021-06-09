@@ -1,7 +1,15 @@
-.product-list {
-	padding: 20px 100px;
-	text-align: center;
+@media (max-width: 720px) {
+	.product-list {
+		padding: 20px 0;
+	}
 }
+@media (min-width: 721px) {
+	.product-list {
+		padding: 20px 100px;
+		text-align: center;
+	}
+}
+
 .h1-discount {
 	padding: 60px;
 }
