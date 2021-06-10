@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import PrimaryButton from "./../../components/buttons/primary"
 import Slider from "../../components/slider"
 import ProductList from "./productList"
-// import CompanyInfo from "../../components/companyInfo/index"
+import CompanyInfo from "../../components/companyInfo"
 import "./styles.css"
 
 function Home() {
@@ -24,8 +24,7 @@ function Home() {
 		<div>
 			<Slider />
 			<ProductList data={data} />
-			{/* <CompanyInfo/> */}
-
+			<CompanyInfo/> 
 		</div>
 	)
 }
