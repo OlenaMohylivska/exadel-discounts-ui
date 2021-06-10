@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './styles.scss'
-import { Form, Button, Container } from 'react-bootstrap'
+import { Form, Button, Container, Col } from 'react-bootstrap'
 
 function Login() {
 
@@ -33,7 +33,7 @@ function Login() {
 
             </div>
 
-            <div className="form-wrapper">
+            <Col className="form-wrapper" xl={5} lg={6} md={9} xs={10}>
                 <Form >
                     <Form.Group className="form-item" controlId="formBasicEmail">
                         <Form.Label>Enter your login</Form.Label>
@@ -59,7 +59,7 @@ function Login() {
                     </div>
 
                 </Form>
-            </div>
+            </Col>
         </Container>
 
     )
