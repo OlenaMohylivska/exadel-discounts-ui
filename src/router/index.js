@@ -5,6 +5,7 @@ import Home from './../views/home'
 import Login from './../views/login'
 import Profile from './../views/profile'
 import Catalog from 'views/catalog'
+import History from 'views/history'
 
 function AppRouter(){
     return(
@@ -20,6 +21,9 @@ function AppRouter(){
             </Route>
             <Route path="/catalog">
                 <Catalog />
+            </Route>
+            <Route path="/history">
+                <History />
             </Route>
         </>
     )

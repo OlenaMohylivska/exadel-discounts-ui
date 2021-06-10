@@ -35,6 +35,10 @@ function Header() {
 							Catalog
 						</NavLink>
 
+						<NavLink to="/history" className="nav-item" activeClassName="nav-item-active" >
+							History
+						</NavLink>
+
 						<NavLink to="#" className="nav-item" activeClassName="nav-item-active">
 							<Logout />
 						</NavLink>
