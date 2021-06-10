@@ -4,16 +4,19 @@ import { Form, Button } from 'react-bootstrap';
 import Loupe from 'components/icons/Loupe';
 import './styles.css';
 
-
 const Catalog = (data) => {
-  let arr = [
+  const arr = [
     { title: 'Pizza' },
     { title: 'Sushi' },
     { title: 'Haircut' },
     { title: 'For pets' },
     { title: 'Dentistry' },
-    { title: 'Clothes' }
-  ]
+    { title: 'Clothes' }];
+
+  const cities = ["Kyiv", "Minsk", "Lviv", "Vinnytsia"];
+  const categories = ["Food", "SPA", "Sport", "Entertainment"];
+  const sortingOptions = ["Price - Low to High", "Price - High to Low", "Discount - Low to High", "Discount - High to Low"];
+
   return (
     <div className="container">
       <h1 className="catalog-title">Catalog</h1>
@@ -28,22 +31,13 @@ const Catalog = (data) => {
         </label>
         <div className="catalog-filters col-lg-7 col-md-12">
           <select className="form-select city-select" aria-label="Default select">
-            <option defaultValue>Kyiv</option>
-            <option value="1">Minsk</option>
-            <option value="2">Lviv</option>
-            <option value="3">Vinnytsia</option>
+            {cities.map((city, index) => <option value={index + 1} key={index + 1}>{city}</option>)}
           </select>
           <select className="form-select category-select" aria-label="Default select">
-            <option defaultValue>Food</option>
-            <option value="1">SPA</option>
-            <option value="2">Sport</option>
-            <option value="3">Entertainment</option>
+            {categories.map((category, index) => <option value={index + 1} key={index + 1}>{category}</option>)}
           </select>
           <select className="form-select sorting-order-select" aria-label="default select">
-            <option defaultValue>Price - Low to High</option>
-            <option value="1">Price - High to Low</option>
-            <option value="2">Discount - Low to High</option>
-            <option value="3">Discount - High to Low</option>
+            {sortingOptions.map((option, index) => <option value={index + 1} key={index + 1}>{option}</option>)}
           </select>
         </div>
       </div>
