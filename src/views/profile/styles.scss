@@ -1,59 +1,76 @@
 .profile {
-    max-width: 80%;
-    margin: 10px auto;
-  
-    &__container {
-      background-color: lightgoldenrodyellow;
-      text-align: left;
-      padding: 10px 10px;
-      max-width: 80vw;
-    }
-  
-    &__title {
-      text-align: left;
-    }
-  
-    &__table-wrapper {
-      overflow-x: auto;
-    }
-  
-    &__icons {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding-left: 18px;
-    }
-  
-    &__icons-left {
-      display: flex;
-    }
-  
-    &__icons-right {
-      display: flex;
-    }
-  
-    &__icons-title {
-      margin-left: 10px;
-    }
+  max-width: 80%;
+  margin: 10px auto;
+}
+
+.profile-container {
+  background-color: lightgoldenrodyellow;
+  text-align: left;
+  padding: 10px 10px;
+  max-width: 80vw;
+}
+
+.profile-title {
+  text-align: left;
+}
+
+.profile-data {
+  margin-top: 10px;
+}
+
+.profile-data-header,
+.profile-data-filled {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-data-filled {
+  flex: 1 1 100%;
+  font-weight: 500;
+}
+
+.profile-icons {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-left: 18px;
+}
+
+.profile-icons-left {
+  display: flex;
+}
+
+.profile-icons-right {
+  display: flex;
+}
+
+.profile-icons-title {
+  margin-left: 10px;
+}
+
+
+@media (max-width: 740px) {
+  .profile-data {
+    display: flex;
   }
-  
-  th,
-  td {
-    padding: 1rem;
+
+  .profile-data-header,
+  .profile-data-filled {
+    flex-direction: column;
   }
+}
+
+@media (max-width: 590px) {
+  .profile-container {
+    max-width: 70vw;
   
-  th {
-    font-weight: 400;
-    font-size: 14px;
   }
-  
-  td {
-    font-weight: 500;
-    font-size: 14px;
+}
+
+@media (max-width: 380px) {
+  .profile-icons-title{
+    display: none;
   }
-  
-  .profile-tabs {
-    padding: 10px 0;
-    margin: 0 auto;
-  }
-  
+
+}
