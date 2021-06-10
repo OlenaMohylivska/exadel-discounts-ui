@@ -1,59 +1,75 @@
+
+
 import React from "react"
 import "./styles.css"
+import CompanyLogo from "../icons/CompanyLogo"
 
 function Footer() {
 return (
-<div class="row">
-   <div class="column">
-      <p>Get to Know Us</p>
-      <p><a href="#">Careers</a></p>
-      <p><a href="#">Blog</a></p>
-      <p><a href="#">About us</a></p>
-   </div>
-   <div class="column">
-      <p>Make Money with Us</p>
-      <p><a href="#">Self-Publish with Us</a></p>
-   </div>
-   <div class="column">
-      <p>Products</p>
-      <p><a href="#">Business Advice</a></p>
-   </div>
-   <div class="column">
-      <p>Let Us Help You</p>
-      <p><a href="#">Your Account</a></p>
-      <p><a href="#">Help</a></p>
-   </div>
-   <div class="lower">
-      <div class="column">
-         <img src="images/logo.png" 
-            width="100" height="100" alt="logo"/>
+<div class="container">
+   <div class="row">
+      <div class="col">
+         <ul class="list-group">
+            <li class="list-group-item disabled">Get to Know Us</li>
+            <li class="list-group-item"> <a href="/">Careers</a> </li>
+            <li class="list-group-item"> <a href="/">Blog</a></li>
+            <li class="list-group-item"> <a href="/">About us</a></li>
+            <li class="list-group-item"> <a href="/">Careers</a></li>
+         </ul>
       </div>
-      <div class="column">
-         <select>
-            <option>English</option>
-            <option>Ukrainian</option>
-            <option>Polish</option>
-            <option>Russian</option>
+      <div class="col order-1">
+         <ul class="list-group">
+            <li class="list-group-item disabled">Make Money with Us</li>
+            <li class="list-group-item"><a href="/">See More Make Money with Us</a></li>
+         </ul>
+      </div>
+      <div class="col order-1">
+         <ul class="list-group">
+            <li class="list-group-item disabled">Products</li>
+            <li class="list-group-item"><a href="/">Careers</a></li>
+            <li class="list-group-item"> <a href="/">Blog</a></li>
+            <li class="list-group-item"> <a href="/">About us</a></li>
+            <li class="list-group-item"> <a href="/">Careers</a></li>
+         </ul>
+      </div>
+      <div class="col order-1">
+         <ul class="list-group">
+            <li class="list-group-item disabled">Let Us Help You</li>
+            <li class="list-group-item"><a href="/">Careers</a></li>
+            <li class="list-group-item"><a href="/">Blog</a></li>
+            <li class="list-group-item"><a href="/">About us</a></li>
+            <li class="list-group-item"><a href="/">Careers</a></li>
+         </ul>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col">
+         <CompanyLogo/>
+      </div>
+      <div class="col order-1">
+         <select class="form-select" aria-label="Please choice your language">
+            <option value="1">English</option>
+            <option value="2">Ukrainian</option>
+            <option value="3">Polish</option>
          </select>
       </div>
-      <div class="column">
-         <select>
-            <option>USD</option>
-            <option>UAH</option>
-            <option>PLN</option>
-            <option>RUB</option>
+      <div class="col order-1">
+         <select class="form-select" aria-label="Please choice money type">
+            <option value="1">USD</option>
+            <option value="2">UAH</option>
+            <option value="3">PLN</option>
          </select>
-         <div class="column">
-            <select>
-               <option>United State</option>
-               <option>Ukraine</option>
-               <option>Polish</option>
-               <option>Russia</option>
-            </select>
-         </div>
+      </div>
+      <div class="col order-1">
+         <select class="form-select" aria-label="Please choice your location">
+            <option value="1">US</option>
+            <option value="2">Ukraine</option>
+            <option value="3">Poland</option>
+         </select>
       </div>
    </div>
 </div>
 )
 }
 export default Footer
+
