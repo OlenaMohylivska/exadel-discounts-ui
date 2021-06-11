@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.scss";
 import { PersonFill, PencilSquare } from "react-bootstrap-icons";
 import ProfileTabs from "../../components/tabs/ProfileTabs";
-import { Form, FormGroup } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 function Profile() {
   return (
@@ -22,20 +22,47 @@ function Profile() {
         </div>
 
         <Form className="form-input">
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Control type="text" placeholder="Name" />
+          <Form.Group className="form-floating">
+            <Form.Control
+              type="text"
+              label="name"
+              placeholder="Name"
+              id="floatingInputName"
+            />
+            <label for="floatingInputName">Name</label>
           </Form.Group>
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Control type="text" placeholder="Surname" />
+
+          <Form.Group className="form-floating">
+            <Form.Control
+              type="text"
+              placeholder="Surname"
+              id="floatingInputSurname"
+            />
+            <label for="floatingInputName">Surname</label>
           </Form.Group>
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Control type="date" placeholder="Date of birth" />
+          <Form.Group className="form-floating">
+            <Form.Control
+              type="date"
+              placeholder="Date of birth"
+              id="floatingInputDate"
+            />
+            <label for="floatingInputDate">Date of birth</label>
           </Form.Group>
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Control type="text" placeholder="Gender" />
+          <Form.Group className="form-floating">
+            <Form.Control
+              type="text"
+              placeholder="Gender"
+              id="floatingInputGender"
+            />
+            <label for="floatingInputGender">Gender</label>
           </Form.Group>
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Control type="text" placeholder="Language" />
+          <Form.Group className="form-floating">
+            <Form.Control
+              type="text"
+              placeholder="Language"
+              id="floatingInputLanguage"
+            />
+            <label for="floatingInputGender">Language</label>
           </Form.Group>
         </Form>
       </div>
