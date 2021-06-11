@@ -2,6 +2,7 @@ import React from "react";
 import "./styles.scss";
 import { PersonFill, PencilSquare } from "react-bootstrap-icons";
 import ProfileTabs from "../../components/tabs/ProfileTabs";
+import { Form, FormGroup } from "react-bootstrap";
 
 function Profile() {
   return (
@@ -19,22 +20,24 @@ function Profile() {
             <h6 className="profile-icons-title">Edit</h6>
           </div>
         </div>
-        <div className="profile-data">
-          <ul className="profile-data-header">
-            <li>Name</li>
-            <li>Surname</li>
-            <li>Date of birth</li>
-            <li>Gender</li>
-            <li>Language</li>
-          </ul>
-          <ul className="profile-data-filled">
-            <li>Ivan</li>
-            <li>Ivanov</li>
-            <li>01.01.1990</li>
-            <li>Gender</li>
-            <li>Language</li>
-          </ul>
-        </div>
+
+        <Form className="form-input">
+          <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Control type="text" placeholder="Name" />
+          </Form.Group>
+          <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Control type="text" placeholder="Surname" />
+          </Form.Group>
+          <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Control type="date" placeholder="Date of birth" />
+          </Form.Group>
+          <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Control type="text" placeholder="Gender" />
+          </Form.Group>
+          <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Control type="text" placeholder="Language" />
+          </Form.Group>
+        </Form>
       </div>
     </div>
   );

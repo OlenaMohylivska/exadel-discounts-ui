@@ -7,7 +7,8 @@ const Loupe = () => {
 			xmlns='http://www.w3.org/2000/svg'
 			viewBox='0 0 512.005 512.005'
 			width='24px'
-			height='24px'>
+			height='24px'
+			cursor='pointer'>
 			<g>
 				<g>
 					<path

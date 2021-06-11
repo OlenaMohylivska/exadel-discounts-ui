@@ -1,4 +1,5 @@
-$text-color: #0c7c7c;
+@use '../../variables/styles.scss' as main;
+$text-color: main.$text-color;
 
 .form-wrapper{
     width: 30%;
