@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Nav, Navbar, NavbarBrand } from 'react-bootstrap'
+import { Col, Container, Nav, Navbar, NavbarBrand } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 import Logout from '../icons/Logout'
 import Logo from '../icons/logo.png'
@@ -49,6 +49,5 @@ function Header() {
 			</Container>
 		</Navbar>
 	)
-}
 
 export default Header

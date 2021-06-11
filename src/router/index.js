@@ -1,6 +1,6 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-
+import React from "react"
+import { Route } from "react-router-dom"
+import Admin from "../views/admin"
 import Home from './../views/home'
 import Login from './../views/login'
 import Profile from './../views/profile'
@@ -22,9 +22,14 @@ function AppRouter(){
             <Route path="/catalog">
                 <Catalog />
             </Route>
+
             <Route path="/history-page">
                 <HistoryPage />
             </Route>
+
+            <Route path='/admin'>
+				<Admin />
+			</Route>
         </>
     )
 }
