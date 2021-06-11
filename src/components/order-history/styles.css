@@ -1,12 +1,12 @@
 @media (max-width: 720px) {
-  .img {
+  .image {
     width: 100%;
     height: auto;
   }
 }
 
 @media (min-width: 721px) {
-  .img {
+  .image {
     width: 200px !important;
     height: 150px;
   }

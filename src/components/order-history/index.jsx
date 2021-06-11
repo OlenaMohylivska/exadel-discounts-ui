@@ -2,13 +2,13 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import './styles.css';
 
-const HistoryProductCard = () => {
+const OrderHistory = () => {
   return (
     <div className="container">
       <div className="row">
         <div className="col-lg-12">
           <Card className="d-flex flex-lg-row flex-md-row flex-sm-column w-100 mt-3 p-2 align-items-center">
-            <Card.Img className="col-lg-2 col-md-2 img" src="https://via.placeholder.com/600/24f355" />
+            <Card.Img className="col-lg-2 col-md-2 image" src="https://via.placeholder.com/600/24f355" />
             <Card.Body className="d-lg-flex d-md-flex d-sm-block flex-lg-row flex-md-row flex-sm-column">
               <div className="col-lg-10 col-md-9 col-sm-12 d-flex flex-column justify-content-center">
                 <Card.Title>Card Title</Card.Title>
@@ -30,4 +30,4 @@ const HistoryProductCard = () => {
   )
 }
 
-export default HistoryProductCard
+export default OrderHistory
