@@ -1,10 +1,10 @@
 import React from "react"
-// import AddItem from "../../components/add-item"
+import AddItem from "../../components/add-item"
 
 const Admin = () => {
 	return (
 		<>
-			{/* <AddItem /> */}
+			<AddItem />
 		</>
 	)
 }
