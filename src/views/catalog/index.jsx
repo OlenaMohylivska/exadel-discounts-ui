@@ -41,7 +41,7 @@ const Catalog = (data) => {
           </select>
         </div>
       </div>
-      <div className="products-wrapper">
+      <div className="d-flex justify-content-xl-between justify-content-lg-around justify-content-md-around flex-wrap">
         {arr.map((el) => {
           return <ProductCard elem={el} key={el.title} />
         })}

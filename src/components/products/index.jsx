@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Filters from "components/filters"
 import ProductCard from "components/product-card"
+import { Button } from 'react-bootstrap';
 import "./styles.css"
 import { Link } from "react-router-dom"
 
@@ -17,19 +18,20 @@ const ProductList = ({ data }) => {
 		)
 	}
 	return (
-		<div className='product-list'>
-			<h1 className='h1-discount'>Discount</h1>
+		<div className='container'>
+			<h1 className='py-5 text-center'>Discount</h1>
 			<Filters setVal={setVal} />
 
-			<div className='list'>
-				{/* Картки товару не створював оскільки цим Альона займається, не було сенсу */}
+			<div className='d-flex justify-content-xl-between justify-content-lg-around justify-content-md-around products-wrapper flex-wrap'>
 				{fixedArr.length > 0 &&
 					filter(fixedArr, val).map((elem) => (
 
 						<Link to={`/discount${elem.id}`}><ProductCard key={elem.id} elem={elem} /></Link>
 					))}
 			</div>
-			<span className='btn-all'>See all</span>
+			<div className="btn-wrapper">
+        		<Button variant="success" className="px-4">See all</Button>
+      		</div>
 		</div>
 	)
 }

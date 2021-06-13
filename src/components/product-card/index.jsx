@@ -12,7 +12,7 @@ function ProductCard({ elem }) {
 			</Card.Subtitle>
 			<Card.Title className='mb-3'>{elem.title}</Card.Title>
 			<Card.Img variant='top' src='https://via.placeholder.com/600/24f355' />
-			<Card.Body className='p-0'>
+			<Card.Body className='p-0 d-flex flex-column justify-content-between'>
 				<div className='product-description'>
 					<Card.Text className='product-feedback'>{elem.body}</Card.Text>
 					<Card.Text className='product-discount'>10%</Card.Text>
