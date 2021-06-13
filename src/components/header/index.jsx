@@ -21,7 +21,7 @@ function Header() {
 				<NavbarToggle aria-controls="responsive-nav"/>
 				<NavbarCollapse id="responsive-nav" className="burger">
 
-					<Nav className="w-100 d-flex justify-content-around ms-5 text-right">
+					<Nav className="w-100 d-flex ms-5 text-right header-menu">
 
 						<NavLink exact to="/" className="nav-item" activeClassName="nav-item-active" >
 							Home
@@ -40,7 +40,7 @@ function Header() {
 						</NavLink>
 
 						<NavLink to="#" className="nav-item" activeClassName="nav-item-active">
-							<Logout />
+							Sign In
 						</NavLink>
 
 					</Nav>
@@ -49,5 +49,6 @@ function Header() {
 			</Container>
 		</Navbar>
 	)
+}
 
 export default Header

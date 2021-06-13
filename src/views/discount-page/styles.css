@@ -1,10 +1,4 @@
 @media (max-width: 720px) {
-	.container {
-		flex-direction: column;
-	}
-	.col {
-		width: 100%;
-	}
 	.img-container {
 		width: 100%;
 		padding: 100px 0;
@@ -14,15 +8,7 @@
 }
 
 @media (min-width: 721px) {
-	.container {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-	}
-}
-.col {
-	padding: 10px;
-	margin: 10px;
+
 }
 .img-container {
 	background-color: #c4c4c4;

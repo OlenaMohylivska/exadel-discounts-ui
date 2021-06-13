@@ -29,7 +29,7 @@ function Profile() {
               placeholder="Name"
               id="floatingInputName"
             />
-            <label for="floatingInputName">Name</label>
+            <label htmlFor="floatingInputName">Name</label>
           </Form.Group>
 
           <Form.Group className="form-floating">
@@ -38,7 +38,7 @@ function Profile() {
               placeholder="Surname"
               id="floatingInputSurname"
             />
-            <label for="floatingInputName">Surname</label>
+            <label htmlFor="floatingInputName">Surname</label>
           </Form.Group>
           <Form.Group className="form-floating">
             <Form.Control
@@ -46,7 +46,7 @@ function Profile() {
               placeholder="Date of birth"
               id="floatingInputDate"
             />
-            <label for="floatingInputDate">Date of birth</label>
+            <label htmlFor="floatingInputDate">Date of birth</label>
           </Form.Group>
           <Form.Group className="form-floating">
             <Form.Control
@@ -54,7 +54,7 @@ function Profile() {
               placeholder="Gender"
               id="floatingInputGender"
             />
-            <label for="floatingInputGender">Gender</label>
+            <label htmlFor="floatingInputGender">Gender</label>
           </Form.Group>
           <Form.Group className="form-floating">
             <Form.Control
@@ -62,7 +62,7 @@ function Profile() {
               placeholder="Language"
               id="floatingInputLanguage"
             />
-            <label for="floatingInputGender">Language</label>
+            <label htmlFor="floatingInputGender">Language</label>
           </Form.Group>
         </Form>
       </div>
