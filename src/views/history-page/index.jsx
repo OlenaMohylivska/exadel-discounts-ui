@@ -1,8 +1,8 @@
-import React from 'react';
-import OrderHistory from 'components/order-history' 
+import React from 'react'
+import OrderHistory from 'components/order-history'
 
 const HistoryPage = () => {
-  const arr = [1, 2, 3];
+  const arr = [1, 2, 3]
   return (
     <div>
       {arr.map(el => {

@@ -1,5 +1,5 @@
-import React from "react";
-import './styles.css';
+import React from "react"
+import './styles.css'
 
 function ProfileTabs() {
   return (
@@ -22,7 +22,7 @@ function ProfileTabs() {
         </li>
       </ul>
     </div>
-  );
+  )
 }
 
-export default ProfileTabs;
+export default ProfileTabs

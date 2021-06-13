@@ -6,7 +6,7 @@ import AppRouter from './router'
 import Header from './components/header'
 import Footer from './components/footer'
 
-import './App.scss';
+import './App.scss'
 
 
 
@@ -24,7 +24,7 @@ function App() {
         <Footer />
       </BrowserRouter>
     </Context.Provider>
-  );
+  )
 }
 
-export default App;
+export default App

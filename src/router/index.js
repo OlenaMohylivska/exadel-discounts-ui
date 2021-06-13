@@ -9,34 +9,34 @@ import Catalog from 'views/catalog'
 import HistoryPage from 'views/history-page'
 
 function AppRouter(){
-    return(
-        <>
-            <Route exact path="/">
-                <Home />
-            </Route>
-            <Route path="/login">
-                <Login />
-            </Route>
-            <Route path="/profile">
-                <Profile />
-            </Route>
-            <Route path="/catalog">
-                <Catalog />
-            </Route>
+  return(
+    <>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/profile">
+        <Profile />
+      </Route>
+      <Route path="/catalog">
+        <Catalog />
+      </Route>
 
-            <Route path="/history-page">
-                <HistoryPage />
-            </Route>
+      <Route path="/history-page">
+        <HistoryPage />
+      </Route>
 
 			      <Route path='/admin'>
 				      <Admin />
 			      </Route>
- 
+
 			      <Route path='/discount:id'>
 				      <DiscountPage />
 			      </Route>
-		</>
-	)
+    </>
+  )
 }
 
 export default AppRouter

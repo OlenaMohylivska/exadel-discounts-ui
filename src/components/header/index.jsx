@@ -1,7 +1,6 @@
 import React from 'react'
-import { Col, Container, Nav, Navbar, NavbarBrand } from 'react-bootstrap'
+import { Container, Nav, Navbar, NavbarBrand } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
-import Logout from '../icons/Logout'
 import Logo from '../icons/logo.png'
 import './styles.scss'
 import NavbarToggle from 'react-bootstrap/esm/NavbarToggle'
@@ -9,46 +8,46 @@ import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse'
 
 
 function Header() {
-	return (
-		<Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
-			<Container className="nav-wrapper">
-				<NavbarBrand>
-					<div className="logo">
-						<img src={Logo} alt="Exadel logotype" className="logo" />
-					</div>
-				</NavbarBrand>
+  return (
+    <Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
+      <Container className="nav-wrapper">
+        <NavbarBrand>
+          <div className="logo">
+            <img src={Logo} alt="Exadel logotype" className="logo" />
+          </div>
+        </NavbarBrand>
 
-				<NavbarToggle aria-controls="responsive-nav"/>
-				<NavbarCollapse id="responsive-nav" className="burger">
+        <NavbarToggle aria-controls="responsive-nav"/>
+        <NavbarCollapse id="responsive-nav" className="burger">
 
-					<Nav className="w-100 d-flex ms-5 text-right header-menu">
+          <Nav className="w-100 d-flex ms-5 text-right header-menu">
 
-						<NavLink exact to="/" className="nav-item" activeClassName="nav-item-active" >
+            <NavLink exact to="/" className="nav-item" activeClassName="nav-item-active" >
 							Home
-						</NavLink>
+            </NavLink>
 
-						<NavLink to="/profile" className="nav-item" activeClassName="nav-item-active">
+            <NavLink to="/profile" className="nav-item" activeClassName="nav-item-active">
 							My account
-						</NavLink>
+            </NavLink>
 
-						<NavLink to="/catalog" className="nav-item" activeClassName="nav-item-active" >
+            <NavLink to="/catalog" className="nav-item" activeClassName="nav-item-active" >
 							Catalog
-						</NavLink>
+            </NavLink>
 
-						<NavLink to="/history-page" className="nav-item" activeClassName="nav-item-active" >
+            <NavLink to="/history-page" className="nav-item" activeClassName="nav-item-active" >
 							History
-						</NavLink>
+            </NavLink>
 
-						<NavLink to="#" className="nav-item" activeClassName="nav-item-active">
+            <NavLink to="#" className="nav-item" activeClassName="nav-item-active">
 							Sign In
-						</NavLink>
+            </NavLink>
 
-					</Nav>
+          </Nav>
 
-				</NavbarCollapse>
-			</Container>
-		</Navbar>
-	)
+        </NavbarCollapse>
+      </Container>
+    </Navbar>
+  )
 }
 
 export default Header

@@ -1,21 +1,21 @@
-import React from 'react';
-import ProductCard from 'components/product-card';
-import { Form, Button } from 'react-bootstrap';
-import Loupe from 'components/icons/Loupe';
-import './styles.css';
+import React from 'react'
+import ProductCard from 'components/product-card'
+import { Form, Button } from 'react-bootstrap'
+import Loupe from 'components/icons/Loupe'
+import './styles.css'
 
-const Catalog = (data) => {
+const Catalog = () => {
   const arr = [
     { title: 'Pizza' },
     { title: 'Sushi' },
     { title: 'Haircut' },
     { title: 'For pets' },
     { title: 'Dentistry' },
-    { title: 'Clothes' }];
+    { title: 'Clothes' }]
 
-  const cities = ["Kyiv", "Minsk", "Lviv", "Vinnytsia"];
-  const categories = ["Food", "SPA", "Sport", "Entertainment"];
-  const sortingOptions = ["Price - Low to High", "Price - High to Low", "Discount - Low to High", "Discount - High to Low"];
+  const cities = ["Kyiv", "Minsk", "Lviv", "Vinnytsia"]
+  const categories = ["Food", "SPA", "Sport", "Entertainment"]
+  const sortingOptions = ["Price - Low to High", "Price - High to Low", "Discount - Low to High", "Discount - High to Low"]
 
   return (
     <div className="container">

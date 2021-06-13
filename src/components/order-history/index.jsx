@@ -1,6 +1,6 @@
-import React from 'react';
-import { Card, Button } from 'react-bootstrap';
-import './styles.css';
+import React from 'react'
+import { Card, Button } from 'react-bootstrap'
+import './styles.css'
 
 const OrderHistory = () => {
   return (
@@ -14,7 +14,7 @@ const OrderHistory = () => {
                 <Card.Title>Card Title</Card.Title>
                 <Card.Text className=" h-100 mb-2">
                   Some quick example text to build on the card title and make up the bulk of
-                  the card's content.
+                  the card&apos;s content.
                 </Card.Text>
               </div>
               <div className="col-lg-2 col-md-3 col-sm-12 d-flex flex-column">

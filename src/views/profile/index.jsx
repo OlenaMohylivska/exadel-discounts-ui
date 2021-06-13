@@ -1,8 +1,8 @@
-import React from "react";
-import "./styles.scss";
-import { PersonFill, PencilSquare } from "react-bootstrap-icons";
-import ProfileTabs from "../../components/tabs/ProfileTabs";
-import { Form } from "react-bootstrap";
+import React from "react"
+import "./styles.scss"
+import { PersonFill, PencilSquare } from "react-bootstrap-icons"
+import ProfileTabs from "../../components/tabs/ProfileTabs"
+import { Form } from "react-bootstrap"
 
 function Profile() {
   return (
@@ -67,7 +67,7 @@ function Profile() {
         </Form>
       </div>
     </div>
-  );
+  )
 }
 
-export default Profile;
+export default Profile
