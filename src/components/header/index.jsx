@@ -1,7 +1,6 @@
 import React from 'react'
-import { Col, Container, Nav, Navbar, NavbarBrand } from 'react-bootstrap'
+import { Container, Nav, Navbar, NavbarBrand } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
-import Logout from '../icons/Logout'
 import Logo from '../icons/logo.png'
 import './styles.scss'
 import NavbarToggle from 'react-bootstrap/esm/NavbarToggle'
@@ -12,41 +11,43 @@ function Header() {
   return (
     <Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
       <Container className="nav-wrapper">
+        <NavbarBrand>
+          <div className="logo">
+            <img src={Logo} alt="Exadel logotype" className="logo" />
+          </div>
+        </NavbarBrand>
 
-        <Col className="d-flex align-items-center">
-          <NavbarBrand>
-            <div className="logo">
-              <img src={Logo} alt="Exadel logotype" className="logo" />
-            </div>
-          </NavbarBrand>
-        </Col>
-
-        <NavbarToggle aria-controls="responsive-nav" />
+        <NavbarToggle aria-controls="responsive-nav"/>
         <NavbarCollapse id="responsive-nav" className="burger">
 
-          <Nav className="w-100 d-flex justify-content-between ps-2">
+          <Nav className="w-100 d-flex ms-5 text-right header-menu">
 
             <NavLink exact to="/" className="nav-item" activeClassName="nav-item-active" >
-              Home
-              </NavLink>
+							Home
+            </NavLink>
 
             <NavLink to="/profile" className="nav-item" activeClassName="nav-item-active">
-              My account
-              </NavLink>
+							My account
+            </NavLink>
 
             <NavLink to="/catalog" className="nav-item" activeClassName="nav-item-active" >
-              Catalog
-              </NavLink>
+							Catalog
+            </NavLink>
+
+            <NavLink to="/history-page" className="nav-item" activeClassName="nav-item-active" >
+							History
+            </NavLink>
 
             <NavLink to="/favourite" className="nav-item" activeClassName="nav-item-active" >
               Favourite
             </NavLink>
 
             <NavLink to="#" className="nav-item" activeClassName="nav-item-active">
-              <Logout />
+							Sign In
             </NavLink>
 
           </Nav>
+
         </NavbarCollapse>
       </Container>
     </Navbar>

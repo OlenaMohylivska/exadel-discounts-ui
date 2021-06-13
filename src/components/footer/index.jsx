@@ -2,15 +2,15 @@ import React from "react"
 import "./styles.css"
 
 function Footer() {
-	return (
-		<div className='footer-container'>
-			<div style={{ padding: "30px" }}>
+  return (
+    <div className='footer-container'>
+      <div style={{ padding: "30px" }}>
 				if you have any problems with our website
-				<br />
+        <br />
 				Our Contacts: 88000770007
-			</div>
-		</div>
-	)
+      </div>
+    </div>
+  )
 }
 
 export default Footer

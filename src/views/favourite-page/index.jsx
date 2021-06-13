@@ -1,6 +1,6 @@
 import React from 'react'
 import LinearProductCard from 'components/linear-product-card'
-import { StarFill } from 'react-bootstrap-icons';
+import { StarFill } from 'react-bootstrap-icons'
 
 const FavouritePage = () => {
   const [arr, setArr] = React.useState([
@@ -8,7 +8,7 @@ const FavouritePage = () => {
     {id: 2, isFavourite: true},
     {id: 3, isFavourite: false},
     {id: 4, isFavourite: false}
-  ]);
+  ])
 
   function toggleFavourite(id) {
     setArr(
@@ -16,9 +16,9 @@ const FavouritePage = () => {
         if(el.id === id) {
           el.isFavourite = !el.isFavourite
         }
-        return el;
+        return el
       })
-    )  
+    )
   }
 
   return (
