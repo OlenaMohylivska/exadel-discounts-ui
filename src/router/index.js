@@ -1,6 +1,7 @@
 import React from "react"
 import { Route } from "react-router-dom"
 import Admin from "../views/admin"
+import DiscountPage from "../views/discount-page"
 import Home from './../views/home'
 import Login from './../views/login'
 import Profile from './../views/profile'
@@ -27,11 +28,15 @@ function AppRouter(){
                 <HistoryPage />
             </Route>
 
-            <Route path='/admin'>
-				<Admin />
-			</Route>
-        </>
-    )
+			      <Route path='/admin'>
+				      <Admin />
+			      </Route>
+ 
+			      <Route path='/discount:id'>
+				      <DiscountPage />
+			      </Route>
+		</>
+	)
 }
 
 export default AppRouter

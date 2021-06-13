@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import Filters from "components/filters"
 import ProductCard from "components/product-card"
 import "./styles.css"
+import { Link } from "react-router-dom"
 
 const ProductList = ({ data }) => {
 	const [val, setVal] = useState("")
@@ -24,7 +25,8 @@ const ProductList = ({ data }) => {
 				{/* Картки товару не створював оскільки цим Альона займається, не було сенсу */}
 				{fixedArr.length > 0 &&
 					filter(fixedArr, val).map((elem) => (
-						<ProductCard key={elem.id} elem={elem} />
+
+						<Link to={`/discount${elem.id}`}><ProductCard key={elem.id} elem={elem} /></Link>
 					))}
 			</div>
 			<span className='btn-all'>See all</span>
