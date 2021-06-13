@@ -5,6 +5,7 @@ import Home from './../views/home'
 import Login from './../views/login'
 import Profile from './../views/profile'
 import Catalog from 'views/catalog'
+import FavouritePage from 'views/favourite-page'
 
 function AppRouter(){
     return(
@@ -23,6 +24,9 @@ function AppRouter(){
             </Route>
             <Route path='/admin'>
 				<Admin />
+			</Route>
+            <Route path='/favourite'>
+				<FavouritePage />
 			</Route>
         </>
     )
