@@ -24,7 +24,7 @@ const LinearProductCard = ({ IconComponent, id, favourite, toggleFavourite }) =>
                 <Card.Subtitle className="text-lg-center text-sm-start text-muted">18.06.2021</Card.Subtitle>
               </div>
             </Card.Body>
-            <Button variant="primary" className="h-100 px-4 align-self-center">{IconComponent ? "Order" : "Submit"}</Button>
+            <Button variant="primary" className="h-100 px-4 align-self-center">{IconComponent ? "Order" : "Leave feedback"}</Button>
             {IconComponent &&
               <div className="star-wrapper">
                 {<IconComponent onClick={() => toggleFavourite(id)} className={favourite ? "favourite" : "common"} />}
