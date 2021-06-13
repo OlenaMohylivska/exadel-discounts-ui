@@ -9,44 +9,45 @@ import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse'
 
 
 function Header() {
-  return (
-    <Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
-      <Container className="nav-wrapper">
+	return (
+		<Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
+			<Container className="nav-wrapper">
+				<NavbarBrand>
+					<div className="logo">
+						<img src={Logo} alt="Exadel logotype" className="logo" />
+					</div>
+				</NavbarBrand>
 
-        <Col className="d-flex align-items-center">
-          <NavbarBrand>
-            <div className="logo">
-              <img src={Logo} alt="Exadel logotype" className="logo" />
-            </div>
-          </NavbarBrand>
-        </Col>
+				<NavbarToggle aria-controls="responsive-nav"/>
+				<NavbarCollapse id="responsive-nav" className="burger">
 
-        <NavbarToggle aria-controls="responsive-nav" />
-        <NavbarCollapse id="responsive-nav" className="burger">
+					<Nav className="w-100 d-flex justify-content-around ms-5 text-right">
 
-          <Nav className="w-100 d-flex justify-content-between ps-2">
+						<NavLink exact to="/" className="nav-item" activeClassName="nav-item-active" >
+							Home
+						</NavLink>
 
-            <NavLink exact to="/" className="nav-item" activeClassName="nav-item-active" >
-              Home
-              </NavLink>
+						<NavLink to="/profile" className="nav-item" activeClassName="nav-item-active">
+							My account
+						</NavLink>
 
-            <NavLink to="/profile" className="nav-item" activeClassName="nav-item-active">
-              My account
-              </NavLink>
+						<NavLink to="/catalog" className="nav-item" activeClassName="nav-item-active" >
+							Catalog
+						</NavLink>
 
-            <NavLink to="/catalog" className="nav-item" activeClassName="nav-item-active" >
-              Catalog
-              </NavLink>
+						<NavLink to="/history-page" className="nav-item" activeClassName="nav-item-active" >
+							History
+						</NavLink>
 
-            <NavLink to="#" className="nav-item" activeClassName="nav-item-active">
-              <Logout />
-            </NavLink>
+						<NavLink to="#" className="nav-item" activeClassName="nav-item-active">
+							<Logout />
+						</NavLink>
 
-          </Nav>
-        </NavbarCollapse>
-      </Container>
-    </Navbar>
-  )
-}
+					</Nav>
+
+				</NavbarCollapse>
+			</Container>
+		</Navbar>
+	)
 
 export default Header
