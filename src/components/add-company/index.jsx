@@ -1,18 +1,19 @@
 import React, { useState } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
 import "./styles.css"
+import PropTypes from "prop-types"
 
-const AddCompany = () => {
-  //   const [companyData, setCompanyData] = useState({})
-  const [description, setDescription] = useState("")
+const AddCompany = ({ display, setDisplay }) => {
+  const [serviceDescription, setServiceDescription] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [location, setLocation] = useState("")
+  const [phone, setPhone] = useState("")
   const [logo, setLogo] = useState(
     "https://www.pngfind.com/pngs/m/665-6659827_enterprise-comments-default-company-logo-png-transparent-png.png"
   )
 
   const companyDecriptionHandler = (e) => {
-    setDescription({ [e.target.name]: e.target.value })
+    setServiceDescription({ [e.target.name]: e.target.value })
   }
 
   const companyNameHandler = (e) => {
@@ -31,10 +32,9 @@ const AddCompany = () => {
     setLogo({ [e.target.name]: e.target.value })
   }
 
-  // Поки не знаємо куди відправляти ці дані
-  //   const submit = () => {
-  //     setCompanyData({ ...description, companyName, location, logo })
-  //   }
+  const companyPhoneHandler = (e) => {
+    setPhone({ [e.target.name]: e.target.value })
+  }
 
   return (
     <Form>
@@ -60,7 +60,7 @@ const AddCompany = () => {
               <InputGroup>
                 <FormControl
                   as="textarea"
-                  defaultValue={description}
+                  defaultValue={serviceDescription}
                   name="service-description"
                   onChange={companyDecriptionHandler}
                   className="company-info-textarea"
@@ -99,12 +99,31 @@ const AddCompany = () => {
                 />
               </InputGroup>
             </div>
+            <div className="company-contacts ">
+              <h4 className="company-info-subtitle">Contacts</h4>
+              <InputGroup>
+                <FormControl
+                  placeholder="Phone"
+                  name="company-phone"
+                  onChange={companyPhoneHandler}
+                  className="form-field phone-field"
+                  type="tel"
+                  defaultValue={phone}
+                />
+              </InputGroup>
+            </div>
           </div>
           <div className="btn-field">
-            <Button variant="primary" className="btn company-info-saveBtn">
+            <Button variant="primary" className="btn company-info-btn">
               Save company info
             </Button>
-            <Button variant="info" className="btn company-info-saveBtn">
+            <Button
+              variant="info"
+              className="btn company-info-btn"
+              onClick={() => {
+                setDisplay(!display)
+              }}
+            >
               Add discount info
             </Button>
           </div>
@@ -115,3 +134,5 @@ const AddCompany = () => {
 }
 
 export default AddCompany
+
+AddCompany.propTypes = { display: PropTypes.bool, setDisplay: PropTypes.func }

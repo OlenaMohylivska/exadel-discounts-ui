@@ -1,12 +1,14 @@
-import React from "react"
+import React, { useState } from "react"
+import AddItem from "components/add-item"
 import AddCompany from "components/add-company"
-import AddItem from "../../components/add-item"
 
 const Admin = () => {
+  const [display, setDisplay] = useState(false)
+
   return (
     <>
-      <AddCompany />
-      <AddItem />
+      <AddCompany display={display} setDisplay={setDisplay} />
+      {display ? <AddItem /> : ""}
     </>
   )
 }
