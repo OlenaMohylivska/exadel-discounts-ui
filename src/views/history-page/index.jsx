@@ -1,12 +1,12 @@
 import React from 'react'
-import OrderHistory from 'components/order-history'
+import LinearProductCard from 'components/linear-product-card'
 
 const HistoryPage = () => {
   const arr = [1, 2, 3]
   return (
     <div>
       {arr.map(el => {
-        return <OrderHistory key={el} />
+        return <LinearProductCard key={el} />
       })}
     </div>
   )

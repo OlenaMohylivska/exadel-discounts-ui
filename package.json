@@ -1,4 +1,4 @@
-{
+`{
   "name": "exadel-discounts-ui",
   "version": "0.1.0",
   "private": true,
@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "bootstrap": "^5.0.1",
     "clone-deep": "^4.0.1",
