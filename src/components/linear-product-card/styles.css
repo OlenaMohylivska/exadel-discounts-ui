@@ -1,0 +1,36 @@
+@media (max-width: 720px) {
+  .image {
+    width: 100%;
+    height: auto;
+  }
+
+  .star-wrapper {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+  }
+}
+  
+@media (min-width: 721px) {
+  .image {
+    width: 200px !important;
+    height: 150px;
+  }
+
+  .star-wrapper {
+    position: absolute;
+    bottom: 138px;
+    right: 10px;
+  }
+}
+
+.favourite,
+.common {
+  font-size: 20px;
+  fill: gold;
+  cursor: pointer;
+}
+
+.common {
+  fill: lightgray;
+}

@@ -6,10 +6,11 @@ import Home from './../views/home'
 import Login from './../views/login'
 import Profile from './../views/profile'
 import Catalog from 'views/catalog'
+import FavouritePage from 'views/favourite-page'
 import HistoryPage from 'views/history-page'
 
-function AppRouter(){
-  return(
+function AppRouter() {
+  return (
     <>
       <Route exact path="/">
         <Home />
@@ -28,13 +29,17 @@ function AppRouter(){
         <HistoryPage />
       </Route>
 
-			      <Route path='/admin'>
-				      <Admin />
-			      </Route>
+      <Route path='/favourite'>
+        <FavouritePage />
+      </Route>
 
-			      <Route path='/discount:id'>
-				      <DiscountPage />
-			      </Route>
+      <Route path='/admin'>
+        <Admin />
+      </Route>
+
+      <Route path='/discount:id'>
+        <DiscountPage />
+      </Route>
     </>
   )
 }
