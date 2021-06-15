@@ -42,7 +42,7 @@ function Header() {
               Favourite
             </NavLink>
 
-            <NavLink to="#" className="nav-item" activeClassName="nav-item-active">
+            <NavLink to="/login" className="nav-item" activeClassName="nav-item-active">
 							Sign In
             </NavLink>
 
