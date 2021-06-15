@@ -1,5 +1,6 @@
 .load-img {
 	display: flex;
+	align-items: flex-end;
 }
 .file {
 	cursor: pointer;
@@ -8,8 +9,7 @@
 	text-align: center;
 	border: 1px solid black;
 	border-radius: 20px;
-	margin-top: 247px;
-	margin-left: 30px;
+	margin: 0 auto;
 	padding-top: 10px;
 }
 #file {
