@@ -38,7 +38,7 @@ const LinearProductCard = ({ IconComponent, id, favourite, toggleFavourite }) =>
 }
 
 LinearProductCard.propTypes = {
-  IconComponent: propTypes.element,
+  IconComponent: propTypes.elementType,
   id: propTypes.number,
   favourite: propTypes.bool,
   toggleFavourite: propTypes.func
