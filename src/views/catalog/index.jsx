@@ -1,17 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import ProductCard from 'components/product-card'
 import { Form, Button } from 'react-bootstrap'
 import Loupe from 'components/icons/Loupe'
+import * as axios from 'axios'
 import './styles.css'
 
 const Catalog = () => {
-  const arr = [
-    { title: 'Pizza' },
-    { title: 'Sushi' },
-    { title: 'Haircut' },
-    { title: 'For pets' },
-    { title: 'Dentistry' },
-    { title: 'Clothes' }]
+  const [discounts, setDiscounts] = useState(null)
+
+  const fetchData = async () => {
+    axios.get('http://sandbox-team5.herokuapp.com/api/discount/all').then(response => setDiscounts(response.data))
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
+  console.log(discounts)
+
+
 
   const cities = ["Kyiv", "Minsk", "Lviv", "Vinnytsia"]
   const categories = ["Food", "SPA", "Sport", "Entertainment"]
@@ -42,8 +48,8 @@ const Catalog = () => {
         </div>
       </div>
       <div className="d-flex justify-content-xl-between justify-content-lg-around justify-content-md-around flex-wrap">
-        {arr.map((el) => {
-          return <ProductCard elem={el} key={el.title} />
+        {discounts && discounts.map((el) => {
+          return <Link key={el.id} to={`/discount${el.id}`}><ProductCard elem={el} key={el.id} /></Link>
         })}
       </div>
       <div className="btn-wrapper">

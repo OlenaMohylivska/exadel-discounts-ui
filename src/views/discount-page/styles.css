@@ -8,7 +8,6 @@
 }
 
 @media (min-width: 721px) {
-
 }
 .img-container {
 	background-color: #c4c4c4;
@@ -29,4 +28,10 @@ p,
 	display: flex;
 	justify-content: space-between;
 	flex-direction: row;
+}
+.show {
+	display: block;
+}
+.hide {
+	display: none;
 }
