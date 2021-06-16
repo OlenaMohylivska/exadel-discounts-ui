@@ -1,20 +1,45 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
 import Error from "../error"
 import "./styles.scss"
+import * as axios from "axios"
 
 const AddItem = () => {
   const [data, setData] = useState({})
   const [errors, setErrors] = useState({})
   const [description, setDescription] = useState("")
   const [discountTypes, setDiscountTypes] = useState("")
-  const [discountProviderName, setDiscountProviderName] = useState("")
+  const [discountProviderName, setDiscountProviderName] = useState([])
+  const [discountProviderLocation, setDiscountProviderLocation] = useState([])
   const [terms, setTerms] = useState("")
-  const [proposeType, setProposeType] = useState(false)
+  const [proposeType, setProposeType] = useState("")
   const [limitations, setLimitations] = useState("")
   const [promo, setPromo] = useState("")
 
-  const companyNames = ["Company 1", "Company 2", "Company 3", "Company 4"]
+  const fetchNameData = async () => {
+    await axios
+      .get("https://sandbox-team5.herokuapp.com//api/company/all")
+      .then((response) => {
+        const companies = response.data
+        console.log(companies)
+        setDiscountProviderName(companies)
+      })
+  }
+
+  const fetchCityData = async () => {
+    await axios
+      .get("https://sandbox-team5.herokuapp.com//api/company/all")
+      .then((response) => {
+        const companies = response.data
+        console.log(companies)
+        setDiscountProviderLocation(companies)
+      })
+  }
+
+  useEffect(() => {
+    fetchNameData()
+    fetchCityData()
+  }, [discountProviderName])
 
   const descriptionHandleChange = (e) => {
     setDescription(e.target.value)
@@ -22,6 +47,10 @@ const AddItem = () => {
 
   const discountProviderNameHandler = (e) => {
     setDiscountProviderName(e.target.value)
+  }
+
+  const discountProviderLocationHandler = (e) => {
+    setDiscountProviderLocation(e.target.value)
   }
 
   const discountTypesHandleChange = (e) => {
@@ -106,9 +135,25 @@ const AddItem = () => {
               onChange={discountProviderNameHandler}
               value={discountProviderName}
             >
-              {companyNames.map((company, index) => (
-                <option value={index + 1} key={index + 1}>
-                  {company}
+              {discountProviderName.map((company, index) => (
+                <option value={company.name} key={index + 1}>
+                  {company.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="discount-provider-location">
+            <h4 className="discount-subtitle">Select Discount Location</h4>
+            <select
+              multiple
+              className="form-select"
+              aria-label="Default select"
+              onChange={discountProviderLocationHandler}
+              value={discountProviderLocation}
+            >
+              {discountProviderLocation.map((company, index) => (
+                <option value={company.locations.city} key={index + 1}>
+                  {company.locations.city}
                 </option>
               ))}
             </select>

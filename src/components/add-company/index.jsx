@@ -78,7 +78,7 @@ const AddCompany = () => {
               <h4 className="company-info-subtitle">Address</h4>
               <InputGroup>
                 <FormControl
-                  placeholder="Discount provider UA address (country, city, street)"
+                  placeholder="Discount provider UA address (city)"
                   name="company-UAaddress"
                   onChange={companyUAAddressHandler}
                   className="form-field address-field"
@@ -87,7 +87,7 @@ const AddCompany = () => {
               </InputGroup>
               <InputGroup>
                 <FormControl
-                  placeholder="Discount provider BLR address (country, city, street)"
+                  placeholder="Discount provider BLR address (city)"
                   name="company-BLRaddress"
                   onChange={companyBLRAddressHandler}
                   className="form-field address-field"
