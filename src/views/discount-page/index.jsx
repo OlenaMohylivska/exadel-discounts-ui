@@ -33,7 +33,7 @@ const DiscountPage = () => {
     <>
       {loading ? <div>Loading</div> : ""}
       {discount ? (
-        <div className='container'>
+        <div className='discount-container'>
           <div className='col'>
             <div className='img-container'>img</div>
           </div>
