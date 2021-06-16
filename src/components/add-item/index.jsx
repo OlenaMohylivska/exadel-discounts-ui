@@ -6,36 +6,32 @@ import "./styles.css"
 const AddItem = () => {
   const [data, setData] = useState({})
   const [errors, setErrors] = useState({})
-  // const [img, setImg] = useState(null)
-  const [description, setDescription] = useState({})
-  const [discountTypes, setDiscountTypes] = useState({})
-  const [terms, setTerms] = useState({})
-  const [proposeType, setProposeType] = useState({})
-  const [limitations, setLimitations] = useState({})
-  const [promo, setPromo] = useState({})
+  const [description, setDescription] = useState("")
+  const [discountTypes, setDiscountTypes] = useState('')
+  const [terms, setTerms] = useState('')
+  const [proposeType, setProposeType] = useState('')
+  const [limitations, setLimitations] = useState('')
+  const [promo, setPromo] = useState('')
 
-  /* const imgHandleChange = (e) => {
-    setImg({ [e.target.name]: e.target.value })
-  } */
   const descriptionHandleChange = (e) => {
-    setDescription({ [e.target.name]: e.target.value })
+    setDescription(e.target.value)
   }
 
   const discountTypesHandleChange = (e) => {
-    setDiscountTypes({ [e.target.name]: e.target.value })
+    setDiscountTypes(e.target.value)
   }
   const termsHandleChange = (e) => {
-    setTerms({ [e.target.name]: e.target.value })
+    setTerms(e.target.value)
   }
 
   const proposeTypeHandleChange = (e) => {
-    setProposeType({ [e.target.name]: e.target.value })
+    setProposeType(e.target.value)
   }
   const limitationsHandleChange = (e) => {
-    setLimitations({ [e.target.name]: e.target.value })
+    setLimitations(e.target.value)
   }
   const promoHandleChange = (e) => {
-    setPromo({ [e.target.name]: e.target.value })
+    setPromo(e.target.value)
   }
   const validate = () => {
     const error = {}
@@ -102,8 +98,7 @@ const AddItem = () => {
                 as="textarea"
                 className="description-text"
                 name="description"
-                onChange={() => descriptionHandleChange()}
-                id=""
+                onChange={descriptionHandleChange}
               />
             </InputGroup>
             {errors.description ? <Error error={errors.description} /> : ""}
@@ -123,7 +118,7 @@ const AddItem = () => {
             <FormControl
               placeholder="Filter tags(use” ; ” for splitting)"
               name="discountTypes"
-              onChange={(e) => discountTypesHandleChange(e)}
+              onChange={discountTypesHandleChange}
               className="form-field"
             />
           </InputGroup>
@@ -131,9 +126,9 @@ const AddItem = () => {
           <h4 className="discount-subtitle">Terms:</h4>
           <InputGroup>
             <FormControl
-              placeholder="Date when discount expires"
+              type="date"
               name="terms"
-              onChange={(e) => termsHandleChange(e)}
+              onChange={termsHandleChange}
               className="form-field"
             />
           </InputGroup>
@@ -142,7 +137,7 @@ const AddItem = () => {
             <div>
               <input
                 type="radio"
-                onChange={(e) => proposeTypeHandleChange(e)}
+                onChange={proposeTypeHandleChange}
                 name="proposeType"
                 id="product"
                 value="product"
@@ -169,7 +164,7 @@ const AddItem = () => {
                 <FormControl
                   placeholder="Disable button limitations"
                   name="limitations"
-                  onChange={(e) => limitationsHandleChange(e)}
+                  onChange={limitationsHandleChange}
                   className="form-field"
                 />
               </InputGroup>
@@ -184,7 +179,7 @@ const AddItem = () => {
             <FormControl
               placeholder="Fill the name of promo"
               name="promo"
-              onChange={(e) => promoHandleChange(e)}
+              onChange={promoHandleChange}
               className="form-field"
             />
           </InputGroup>

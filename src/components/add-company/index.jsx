@@ -13,27 +13,27 @@ const AddCompany = ({ display, setDisplay }) => {
   )
 
   const companyDecriptionHandler = (e) => {
-    setServiceDescription({ [e.target.name]: e.target.value })
+    setServiceDescription(e.target.value)
   }
 
   const companyNameHandler = (e) => {
-    setCompanyName({ [e.target.name]: e.target.value })
+    setCompanyName(e.target.value)
   }
 
   const companyUAAddressHandler = (e) => {
-    setLocation({ [e.target.name]: e.target.value })
+    setLocation(e.target.value)
   }
 
   const companyBLRAddressHandler = (e) => {
-    setLocation({ [e.target.name]: e.target.value })
+    setLocation(e.target.value)
   }
 
   const logoChangeHandler = (e) => {
-    setLogo({ [e.target.name]: e.target.value })
+    setLogo(e.target.value)
   }
 
   const companyPhoneHandler = (e) => {
-    setPhone({ [e.target.name]: e.target.value })
+    setPhone(e.target.value)
   }
 
   return (
