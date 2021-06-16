@@ -7,14 +7,13 @@ import axios from 'axios'
 import './styles.css'
 
 const Catalog = () => {
-  const [searchLocation, setSearchLocation] = useState(null)
+  const [searchLocation, setSearchLocation] = useState([])
 
   useEffect(() => {
-    const apiUrl = "http://sandbox-team5.herokuapp.com/api/location/all"
+    const apiUrl = "https://sandbox-team5.herokuapp.com/api/location/all"
     axios.get(apiUrl)
       .then((resp) => {
-        const allLocations = resp.data
-        setSearchLocation(allLocations)
+        setSearchLocation(resp.data)
       })
   }, [])
 
@@ -30,9 +29,9 @@ const Catalog = () => {
   const sortingByRate = ["Top rated"]
 
   const citiesOptions = useMemo(() => {
-    return searchLocation && searchLocation.map(location => ({label: location.city, value: location.city}))
+    return searchLocation.map(location => ({label: location.city, value: location.city}))
   }, [searchLocation])
-
+  console.log(citiesOptions)
   const categoriesOptions = categories.map(el => {
     return {
       value: el,
