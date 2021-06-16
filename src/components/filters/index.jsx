@@ -1,10 +1,10 @@
 import React from "react"
 import { Accordion } from "react-bootstrap"
 import CustomToggle from "../custom-toggle"
+import PropTypes from "prop-types"
 import Loupe from "../icons/Loupe"
 import "./styles.css"
 
-// eslint-disable-next-line react/prop-types
 const Filters = ({ setVal }) => {
   const handleChange = (e) => {
     setVal(e.target.value)
@@ -60,3 +60,7 @@ const Filters = ({ setVal }) => {
 }
 
 export default Filters
+
+Filters.propTypes = {
+  setVal: PropTypes.func,
+}
