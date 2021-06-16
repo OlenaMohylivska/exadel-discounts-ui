@@ -3,17 +3,15 @@ import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
 import Error from "../error"
 import "./styles.scss"
 import * as axios from "axios"
+import Select from "react-select"
 
 const AddItem = () => {
-  const cities = ["Kyiv", "Minsk", "Vinnytsia"]
-
   const [data, setData] = useState({})
   const [errors, setErrors] = useState({})
   const [description, setDescription] = useState("")
   const [discountTypes, setDiscountTypes] = useState("")
   const [discountProviderName, setDiscountProviderName] = useState([])
-  const [discountProviderLocation, setDiscountProviderLocation] =
-    useState(cities)
+  const [discountProviderLocation, setDiscountProviderLocation] = useState([])
   const [terms, setTerms] = useState("")
   const [proposeType, setProposeType] = useState("")
   const [limitations, setLimitations] = useState("")
@@ -28,19 +26,18 @@ const AddItem = () => {
       })
   }
 
-  // const fetchCityData = async () => {
-  //   await axios
-  //     .get("https://sandbox-team5.herokuapp.com//api/company/all")
-  //     .then((response) => {
-  //       const companies = response.data
-  //       console.log(companies)
-  //       setDiscountProviderLocation(companies)
-  //     })
-  // }
+  const fetchCityData = async () => {
+    await axios
+      .get("http://sandbox-team5.herokuapp.com/api/location/all")
+      .then((response) => {
+        const companies = response.data
+        setDiscountProviderLocation(companies)
+      })
+  }
 
   useEffect(() => {
     fetchNameData()
-    // fetchCityData()
+    fetchCityData()
   }, [])
 
   const descriptionHandleChange = (e) => {
@@ -71,6 +68,20 @@ const AddItem = () => {
   const promoHandleChange = (e) => {
     setPromo(e.target.value)
   }
+
+  const nameOptions = discountProviderName.map((company) => {
+    return {
+      value: company.name,
+      label: company.name,
+    }
+  })
+
+  const cityOptions = discountProviderLocation.map((company) => {
+    return {
+      value: company.city,
+      label: company.city,
+    }
+  })
 
   const validate = () => {
     const error = {}
@@ -132,23 +143,18 @@ const AddItem = () => {
           </div>
           <div className="discount-provider-name">
             <h4 className="discount-subtitle">Select Company Name</h4>
-            <select onSelect={discountProviderNameHandler}>
-              {discountProviderName.map((company) => (
-                <option value={company.name} key={company.id}>
-                  {company.name}
-                </option>
-              ))}
-            </select>
+            <Select
+              onSelect={discountProviderNameHandler}
+              options={nameOptions}
+            />
           </div>
           <div className="discount-provider-location">
             <h4 className="discount-subtitle">Select Discount Location</h4>
-            <select onSelect={discountProviderLocationHandler}>
-              {discountProviderLocation.map((city, index) => (
-                <option value={city} key={index + 1}>
-                  {city}
-                </option>
-              ))}
-            </select>
+            <Select
+              isMulti
+              onSelect={discountProviderLocationHandler}
+              options={cityOptions}
+            />
           </div>
           <div className="description">
             <h3 className="discount-subtitle">Description:</h3>
