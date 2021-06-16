@@ -8,6 +8,8 @@ import Profile from './../views/profile'
 import Catalog from 'views/catalog'
 import FavouritePage from 'views/favourite-page'
 import HistoryPage from 'views/history-page'
+import AddCompany from "components/add-company"
+import AddItem from "components/add-item"
 
 function AppRouter() {
   return (
@@ -35,6 +37,14 @@ function AppRouter() {
 
       <Route path='/admin'>
         <Admin />
+      </Route>
+
+      <Route path='/admin/add-company'>
+        <AddCompany />
+      </Route>
+
+      <Route path='/admin/add-item'>
+        <AddItem />
       </Route>
 
       <Route path='/discount:id'>

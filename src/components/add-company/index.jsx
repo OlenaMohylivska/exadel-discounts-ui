@@ -1,13 +1,13 @@
 import React, { useState } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
-import "./styles.css"
+import "./styles.scss"
 import PropTypes from "prop-types"
 
-const AddCompany = ({ display, setDisplay }) => {
+const AddCompany = () => {
   const [serviceDescription, setServiceDescription] = useState("")
   const [companyName, setCompanyName] = useState("")
-  const [location, setLocation] = useState("")
-  const [phone, setPhone] = useState("")
+  const [locationUA, setLocationUA] = useState("")
+  const [locationBLR, setLocationBLR] = useState("")
   const [logo, setLogo] = useState(
     "https://www.pngfind.com/pngs/m/665-6659827_enterprise-comments-default-company-logo-png-transparent-png.png"
   )
@@ -21,19 +21,15 @@ const AddCompany = ({ display, setDisplay }) => {
   }
 
   const companyUAAddressHandler = (e) => {
-    setLocation(e.target.value)
+    setLocationUA(e.target.value)
   }
 
   const companyBLRAddressHandler = (e) => {
-    setLocation(e.target.value)
+    setLocationBLR(e.target.value)
   }
 
   const logoChangeHandler = (e) => {
     setLogo(e.target.value)
-  }
-
-  const companyPhoneHandler = (e) => {
-    setPhone(e.target.value)
   }
 
   return (
@@ -86,7 +82,7 @@ const AddCompany = ({ display, setDisplay }) => {
                   name="company-UAaddress"
                   onChange={companyUAAddressHandler}
                   className="form-field address-field"
-                  defaultValue={location}
+                  defaultValue={locationUA}
                 />
               </InputGroup>
               <InputGroup>
@@ -95,20 +91,7 @@ const AddCompany = ({ display, setDisplay }) => {
                   name="company-BLRaddress"
                   onChange={companyBLRAddressHandler}
                   className="form-field address-field"
-                  defaultValue={location}
-                />
-              </InputGroup>
-            </div>
-            <div className="company-contacts ">
-              <h4 className="company-info-subtitle">Contacts</h4>
-              <InputGroup>
-                <FormControl
-                  placeholder="Phone"
-                  name="company-phone"
-                  onChange={companyPhoneHandler}
-                  className="form-field phone-field"
-                  type="tel"
-                  defaultValue={phone}
+                  defaultValue={locationBLR}
                 />
               </InputGroup>
             </div>
@@ -116,15 +99,6 @@ const AddCompany = ({ display, setDisplay }) => {
           <div className="btn-field">
             <Button variant="primary" className="btn company-info-btn">
               Save company info
-            </Button>
-            <Button
-              variant="info"
-              className="btn company-info-btn"
-              onClick={() => {
-                setDisplay(!display)
-              }}
-            >
-              Add discount info
             </Button>
           </div>
         </div>

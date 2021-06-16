@@ -5,6 +5,7 @@
 .company-logo {
   display: flex;
   flex-direction: column;
+  padding-top: 1rem;
 }
 
 .company-additional-info {
@@ -16,7 +17,7 @@
 }
 
 .company-info-btn{
-    margin: 1rem 2rem 0 0;
+    margin-top: 1rem;
 }
 
 .company-info-textarea{

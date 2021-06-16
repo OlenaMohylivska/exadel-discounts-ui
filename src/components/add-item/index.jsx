@@ -1,20 +1,27 @@
 import React, { useState } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
 import Error from "../error"
-import "./styles.css"
+import "./styles.scss"
 
 const AddItem = () => {
   const [data, setData] = useState({})
   const [errors, setErrors] = useState({})
   const [description, setDescription] = useState("")
-  const [discountTypes, setDiscountTypes] = useState('')
-  const [terms, setTerms] = useState('')
-  const [proposeType, setProposeType] = useState('')
-  const [limitations, setLimitations] = useState('')
-  const [promo, setPromo] = useState('')
+  const [discountTypes, setDiscountTypes] = useState("")
+  const [discountProviderName, setDiscountProviderName] = useState("")
+  const [terms, setTerms] = useState("")
+  const [proposeType, setProposeType] = useState(false)
+  const [limitations, setLimitations] = useState("")
+  const [promo, setPromo] = useState("")
+
+  const companyNames = ["Company 1", "Company 2", "Company 3", "Company 4"]
 
   const descriptionHandleChange = (e) => {
     setDescription(e.target.value)
+  }
+
+  const discountProviderNameHandler = (e) => {
+    setDiscountProviderName(e.target.value)
   }
 
   const discountTypesHandleChange = (e) => {
@@ -80,16 +87,31 @@ const AddItem = () => {
       <div className="container">
         <div className="col">
           <div className="load-img">
-            <img src="https://thumbs.dreamstime.com/t/pizza-35669930.jpg" />
-            <label className="file" htmlFor="file">
-              Choose file
-            </label>
+            <img
+              className="discount-img"
+              src="https://thumbs.dreamstime.com/t/pizza-35669930.jpg"
+            />
             <input
               type="file"
               name="file-name"
               className="form-control-file"
               id="file"
             />
+          </div>
+          <div className="discount-provider-name">
+            <h4 className="discount-subtitle">Select Company Name</h4>
+            <select
+              className="form-select"
+              aria-label="Default select"
+              onChange={discountProviderNameHandler}
+              value={discountProviderName}
+            >
+              {companyNames.map((company, index) => (
+                <option value={index + 1} key={index + 1}>
+                  {company}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="description">
             <h3 className="discount-subtitle">Description:</h3>
@@ -134,26 +156,29 @@ const AddItem = () => {
           </InputGroup>
           {errors.terms ? <Error error={errors.terms} /> : ""}
           <div className="radio-box">
-            <div>
-              <input
-                type="radio"
-                onChange={proposeTypeHandleChange}
-                name="proposeType"
-                id="product"
-                value="product"
-                aria-label="Radio button for following text input"
-              />
-              <label htmlFor="product">product</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                onChange={(e) => proposeTypeHandleChange(e)}
-                name="proposeType"
-                id="service"
-                value="service"
-              />
-              <label htmlFor="service">service</label>
+            <div className="discount-radio-buttons">
+              <h4 className="discount-subtitle">Type:</h4>
+              <div className="discount-radiobtn">
+                <input
+                  type="radio"
+                  onChange={proposeTypeHandleChange}
+                  name="proposeType"
+                  id="product"
+                  value="product"
+                  aria-label="Radio button for following text input"
+                />
+                <label htmlFor="product">product</label>
+              </div>
+              <div className="discount-radiobtn">
+                <input
+                  type="radio"
+                  onChange={proposeTypeHandleChange}
+                  name="proposeType"
+                  id="service"
+                  value="service"
+                />
+                <label htmlFor="service">service</label>
+              </div>
             </div>
           </div>
           {errors.proposeType ? <Error error={errors.proposeType} /> : ""}
