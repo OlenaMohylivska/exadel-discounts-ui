@@ -1,16 +1,42 @@
-.discount-subtitle {
-  margin-top: 1rem;
+.discount-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  padding: 50px 70px;
+  width: 100%;
+}
+.discount-col {
+  width: 50%;
+  padding: 30px;
+}
+.load-img {
+  display: flex;
+}
+.img {
+  width: 432px;
+  height: 296px;
+  border-radius: 20px;
+  background-color: #c4c4c4;
+  text-align: center;
 }
 
-.discount-img {
-  margin-top: 1rem;
-  padding-bottom: 1rem;
-  display: block;
+.file {
+  cursor: pointer;
+  width: 250px;
+  height: 50px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 247px;
+  margin-left: 30px;
+  padding-top: 10px;
 }
-
+#file {
+  display: none;
+}
 .description {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 100px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -35,12 +61,12 @@
   outline: none;
   border: 1px solid black;
   border-radius: 20px;
-  width: 100%;
+  width: 400px;
   height: 44px;
   padding-left: 10px;
 }
 .radio-box {
-  width: 100%;
+  width: 400px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -52,9 +78,4 @@
 .btn {
   border-radius: 20px;
   padding: 10px 40px;
-}
-
-.discount-radiobtn {
-  padding-left: 1rem;
-  padding-top: 1rem;
 }

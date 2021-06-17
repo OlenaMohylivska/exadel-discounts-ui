@@ -4,7 +4,7 @@ import ProductCard from "components/product-card"
 import { Form, Button } from "react-bootstrap"
 import FetchError from "components/fetch-error"
 import Loupe from "components/icons/Loupe"
-import Select from 'react-select'
+import Select from "react-select"
 import * as axios from "axios"
 import "./styles.css"
 
@@ -14,7 +14,7 @@ const Catalog = () => {
 
   const fetchData = async () => {
     axios
-      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discount/all")
+      .get("http://sandbox-team5.herokuapp.com/api/discounts/all")
       .then((response) => setDiscounts(response.data))
   }
   useEffect(() => {
@@ -23,10 +23,9 @@ const Catalog = () => {
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all"
-    axios.get(apiUrl)
-      .then((resp) => {
-        setSearchLocation(resp.data)
-      })
+    axios.get(apiUrl).then((resp) => {
+      setSearchLocation(resp.data)
+    })
   }, [])
 
   const categories = ["Food", "SPA", "Sport", "Entertainment"]
@@ -34,20 +33,23 @@ const Catalog = () => {
   const sortingByRate = ["Top rated"]
 
   const citiesOptions = useMemo(() => {
-    return searchLocation.map(location => ({label: location.city, value: location.city}))
+    return searchLocation.map((location) => ({
+      label: location.city,
+      value: location.city,
+    }))
   }, [searchLocation])
 
-  const categoriesOptions = categories.map(el => {
+  const categoriesOptions = categories.map((el) => {
     return {
       value: el,
-      label: el
+      label: el,
     }
   })
 
-  const sortingOptions = sortingByRate.map(el => {
+  const sortingOptions = sortingByRate.map((el) => {
     return {
       value: el,
-      label: el
+      label: el,
     }
   })
 
@@ -65,20 +67,23 @@ const Catalog = () => {
             </Form.Group>
           </Form>
         </label>
-        <div className="catalog-filters col-lg-7 col-md-12">
+        <div className='catalog-filters col-lg-7 col-md-12'>
           <Select
-            className="catalog-selects"
+            className='catalog-selects'
             options={citiesOptions}
-            placeholder="Location" />
+            placeholder='Location'
+          />
           <Select
-            className="catalog-selects"
+            className='catalog-selects'
             isMulti
             options={categoriesOptions}
-            placeholder="Categories" />
+            placeholder='Categories'
+          />
           <Select
-            className="catalog-selects"
+            className='catalog-selects'
             options={sortingOptions}
-            placeholder="Sorting by..." />
+            placeholder='Sorting by...'
+          />
         </div>
       </div>
       <div className='d-flex justify-content-xl-between justify-content-lg-around justify-content-md-around flex-wrap'>

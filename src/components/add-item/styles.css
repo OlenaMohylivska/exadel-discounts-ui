@@ -1,62 +1,76 @@
+* {
+  box-sizing: border-box;
+}
+.add-item-container {
+  width: 100%;
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.add-item-col {
+  width: 50%;
+  padding: 30px;
+}
 .load-img {
-	display: flex;
-	align-items: flex-end;
+  display: flex;
+  align-items: flex-end;
 }
 .file {
-	cursor: pointer;
-	width: 250px;
-	height: 50px;
-	text-align: center;
-	border: 1px solid black;
-	border-radius: 20px;
-	margin: 0 auto;
-	padding-top: 10px;
+  cursor: pointer;
+  width: 250px;
+  height: 50px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin: 0 auto;
+  padding-top: 10px;
 }
 #file {
-	display: none;
+  display: none;
 }
 .description {
-	margin-top: 100px;
-	margin-bottom: 30px;
-	display: flex;
-	flex-direction: column;
-	text-align: left;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 .description-text {
-	resize: none;
-	padding: 10px;
-	height: 186px;
-	border-radius: 20px;
-	outline: none;
+  resize: none;
+  padding: 10px;
+  height: 186px;
+  border-radius: 20px;
+  outline: none;
 }
 .btn-field {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 .input-fields {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .form-field {
-	outline: none;
-	border: 1px solid black;
-	border-radius: 20px;
-	width: 400px;
-	height: 44px;
-	padding-left: 10px;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 100%;
+  height: 44px;
+  padding-left: 10px;
 }
 .radio-box {
-	width: 400px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .radio-box > div > label {
-	margin-left: 5px;
-	font-size: 20px;
+  margin-left: 5px;
+  font-size: 20px;
 }
 .btn {
-	border-radius: 20px;
-	padding: 10px 40px;
+  border-radius: 20px;
+  padding: 10px 40px;
 }

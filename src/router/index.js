@@ -2,32 +2,32 @@ import React from "react"
 import { Route } from "react-router-dom"
 import Admin from "../views/admin"
 import DiscountPage from "../views/discount-page"
-import Home from './../views/home'
-import Login from './../views/login'
-import Profile from './../views/profile'
-import Catalog from 'views/catalog'
-import FavouritePage from 'views/favourite-page'
-import HistoryPage from 'views/history-page'
+import Home from "./../views/home"
+import Login from "./../views/login"
+import Profile from "./../views/profile"
+import Catalog from "views/catalog"
+import FavouritePage from "views/favourite-page"
+import HistoryPage from "views/history-page"
 import AddCompany from "components/add-company"
 import AddItem from "components/add-item"
-
+import TestPage from "../components/test-page"
 function AppRouter() {
   return (
     <>
-      <Route exact path="/">
+      <Route exact path='/'>
         <Home />
       </Route>
-      <Route path="/login">
+      <Route path='/login'>
         <Login />
       </Route>
-      <Route path="/profile">
+      <Route path='/profile'>
         <Profile />
       </Route>
-      <Route path="/catalog">
+      <Route path='/catalog'>
         <Catalog />
       </Route>
 
-      <Route path="/history-page">
+      <Route path='/history-page'>
         <HistoryPage />
       </Route>
 
@@ -38,7 +38,9 @@ function AppRouter() {
       <Route path='/admin'>
         <Admin />
       </Route>
-
+      <Route path='/test'>
+        <TestPage />
+      </Route>
       <Route path='/admin/add-company'>
         <AddCompany />
       </Route>
