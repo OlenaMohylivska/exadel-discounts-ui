@@ -20,14 +20,14 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
-      console.log(e.message)
+      throw new Error(e.message)
+    } finally{
       setLoading(false)
     }
   }
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(loading)
 
   return (
     <>

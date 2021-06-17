@@ -10,8 +10,6 @@ const ProductList = ({ data }) => {
   const [val, setVal] = useState("")
   {/* eslint-disable-next-line react/prop-types */}
   const fixedArr = data && data.length > 0 ? data.slice(0, 9) : []
-  console.log(fixedArr)
-  console.log(val)
   const filter = (arr1, val1) => {
     return arr1.filter(
       (item) =>
