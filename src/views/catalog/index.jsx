@@ -1,13 +1,25 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import ProductCard from 'components/product-card'
-import { Form, Button } from 'react-bootstrap'
-import Loupe from 'components/icons/Loupe'
+import React, { useState, useEffect, useMemo } from "react"
+import { Link } from "react-router-dom"
+import ProductCard from "components/product-card"
+import { Form, Button } from "react-bootstrap"
+import FetchError from "components/fetch-error"
+import Loupe from "components/icons/Loupe"
 import Select from 'react-select'
-import axios from 'axios'
-import './styles.css'
+import * as axios from "axios"
+import "./styles.css"
 
 const Catalog = () => {
+  const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
+
+  const fetchData = async () => {
+    axios
+      .get("https://sandbox-team5.herokuapp.com/api/discount/all")
+      .then((response) => setDiscounts(response.data))
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   useEffect(() => {
     const apiUrl = "https://sandbox-team5.herokuapp.com/api/location/all"
@@ -17,21 +29,14 @@ const Catalog = () => {
       })
   }, [])
 
-  const arr = [
-    { title: 'Pizza' },
-    { title: 'Sushi' },
-    { title: 'Haircut' },
-    { title: 'For pets' },
-    { title: 'Dentistry' },
-    { title: 'Clothes' }]
-
   const categories = ["Food", "SPA", "Sport", "Entertainment"]
+
   const sortingByRate = ["Top rated"]
 
   const citiesOptions = useMemo(() => {
     return searchLocation.map(location => ({label: location.city, value: location.city}))
   }, [searchLocation])
-  console.log(citiesOptions)
+
   const categoriesOptions = categories.map(el => {
     return {
       value: el,
@@ -47,14 +52,16 @@ const Catalog = () => {
   })
 
   return (
-    <div className="container">
-      <h1 className="catalog-title">Catalog</h1>
-      <div className="row filter-panel">
-        <label className="col-lg-5 col-md-12 search-container">
-          <div className="search-icon"><Loupe /></div>
-          <Form className="search-input">
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Control type="text" placeholder="Enter your search" />
+    <div className='container'>
+      <h1 className='catalog-title'>Catalog</h1>
+      <div className='row filter-panel'>
+        <label className='col-lg-5 col-md-12 search-container'>
+          <div className='search-icon'>
+            <Loupe />
+          </div>
+          <Form className='search-input'>
+            <Form.Group controlId='exampleForm.ControlInput1'>
+              <Form.Control type='text' placeholder='Enter your search' />
             </Form.Group>
           </Form>
         </label>
@@ -74,13 +81,21 @@ const Catalog = () => {
             placeholder="Sorting by..." />
         </div>
       </div>
-      <div className="d-flex justify-content-xl-between justify-content-lg-around justify-content-md-around flex-wrap">
-        {arr.map((el) => {
-          return <ProductCard elem={el} key={el.title} />
-        })}
+      <div className='d-flex justify-content-xl-between justify-content-lg-around justify-content-md-around flex-wrap'>
+        {discounts ? (
+          discounts.map((el) => {
+            return (
+              <Link key={el.id} to={`/discount${el.id}`}>
+                <ProductCard elem={el} key={el.id} />
+              </Link>
+            )
+          })
+        ) : (
+          <FetchError />
+        )}
       </div>
-      <div className="btn-wrapper">
-        <Button variant="warning">Show more</Button>
+      <div className='btn-wrapper'>
+        <Button variant='warning'>Show more</Button>
       </div>
     </div>
   )
