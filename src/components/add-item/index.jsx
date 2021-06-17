@@ -99,7 +99,7 @@ const AddItem = () => {
 
   const submit = () => {
     const errorObj = validate()
-    console.log()
+
     if (Object.keys(errorObj).length >= 0) {
       setErrors(errorObj)
     }
