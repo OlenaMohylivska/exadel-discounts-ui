@@ -14,7 +14,7 @@ const Catalog = () => {
 
   const fetchData = async () => {
     axios
-      .get("https://sandbox-team5.herokuapp.com/api/discount/all")
+      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discount/all")
       .then((response) => setDiscounts(response.data))
   }
   useEffect(() => {
@@ -22,7 +22,7 @@ const Catalog = () => {
   }, [])
 
   useEffect(() => {
-    const apiUrl = "https://sandbox-team5.herokuapp.com/api/location/all"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all"
     axios.get(apiUrl)
       .then((resp) => {
         setSearchLocation(resp.data)
