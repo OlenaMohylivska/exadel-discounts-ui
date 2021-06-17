@@ -4,6 +4,7 @@ import Error from "../error"
 import "./styles.scss"
 import * as axios from "axios"
 import Select from "react-select"
+import FileUploadPage from "components/upload-file"
 
 const AddItem = () => {
   const [data, setData] = useState({})
@@ -130,16 +131,7 @@ const AddItem = () => {
       <div className="container">
         <div className="col">
           <div className="load-img">
-            <img
-              className="discount-img"
-              src="https://thumbs.dreamstime.com/t/pizza-35669930.jpg"
-            />
-            <input
-              type="file"
-              name="file-name"
-              className="form-control-file"
-              id="file"
-            />
+            <FileUploadPage />
           </div>
           <div className="discount-provider-name">
             <h4 className="discount-subtitle">Select Company Name</h4>
