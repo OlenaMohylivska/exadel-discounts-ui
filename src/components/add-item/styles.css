@@ -1,21 +1,25 @@
-* {
-  box-sizing: border-box;
-}
-.add-item-container {
-  width: 100%;
-  padding: 30px;
+.discount-container {
   display: flex;
-  flex-direction: row;
   justify-content: center;
+  flex-direction: row;
+  padding: 50px 70px;
+  width: 100%;
 }
-.add-item-col {
+.discount-col {
   width: 50%;
   padding: 30px;
 }
 .load-img {
   display: flex;
-  align-items: flex-end;
 }
+.img {
+  width: 432px;
+  height: 296px;
+  border-radius: 20px;
+  background-color: #c4c4c4;
+  text-align: center;
+}
+
 .file {
   cursor: pointer;
   width: 250px;
@@ -23,7 +27,8 @@
   text-align: center;
   border: 1px solid black;
   border-radius: 20px;
-  margin: 0 auto;
+  margin-top: 247px;
+  margin-left: 30px;
   padding-top: 10px;
 }
 #file {
@@ -56,7 +61,7 @@
   outline: none;
   border: 1px solid black;
   border-radius: 20px;
-  width: 100%;
+  width: 400px;
   height: 44px;
   padding-left: 10px;
 }

@@ -1,177 +1,191 @@
 import React, { useState, useEffect } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
 import Error from "../error"
-import "./styles.scss"
+import "./styles.css"
 import * as axios from "axios"
-import Select from "react-select"
+//import Select from "react-select"
 
 const AddItem = () => {
-  const [data, setData] = useState({})
+  const [data, setData] = useState({
+    periodEnd: 1274313600000,
+    tags: [{ id: 1, name: "sport" }],
+    quantity: 0,
+    companies: null,
+  })
   const [errors, setErrors] = useState({})
-  const [description, setDescription] = useState("")
-  const [discountTypes, setDiscountTypes] = useState("")
-  const [discountProviderName, setDiscountProviderName] = useState([])
-  const [discountProviderLocation, setDiscountProviderLocation] = useState([])
-  const [terms, setTerms] = useState("")
-  const [proposeType, setProposeType] = useState("")
-  const [limitations, setLimitations] = useState("")
-  const [promo, setPromo] = useState("")
+  const [companies, setCompanies] = useState([])
+  const [locations, setLocations] = useState([])
 
-  const fetchNameData = async () => {
-    await axios
-      .get("https://sandbox-team5.herokuapp.com//api/company/all")
-      .then((response) => {
-        const companies = response.data
-        setDiscountProviderName(companies)
-      })
+  // const cityOptions = locations.map((company) => {
+  //   return {
+  //     value: company.city,
+  //     label: company.city,
+  //   }
+  // })
+
+  const fetchData = async (url, setFunc) => {
+    axios
+      .get(process.env.REACT_APP_BASE_BACKEND_URL + url)
+      .then((response) => setFunc(response.data))
   }
 
-  const fetchCityData = async () => {
-    await axios
-      .get("http://sandbox-team5.herokuapp.com/api/location/all")
-      .then((response) => {
-        const companies = response.data
-        setDiscountProviderLocation(companies)
-      })
+  const handleChange = (e) => {
+    return setData({ ...data, [e.target.name]: e.target.value })
   }
+
   useEffect(() => {
-    fetchNameData()
-    fetchCityData()
+    fetchData("/api/company/all", setCompanies)
   }, [])
-  const descriptionHandleChange = (e) => {
-    setDescription(e.target.value)
-  }
-  const discountProviderNameHandler = (e) => {
-    setDiscountProviderName(e.target.value)
-  }
-  const discountProviderLocationHandler = (e) => {
-    setDiscountProviderLocation(e.target.value)
-  }
-  const discountTypesHandleChange = (e) => {
-    setDiscountTypes(e.target.value)
-  }
-  const termsHandleChange = (e) => {
-    setTerms(e.target.value)
-  }
-  const proposeTypeHandleChange = (e) => {
-    setProposeType(e.target.value)
-  }
-  const limitationsHandleChange = (e) => {
-    setLimitations(e.target.value)
-  }
-  const promoHandleChange = (e) => {
-    setPromo(e.target.value)
-  }
-  const nameOptions = discountProviderName.map((company) => {
-    return {
-      value: company.name,
-      label: company.name,
-    }
-  })
 
-  const cityOptions = discountProviderLocation.map((company) => {
-    return {
-      value: company.city,
-      label: company.city,
-    }
-  })
+  useEffect(() => {
+    fetchData("/api/location/all", setLocations)
+  }, [])
 
   const validate = () => {
-    const error = {}
-    if (!description.description)
-      error.description = "Description cannot be blank"
-    if (!discountTypes.discountTypes)
-      error.discountTypes = "Discount Types cannot be blank"
-    if (!terms.terms) error.terms = "Terms cannot be blank"
-    if (!proposeType.proposeType) error.location = "Please choose propose type"
-    if (proposeType.proposeType === "product" && !limitations.limitations)
-      error.limitations = "Limitations cannot be blank"
-    if (!promo.promo) error.promo = "Promo cannot be blank"
-    return error
+    let errorObj = {}
+    if (!data.description) errorObj.description = "description cannot be blank"
+    if (!data.periodEnd) errorObj.periodEnd = "Terms cannot be blank"
+    if (!data.name) errorObj.name = "Name cannot be blank"
+    if (!data.promoCode) errorObj.promoCode = "PromoCode cannot be blank"
+    return errorObj
   }
 
-  const submit = () => {
-    const errorObj = validate()
-
-    if (Object.keys(errorObj).length >= 0) {
-      setErrors(errorObj)
-    } else {
-      setData({
-        ...data,
-        id: 1220,
-        tags: [{ id: 1, name: "sport" }],
-        company: null,
-        name: "default name",
-        description,
-        modified: null,
-        modifiedBy: null,
-        periodStart: 1274313600000,
-        periodEnd: 1437350400000,
-        promoCode: promo,
-        quantity: 0,
-      })
+  const submit = async () => {
+    const errorsObj = validate()
+    if (Object.keys(errorsObj).length > 0) {
+      return setErrors(errorsObj)
+    }
+    if (Object.keys(errorsObj).length == 0) {
+      try {
+        axios.post("http://sandbox-team5.herokuapp.com/api/discounts", data)
+        reset()
+      } catch (e) {
+        throw e.message
+      }
     }
   }
-  console.log(description)
   console.log(data)
+  console.log(companies)
+  console.log(locations)
   const reset = () => {
     setErrors({})
-    setDescription({})
-    setDiscountTypes({})
-    setTerms({})
-    setProposeType({})
-    setLimitations({})
-    setPromo({})
+    setData({
+      id: 15,
+      modified: null,
+      modifiedBy: null,
+      periodStart: 1274313600000,
+      tags: [{ id: 1, name: "sport" }],
+      quantity: 0,
+      company: null,
+    })
   }
   console.log(data)
 
   return (
-    <Form>
-      <div className='add-item-container'>
-        <div className='add-item-col'>
-          <div className='load-img'>
-            <img
-              className='discount-img'
-              src='https://thumbs.dreamstime.com/t/pizza-35669930.jpg'
-            />
-            <input
-              type='file'
-              name='file-name'
-              className='form-control-file'
-              id='file'
-            />
+    <>
+      <Form>
+        <div className='discount-container'>
+          <div className='discount-col'>
+            <div className='load-img'>
+              <div className='img'>img</div>
+              <label className='file' htmlFor='file'>
+                choose file
+              </label>
+              <input type='file' name='' id='file' />
+            </div>
+            <div className='description'>
+              <h3>Description:</h3>
+              <InputGroup>
+                <FormControl
+                  as='textarea'
+                  className='description-text'
+                  name='description'
+                  value={data.description ? data.description : ""}
+                  onChange={(e) => handleChange(e)}
+                  id=''
+                />
+              </InputGroup>
+              {errors.description ? <Error error={errors.description} /> : ""}
+            </div>
+            <div className='btn-field'>
+              <Button
+                variant='primary'
+                className='btn'
+                onClick={() => submit()}>
+                save
+              </Button>{" "}
+              <Button variant='danger' onClick={() => reset()} className='btn'>
+                reset
+              </Button>
+            </div>
           </div>
-          <div className='description'>
-            <h3 className='discount-subtitle'>Description:</h3>
+          <div className='discount-col input-fields  '>
+            <h4>Name of discount</h4>
             <InputGroup>
               <FormControl
-                as='textarea'
-                className='description-text'
-                name='description'
-                onChange={descriptionHandleChange}
+                className='form-field'
+                size='sm'
+                placeholder='Fill the name of discount,first letter must be uppercase'
+                name='name'
+                value={data.name ? data.name : ""}
+                onChange={(e) => handleChange(e)}
               />
             </InputGroup>
-            {errors.description ? <Error error={errors.description} /> : ""}
+            {errors.name ? <Error error={errors.name} /> : ""}
+
+            <h4>Terms:</h4>
+            <InputGroup>
+              <FormControl
+                type='date'
+                name='periodEnd'
+                value={data.periodEnd ? data.periodEnd : ""}
+                onChange={(e) => handleChange(e)}
+                className='form-field'
+              />
+            </InputGroup>
+            {errors.periodEnd ? <Error error={errors.periodEnd} /> : ""}
+
+            <h4>Promo:</h4>
+            <InputGroup>
+              <FormControl
+                placeholder='Fill the name of promo'
+                name='promoCode'
+                onChange={(e) => handleChange(e)}
+                className='form-field'
+                value={data.promoCode ? data.promoCode : ""}
+              />
+            </InputGroup>
+            {errors.promoCode ? <Error error={errors.promoCode} /> : ""}
           </div>
         </div>
-        <div className='add-item-col  '>
-          <div className='input-fields'>
-            <div className='discount-provider-name'>
+      </Form>
+    </>
+  )
+}
+
+export default AddItem
+
+{
+  /* <div className='discount-provider-name'>
               <h4 className='discount-subtitle'>Select Company Name</h4>
               <Select
                 onSelect={discountProviderNameHandler}
                 options={nameOptions}
               />
-            </div>
-            <div className='discount-provider-location'>
+            </div> */
+}
+{
+  /* <div className='discount-provider-location'>
               <h4 className='discount-subtitle'>Select Discount Location</h4>
               <Select
                 isMulti
                 onSelect={discountProviderLocationHandler}
                 options={cityOptions}
               />
-            </div>
-            <h4 className='discount-subtitle'>Discount Types:</h4>
+            </div> */
+}
+{
+  /* <h4 className='discount-subtitle'>Discount Types:</h4>
             <InputGroup>
               <FormControl
                 placeholder='Filter tags(use” ; ” for splitting)'
@@ -180,84 +194,21 @@ const AddItem = () => {
                 className='form-field'
               />
             </InputGroup>
-            {errors.discountTypes ? <Error error={errors.discountTypes} /> : ""}
-            <h4 className='discount-subtitle'>Terms:</h4>
-            <InputGroup>
-              <FormControl
-                type='date'
-                name='terms'
-                onChange={termsHandleChange}
-                className='form-field'
-              />
-            </InputGroup>
-            {errors.terms ? <Error error={errors.terms} /> : ""}
-            <div className='radio-box'>
-              <div className='discount-radio-buttons'>
-                <h4 className='discount-subtitle'>Type:</h4>
-                <div className='discount-radiobtn'>
-                  <input
-                    type='radio'
-                    onChange={proposeTypeHandleChange}
-                    name='proposeType'
-                    id='product'
-                    value='product'
-                    aria-label='Radio button for following text input'
-                  />
-                  <label htmlFor='product'>product</label>
-                </div>
-                <div className='discount-radiobtn'>
-                  <input
-                    type='radio'
-                    onChange={proposeTypeHandleChange}
-                    name='proposeType'
-                    id='service'
-                    value='service'
-                  />
-                  <label htmlFor='service'>service</label>
-                </div>
-              </div>
-            </div>
-            {errors.proposeType ? <Error error={errors.proposeType} /> : ""}
-            {proposeType.proposeType && proposeType.proposeType == "product" ? (
-              <>
-                <h4 className='discount-subtitle'>Limitations:</h4>
-                <InputGroup>
-                  <FormControl
-                    placeholder='Disable button limitations'
-                    name='limitations'
-                    onChange={limitationsHandleChange}
-                    className='form-field'
-                  />
-                </InputGroup>
-                {errors.limitations ? <Error error={errors.limitations} /> : ""}
-              </>
-            ) : (
-              ""
-            )}
-
-            <h4 className='discount-subtitle'>Promo:</h4>
-            <InputGroup>
-              <FormControl
-                placeholder='Fill the name of promo'
-                name='promo'
-                onChange={promoHandleChange}
-                className='form-field'
-              />
-            </InputGroup>
-            {errors.promo ? <Error error={errors.promo} /> : ""}
-          </div>
-        </div>
-        <div className='btn-field'>
-          <Button variant='primary' className='btn' onClick={() => submit()}>
-            save
-          </Button>
-          <Button variant='danger' onClick={() => reset()} className='btn'>
-            reset
-          </Button>
-        </div>
-      </div>
-    </Form>
-  )
+            {errors.discountTypes ? <Error error={errors.discountTypes} /> : ""} */
 }
-
-export default AddItem
+// {proposeType.proposeType && proposeType.proposeType == "product" ? (
+//   <>
+//     <h4 className='discount-subtitle'>Limitations:</h4>
+//     <InputGroup>
+//       <FormControl
+//         placeholder='Disable button limitations'
+//         name='limitations'
+//         onChange={limitationsHandleChange}
+//         className='form-field'
+//       />
+//     </InputGroup>
+//     {errors.limitations ? <Error error={errors.limitations} /> : ""}
+//   </>
+// ) : (
+//   ""
+// )}

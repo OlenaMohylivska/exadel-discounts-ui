@@ -14,7 +14,7 @@ const Catalog = () => {
 
   const fetchData = async () => {
     axios
-      .get("http://sandbox-team5.herokuapp.com/api/discounts/all")
+      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
       .then((response) => setDiscounts(response.data))
   }
   useEffect(() => {

@@ -16,12 +16,12 @@ const DiscountPage = () => {
     setLoading(true)
     try {
       await axios
-        .get(`http://sandbox-team5.herokuapp.com/api/discount/${id}`)
+        .get(`http://sandbox-team5.herokuapp.com/api/discounts/${id}`)
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
       throw new Error(e.message)
-    } finally{
+    } finally {
       setLoading(false)
     }
   }
