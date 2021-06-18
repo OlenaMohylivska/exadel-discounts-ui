@@ -5,17 +5,14 @@ import PropTypes from "prop-types"
 import axios from "axios"
 import CustomModalWindow from "components/custom-modal-window"
 import "./styles.scss"
+import FileUploadPage from "components/upload-file"
 
 const AddCompany = (props) => {
   const [allLocationList, setAllLocationList] = useState([])
   const [serviceDescription, setServiceDescription] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [location, setLocation] = useState("")
-  const [logo, setLogo] = useState(
-    "https://www.pngfind.com/pngs/m/665-6659827_enterprise-comments-default-company-logo-png-transparent-png.png"
-  )
   const [show, setShow] = useState(false)
-
   const onModalClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
@@ -70,89 +67,75 @@ const AddCompany = (props) => {
     setLocation(e)
   }
 
-  const logoChangeHandler = (e) => {
-    setLogo(e.target.value)
-  }
-
   return (
-    <div className="container">
-      <Form>
-        <div className="container">
-          <div className="col">
-            <div className="company-logo">
-              <img className="corporate-logo" src={logo} />
-              <label htmlFor="logo-file">Company logo</label>
-              <input
-                type="file"
-                name="url"
-                className="form-control-file"
-                id="logo-file"
-                text="upload logo"
-                onChange={logoChangeHandler}
-              />
+    <Form>
+      <div className="container">
+        <div className="col">
+          <div className="company-logo">
+            <FileUploadPage />
+          </div>
+          <div className="company-additional-info">
+            <div className="service-description">
+              <h3 className="company-info-subtitle">
+                Description of a service or product
+              </h3>
+              <InputGroup>
+                <FormControl
+                  as="textarea"
+                  defaultValue={serviceDescription}
+                  name="service-description"
+                  onChange={companyDecriptionHandler}
+                  className="company-info-textarea"
+                />
+              </InputGroup>
             </div>
-            <div className="company-additional-info">
-              <div className="service-description">
-                <h3 className="company-info-subtitle">
-                  Description of a service or product
-                </h3>
-                <InputGroup>
-                  <FormControl
-                    as="textarea"
-                    defaultValue={serviceDescription}
-                    name="service-description"
-                    onChange={companyDecriptionHandler}
-                    className="company-info-textarea"
-                  />
-                </InputGroup>
-              </div>
-              <div className="company-name">
-                <h4 className="company-info-subtitle">Company Name</h4>
-                <InputGroup>
-                  <FormControl
-                    value={companyName}
-                    name="company-name"
-                    onChange={companyNameHandler}
-                    className="form-field"
-                  />
-                </InputGroup>
-              </div>
-              <div className="company-address ">
-                <h4 className="company-info-subtitle">Address</h4>
-                <Select
-                  value={props.isEdit && location}
-                  className="address-field"
-                  isMulti
-                  onChange={companyAddressHandler}
-                  options={citiesOptions} />
-              </div>
+            <div className="company-name">
+              <h4 className="company-info-subtitle">Company Name</h4>
+              <InputGroup>
+                <FormControl
+                  value={companyName}
+                  name="company-name"
+                  onChange={companyNameHandler}
+                  className="form-field"
+                />
+              </InputGroup>
             </div>
-            <div className="btn-field d-flex justify-content-start">
-              <Button
-                variant="primary"
-                className="btn company-info-btn"
-                onClick={() => saveCompanyChanges(props.company.id)}>
-                Save company info
-              </Button>
-              {props.isEdit ? <Button
-                variant="danger"
-                className="btn company-info-btn mx-3"
-                onClick={() => {
-                  handleShow()
-                  deleteCompany(props.company.id)
-                }}>
-                Delete company
-              </Button> : null}
+            <div className="company-address ">
+              <h4 className="company-info-subtitle">Address</h4>
+              <Select
+                value={props.isEdit && location}
+                className="address-field"
+                isMulti
+                onChange={companyAddressHandler}
+                options={citiesOptions} />
             </div>
           </div>
+          <div className="btn-field d-flex justify-content-start">
+            <Button
+              variant="primary"
+              className="btn company-info-btn"
+              onClick={() => saveCompanyChanges(props.company.id)}>
+              Save company info
+            </Button>
+            {props.isEdit ? <Button
+              variant="danger"
+              className="btn company-info-btn mx-3"
+              onClick={() => {
+                handleShow()
+                deleteCompany(props.company.id)
+              }}>
+              Delete company
+            </Button> : null}
+          </div>
         </div>
-      </Form>
+      </div>
       {props.isEdit
         && <CustomModalWindow
           show={show}
           handleClose={onModalClose}
           modalText="Company has been deleted" />}
-    </div>
+    </Form>
+
   )
 }
 

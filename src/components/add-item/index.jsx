@@ -4,6 +4,9 @@ import Error from "../error"
 import "./styles.scss"
 import * as axios from "axios"
 import Select from "react-select"
+import FileUploadPage from "components/upload-file"
+
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const AddItem = () => {
   const [data, setData] = useState({})
@@ -18,21 +21,17 @@ const AddItem = () => {
   const [promo, setPromo] = useState("")
 
   const fetchNameData = async () => {
-    await axios
-      .get("https://sandbox-team5.herokuapp.com//api/company/all")
-      .then((response) => {
-        const companies = response.data
-        setDiscountProviderName(companies)
-      })
+    await axios.get(baseUrl + "/api/company/all").then((response) => {
+      const companies = response.data
+      setDiscountProviderName(companies)
+    })
   }
 
   const fetchCityData = async () => {
-    await axios
-      .get("http://sandbox-team5.herokuapp.com/api/location/all")
-      .then((response) => {
-        const companies = response.data
-        setDiscountProviderLocation(companies)
-      })
+    await axios.get(baseUrl + "/api/location/all").then((response) => {
+      const companies = response.data
+      setDiscountProviderLocation(companies)
+    })
   }
 
   useEffect(() => {
@@ -130,16 +129,7 @@ const AddItem = () => {
       <div className="container">
         <div className="col">
           <div className="load-img">
-            <img
-              className="discount-img"
-              src="https://thumbs.dreamstime.com/t/pizza-35669930.jpg"
-            />
-            <input
-              type="file"
-              name="file-name"
-              className="form-control-file"
-              id="file"
-            />
+            <FileUploadPage />
           </div>
           <div className="discount-provider-name">
             <h4 className="discount-subtitle">Select Company Name</h4>

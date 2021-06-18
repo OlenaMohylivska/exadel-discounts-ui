@@ -8,13 +8,15 @@ import Select from 'react-select'
 import * as axios from "axios"
 import "./styles.css"
 
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+
 const Catalog = () => {
   const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
 
   const fetchData = async () => {
     axios
-      .get("https://sandbox-team5.herokuapp.com/api/discount/all")
+      .get(baseUrl + "/api/discounts/all")
       .then((response) => setDiscounts(response.data))
   }
   useEffect(() => {
@@ -22,7 +24,7 @@ const Catalog = () => {
   }, [])
 
   useEffect(() => {
-    const apiUrl = "https://sandbox-team5.herokuapp.com/api/location/all"
+    const apiUrl = baseUrl + "/api/location/all"
     axios.get(apiUrl)
       .then((resp) => {
         setSearchLocation(resp.data)
