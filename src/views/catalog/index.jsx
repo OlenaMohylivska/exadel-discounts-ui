@@ -14,7 +14,7 @@ const Catalog = () => {
 
   const fetchData = async () => {
     axios
-      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discount/all")
+      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
       .then((response) => setDiscounts(response.data))
   }
   useEffect(() => {
