@@ -2,15 +2,13 @@ import React, { useState } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
 import "./styles.scss"
 import PropTypes from "prop-types"
+import FileUploadPage from "components/upload-file"
 
 const AddCompany = () => {
   const [serviceDescription, setServiceDescription] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [locationUA, setLocationUA] = useState("")
   const [locationBLR, setLocationBLR] = useState("")
-  const [logo, setLogo] = useState(
-    "https://www.pngfind.com/pngs/m/665-6659827_enterprise-comments-default-company-logo-png-transparent-png.png"
-  )
 
   const companyDecriptionHandler = (e) => {
     setServiceDescription(e.target.value)
@@ -28,25 +26,12 @@ const AddCompany = () => {
     setLocationBLR(e.target.value)
   }
 
-  const logoChangeHandler = (e) => {
-    setLogo(e.target.value)
-  }
-
   return (
     <Form>
       <div className="container">
         <div className="col">
           <div className="company-logo">
-            <img className="corporate-logo" src={logo} />
-            <label htmlFor="logo-file">Company logo</label>
-            <input
-              type="file"
-              name="url"
-              className="form-control-file"
-              id="logo-file"
-              text="upload logo"
-              onChange={logoChangeHandler}
-            />
+            <FileUploadPage />
           </div>
           <div className="company-additional-info">
             <div className="service-description">
