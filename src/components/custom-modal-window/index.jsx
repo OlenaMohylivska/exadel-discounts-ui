@@ -6,7 +6,7 @@ import PropTypes from "prop-types"
 const CustomModalWindow = (props) => {
   return (
     <>
-      <Modal show={props.show} onHide={props.handleClose}>
+      <Modal show={props.show} onHide={props.handleClose} animation={false}>
         <Modal.Body className="text-center">{props.modalText}</Modal.Body>
         <Modal.Footer>
           <NavLink exact to="/admin" className="nav-item" >
