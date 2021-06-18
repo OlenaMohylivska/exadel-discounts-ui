@@ -6,6 +6,8 @@ import * as axios from "axios"
 import FetchError from "../../components/fetch-error"
 import "./styles.css"
 
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+
 const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
   const [show, setShow] = useState(false)
@@ -16,7 +18,7 @@ const DiscountPage = () => {
     setLoading(true)
     try {
       await axios
-        .get(`http://sandbox-team5.herokuapp.com/api/discount/${id}`)
+        .get(`${baseUrl}/api/discounts/${id}`)
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
