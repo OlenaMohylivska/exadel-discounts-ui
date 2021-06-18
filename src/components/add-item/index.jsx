@@ -6,6 +6,8 @@ import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
 
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+
 const AddItem = () => {
   const [data, setData] = useState({})
   const [errors, setErrors] = useState({})
@@ -19,21 +21,17 @@ const AddItem = () => {
   const [promo, setPromo] = useState("")
 
   const fetchNameData = async () => {
-    await axios
-      .get("https://sandbox-team5.herokuapp.com//api/company/all")
-      .then((response) => {
-        const companies = response.data
-        setDiscountProviderName(companies)
-      })
+    await axios.get(baseUrl + "/api/company/all").then((response) => {
+      const companies = response.data
+      setDiscountProviderName(companies)
+    })
   }
 
   const fetchCityData = async () => {
-    await axios
-      .get("http://sandbox-team5.herokuapp.com/api/location/all")
-      .then((response) => {
-        const companies = response.data
-        setDiscountProviderLocation(companies)
-      })
+    await axios.get(baseUrl + "/api/location/all").then((response) => {
+      const companies = response.data
+      setDiscountProviderLocation(companies)
+    })
   }
 
   useEffect(() => {
