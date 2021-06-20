@@ -84,7 +84,7 @@ const AddItem = (props) => {
     }
     if (Object.keys(errorsObj).length == 0) {
       try {
-        axios.post(baseUrl + `/api/discounts/${props.id}`, data)
+        axios.put(baseUrl + `/api/discounts/${props.id}`, data)
         reset()
       } catch (e) {
         throw e.message
