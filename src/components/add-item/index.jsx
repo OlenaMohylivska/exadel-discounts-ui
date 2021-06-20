@@ -1,3 +1,5 @@
+/*eslint-disable*/
+/*need to redo this, using page where post request is realized now */
 import React, { useState, useEffect } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
 import Error from "../error"
@@ -5,10 +7,15 @@ import "./styles.scss"
 import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
+import { useParams } from "react-router-dom"
+import PropTypes from "prop-types"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
-const AddItem = () => {
+const AddItem = (props) => {
+  debugger
+  const {discountId} = useParams()
+  debugger
   const [data, setData] = useState({})
   const [errors, setErrors] = useState({})
   const [description, setDescription] = useState("")
@@ -33,6 +40,24 @@ const AddItem = () => {
       setDiscountProviderLocation(companies)
     })
   }
+
+  const fetchDiscount = async () => {
+    await axios
+      .get(baseUrl + `/api/discounts/19`)
+      .then((response) => {
+        const discount = response.data
+
+        //setDiscountName(discount.name)
+        setDescription(discount.description)
+       // setDiscountQuantity(discount.quantity)
+        // setDiscountTypes(discount.tags)
+        setPromo(discount.promoCode)
+      })
+  }
+  if(props.isEditable){
+    fetchDiscount()
+  }
+
 
   useEffect(() => {
     fetchNameData()
@@ -114,6 +139,31 @@ const AddItem = () => {
       )
     )
   }
+  const edit = () => {
+    const errorObj = validate()
+
+    if (Object.keys(errorObj).length >= 0) {
+      setErrors(errorObj)
+    }
+
+    axios.put(baseUrl + `/api/discounts/${discountId}`,
+    {
+      name: "New Nikes",
+      description: description,
+      periodEnd: 1437350400000,
+      quantity: 2,
+      promoCode: promo,
+      tags: [
+          {
+              id: 1,
+              name: "sport"
+          }
+      ],
+      companies: null,
+      rate: null
+    })
+
+  }
   const reset = () => {
     setErrors({})
     setDescription({})
@@ -147,21 +197,23 @@ const AddItem = () => {
             />
           </div>
           <div className="description">
-            <h3 className="discount-subtitle">Description:</h3>
+            <h3 className="discount-subtitle">{`${discountId}`}Description:</h3>
             <InputGroup>
               <FormControl
                 as="textarea"
                 className="description-text"
                 name="description"
+                value={description}
                 onChange={descriptionHandleChange}
               />
             </InputGroup>
             {errors.description ? <Error error={errors.description} /> : ""}
           </div>
           <div className="btn-field">
-            <Button variant="primary" className="btn" onClick={() => submit()}>
+            <Button variant="primary" className="btn" onClick={props.isEditable ? () => submit() : () => edit()}>
               save
             </Button>
+            
             <Button variant="danger" onClick={() => reset()} className="btn">
               reset
             </Button>
@@ -238,6 +290,7 @@ const AddItem = () => {
               placeholder="Fill the name of promo"
               name="promo"
               onChange={promoHandleChange}
+              value={promo}
               className="form-field"
             />
           </InputGroup>
@@ -247,5 +300,6 @@ const AddItem = () => {
     </Form>
   )
 }
+AddItem.propTypes = { isEditable: PropTypes.bool, discount: PropTypes.object}
 
 export default AddItem
