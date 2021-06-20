@@ -1,5 +1,3 @@
-/*eslint-disable*/
-/*need to redo this, using page where post request is realized now */
 import React, { useState, useEffect } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
 import Error from "../error"
@@ -7,12 +5,11 @@ import "./styles.scss"
 import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
-import { useParams } from "react-router-dom"
 import PropTypes from "prop-types"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
-const AddItem = () => {
+const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: 1274313600000,
     tags: [{ id: 1, name: "sport" }],
@@ -43,23 +40,6 @@ const AddItem = () => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
 
-  const fetchDiscount = async () => {
-    await axios
-      .get(baseUrl + `/api/discounts/19`)
-      .then((response) => {
-        const discount = response.data
-
-        //setDiscountName(discount.name)
-        setDescription(discount.description)
-       // setDiscountQuantity(discount.quantity)
-        // setDiscountTypes(discount.tags)
-        setPromo(discount.promoCode)
-      })
-  }
-  if(props.isEditable){
-    fetchDiscount()
-  }
-
 
   useEffect(() => {
     fetchData("/api/company/all", setDiscountProviders)
@@ -67,6 +47,11 @@ const AddItem = () => {
 
   useEffect(() => {
     fetchData("/api/location/all", setDiscountProvidersLocations)
+  }, [])
+
+  useEffect(() => {
+    if (props.isEditable)
+      fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
 
   const validate = () => {
@@ -85,19 +70,32 @@ const AddItem = () => {
     }
     if (Object.keys(errorsObj).length == 0) {
       try {
-        axios.post("http://sandbox-team5.herokuapp.com/api/discounts", data)
+        axios.post(baseUrl + "/api/discounts", data)
         reset()
       } catch (e) {
         throw e.message
       }
     }
   }
-  console.log(data)
+  const edit = async () => {
+    const errorsObj = validate()
+    if (Object.keys(errorsObj).length > 0) {
+      return setErrors(errorsObj)
+    }
+    if (Object.keys(errorsObj).length == 0) {
+      try {
+        axios.post(baseUrl + `/api/discounts/${props.id}`, data)
+        reset()
+      } catch (e) {
+        throw e.message
+      }
+    }
+  }
+
 
   const reset = () => {
     setErrors({})
     setData({
-      id: 15,
       modified: null,
       modifiedBy: null,
       periodStart: 1274313600000,
@@ -106,7 +104,6 @@ const AddItem = () => {
       company: null,
     })
   }
-  console.log(data)
 
   return (
     <Form>
@@ -131,11 +128,11 @@ const AddItem = () => {
           </div>
 
           <div className='btn-field'>
-            <Button variant='primary' className='btn' onClick={() => submit()}>
-              save
-            </Button>{" "}
+            <Button variant='primary' className='btn' onClick={props.isEditable ? () => edit() : () => submit()}>
+              Save
+            </Button>
             <Button variant='danger' onClick={() => reset()} className='btn'>
-              reset
+              Reset
             </Button>
           </div>
         </div>
@@ -221,6 +218,6 @@ const AddItem = () => {
     </Form>
   )
 }
-AddItem.propTypes = { isEditable: PropTypes.bool, discount: PropTypes.object}
+AddItem.propTypes = { isEditable: PropTypes.bool, id: PropTypes.number }
 
 export default AddItem

@@ -10,6 +10,7 @@ import FavouritePage from "views/favourite-page"
 import HistoryPage from "views/history-page"
 import AddCompany from "components/add-company"
 import AddItem from "components/add-item"
+import EditItem from "components/edit-item"
 
 function AppRouter() {
   return (
@@ -47,7 +48,7 @@ function AppRouter() {
         <AddItem />
       </Route>
       <Route path="/admin/edit-item/:id">
-        <AddItem isEditable={true}/>
+        <EditItem/>
       </Route>
 
       <Route path='/discount:id'>
