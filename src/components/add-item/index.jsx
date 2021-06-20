@@ -12,33 +12,35 @@ import PropTypes from "prop-types"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
-const AddItem = (props) => {
-  debugger
-  const {discountId} = useParams()
-  debugger
-  const [data, setData] = useState({})
+const AddItem = () => {
+  const [data, setData] = useState({
+    periodEnd: 1274313600000,
+    tags: [{ id: 1, name: "sport" }],
+    quantity: 0,
+    companies: null,
+  })
   const [errors, setErrors] = useState({})
-  const [description, setDescription] = useState("")
-  const [discountTypes, setDiscountTypes] = useState("")
-  const [discountProviderName, setDiscountProviderName] = useState([])
-  const [discountProviderLocation, setDiscountProviderLocation] = useState([])
-  const [terms, setTerms] = useState("")
-  const [proposeType, setProposeType] = useState("")
-  const [limitations, setLimitations] = useState("")
-  const [promo, setPromo] = useState("")
 
-  const fetchNameData = async () => {
-    await axios.get(baseUrl + "/api/company/all").then((response) => {
-      const companies = response.data
-      setDiscountProviderName(companies)
-    })
+  const [discountProviders, setDiscountProviders] = useState([])
+  const [discountProvidersLocations, setDiscountProvidersLocations] = useState(
+    []
+  )
+  console.log(discountProviders)
+  console.log(discountProvidersLocations)
+
+  // const cityOptions = locations.map((company) => {
+  //   return {
+  //     value: company.city,
+  //     label: company.city,
+  //   }
+  // })
+
+  const fetchData = async (url, setFunc) => {
+    axios.get(baseUrl + url).then((response) => setFunc(response.data))
   }
 
-  const fetchCityData = async () => {
-    await axios.get(baseUrl + "/api/location/all").then((response) => {
-      const companies = response.data
-      setDiscountProviderLocation(companies)
-    })
+  const handleChange = (e) => {
+    return setData({ ...data, [e.target.name]: e.target.value })
   }
 
   const fetchDiscount = async () => {
@@ -60,241 +62,160 @@ const AddItem = (props) => {
 
 
   useEffect(() => {
-    fetchNameData()
-    fetchCityData()
+    fetchData("/api/company/all", setDiscountProviders)
   }, [])
 
-  const descriptionHandleChange = (e) => {
-    setDescription(e.target.value)
-  }
-
-  const discountProviderNameHandler = (e) => {
-    setDiscountProviderName(e.target.value)
-  }
-
-  const discountProviderLocationHandler = (e) => {
-    setDiscountProviderLocation(e.target.value)
-  }
-
-  const discountTypesHandleChange = (e) => {
-    setDiscountTypes(e.target.value)
-  }
-  const termsHandleChange = (e) => {
-    setTerms(e.target.value)
-  }
-
-  const proposeTypeHandleChange = (e) => {
-    setProposeType(e.target.value)
-  }
-  const limitationsHandleChange = (e) => {
-    setLimitations(e.target.value)
-  }
-  const promoHandleChange = (e) => {
-    setPromo(e.target.value)
-  }
-
-  const nameOptions = discountProviderName.map((company) => {
-    return {
-      value: company.name,
-      label: company.name,
-    }
-  })
-
-  const cityOptions = discountProviderLocation.map((company) => {
-    return {
-      value: company.city,
-      label: company.city,
-    }
-  })
+  useEffect(() => {
+    fetchData("/api/location/all", setDiscountProvidersLocations)
+  }, [])
 
   const validate = () => {
-    const error = {}
-    if (!description.description)
-      error.description = "Description cannot be blank"
-    if (!discountTypes.discountTypes)
-      error.discountTypes = "Discount Types cannot be blank"
-    if (!terms.terms) error.terms = "Terms cannot be blank"
-    if (!proposeType.proposeType) error.location = "Please choose propose type"
-    if (proposeType.proposeType === "product" && !limitations.limitations)
-      error.limitations = "Limitations cannot be blank"
-    if (!promo.promo) error.promo = "Promo cannot be blank"
-    return error
+    let errorObj = {}
+    if (!data.description) errorObj.description = "description cannot be blank"
+    if (!data.periodEnd) errorObj.periodEnd = "Terms cannot be blank"
+    if (!data.name) errorObj.name = "Name cannot be blank"
+    if (!data.promoCode) errorObj.promoCode = "PromoCode cannot be blank"
+    return errorObj
   }
 
-  const submit = () => {
-    const errorObj = validate()
-
-    if (Object.keys(errorObj).length >= 0) {
-      setErrors(errorObj)
+  const submit = async () => {
+    const errorsObj = validate()
+    if (Object.keys(errorsObj).length > 0) {
+      return setErrors(errorsObj)
     }
-    setData(
-      Object.assign(
-        data,
-        description,
-        discountTypes,
-        terms,
-        proposeType,
-        limitations,
-        promo
-      )
-    )
-  }
-  const edit = () => {
-    const errorObj = validate()
-
-    if (Object.keys(errorObj).length >= 0) {
-      setErrors(errorObj)
+    if (Object.keys(errorsObj).length == 0) {
+      try {
+        axios.post("http://sandbox-team5.herokuapp.com/api/discounts", data)
+        reset()
+      } catch (e) {
+        throw e.message
+      }
     }
-
-    axios.put(baseUrl + `/api/discounts/${discountId}`,
-    {
-      name: "New Nikes",
-      description: description,
-      periodEnd: 1437350400000,
-      quantity: 2,
-      promoCode: promo,
-      tags: [
-          {
-              id: 1,
-              name: "sport"
-          }
-      ],
-      companies: null,
-      rate: null
-    })
-
   }
+  console.log(data)
+
   const reset = () => {
     setErrors({})
-    setDescription({})
-    setDiscountTypes({})
-    setTerms({})
-    setProposeType({})
-    setLimitations({})
-    setPromo({})
+    setData({
+      id: 15,
+      modified: null,
+      modifiedBy: null,
+      periodStart: 1274313600000,
+      tags: [{ id: 1, name: "sport" }],
+      quantity: 0,
+      company: null,
+    })
   }
+  console.log(data)
 
   return (
     <Form>
-      <div className="container">
-        <div className="col">
-          <div className="load-img">
+      <div className='discount-container'>
+        <div className='discount-col'>
+          <div className='load-img'>
             <FileUploadPage />
           </div>
-          <div className="discount-provider-name">
-            <h4 className="discount-subtitle">Select Company Name</h4>
-            <Select
-              onSelect={discountProviderNameHandler}
-              options={nameOptions}
-            />
-          </div>
-          <div className="discount-provider-location">
-            <h4 className="discount-subtitle">Select Discount Location</h4>
-            <Select
-              isMulti
-              onSelect={discountProviderLocationHandler}
-              options={cityOptions}
-            />
-          </div>
-          <div className="description">
-            <h3 className="discount-subtitle">{`${discountId}`}Description:</h3>
+          <div className='description'>
+            <h3>Description:</h3>
             <InputGroup>
               <FormControl
-                as="textarea"
-                className="description-text"
-                name="description"
-                value={description}
-                onChange={descriptionHandleChange}
+                as='textarea'
+                className='description-text'
+                name='description'
+                value={data.description ? data.description : ""}
+                onChange={(e) => handleChange(e)}
+                id=''
               />
             </InputGroup>
             {errors.description ? <Error error={errors.description} /> : ""}
           </div>
-          <div className="btn-field">
-            <Button variant="primary" className="btn" onClick={props.isEditable ? () => submit() : () => edit()}>
+
+          <div className='btn-field'>
+            <Button variant='primary' className='btn' onClick={() => submit()}>
               save
-            </Button>
-            
-            <Button variant="danger" onClick={() => reset()} className="btn">
+            </Button>{" "}
+            <Button variant='danger' onClick={() => reset()} className='btn'>
               reset
             </Button>
           </div>
         </div>
-        <div className="col input-fields ">
-          <h4 className="discount-subtitle">Discount Types:</h4>
+        <div className='col input-fields '>
+          <div className='discount-provider-name'>
+            <h4 className='discount-subtitle'>Select Company Name</h4>
+            <Select />
+          </div>
+          <div className='discount-provider-location'>
+            <h4 className='discount-subtitle'>Select Discount Location</h4>
+            <Select isMulti />
+          </div>
+          <h4 className='discount-subtitle'>Discount Types:</h4>
           <InputGroup>
             <FormControl
-              placeholder="Filter tags(use” ; ” for splitting)"
-              name="discountTypes"
-              onChange={discountTypesHandleChange}
-              className="form-field"
+              placeholder='Filter tags(use” ; ” for splitting)'
+              name='discountTypes'
+              className='form-field'
             />
           </InputGroup>
           {errors.discountTypes ? <Error error={errors.discountTypes} /> : ""}
-          <h4 className="discount-subtitle">Terms:</h4>
-          <InputGroup>
-            <FormControl
-              type="date"
-              name="terms"
-              onChange={termsHandleChange}
-              className="form-field"
-            />
-          </InputGroup>
-          {errors.terms ? <Error error={errors.terms} /> : ""}
-          <div className="radio-box">
-            <div className="discount-radio-buttons">
-              <h4 className="discount-subtitle">Type:</h4>
-              <div className="discount-radiobtn">
-                <input
-                  type="radio"
-                  onChange={proposeTypeHandleChange}
-                  name="proposeType"
-                  id="product"
-                  value="product"
-                  aria-label="Radio button for following text input"
-                />
-                <label htmlFor="product">product</label>
-              </div>
-              <div className="discount-radiobtn">
-                <input
-                  type="radio"
-                  onChange={proposeTypeHandleChange}
-                  name="proposeType"
-                  id="service"
-                  value="service"
-                />
-                <label htmlFor="service">service</label>
-              </div>
+
+          <div className='radio-box'>
+            <h4 className='discount-subtitle'>Type:</h4>
+            <div className='discount-radiobtn'>
+              <input
+                type='radio'
+                name='proposeType'
+                id='product'
+                value='product'
+                aria-label='Radio button for following text input'
+              />
+              <label htmlFor='product'>product</label>
+            </div>
+            <div className='discount-radiobtn'>
+              <input
+                type='radio'
+                name='proposeType'
+                id='service'
+                value='service'
+              />
+              <label htmlFor='service'>service</label>
             </div>
           </div>
-          {errors.proposeType ? <Error error={errors.proposeType} /> : ""}
-          {proposeType.proposeType && proposeType.proposeType == "product" ? (
-            <>
-              <h4 className="discount-subtitle">Limitations:</h4>
-              <InputGroup>
-                <FormControl
-                  placeholder="Disable button limitations"
-                  name="limitations"
-                  onChange={limitationsHandleChange}
-                  className="form-field"
-                />
-              </InputGroup>
-              {errors.limitations ? <Error error={errors.limitations} /> : ""}
-            </>
-          ) : (
-            ""
-          )}
-
-          <h4 className="discount-subtitle">Promo:</h4>
+          <h4>Name of discount</h4>
           <InputGroup>
             <FormControl
-              placeholder="Fill the name of promo"
-              name="promo"
-              onChange={promoHandleChange}
-              value={promo}
-              className="form-field"
+              className='form-field'
+              size='sm'
+              placeholder='Fill the name of discount,first letter must be uppercase'
+              name='name'
+              value={data.name ? data.name : ""}
+              onChange={(e) => handleChange(e)}
             />
           </InputGroup>
-          {errors.promo ? <Error error={errors.promo} /> : ""}
+          {errors.name ? <Error error={errors.name} /> : ""}
+
+          <h4>Terms:</h4>
+          <InputGroup>
+            <FormControl
+              type='date'
+              name='periodEnd'
+              value={data.periodEnd ? data.periodEnd : ""}
+              onChange={(e) => handleChange(e)}
+              className='form-field'
+            />
+          </InputGroup>
+          {errors.periodEnd ? <Error error={errors.periodEnd} /> : ""}
+
+          <h4>Promo:</h4>
+          <InputGroup>
+            <FormControl
+              placeholder='Fill the name of promo'
+              name='promoCode'
+              onChange={(e) => handleChange(e)}
+              className='form-field'
+              value={data.promoCode ? data.promoCode : ""}
+            />
+          </InputGroup>
+          {errors.promoCode ? <Error error={errors.promoCode} /> : ""}
         </div>
       </div>
     </Form>
