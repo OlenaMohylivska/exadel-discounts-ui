@@ -13,15 +13,14 @@ const AddCompany = (props) => {
   const [companyName, setCompanyName] = useState("")
   const [location, setLocation] = useState("")
   const [show, setShow] = useState(false)
-  const onModalClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const toggleModal = () => setShow(!show)
 
   const citiesOptions = useMemo(() => {
     return allLocationList.map(location => ({ ...location, label: location.city, value: location.city }))
   }, [allLocationList])
 
   useEffect(() => {
-    const apiUrl = "https://sandbox-team5.herokuapp.com/api/location/all"
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location/all`
     axios.get(apiUrl)
       .then((resp) => {
         setAllLocationList(resp.data)
@@ -40,11 +39,12 @@ const AddCompany = (props) => {
   }, [])
 
   function deleteCompany(id) {
-    axios.delete(`https://sandbox-team5.herokuapp.com/api/company/${id}`)
+    axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`)
+    console.log(id)
   }
 
   function saveCompanyChanges(id) {
-    axios.put(`https://sandbox-team5.herokuapp.com/api/company/${id}`,
+    axios.put(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`,
       {
         "id": id,
         "modified": null,
@@ -121,7 +121,7 @@ const AddCompany = (props) => {
               variant="danger"
               className="btn company-info-btn mx-3"
               onClick={() => {
-                handleShow()
+                toggleModal()
                 deleteCompany(props.company.id)
               }}>
               Delete company
@@ -132,10 +132,9 @@ const AddCompany = (props) => {
       {props.isEdit
         && <CustomModalWindow
           show={show}
-          handleClose={onModalClose}
+          handleClose={toggleModal}
           modalText="Company has been deleted" />}
     </Form>
-
   )
 }
 
