@@ -23,7 +23,7 @@ const DiscountPage = () => {
       setLoading(false)
     } catch (e) {
       throw new Error(e.message)
-    } finally{
+    } finally {
       setLoading(false)
     }
   }

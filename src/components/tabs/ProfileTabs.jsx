@@ -1,26 +1,25 @@
 import React from "react"
-import './styles.css'
+import "./styles.scss"
+import HistoryPage from "views/history-page"
+import {Tab, Tabs} from 'react-bootstrap'
+import FavouritePage from "views/favourite-page"
+import ProfileUserInfo from "views/profile-userInfo"
+
 
 function ProfileTabs() {
   return (
     <div className="profile-tabs">
-      <ul className="nav nav-pills">
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#">
-            Profile
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">
-            Favorite
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">
-            History
-          </a>
-        </li>
-      </ul>
+      <Tabs defaultActiveKey="profile" transition={false}>
+        <Tab eventKey="profile" title="Profile">
+          <ProfileUserInfo />
+        </Tab>
+        <Tab eventKey="favorite" title="Favorite">
+          <FavouritePage />
+        </Tab>
+        <Tab eventKey="history" title="History">
+          <HistoryPage />
+        </Tab>
+      </Tabs>
     </div>
   )
 }
