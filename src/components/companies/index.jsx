@@ -2,13 +2,6 @@ import AddCompany from "components/add-company"
 import EditCompaniesAll from "components/edit-companies-all"
 import React from "react"
 import { Tab, Tabs } from "react-bootstrap"
-// import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
-// import Select from 'react-select'
-// import PropTypes from "prop-types"
-// import axios from "axios"
-// import CustomModalWindow from "components/custom-modal-window"
-// import "./styles.scss"
-// import FileUploadPage from "components/upload-file"
 
 const Companies = () => {
   return (

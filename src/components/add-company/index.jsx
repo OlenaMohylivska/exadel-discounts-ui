@@ -56,7 +56,6 @@ const AddCompany = (props) => {
 
   function deleteCompany(id) {
     axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`)
-    console.log(id)
   }
 
   function saveCompanyChanges(id) {
