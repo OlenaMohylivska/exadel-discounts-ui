@@ -9,7 +9,7 @@ import './styles.css'
 const Slider = () => {
   const sliderImages = [Image1, Image2, Image3]
   return (
-    <Carousel prevLabel={null} nextLabel={null} pause={false} interval={4000} className="carousel">
+    <Carousel prevLabel={null} nextLabel={null} pause={false} interval={4000} slide={false} className="carousel">
       {sliderImages.map((image, index) => {
         return (
           <Carousel.Item key={index + 1}>

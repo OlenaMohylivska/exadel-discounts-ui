@@ -10,6 +10,7 @@ import FavouritePage from "views/favourite-page"
 import HistoryPage from "views/history-page"
 import AddCompany from "components/add-company"
 import AddItem from "components/add-item"
+import EditCompany from "components/edit-company"
 import EditItem from "components/edit-item"
 
 function AppRouter() {
@@ -42,6 +43,10 @@ function AppRouter() {
 
       <Route path='/admin/add-company'>
         <AddCompany />
+      </Route>
+
+      <Route path='/admin/edit-company/:id'>
+        <EditCompany />
       </Route>
 
       <Route path='/admin/add-item'>

@@ -1,14 +1,59 @@
-import React, { useState } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
-import "./styles.scss"
+import Select from 'react-select'
 import PropTypes from "prop-types"
+import axios from "axios"
+import CustomModalWindow from "components/custom-modal-window"
+import "./styles.scss"
 import FileUploadPage from "components/upload-file"
 
-const AddCompany = () => {
+const AddCompany = (props) => {
+  const [allLocationList, setAllLocationList] = useState([])
   const [serviceDescription, setServiceDescription] = useState("")
   const [companyName, setCompanyName] = useState("")
-  const [locationUA, setLocationUA] = useState("")
-  const [locationBLR, setLocationBLR] = useState("")
+  const [location, setLocation] = useState("")
+  const [show, setShow] = useState(false)
+  const toggleModal = () => setShow(!show)
+
+  const citiesOptions = useMemo(() => {
+    return allLocationList.map(location => ({ ...location, label: location.city, value: location.city }))
+  }, [allLocationList])
+
+  useEffect(() => {
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location/all`
+    axios.get(apiUrl)
+      .then((resp) => {
+        setAllLocationList(resp.data)
+      })
+  }, [])
+
+  useEffect(() => {
+    if (props.isEdit) {
+      setCompanyName(props.company.name)
+      setLocation(props.company.locations.map(el => ({
+        ...el,
+        value: el.city,
+        label: el.city
+      })))
+    }
+  }, [])
+
+  function deleteCompany(id) {
+    axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`)
+    console.log(id)
+  }
+
+  function saveCompanyChanges(id) {
+    axios.put(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`,
+      {
+        "id": id,
+        "modified": null,
+        "modifiedBy": null,
+        "name": companyName,
+        "locations": location.map(el => ({ ...el }))
+      }
+    )
+  }
 
   const companyDecriptionHandler = (e) => {
     setServiceDescription(e.target.value)
@@ -18,12 +63,8 @@ const AddCompany = () => {
     setCompanyName(e.target.value)
   }
 
-  const companyUAAddressHandler = (e) => {
-    setLocationUA(e.target.value)
-  }
-
-  const companyBLRAddressHandler = (e) => {
-    setLocationBLR(e.target.value)
+  const companyAddressHandler = (e) => {
+    setLocation(e)
   }
 
   return (
@@ -61,37 +102,48 @@ const AddCompany = () => {
             </div>
             <div className="company-address ">
               <h4 className="company-info-subtitle">Address</h4>
-              <InputGroup>
-                <FormControl
-                  placeholder="Discount provider UA address (city)"
-                  name="company-UAaddress"
-                  onChange={companyUAAddressHandler}
-                  className="form-field address-field"
-                  defaultValue={locationUA}
-                />
-              </InputGroup>
-              <InputGroup>
-                <FormControl
-                  placeholder="Discount provider BLR address (city)"
-                  name="company-BLRaddress"
-                  onChange={companyBLRAddressHandler}
-                  className="form-field address-field"
-                  defaultValue={locationBLR}
-                />
-              </InputGroup>
+              <Select
+                value={props.isEdit && location}
+                className="address-field"
+                isMulti
+                onChange={companyAddressHandler}
+                options={citiesOptions} />
             </div>
           </div>
-          <div className="btn-field">
-            <Button variant="primary" className="btn company-info-btn">
+          <div className="btn-field d-flex justify-content-start">
+            <Button
+              variant="primary"
+              className="btn company-info-btn"
+              onClick={() => saveCompanyChanges(props.company.id)}>
               Save company info
             </Button>
+            {props.isEdit ? <Button
+              variant="danger"
+              className="btn company-info-btn mx-3"
+              onClick={() => {
+                toggleModal()
+                deleteCompany(props.company.id)
+              }}>
+              Delete company
+            </Button> : null}
           </div>
         </div>
       </div>
+      {props.isEdit
+        && <CustomModalWindow
+          show={show}
+          handleClose={toggleModal}
+          modalText="Company has been deleted" />}
     </Form>
   )
 }
 
 export default AddCompany
 
-AddCompany.propTypes = { display: PropTypes.bool, setDisplay: PropTypes.func }
+AddCompany.propTypes = {
+  display: PropTypes.bool,
+  setDisplay: PropTypes.func,
+  isEdit: PropTypes.bool,
+  company: PropTypes.object,
+  setCompany: PropTypes.func
+}
