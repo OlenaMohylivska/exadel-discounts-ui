@@ -21,8 +21,8 @@ function FileUploadPage() {
         </div>
       ) : (
         <img
-          className="discount-img"
-          src="https://thumbs.dreamstime.com/t/pizza-35669930.jpg"
+          className="default-img"
+          src="http://damadex.com.ng/wp-content/uploads/2020/05/default-placeholder.png"
         />
       )}
       <div>
