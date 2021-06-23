@@ -6,6 +6,7 @@ import axios from "axios"
 import CustomModalWindow from "components/custom-modal-window"
 import "./styles.scss"
 import FileUploadPage from "components/upload-file"
+import { useHistory } from "react-router-dom"
 
 const AddCompany = (props) => {
   const [allLocationList, setAllLocationList] = useState([])
@@ -14,6 +15,8 @@ const AddCompany = (props) => {
   const [country, setCountry] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
+
+  const history = useHistory()
 
   const citiesOptions = useMemo(() => {
     return allLocationList.map((location) => ({
@@ -117,13 +120,22 @@ const AddCompany = (props) => {
               />
             </div>
           </div>
-          <div className="btn-field d-flex justify-content-start">
+          <div className="btn-field d-flex justify-content-between">
             <Button
               variant="primary"
               className="btn company-info-btn"
               onClick={() => saveCompanyChanges(props.company.id)}
             >
               Save company info
+            </Button>
+            <Button
+              variant="secondary"
+              className="btn company-info-btn"
+              onClick={() => {
+                history.goBack()
+              }}
+            >
+              Go back to admin panel
             </Button>
             {props.isEdit ? (
               <Button
