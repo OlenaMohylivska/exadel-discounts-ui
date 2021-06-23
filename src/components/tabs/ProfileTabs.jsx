@@ -4,23 +4,31 @@ import HistoryPage from "views/history-page"
 import { Tab, Tabs } from "react-bootstrap"
 import FavouritePage from "views/favourite-page"
 import ProfileUserInfo from "views/profile-userInfo"
-import Companies from "components/companies"
+import { useHistory, useRouteMatch } from "react-router-dom"
 
 function ProfileTabs() {
+  const history = useHistory()
+  const { path } = useRouteMatch()
+
+  const handleUrlChange = (eventKey) => {
+    history.push(`${path}/${eventKey}`)
+  }
+
   return (
     <div className="profile-tabs">
-      <Tabs defaultActiveKey="profile" transition={false}>
-        <Tab eventKey="profile" title="Profile">
+      <Tabs
+        defaultActiveKey="info"
+        transition={false}
+        onSelect={handleUrlChange}
+      >
+        <Tab eventKey="info" title="Profile">
           <ProfileUserInfo />
         </Tab>
-        <Tab eventKey="favorite" title="Favorite">
+        <Tab eventKey="favourite" title="Favourite">
           <FavouritePage />
         </Tab>
         <Tab eventKey="history" title="History">
           <HistoryPage />
-        </Tab>
-        <Tab eventKey="companies" title="Companies">
-          <Companies />
         </Tab>
       </Tabs>
     </div>
