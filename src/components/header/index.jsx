@@ -41,7 +41,7 @@ function Header() {
               className="nav-item"
               activeClassName="nav-item-active"
             >
-              Admin
+              Admin panel
             </NavLink>
 
             <NavLink
