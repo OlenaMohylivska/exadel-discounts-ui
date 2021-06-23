@@ -12,6 +12,7 @@ import AddCompany from "components/add-company"
 import AddItem from "components/add-item"
 import EditCompany from "components/edit-company"
 import EditItem from "components/edit-item"
+import Tools from "components/tools"
 
 function AppRouter() {
   return (
@@ -56,7 +57,7 @@ function AppRouter() {
         <EditItem />
       </Route>
 
-      <Route path='/discount:id'>
+      <Route path='/discount/:id'>
         <DiscountPage />
       </Route>
       <Route path='/admin/tools'>
