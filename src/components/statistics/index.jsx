@@ -1,22 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { Line, Bar, Doughnut, PolarArea } from 'react-chartjs-2'
+import { Line, Bar, Doughnut, Pie } from 'react-chartjs-2'
+import * as axios from 'axios'
+
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const Statistics = () => {
 
-  const companyOffersForWeekData = {
+  const [allOrdersByRatingData, setAllOrdersByRatingData] = useState([])
+  const [allOrdersByRating, setAllOrdersByRating] = useState({})
+  const [allOrdersByCount, setAllOrdersByCount] = useState({})
+  const [ordersOfEachCompany, setOrdersOfEachCompany] = useState({})
+
+  /*1 */
+  const ordersOfEachCompanyForWeek = {
     labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     datasets: [
       {
         label: "How many discounts were used this week",
         data: [20, 60, 40, 37, 21, 73, 19],
 
-        backgroundColor: "blue",
-        borderColor: "purple",
+        backgroundColor: "#1fbeff",
+        borderColor: "#c728f6",
       },
     ],
   }
 
-  const companyOffersForWeekOptions = {
+  const ordersOfEachCompanyForWeekOptions = {
     plugins: {
       legend: {
         onClick: () => { }
@@ -32,87 +41,87 @@ const Statistics = () => {
       ],
     },
   }
+  /*2 */
+  useEffect(() => {
+    axios.get(baseUrl + "/api/discounts/all")
+      .then(response => {
+        setAllOrdersByRatingData(response.data)
+      })
+  }, [])
 
-  const manyDiscountsForWeekData = {
-    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    datasets: [
-      {
-        label: "Cheap nikes",
-        data: [20, 60, 40, 37, 21, 73, 19],
-
-        backgroundColor: "blue",
-
-      },
-      {
-        label: "Free pizza",
-        data: [30, 15, 65, 11, 40, 19, 45],
-        backgroundColor: "red",
-
-      },
-      {
-        label: "Sth else",
-        data: [44, 40, 20, 29, 66, 55, 30],
-        backgroundColor: "green",
-      }
-    ],
-  }
-
-  const manyDiscountsForWeekOptions = {
-
-    scales: {
-      yAxes: [
+  useEffect(() => {
+    console.log(allOrdersByRatingData)
+    setAllOrdersByRating({
+      labels: ["Cheap Nikes", "Sushi", "Pizza", "Massage", "Sth else"],
+      datasets: [
         {
-          ticks: {
-            beginAtZero: true,
-          },
+          label: "All discounts by rating",
+          data: [2.5, 4.33, 4.8, 3.9, 3],
+
+          backgroundColor: "#1fbeff",
         },
       ],
+    })
+  }, [])
+
+  const allOrdersByRatingOptions = {
+    plugins: {
+      legend: {
+        onClick: () => { }
+      }
     },
-  }
-  const discountsByQuantityData = {
-    labels: ["Cheap Nikes", "-50% on Pizza", "Buy 2 pairs of shoes, get 3rd for free ", "Someth else"],
-    datasets: [
-      {
-        label: "How many discounts were used by quantity",
-        data: [20, 40, 37, 73],
-        backgroundColor: ["blue", "red", "yellow", "green"],
-      },
-    ],
+
   }
 
-  const discountsByRatingData = {
-    labels: ["Cheap Nikes", "-50% on Pizza", "Buy 2 pairs of shoes, get 3rd for free "],
-    datasets: [
-      {
-        label: ' ',
-        data: [20, 40, 37],
-        backgroundColor: ["rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)"],
-      },
-    ],
-  }
+  /*3 */
+  useEffect(() => {
+    setOrdersOfEachCompany({
+      labels: ["Nike", "Dominos Pizza", "SportLife", "SPA"],
+      datasets: [
+        {
+          data: [20, 60, 40, 37],
+
+          backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
+        },
+      ],
+    })
+  }, [])
+
+  /*4 */
+  useEffect(() => {
+    setAllOrdersByCount({
+      labels: ["Cheap Nikes", "Sushi", "Pizza", "Massage", "Sth else"],
+      datasets: [
+        {
+
+          data: [19, 44, 32, 70, 39],
+
+          backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff00b3"],
+        },
+      ],
+    })
+  }, [])
 
   return (
     <Container>
       <Row className="my-5">
         <Col>
-
-          <Line data={companyOffersForWeekData} options={companyOffersForWeekOptions} />
+          <Line data={ordersOfEachCompanyForWeek} options={ordersOfEachCompanyForWeekOptions} />
         </Col>
         <Col>
-          <Bar data={manyDiscountsForWeekData} options={manyDiscountsForWeekOptions} />
+          <Bar data={allOrdersByRating} options={allOrdersByRatingOptions} />
         </Col>
       </Row>
       <Row>
         <Col>
-          <Doughnut data={discountsByQuantityData} />
+          <p className="text-center mb-3 font-size-14">How many orders each company has</p>
+          <Doughnut data={ordersOfEachCompany} />
         </Col>
         <Col>
-          <PolarArea data={discountsByRatingData} />
+          <p className="text-center mb-3 font-size-14">How many discounts were bought(in general)</p>
+          <Pie data={allOrdersByCount} />
         </Col>
       </Row>
-
     </Container>
   )
 }
