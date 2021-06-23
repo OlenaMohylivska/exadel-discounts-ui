@@ -63,6 +63,9 @@ const AddItem = (props) => {
       tags: e.map((elem) => ({ name: elem.value, id: elem.id })),
     })
   }
+  const handleChangeCompanies = (e) => {
+    return setData({ ...data, companies: e.value })
+  }
   console.log(data)
 
   useEffect(() => {
@@ -169,9 +172,8 @@ const AddItem = (props) => {
             <h4 className='discount-subtitle'>Select Company Name</h4>
             <Select
               options={companyOptions}
-              name='company'
               onChange={(e) => {
-                console.log(e)
+                handleChangeCompanies(e)
               }}
             />
           </div>
