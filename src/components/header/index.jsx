@@ -37,6 +37,14 @@ function Header() {
             </NavLink>
 
             <NavLink
+              to="/admin"
+              className="nav-item"
+              activeClassName="nav-item-active"
+            >
+              Admin
+            </NavLink>
+
+            <NavLink
               to="/catalog"
               className="nav-item"
               activeClassName="nav-item-active"
