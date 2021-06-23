@@ -52,12 +52,15 @@ function AppRouter() {
       <Route path='/admin/add-item'>
         <AddItem />
       </Route>
-      <Route path="/admin/edit-item/:id">
-        <EditItem/>
+      <Route path='/admin/edit-item/:id'>
+        <EditItem />
       </Route>
 
       <Route path='/discount:id'>
         <DiscountPage />
+      </Route>
+      <Route path='/admin/tools'>
+        <Tools />
       </Route>
     </>
   )

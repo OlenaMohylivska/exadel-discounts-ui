@@ -12,7 +12,7 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: 1274313600000,
-    tags: [{ id: 1, name: "sport" }],
+    tags: [],
     quantity: 0,
     companies: null,
   })
@@ -22,15 +22,33 @@ const AddItem = (props) => {
   const [discountProvidersLocations, setDiscountProvidersLocations] = useState(
     []
   )
+  const [tags, setTags] = useState([])
+
   console.log(discountProviders)
   console.log(discountProvidersLocations)
 
-  // const cityOptions = locations.map((company) => {
-  //   return {
-  //     value: company.city,
-  //     label: company.city,
-  //   }
-  // })
+  const companyOptions = discountProviders.map((company) => {
+    return {
+      value: company.name,
+      label: company.name,
+      id: company.id,
+    }
+  })
+
+  const cityOptions = discountProvidersLocations.map((company) => {
+    return {
+      value: company.city,
+      label: company.city,
+      id: company.id,
+    }
+  })
+  const tagsOptions = tags.map((tag) => {
+    return {
+      value: tag.name,
+      label: tag.name,
+      id: tag.id,
+    }
+  })
 
   const fetchData = async (url, setFunc) => {
     axios.get(baseUrl + url).then((response) => setFunc(response.data))
@@ -39,10 +57,19 @@ const AddItem = (props) => {
   const handleChange = (e) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
-
+  const handleChangeTags = (e) => {
+    setData({
+      ...data,
+      tags: e.map((elem) => ({ name: elem.value, id: elem.id })),
+    })
+  }
+  console.log(data)
 
   useEffect(() => {
     fetchData("/api/company/all", setDiscountProviders)
+  }, [])
+  useEffect(() => {
+    fetchData("/api/tags", setTags)
   }, [])
 
   useEffect(() => {
@@ -50,8 +77,7 @@ const AddItem = (props) => {
   }, [])
 
   useEffect(() => {
-    if (props.isEditable)
-      fetchData(`/api/discounts/${props.id}`, setData)
+    if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
 
   const validate = () => {
@@ -92,14 +118,13 @@ const AddItem = (props) => {
     }
   }
 
-
   const reset = () => {
     setErrors({})
     setData({
       modified: null,
       modifiedBy: null,
       periodStart: 1274313600000,
-      tags: [{ id: 1, name: "sport" }],
+      tags: [],
       quantity: 0,
       company: null,
     })
@@ -128,7 +153,10 @@ const AddItem = (props) => {
           </div>
 
           <div className='btn-field'>
-            <Button variant='primary' className='btn' onClick={props.isEditable ? () => edit() : () => submit()}>
+            <Button
+              variant='primary'
+              className='btn'
+              onClick={props.isEditable ? () => edit() : () => submit()}>
               Save
             </Button>
             <Button variant='danger' onClick={() => reset()} className='btn'>
@@ -139,44 +167,31 @@ const AddItem = (props) => {
         <div className='col input-fields '>
           <div className='discount-provider-name'>
             <h4 className='discount-subtitle'>Select Company Name</h4>
-            <Select />
+            <Select
+              options={companyOptions}
+              name='company'
+              onChange={(e) => {
+                console.log(e)
+              }}
+            />
           </div>
           <div className='discount-provider-location'>
             <h4 className='discount-subtitle'>Select Discount Location</h4>
-            <Select isMulti />
+            <Select
+              options={cityOptions}
+              onChange={(e) => {
+                console.log(e)
+              }}
+              isMulti
+            />
           </div>
           <h4 className='discount-subtitle'>Discount Types:</h4>
-          <InputGroup>
-            <FormControl
-              placeholder='Filter tags(use” ; ” for splitting)'
-              name='discountTypes'
-              className='form-field'
-            />
-          </InputGroup>
+          <Select
+            isMulti
+            options={tagsOptions}
+            onChange={(e) => handleChangeTags(e)}
+          />
           {errors.discountTypes ? <Error error={errors.discountTypes} /> : ""}
-
-          <div className='radio-box'>
-            <h4 className='discount-subtitle'>Type:</h4>
-            <div className='discount-radiobtn'>
-              <input
-                type='radio'
-                name='proposeType'
-                id='product'
-                value='product'
-                aria-label='Radio button for following text input'
-              />
-              <label htmlFor='product'>product</label>
-            </div>
-            <div className='discount-radiobtn'>
-              <input
-                type='radio'
-                name='proposeType'
-                id='service'
-                value='service'
-              />
-              <label htmlFor='service'>service</label>
-            </div>
-          </div>
           <h4>Name of discount</h4>
           <InputGroup>
             <FormControl
