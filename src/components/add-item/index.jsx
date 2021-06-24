@@ -11,10 +11,11 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const AddItem = (props) => {
   const [data, setData] = useState({
-    periodEnd: 1274313600000,
+    periodEnd: null,
     tags: [],
-    quantity: 0,
-    companies: null,
+    quantity: null,
+    companies: [],
+    periodStart: null,
   })
   const [errors, setErrors] = useState({})
 
@@ -23,7 +24,6 @@ const AddItem = (props) => {
     []
   )
   const [tags, setTags] = useState([])
-
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -61,7 +61,10 @@ const AddItem = (props) => {
     })
   }
   const handleChangeCompanies = (e) => {
-    return setData({ ...data, companies: e.value })
+    return setData({
+      ...data,
+      companies: [{ name: e.value, id: e.id }],
+    })
   }
 
   useEffect(() => {
@@ -78,13 +81,21 @@ const AddItem = (props) => {
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
+  const checkQuantity = () => {
+    if (data.quantity && data.quantity < 1) setData({ ...data, quantity: 1 })
+  }
+  checkQuantity()
 
   const validate = () => {
     let errorObj = {}
     if (!data.description) errorObj.description = "description cannot be blank"
     if (!data.periodEnd) errorObj.periodEnd = "Terms cannot be blank"
+    if (!data.periodStart) errorObj.periodStart = "Terms cannot be blank"
+    if (data.periodStart > data.periodEnd) errorObj.periodEnd = "Wrong data"
     if (!data.name) errorObj.name = "Name cannot be blank"
     if (!data.promoCode) errorObj.promoCode = "PromoCode cannot be blank"
+    if (data.companies.length === 0) errorObj.companies = "Choose company"
+    if (data.tags.length === 0) errorObj.tags = "Select tags"
     return errorObj
   }
 
@@ -120,12 +131,12 @@ const AddItem = (props) => {
   const reset = () => {
     setErrors({})
     setData({
-      modified: null,
-      modifiedBy: null,
-      periodStart: 1274313600000,
-      tags: [],
-      quantity: 0,
-      company: null,
+      periodStart: null,
+      periodEnd: null,
+      name: null,
+      tags: null,
+      quantity: null,
+      companies: null,
     })
   }
 
@@ -165,7 +176,7 @@ const AddItem = (props) => {
         </div>
         <div className='col input-fields '>
           <div className='discount-provider-name'>
-            <h4 className='discount-subtitle'>Select Company Name</h4>
+            <h4 className='discount-subtitle'>Select Company Name:</h4>
             <Select
               options={companyOptions}
               onChange={(e) => {
@@ -173,8 +184,9 @@ const AddItem = (props) => {
               }}
             />
           </div>
+          {errors.companies ? <Error error={errors.companies} /> : ""}
           <div className='discount-provider-location'>
-            <h4 className='discount-subtitle'>Select Discount Location</h4>
+            <h4 className='discount-subtitle'>Select Discount Location:</h4>
             <Select
               options={cityOptions}
               onChange={(e) => {
@@ -183,17 +195,16 @@ const AddItem = (props) => {
               isMulti
             />
           </div>
-          <h4 className='discount-subtitle'>Discount Types:</h4>
+          <h4 className='discount-subtitle'>Discount Tags:</h4>
           <Select
             isMulti
             options={tagsOptions}
             onChange={(e) => handleChangeTags(e)}
           />
-          {errors.discountTypes ? <Error error={errors.discountTypes} /> : ""}
-          <h4>Name of discount</h4>
+          {errors.tags ? <Error error={errors.tags} /> : ""}
+          <h4>Name of discount:</h4>
           <InputGroup>
             <FormControl
-              className='form-field'
               size='sm'
               placeholder='Fill the name of discount,first letter must be uppercase'
               name='name'
@@ -204,27 +215,45 @@ const AddItem = (props) => {
           {errors.name ? <Error error={errors.name} /> : ""}
 
           <h4>Terms:</h4>
+          <h5 className='date-headers'>From:</h5>
+          <InputGroup>
+            <FormControl
+              type='date'
+              name='periodStart'
+              value={data.periodStart ? data.periodStart : ""}
+              onChange={(e) => handleChange(e)}
+            />
+          </InputGroup>
+          {errors.periodStart ? <Error error={errors.periodStart} /> : ""}
+          <h5 className='date-headers'>To:</h5>
           <InputGroup>
             <FormControl
               type='date'
               name='periodEnd'
               value={data.periodEnd ? data.periodEnd : ""}
               onChange={(e) => handleChange(e)}
-              className='form-field'
             />
           </InputGroup>
           {errors.periodEnd ? <Error error={errors.periodEnd} /> : ""}
-
+          <h4>Quantity:</h4>
+          <InputGroup>
+            <FormControl
+              name='quantity'
+              value={data.quantity ? data.quantity : ""}
+              onChange={(e) => handleChange(e)}
+              type='number'
+            />
+          </InputGroup>
           <h4>Promo:</h4>
           <InputGroup>
             <FormControl
               placeholder='Fill the name of promo'
               name='promoCode'
               onChange={(e) => handleChange(e)}
-              className='form-field'
               value={data.promoCode ? data.promoCode : ""}
             />
           </InputGroup>
+
           {errors.promoCode ? <Error error={errors.promoCode} /> : ""}
         </div>
       </div>
