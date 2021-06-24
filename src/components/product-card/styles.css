@@ -1,7 +1,8 @@
 .product-card {
   margin: 20px 0;
   padding: 15px;
-  width: 400px;
+  max-width: 400px;
+  min-width: 300px;
   border: 1px solid #000;
 }
 
@@ -30,8 +31,7 @@
   border: 1px solid rgb(136, 136, 136);
 }
 
-.product-discount,
-.order-btn {
+.product-discount{
   width: 30%;
   text-align: center;
 }
@@ -39,8 +39,5 @@
 .product-footer {
   padding: 0;
   justify-content: space-between;
-  align-items: flex-end;
-}
-.margin-left {
-  margin-left: 30px;
+  align-items: center;
 }

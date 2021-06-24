@@ -2,7 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
-import * as axios from "axios"
 import "./styles.css"
 import { Link } from "react-router-dom"
 
@@ -35,14 +34,8 @@ function ProductCard({ elem }) {
         </div>
         <div className='product-footer'>
           <StarRatings starDimension='27px' starSpacing='5px' />
-          <Button className='order-btn' variant='primary'>
+          <Button variant='primary'>
             Order
-          </Button>
-          <Button
-            onClick={() => deleteElem()}
-            className='margin-left'
-            variant='outline-dark'>
-            Delete
           </Button>
         </div>
       </Card.Body>
