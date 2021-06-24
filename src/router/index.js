@@ -65,11 +65,11 @@ function AppRouter() {
       <Route path="/edit-slider/">
         <EditSlider />
       </Route>
-    
+
       <Route path='/admin/statistics'>
         <Statistics />
       </Route>
-   
+
     </>
   )
 }
