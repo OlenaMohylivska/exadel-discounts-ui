@@ -9,7 +9,7 @@ const CompanyInfo = ({ name }) => {
       <Card className="d-flex flex-lg-row flex-md-row flex-sm-column w-100 mt-3 p-2 align-items-center position-relative">
         <Card.Img
           className="col-lg-2 col-md-2 image"
-          src="https://via.placeholder.com/600/24f355"
+          src="https://www.pngfind.com/pngs/m/665-6659827_enterprise-comments-default-company-logo-png-transparent-png.png" rounded
         />
         <Card.Body className="d-lg-flex d-md-flex d-sm-block flex-lg-row flex-md-row flex-sm-column">
           <div className="col-lg-10 col-md-9 col-sm-12 d-flex flex-column justify-content-center">

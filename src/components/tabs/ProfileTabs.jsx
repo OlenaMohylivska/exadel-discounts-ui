@@ -5,7 +5,6 @@ import { Tab, Tabs } from "react-bootstrap"
 import FavouritePage from "views/favourite-page"
 import ProfileUserInfo from "views/profile-userInfo"
 import { useHistory, useRouteMatch } from "react-router-dom"
-import Companies from "components/companies"
 
 function ProfileTabs() {
   const history = useHistory()
@@ -30,9 +29,6 @@ function ProfileTabs() {
         </Tab>
         <Tab eventKey="history" title="History">
           <HistoryPage />
-        </Tab>
-        <Tab eventKey="companies" title="Company">
-          <Companies />
         </Tab>
       </Tabs>
     </div>
