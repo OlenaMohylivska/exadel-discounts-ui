@@ -8,13 +8,13 @@ const Admin = () => {
   const onTabSelected = (eventKey) => history.push(`${path}/${eventKey}`)
   useEffect(() => {
     if(path === "/admin") {
-      history.push(`${path}/statistic`)
+      history.push(`${path}/statistics`)
     }
   }, [])
   return (
     <div className="container">
-      <Tabs onSelect={onTabSelected} defaultActiveKey="statistic" transition={false}>
-        <Tab eventKey="statistic" title="Statistic" />
+      <Tabs onSelect={onTabSelected} defaultActiveKey="statistics" transition={false}>
+        <Tab eventKey="statistics" title="Statistics" />
         <Tab eventKey="add-company" title="✚ Add company" />
         <Tab eventKey="add-item" title="✚ Add promotion" />
         <Tab eventKey="all-companies" title="All companies" />

@@ -6,6 +6,7 @@ import * as axios from 'axios'
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const Statistics = () => {
 
+  // eslint-disable-next-line no-unused-vars
   const [allOrdersByRatingData, setAllOrdersByRatingData] = useState([])
   const [allOrdersByRating, setAllOrdersByRating] = useState({})
   const [allOrdersByCount, setAllOrdersByCount] = useState({})
@@ -26,6 +27,8 @@ const Statistics = () => {
   }
 
   const ordersOfEachCompanyForWeekOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         onClick: () => { }
@@ -50,7 +53,6 @@ const Statistics = () => {
   }, [])
 
   useEffect(() => {
-    console.log(allOrdersByRatingData)
     setAllOrdersByRating({
       labels: ["Cheap Nikes", "Sushi", "Pizza", "Massage", "Sth else"],
       datasets: [
@@ -65,12 +67,13 @@ const Statistics = () => {
   }, [])
 
   const allOrdersByRatingOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         onClick: () => { }
       }
     },
-
   }
 
   /*3 */
@@ -86,6 +89,10 @@ const Statistics = () => {
       ],
     })
   }, [])
+  const roundChartsOptions = {
+    responsive: true,
+    maintainAspectRatio: false
+  }
 
   /*4 */
   useEffect(() => {
@@ -104,22 +111,26 @@ const Statistics = () => {
 
   return (
     <Container>
-      <Row className="my-5">
+      <Row className="my-4">
         <Col>
-          <Line data={ordersOfEachCompanyForWeek} options={ordersOfEachCompanyForWeekOptions} />
+          <Line data={ordersOfEachCompanyForWeek} height={300} options={ordersOfEachCompanyForWeekOptions} />
         </Col>
         <Col>
-          <Bar data={allOrdersByRating} options={allOrdersByRatingOptions} />
+          <Bar data={allOrdersByRating} height={300} options={allOrdersByRatingOptions} />
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col >
           <p className="text-center mb-3 font-size-14">How many orders each company has</p>
-          <Doughnut data={ordersOfEachCompany} />
+          <div>
+            <Doughnut data={ordersOfEachCompany} height={250} options={roundChartsOptions} />
+          </div>
         </Col>
         <Col>
           <p className="text-center mb-3 font-size-14">How many discounts were bought(in general)</p>
-          <Pie data={allOrdersByCount} />
+          <div>
+            <Pie data={allOrdersByCount} height={250} options={roundChartsOptions} />
+          </div>
         </Col>
       </Row>
     </Container>
