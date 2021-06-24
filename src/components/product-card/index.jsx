@@ -2,12 +2,12 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
-
 import "./styles.css"
 import { Link } from "react-router-dom"
 
 // eslint-disable-next-line react/prop-types
 function ProductCard({ elem }) {
+
   const formattedData = new Date(elem.periodEnd)
     .toISOString()
     .split(":")
@@ -41,7 +41,7 @@ function ProductCard({ elem }) {
         </div>
         <div className='product-footer'>
           <StarRatings starDimension='27px' starSpacing='5px' />
-          <Button className='order-btn' variant='primary'>
+          <Button variant='primary'>
             Order
           </Button>
         </div>

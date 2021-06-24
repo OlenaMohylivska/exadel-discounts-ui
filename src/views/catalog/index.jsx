@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react"
-
 import ProductCard from "components/product-card"
-import { Form, Button } from "react-bootstrap"
+import { Form, Container } from "react-bootstrap"
 import FetchError from "components/fetch-error"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
@@ -59,7 +58,7 @@ const Catalog = () => {
   })
 
   return (
-    <div className='container'>
+    <Container>
       <h1 className='catalog-title'>Catalog</h1>
       <div className='row filter-panel'>
         <label className='col-lg-5 col-md-12 search-container'>
@@ -91,7 +90,7 @@ const Catalog = () => {
           />
         </div>
       </div>
-      <div className='d-flex justify-content-xl-between justify-content-lg-around justify-content-md-around flex-wrap'>
+      <div className='discounts-wrapper'>
         {discounts ? (
           discounts.map((el) => {
             return <ProductCard elem={el} key={el.id} />
@@ -100,10 +99,7 @@ const Catalog = () => {
           <FetchError />
         )}
       </div>
-      <div className='btn-wrapper'>
-        <Button variant='warning'>Show more</Button>
-      </div>
-    </div>
+    </Container>
   )
 }
 
