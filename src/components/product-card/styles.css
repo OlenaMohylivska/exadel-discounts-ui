@@ -6,6 +6,11 @@
   border: 1px solid #000;
 }
 
+.product-image {
+  height: 350px;
+  object-fit: cover;
+}
+
 .product-actuality {
   text-align: end;
 }
