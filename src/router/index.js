@@ -13,6 +13,8 @@ import AddItem from "components/add-item"
 import EditCompany from "components/edit-company"
 import EditItem from "components/edit-item"
 import Tools from "components/tools"
+import EditSlider from "components/edit-slider"
+import Statistics from "components/statistics"
 
 function AppRouter() {
   return (
@@ -60,9 +62,19 @@ function AppRouter() {
       <Route path='/discount/:id'>
         <DiscountPage />
       </Route>
+
       <Route path='/admin/tools'>
         <Tools />
       </Route>
+
+      <Route path="/edit-slider/">
+        <EditSlider />
+      </Route>
+    
+      <Route path='/admin/statistics'>
+        <Statistics />
+      </Route>
+   
     </>
   )
 }

@@ -1,0 +1,82 @@
+.input-wrapper {
+  width: 100%;
+  position: relative;
+  margin: 15px 0;
+  text-align: center;
+
+  .input-file {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+  }
+
+  .input-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 3px;
+    cursor: pointer;
+    background: #0082CA;
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: 700;
+
+    .icon-wrapper {
+      height: 60px;
+      width: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #fff;
+    }
+     
+    .button-text {
+      margin: 0 15px;
+    }
+  }
+}
+
+.delete-icon {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.slider-image {
+  width: 50%;
+}
+
+@media (min-width: 1125px) {
+  .slider-image {
+    width: 50%;
+  }  
+
+  .delete-icon {
+    bottom: 80px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .delete-icon {
+    bottom: 52px;
+  }
+}
+
+@media (max-width: 800px) { 
+  .delete-icon {
+    bottom: 35px;
+  }
+}
+
+@media (max-width: 767px) {
+  .slider-image {
+    width: 100%;
+  }  
+}
+
+@media (max-width: 320px) {
+  .delete-icon {
+    bottom: 30px;
+  }
+}
