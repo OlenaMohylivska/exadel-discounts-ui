@@ -1,42 +1,48 @@
-@use '../../variables/styles.scss'as main;
-$text-color: main.$text-color;
-
 .info {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 50px;
-    margin-top: 40px;
+  background-color: rgb(255, 255, 255);
+  color: #000;
 
-    color: $text-color;
+  .about-company-block {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 3rem;
+    padding: 1rem;
 
-    .about-company-wrapper {
-        font-size: 1.5em;
-        font-weight: 500;
-        line-height: 2em;
+    &:nth-child(odd) {
+      background-color: rgb(216, 215, 215);
+    }
+    p {
+      font-size: 1.5rem;
     }
 
-    .statistics-wrapper {
-        font-size: 1.7em;
-        font-weight: 300;
-        line-height: 1.5em;
-
-        span {
-            font-weight: 900;
-            font-size: 1.2em;
-        }
+    img {
+      max-width: 40%;
     }
+  }
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
+  .about-company-block {
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 1rem !important;
+    padding: 0.5rem;
 
-    .form-wrapper {
-        text-align: center;
+    p {
+      margin-top: 1rem;
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+
+    .about-company-block {
+        padding: 0;
+        p {
+            font-size: .8rem !important;
+        }
     }
 
-    .info {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        text-align: center;
-
-    }
 }

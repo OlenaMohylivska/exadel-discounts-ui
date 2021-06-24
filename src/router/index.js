@@ -15,6 +15,7 @@ import EditItem from "components/edit-item"
 import Tools from "components/tools"
 import EditSlider from "components/edit-slider"
 import Statistics from "components/statistics"
+import Companies from "components/companies"
 
 function AppRouter() {
   return (
@@ -73,6 +74,10 @@ function AppRouter() {
 
       <Route path='/admin/statistics'>
         <Statistics />
+      </Route>
+
+      <Route path='/admin/all-companies'>
+        <Companies />
       </Route>
 
     </>
