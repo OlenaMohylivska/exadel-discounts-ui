@@ -24,7 +24,6 @@ const Tools = () => {
     fetchData()
   }
 
-  console.log(newTag)
   const reset = () => {
     setNewTag({ name: "" })
   }
