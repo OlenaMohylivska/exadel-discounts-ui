@@ -1,0 +1,28 @@
+.corporate-logo {
+  width: 90px;
+  height: 90px;
+}
+.company-logo {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+}
+
+.company-additional-info {
+  display: flex;
+  flex-direction: column;
+}
+.company-info-subtitle {
+  margin-top: 1rem;
+}
+
+.company-info-btn{
+    margin-top: 1rem;
+}
+
+.company-info-textarea{
+    resize: none;
+}
+.address-field{
+    margin-bottom: 1rem;
+}
