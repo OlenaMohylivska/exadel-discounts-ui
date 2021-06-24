@@ -11,6 +11,7 @@ import "./styles.css"
 const Catalog = () => {
   const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
+  const [filterTags, setFilterTags] = useState([])
 
   const fetchData = async () => {
     axios
@@ -27,12 +28,12 @@ const Catalog = () => {
       setSearchLocation(resp.data)
     })
   }, [])
-  // useEffect(() => {
-  //   const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/"
-  //   axios.get(apiUrl).then((res) => {
-  //     setFilterTags(res.data)
-  //   })
-  // }, [])
+  useEffect(() => {
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/"
+    axios.get(apiUrl).then((res) => {
+      setFilterTags(res.data)
+    })
+  }, [])
 
   const sortingByRate = ["Top rated"]
 
@@ -43,8 +44,7 @@ const Catalog = () => {
     }))
   }, [searchLocation])
 
-  const tagsArr = ["sport", "education", "food"]
-  const categoriesOptions = tagsArr.map((el) => {
+  const categoriesOptions = filterTags.map((el) => {
     return {
       value: el.name,
       label: el.name,

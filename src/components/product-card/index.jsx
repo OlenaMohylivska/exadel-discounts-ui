@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 
 // eslint-disable-next-line react/prop-types
 function ProductCard({ elem }) {
-  const testedData = new Date(elem.periodEnd)
+  const formattedData = new Date(elem.periodEnd)
     .toISOString()
     .split(":")
     .splice(0, 1)
@@ -27,7 +27,7 @@ function ProductCard({ elem }) {
         key={elem.id}
         to={`/discount/${elem.id}`}>
         <Card.Subtitle className='product-actuality'>
-          expires in {testedData}
+          expires in {formattedData}
         </Card.Subtitle>
         {/* eslint-disable-next-line react/prop-types */}
         <Card.Title className='mb-3'>{elem.name}</Card.Title>
