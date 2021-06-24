@@ -1,0 +1,95 @@
+.footer-container {
+  background-color: #E5EBF0;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+  font-size: 0.5rem;
+  padding: .5rem;
+
+  h5 {
+    font-size: 0.8rem;
+  }
+
+  ul {
+    list-style: none;
+  }
+  .footer-corporate {
+    .corporate-line {
+		position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        left: -41px;
+        top: 8px;
+        width: 25px;
+        height: 2px;
+        background-color: #000;
+      }
+    }
+	.footer-socials{
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+
+		a{
+			color: #000;
+			display: inline-block;
+			font-size: 1rem;
+		}
+	}
+  }
+
+  .footer-services, .footer-industries{
+	  ul{
+		  display: flex;
+		  flex-direction: column;
+		
+
+		  li{
+			  margin-bottom: 0.5rem;
+			  margin-left: -30px;
+			  &:last-child{
+				  margin-bottom: 0;
+			  }
+		  }
+		  
+		
+	  }
+  }
+
+  
+}
+
+@media (max-width: 420px) {
+	.footer-inner{
+		flex-direction: column;
+
+		ul{
+			margin-bottom: 0 !important;
+		}
+
+		.footer-career li, .footer-domains li{
+			display: none;
+		}
+		.footer-corporate{
+			.footer-socials{
+				position: absolute;
+				left: 203px;
+				top: 24px;
+				li{
+					margin-right: 0.5rem;
+				}
+			}
+		}
+	}
+}
