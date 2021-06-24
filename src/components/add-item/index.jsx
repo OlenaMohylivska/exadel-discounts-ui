@@ -24,10 +24,6 @@ const AddItem = (props) => {
     []
   )
   const [tags, setTags] = useState([])
-
-  console.log(discountProviders)
-  console.log(discountProvidersLocations)
-
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -70,7 +66,6 @@ const AddItem = (props) => {
       companies: [{ name: e.value, id: e.id }],
     })
   }
-  console.log(data)
 
   useEffect(() => {
     fetchData("/api/company/all", setDiscountProviders)
