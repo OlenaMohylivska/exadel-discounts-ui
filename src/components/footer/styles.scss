@@ -1,5 +1,5 @@
 .footer-container {
-  background-color: #E5EBF0;
+  background-color: #e5ebf0;
   position: relative;
   bottom: 0;
   left: 0;
@@ -14,7 +14,7 @@
   align-items: flex-start;
   width: 100%;
   font-size: 0.5rem;
-  padding: .5rem;
+  padding: 0.5rem;
 
   h5 {
     font-size: 0.8rem;
@@ -25,7 +25,7 @@
   }
   .footer-corporate {
     .corporate-line {
-		position: relative;
+      position: relative;
       &::before {
         content: "";
         position: absolute;
@@ -36,60 +36,57 @@
         background-color: #000;
       }
     }
-	.footer-socials{
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
+    .footer-socials {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
 
-		a{
-			color: #000;
-			display: inline-block;
-			font-size: 1rem;
-		}
-	}
+      a {
+        color: #000;
+        display: inline-block;
+        font-size: 1rem;
+      }
+    }
   }
 
-  .footer-services, .footer-industries{
-	  ul{
-		  display: flex;
-		  flex-direction: column;
-		
+  .footer-services,
+  .footer-industries {
+    ul {
+      display: flex;
+      flex-direction: column;
 
-		  li{
-			  margin-bottom: 0.5rem;
-			  margin-left: -30px;
-			  &:last-child{
-				  margin-bottom: 0;
-			  }
-		  }
-		  
-		
-	  }
+      li {
+        margin-bottom: 0.5rem;
+        margin-left: -30px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
-
-  
 }
 
 @media (max-width: 420px) {
-	.footer-inner{
-		flex-direction: column;
+  .footer-inner {
+    flex-direction: column;
 
-		ul{
-			margin-bottom: 0 !important;
-		}
+    ul {
+      margin-bottom: 0 !important;
+    }
 
-		.footer-career li, .footer-domains li{
-			display: none;
-		}
-		.footer-corporate{
-			.footer-socials{
-				position: absolute;
-				left: 203px;
-				top: 24px;
-				li{
-					margin-right: 0.5rem;
-				}
-			}
-		}
-	}
+    .footer-career li,
+    .footer-domains li {
+      display: none;
+    }
+    .footer-corporate {
+      .footer-socials {
+        position: absolute;
+        left: 203px;
+        top: 24px;
+        li {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
 }

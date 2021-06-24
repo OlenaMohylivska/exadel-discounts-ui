@@ -7,10 +7,6 @@ import { Link } from "react-router-dom"
 
 // eslint-disable-next-line react/prop-types
 function ProductCard({ elem }) {
-  const deleteElem = () => {
-    axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/discounts/10`)
-  }
-
   const formattedData = new Date(elem.periodEnd)
     .toISOString()
     .split(":")
@@ -25,18 +21,20 @@ function ProductCard({ elem }) {
 
   return (
     <Card className='product-card'>
-      <Link key={elem.id} to={{
-        pathname: `/discount/${elem.id}`,
-        state: {
-          image: elem.img,
-        }
-      }}>
+      <Link
+        key={elem.id}
+        to={{
+          pathname: `/discount/${elem.id}`,
+          state: {
+            image: elem.img,
+          },
+        }}>
         <Card.Subtitle className='product-actuality'>
           expires in {formattedData}
         </Card.Subtitle>
         {/* eslint-disable-next-line react/prop-types */}
         <Card.Title className='mb-3'>{elem.name}</Card.Title>
-        <Card.Img variant='top' className="product-image" src={elem.img} />
+        <Card.Img variant='top' className='product-image' src={elem.img} />
       </Link>
       <Card.Body className='p-0 d-flex flex-column justify-content-between'>
         <div className='product-description'>
@@ -46,9 +44,7 @@ function ProductCard({ elem }) {
         </div>
         <div className='product-footer'>
           <StarRatings starDimension='27px' starSpacing='5px' />
-          <Button variant='primary'>
-            Order
-          </Button>
+          <Button variant='primary'>Order</Button>
         </div>
       </Card.Body>
     </Card>
@@ -63,6 +59,6 @@ ProductCard.propTypes = {
     name: PropTypes.string,
     description: PropTypes.string,
     id: PropTypes.number,
-    img: PropTypes.string
+    img: PropTypes.string,
   }),
 }
