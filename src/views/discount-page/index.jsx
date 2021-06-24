@@ -30,7 +30,7 @@ const DiscountPage = () => {
   useEffect(() => {
     fetchData()
   }, [])
-
+  console.log(discount)
   return (
     <>
       {loading ? <div>Loading</div> : ""}
@@ -41,9 +41,12 @@ const DiscountPage = () => {
           </div>
           <div className='col'>
             <h3>Discount Name:{discount.name}</h3>
-            <h4>Company:</h4>
-            <h4>Tags:</h4>
-            <h4>Location:{discount.tags.map((tag) => ` ${tag.name};`)}</h4>
+            <h4>
+              Company:
+              {discount.companies && <span>{discount.companies[0].name}</span>}
+            </h4>
+            <h4>Tags:{discount.tags.map((tag) => ` ${tag.name};`)}</h4>
+            <h4>Location:</h4>
             <h4>Expired to:{discount.periodEnd}</h4>
             <h4>Description:</h4>
             <p>{discount.description}</p>

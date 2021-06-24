@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react"
-import { Link } from "react-router-dom"
+
 import ProductCard from "components/product-card"
 import { Form, Button } from "react-bootstrap"
 import FetchError from "components/fetch-error"
@@ -89,11 +89,7 @@ const Catalog = () => {
       <div className='d-flex justify-content-xl-between justify-content-lg-around justify-content-md-around flex-wrap'>
         {discounts ? (
           discounts.map((el) => {
-            return (
-              <Link key={el.id} to={`/discount${el.id}`}>
-                <ProductCard elem={el} key={el.id} />
-              </Link>
-            )
+            return <ProductCard elem={el} key={el.id} />
           })
         ) : (
           <FetchError />
