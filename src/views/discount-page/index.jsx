@@ -12,7 +12,6 @@ const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
-
   const { id } = useParams()
   const fetchData = async () => {
     setLoading(true)
@@ -30,7 +29,7 @@ const DiscountPage = () => {
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(discount)
+
   return (
     <>
       {loading ? <div>Loading</div> : ""}
@@ -43,11 +42,24 @@ const DiscountPage = () => {
             <h3>Discount Name:{discount.name}</h3>
             <h4>
               Company:
-              {discount.companies && <span>{discount.companies[0].name}</span>}
+              {discount.company.name ? discount.company.name : ""}
             </h4>
             <h4>Tags:{discount.tags.map((tag) => ` ${tag.name};`)}</h4>
             <h4>Location:</h4>
-            <h4>Expired to:{discount.periodEnd}</h4>
+            <h4>
+              Expired to:
+              {new Date(discount.periodEnd)
+                .toISOString()
+                .split(":")
+                .splice(0, 1)
+                .join("")
+                .split("")
+                .splice(0, 10)
+                .join("")
+                .split("-")
+                .reverse()
+                .join("-")}
+            </h4>
             <h4>Description:</h4>
             <p>{discount.description}</p>
             <div className='rates'>

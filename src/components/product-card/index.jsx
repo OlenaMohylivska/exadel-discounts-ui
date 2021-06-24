@@ -8,11 +8,26 @@ import { Link } from "react-router-dom"
 // eslint-disable-next-line react/prop-types
 function ProductCard({ elem }) {
 
+  const formattedData = new Date(elem.periodEnd)
+    .toISOString()
+    .split(":")
+    .splice(0, 1)
+    .join("")
+    .split("")
+    .splice(0, 10)
+    .join("")
+    .split("-")
+    .reverse()
+    .join("-")
+
   return (
     <Card className='product-card'>
-      <Link key={elem.id} to={`/discount/${elem.id}`}>
+      <Link
+        className='text-decoration'
+        key={elem.id}
+        to={`/discount/${elem.id}`}>
         <Card.Subtitle className='product-actuality'>
-          expires in {elem.periodEnd}
+          expires in {formattedData}
         </Card.Subtitle>
         {/* eslint-disable-next-line react/prop-types */}
         <Card.Title className='mb-3'>{elem.name}</Card.Title>

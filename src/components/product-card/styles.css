@@ -9,6 +9,14 @@
 .product-actuality {
   text-align: end;
 }
+.text-decoration {
+  text-decoration: none;
+  color: black;
+}
+.text-decoration:hover {
+  text-decoration: none;
+  color: black;
+}
 
 .product-description,
 .product-footer {

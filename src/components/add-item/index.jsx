@@ -14,7 +14,7 @@ const AddItem = (props) => {
     periodEnd: null,
     tags: [],
     quantity: null,
-    companies: [],
+    company: null,
     periodStart: null,
   })
   const [errors, setErrors] = useState({})
@@ -63,7 +63,7 @@ const AddItem = (props) => {
   const handleChangeCompanies = (e) => {
     return setData({
       ...data,
-      companies: [{ name: e.value, id: e.id }],
+      company: { id: e.id },
     })
   }
 
@@ -94,7 +94,7 @@ const AddItem = (props) => {
     if (data.periodStart > data.periodEnd) errorObj.periodEnd = "Wrong data"
     if (!data.name) errorObj.name = "Name cannot be blank"
     if (!data.promoCode) errorObj.promoCode = "PromoCode cannot be blank"
-    if (data.companies.length === 0) errorObj.companies = "Choose company"
+    if (data.company.length === 0) errorObj.company = "Choose company"
     if (data.tags.length === 0) errorObj.tags = "Select tags"
     return errorObj
   }
@@ -136,7 +136,7 @@ const AddItem = (props) => {
       name: null,
       tags: null,
       quantity: null,
-      companies: null,
+      company: null,
     })
   }
 
@@ -184,7 +184,7 @@ const AddItem = (props) => {
               }}
             />
           </div>
-          {errors.companies ? <Error error={errors.companies} /> : ""}
+          {errors.company ? <Error error={errors.company} /> : ""}
           <div className='discount-provider-location'>
             <h4 className='discount-subtitle'>Select Discount Location:</h4>
             <Select
