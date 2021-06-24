@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router"
+import { useParams, useLocation } from "react-router"
 import { Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import * as axios from "axios"
@@ -12,7 +12,8 @@ const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
-
+  const location = useLocation()
+  const { image } = location.state
   const { id } = useParams()
   const fetchData = async () => {
     setLoading(true)
@@ -30,16 +31,18 @@ const DiscountPage = () => {
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(discount)
+
   return (
     <>
       {loading ? <div>Loading</div> : ""}
       {discount ? (
-        <div className='discount-container'>
-          <div className='col'>
-            <div className='img-container'>img</div>
+        <div className='container discount-container flex-wrap'>
+          <div className='col-lg-6 col-md-12'>
+            <div className='img-container'>
+              <img src={image} className="discount-image" alt="discount-img" />
+            </div>
           </div>
-          <div className='col'>
+          <div className='col-lg-6 col-md-12'>
             <h3>Discount Name:{discount.name}</h3>
             <h4>
               Company:
