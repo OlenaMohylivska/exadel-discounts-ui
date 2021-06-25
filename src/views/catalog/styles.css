@@ -3,6 +3,10 @@
   text-align: center;
 }
 
+.catalog-wrapper{
+  min-height: 100vh;
+}
+
 .container .filter-panel {
   display: flex;
   flex-direction: row;
