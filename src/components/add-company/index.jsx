@@ -128,15 +128,17 @@ const AddCompany = (props) => {
             >
               Save company info
             </Button>
-            <Button
-              variant="secondary"
-              className="btn company-info-btn"
-              onClick={() => {
-                history.goBack()
-              }}
-            >
-              Go back to admin panel
-            </Button>
+            {props.isEdit ? (
+              <Button
+                variant="secondary"
+                className="btn company-info-btn"
+                onClick={() => {
+                  history.goBack()
+                }}
+              >
+                Go back to admin panel
+              </Button>
+            ) : null}
             {props.isEdit ? (
               <Button
                 variant="danger"
