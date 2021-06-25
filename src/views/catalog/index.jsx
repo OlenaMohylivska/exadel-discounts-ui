@@ -79,7 +79,7 @@ const Catalog = () => {
   })
 
   return (
-    <Container>
+    <Container className="catalog-wrapper">
       <h1 className='catalog-title'>Catalog</h1>
       <div className='row filter-panel'>
         <label className='col-lg-5 col-md-12 search-container'>
