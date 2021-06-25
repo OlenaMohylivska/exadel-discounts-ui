@@ -189,9 +189,7 @@ const AddItem = (props) => {
             <h4 className='discount-subtitle'>Select Discount Location:</h4>
             <Select
               options={cityOptions}
-              onChange={(e) => {
-                console.log(e)
-              }}
+              onChange={() => {}}
               isMulti
             />
           </div>

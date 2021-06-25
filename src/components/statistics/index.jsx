@@ -6,6 +6,7 @@ import * as axios from 'axios'
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const Statistics = () => {
 
+  // eslint-disable-next-line no-unused-vars
   const [allOrdersByRatingData, setAllOrdersByRatingData] = useState([])
   const [allOrdersByRating, setAllOrdersByRating] = useState({})
   const [allOrdersByCount, setAllOrdersByCount] = useState({})
@@ -52,7 +53,6 @@ const Statistics = () => {
   }, [])
 
   useEffect(() => {
-    console.log(allOrdersByRatingData)
     setAllOrdersByRating({
       labels: ["Cheap Nikes", "Sushi", "Pizza", "Massage", "Sth else"],
       datasets: [

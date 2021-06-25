@@ -16,55 +16,56 @@ import Tools from "components/tools"
 import EditSlider from "components/edit-slider"
 import Statistics from "components/statistics"
 import Companies from "components/companies"
+import "./styles.scss"
 
 function AppRouter() {
   return (
     <>
-      <Route exact path='/'>
+      <Route exact path="/">
         <Home />
       </Route>
-      <Route path='/login'>
+      <Route path="/login">
         <Login />
       </Route>
-      <Route path='/profile'>
+      <Route path="/profile">
         <Profile />
       </Route>
-      <Route path='/catalog'>
+      <Route path="/catalog">
         <Catalog />
       </Route>
 
-      <Route path='/history-page'>
+      <Route path="/history-page">
         <HistoryPage />
       </Route>
 
-      <Route path='/favourite'>
+      <Route path="/favourite">
         <FavouritePage />
       </Route>
 
-      <Route path='/admin'>
+      <Route path="/admin">
         <Admin />
       </Route>
 
-      <Route path='/admin/add-company'>
+      <Route path="/admin/add-company">
         <AddCompany />
       </Route>
 
-      <Route path='/admin/edit-company/:id'>
+      <Route path="/admin/edit-company/:id">
         <EditCompany />
       </Route>
 
-      <Route path='/admin/add-item'>
+      <Route path="/admin/add-item">
         <AddItem />
       </Route>
-      <Route path='/admin/edit-item/:id'>
+      <Route path="/admin/edit-item/:id">
         <EditItem />
       </Route>
 
-      <Route path='/discount/:id'>
+      <Route path="/discount/:id">
         <DiscountPage />
       </Route>
 
-      <Route path='/admin/tools'>
+      <Route path="/admin/tools">
         <Tools />
       </Route>
 
@@ -72,14 +73,13 @@ function AppRouter() {
         <EditSlider />
       </Route>
 
-      <Route path='/admin/statistics'>
+      <Route path="/admin/statistics">
         <Statistics />
       </Route>
 
-      <Route path='/admin/all-companies'>
+      <Route path="/admin/all-companies">
         <Companies />
       </Route>
-
     </>
   )
 }

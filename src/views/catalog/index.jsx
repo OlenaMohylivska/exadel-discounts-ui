@@ -26,8 +26,8 @@ const productImages = [
   "https://t3.ftcdn.net/jpg/02/56/67/18/240_F_256671837_fpHohurGNgwNW1jqj0hIZ8Lp54OWLkNr.jpg",
   "https://image.freepik.com/free-photo/african-american-woman-experiencing-vr-simulation_53876-98564.jpg",
   "https://as1.ftcdn.net/jpg/02/96/54/62/500_F_296546295_j8CKPzLmQ3xHmD2X7wmivK1m5WnIxo6W.jpg",
-  "https://image.freepik.com/free-photo/pancake-week-shrovetide-rolled-pancakes-stuffed-chicken-meat-vegetables-savory-crepes_2829-20292.jpg"]
-
+  "https://image.freepik.com/free-photo/pancake-week-shrovetide-rolled-pancakes-stuffed-chicken-meat-vegetables-savory-crepes_2829-20292.jpg",
+]
 
 const Catalog = () => {
   const [discounts, setDiscounts] = useState([])
@@ -36,7 +36,14 @@ const Catalog = () => {
   const fetchData = async () => {
     axios
       .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
-      .then((response) => setDiscounts(() => response.data.map((el, index) => ({...el, img: productImages[index]}))))
+      .then((response) =>
+        setDiscounts(() =>
+          response.data.map((el, index) => ({
+            ...el,
+            img: productImages[index],
+          }))
+        )
+      )
   }
   useEffect(() => {
     fetchData()

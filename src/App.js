@@ -17,6 +17,7 @@ function App() {
         <Switch>
           <AppRouter />
         </Switch>
+        <div>Vesrion: 24.06.2021</div>
         <Footer />
       </BrowserRouter>
     </Context.Provider>
