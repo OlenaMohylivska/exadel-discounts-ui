@@ -5,7 +5,7 @@ import FetchError from "components/fetch-error"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import * as axios from "axios"
-import "./styles.css"
+import "./styles.scss"
 
 const productImages = [
   "https://image.freepik.com/free-photo/flat-lay-salad-with-chicken-sesame-seeds_23-2148700369.jpg",
@@ -80,7 +80,7 @@ const Catalog = () => {
 
   return (
     <Container className="catalog-wrapper">
-      <h1 className='catalog-title'>Catalog</h1>
+      <h1 className='catalog-title'>Catalog of discounts</h1>
       <div className='row filter-panel'>
         <label className='col-lg-5 col-md-12 search-container'>
           <div className='search-icon'>

@@ -1,4 +1,5 @@
 import React from "react"
+import Catalog from "views/catalog"
 import Slider from "../../components/slider"
 import "./styles.scss"
 
@@ -6,7 +7,8 @@ function Home() {
   return (
     <div>
       <Slider />
-      <div className="info">
+      <Catalog />
+      {/* <div className="info">
         <div className="about-company-block">
           <img
             src="https://exadel.com/wp-content/uploads/2019/10/illustration.svg"
@@ -31,7 +33,7 @@ function Home() {
             they can choose discounts based on their preferences
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

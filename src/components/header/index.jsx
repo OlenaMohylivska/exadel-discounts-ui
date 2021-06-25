@@ -43,15 +43,6 @@ function Header() {
             >
               Admin panel
             </NavLink>
-
-            <NavLink
-              to="/catalog"
-              className="nav-item"
-              activeClassName="nav-item-active"
-            >
-              Catalog
-            </NavLink>
-
             <NavLink
               to="/history-page"
               className="nav-item"
