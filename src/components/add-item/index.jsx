@@ -6,6 +6,7 @@ import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
 import PropTypes from "prop-types"
+/*eslint-disable */
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -24,6 +25,7 @@ const AddItem = (props) => {
     []
   )
   const [tags, setTags] = useState([])
+  const [category, setCategory] = useState({})
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -32,13 +34,22 @@ const AddItem = (props) => {
     }
   })
 
-  const cityOptions = discountProvidersLocations.map((company) => {
+  const countryOptions = discountProvidersLocations.map((location) => {
     return {
-      value: company.city,
-      label: company.city,
-      id: company.id,
+      value: location.country.name,
+      label: location.country.name,
+      id: location.country.id,
     }
   })
+  let cityOptions = discountProvidersLocations.map((location) => {
+      return {
+        value: location.city,
+        label: location.city,
+        id: location.id,
+      }
+   
+  })
+
   const tagsOptions = tags.map((tag) => {
     return {
       value: tag.name,
@@ -47,12 +58,17 @@ const AddItem = (props) => {
     }
   })
 
+  const categoryOptions = [{ value: "Food", label: "Food" }, { value: "Sport", label: "Sport" }, { value: "Education", label: "Education" }]
+
   const fetchData = async (url, setFunc) => {
     axios.get(baseUrl + url).then((response) => setFunc(response.data))
   }
 
   const handleChange = (e) => {
     return setData({ ...data, [e.target.name]: e.target.value })
+  }
+  const handleChangeCategory = (e) => {
+    setCategory(e)
   }
   const handleChangeTags = (e) => {
     setData({
@@ -143,7 +159,7 @@ const AddItem = (props) => {
   return (
     <Form>
       <div className='discount-container'>
-        <div className='discount-col'>
+        <div className='discount-col '>
           <div className='load-img'>
             <FileUploadPage />
           </div>
@@ -186,13 +202,35 @@ const AddItem = (props) => {
           </div>
           {errors.company ? <Error error={errors.company} /> : ""}
           <div className='discount-provider-location'>
-            <h4 className='discount-subtitle'>Select Discount Location:</h4>
+            <h4 className='discount-subtitle'>Select Country:</h4>
+            <Select
+              required
+              options={countryOptions}
+              onChange={() => {}}
+              required
+            />
+            <h4 className='discount-subtitle'>Select City:</h4>
             <Select
               options={cityOptions}
-              onChange={() => {}}
+              onChange={() => { }}
               isMulti
             />
+            <h4>Enter address:</h4>
+            <InputGroup>
+              <FormControl
+                placeholder='Enter address:'
+                onChange={(e) => handleChange(e)}
+              />
+            </InputGroup>
           </div>
+          <h4 className='discount-subtitle'>Category:</h4>
+          <Select
+            value={category}
+            options={categoryOptions}
+            name='category'
+            onChange={(e) => handleChangeCategory(e)}
+          />
+          {errors.tags ? <Error error={errors.tags} /> : ""}
           <h4 className='discount-subtitle'>Discount Tags:</h4>
           <Select
             isMulti
@@ -233,15 +271,6 @@ const AddItem = (props) => {
             />
           </InputGroup>
           {errors.periodEnd ? <Error error={errors.periodEnd} /> : ""}
-          <h4>Quantity:</h4>
-          <InputGroup>
-            <FormControl
-              name='quantity'
-              value={data.quantity ? data.quantity : ""}
-              onChange={(e) => handleChange(e)}
-              type='number'
-            />
-          </InputGroup>
           <h4>Promo:</h4>
           <InputGroup>
             <FormControl
