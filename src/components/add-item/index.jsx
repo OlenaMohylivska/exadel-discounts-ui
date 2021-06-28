@@ -6,7 +6,6 @@ import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
 import PropTypes from "prop-types"
-/*eslint-disable */
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -42,12 +41,12 @@ const AddItem = (props) => {
     }
   })
   let cityOptions = discountProvidersLocations.map((location) => {
-      return {
-        value: location.city,
-        label: location.city,
-        id: location.id,
-      }
-   
+    return {
+      value: location.city,
+      label: location.city,
+      id: location.id,
+    }
+
   })
 
   const tagsOptions = tags.map((tag) => {
@@ -206,8 +205,7 @@ const AddItem = (props) => {
             <Select
               required
               options={countryOptions}
-              onChange={() => {}}
-              required
+              onChange={() => { }}
             />
             <h4 className='discount-subtitle'>Select City:</h4>
             <Select
