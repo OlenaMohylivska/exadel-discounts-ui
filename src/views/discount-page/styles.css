@@ -41,7 +41,7 @@ p,
 .action {
   display: flex;
   justify-content: space-between;
-  flex-direction: row;
+  text-align: center;
 }
 .show {
   display: block;
