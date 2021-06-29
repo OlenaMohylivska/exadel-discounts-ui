@@ -51,7 +51,7 @@ const EditCompaniesAll = () => {
         </div>
         {newCompany ? <Redirect to="/admin/add-company" /> : ''}
         {companies.map((company) => (
-          <CompanyInfo key={company.id} name={company.name} />
+          <CompanyInfo key={company.id} name={company.name} id={company.id} />
         ))}
       </div>
     </div>

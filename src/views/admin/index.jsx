@@ -3,22 +3,28 @@ import { Tabs, Tab } from 'react-bootstrap'
 import { useRouteMatch, useHistory } from 'react-router-dom'
 
 const Admin = () => {
+  const adminTabs = [
+    { eventKey: "statistics", title: "Statistics" },
+    { eventKey: "add-company", title: "✚ Add company" },
+    { eventKey: "add-item", title: "✚ Add promotion" },
+    { eventKey: "all-companies", title: "All companies" },
+    { eventKey: "tools", title: "Tools" }
+  ]
+
   const { path } = useRouteMatch()
   const history = useHistory()
   const onTabSelected = (eventKey) => history.push(`${path}/${eventKey}`)
+
   useEffect(() => {
-    if(path === "/admin") {
+    if (history.location.pathname === "/admin") {
       history.push(`${path}/statistics`)
     }
   }, [])
+
   return (
     <div className="container">
       <Tabs onSelect={onTabSelected} defaultActiveKey="statistics" transition={false}>
-        <Tab eventKey="statistics" title="Statistics" />
-        <Tab eventKey="add-company" title="✚ Add company" />
-        <Tab eventKey="add-item" title="✚ Add promotion" />
-        <Tab eventKey="all-companies" title="All companies" />
-        <Tab eventKey="tools" title="Tools" />
+        {adminTabs.map((tab) => <Tab eventKey={tab.eventKey} title={tab.title} key={tab.eventKey} />)}
       </Tabs>
     </div>
   )

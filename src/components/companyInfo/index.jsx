@@ -1,8 +1,9 @@
 import React from "react"
 import { Card, Button } from "react-bootstrap"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 
-const CompanyInfo = ({ name }) => {
+const CompanyInfo = ({ name, id }) => {
 
   return (
     <div className="col-lg-12">
@@ -16,12 +17,13 @@ const CompanyInfo = ({ name }) => {
             <Card.Title>{name}</Card.Title>
           </div>
         </Card.Body>
-        <Button
-          variant="primary"
-          className="h-100 px-4 align-self-center"
-        >
-          Update company
-        </Button>
+        <Link to={`/admin/edit-company/${id}`}>
+          <Button
+            variant="primary"
+            className="h-100 px-4 align-self-center">
+            Update company
+          </Button>
+        </Link>
       </Card>
     </div>
   )
@@ -30,5 +32,6 @@ const CompanyInfo = ({ name }) => {
 export default CompanyInfo
 
 CompanyInfo.propTypes = {
-  name: PropTypes.object,
+  name: PropTypes.string,
+  id: PropTypes.number,
 }
