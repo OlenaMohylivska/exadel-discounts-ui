@@ -86,7 +86,7 @@ const Catalog = () => {
   })
 
   return (
-    <Container className="catalog-wrapper">
+    <Container className='catalog-wrapper'>
       <h1 className='catalog-title'>Catalog of discounts</h1>
       <div className='row filter-panel'>
         <label className='col-lg-5 col-md-12 search-container'>
