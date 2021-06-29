@@ -19,7 +19,7 @@ function ProductCard({ elem }) {
     .join("-")
 
   return (
-    <Card className='product-card'>
+    <Card className=' shadow product-card'>
       <Link
         key={elem.id}
         to={{
@@ -28,10 +28,10 @@ function ProductCard({ elem }) {
             image: elem.img,
           },
         }}>
-        <Card.Subtitle className='product-actuality'>
+        <Card.Subtitle className='product-actuality text-muted'>
           expires in {formattedData}
         </Card.Subtitle>
-        <Card.Title className='mb-3'>{elem.name}</Card.Title>
+        <Card.Title className='mb-3 card-title'>{elem.name}</Card.Title>
         <Card.Img variant='top' className='product-image' src={elem.img} />
       </Link>
       <Card.Body className='p-0 d-flex flex-column justify-content-between'>
@@ -39,9 +39,10 @@ function ProductCard({ elem }) {
           <Card.Text className='product-feedback'>{elem.description}</Card.Text>
           <Card.Text className='product-discount'>10%</Card.Text>
         </div>
+
         <div className='product-footer'>
           <StarRatings starDimension='27px' starSpacing='5px' />
-          <Button variant='primary'>Order</Button>
+          <Button variant='dark'>Order</Button>
         </div>
       </Card.Body>
     </Card>

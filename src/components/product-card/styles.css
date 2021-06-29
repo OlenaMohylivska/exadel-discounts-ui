@@ -6,6 +6,13 @@
   border: 1px solid #000;
 }
 
+.card-title{
+  color: rgb(61, 69, 77);
+}
+a{
+  text-decoration: none !important;
+}
+
 .product-image {
   height: 350px;
   object-fit: cover;
