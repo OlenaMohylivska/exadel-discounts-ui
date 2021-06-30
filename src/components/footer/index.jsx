@@ -25,6 +25,7 @@ function Footer() {
               </a>
             </li>
           </ul>
+          <div className="code-version">Version: 30.06.2021</div>
         </div>
         <div className="footer-services">
           <h5>Employee career path</h5>
