@@ -23,23 +23,23 @@ function ProfileUserInfo() {
   return (
     <div className="profile">
       <div className="profile-info">
-        <h4 className="profile-title">Personal Info</h4>
-        <img
+        <h4 className="personal-info-title">Personal Info</h4>
+        <img className="profile-img"
           src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
           alt="user-image"
         />
 
-        <div>First name: John</div>
-        <div>Last name: Brown </div>
+        <div>First name: <span className="filled-in">John</span></div>
+        <div>Last name: <span className="filled-in">Brown </span> </div>
         <div className="location">
           Location:
-          <div className="location-country">country: Ukraine</div>
-          <div>city: Lviv </div>
+          <div className="location-country">country: <span className="filled-in">Ukraine</span></div>
+          <div>city: <span className="filled-in">Lviv</span> </div>
         </div>
       </div>
       <div className="user-subscriptions">
         <h4 className="subscriptions-title">Manage my subscriptions</h4>
-        <h5>Choose by category</h5>
+        <h5 className="subscriptions-title">Choose by category</h5>
         <Select
           className="subscription-category"
           theme="primary75"
@@ -48,7 +48,7 @@ function ProfileUserInfo() {
           value={category}
           placeholder="Select..."
         />
-        <h5>Choose by expiration date</h5>
+        <h5 className="subscriptions-title">Choose by expiration date</h5>
         <InputGroup>
           <FormControl
             type="date"

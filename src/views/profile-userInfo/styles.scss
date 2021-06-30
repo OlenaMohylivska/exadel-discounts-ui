@@ -5,7 +5,7 @@
   justify-content: space-between;
   margin-top: 3rem;
 
-  img {
+  .profile-img {
     max-width: 25%;
     margin-bottom: 1.5rem;
   }
@@ -16,7 +16,11 @@
     padding-left: 2rem;
     flex: 1;
 
-    h4 {
+    .filled-in{
+      font-weight: bold;
+    }
+
+    .personal-info-title {
       margin-left: 0;
     }
 
@@ -34,8 +38,7 @@
     flex-direction: column;
     justify-content: flex-start;
 
-    h4,
-    h5 {
+    .subscriptions-title {
       margin: 1rem 0rem;
       margin-left: 0;
       padding-left: 0;
