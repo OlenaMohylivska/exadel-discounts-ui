@@ -91,9 +91,8 @@ const Catalog = () => {
 
   return (
     <Container className='catalog-wrapper'>
-      <h1 className='catalog-title'>Catalog of discounts</h1>
       <div className='row filter-panel'>
-        <label className='col-lg-5 col-md-12 search-container'>
+        <label className='col-lg-5 col-md-12 search-container padding-right-12px '>
           <div className='search-icon'>
             <Loupe />
           </div>
@@ -103,7 +102,7 @@ const Catalog = () => {
             </Form.Group>
           </Form>
         </label>
-        <div className='catalog-filters col-lg-7 col-md-12'>
+        <div className=' col-lg-7 col-md-12 catalog-filters'>
           <Select
             className='catalog-selects'
             options={citiesOptions}
@@ -122,6 +121,7 @@ const Catalog = () => {
           />
         </div>
       </div>
+      <h1 className='catalog-title'>Catalog of discounts</h1>
       {discounts ? (
         <div className='discounts-wrapper'>
           {discounts.map((el) => {

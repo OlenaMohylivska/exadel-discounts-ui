@@ -5,13 +5,16 @@
 
 .catalog-wrapper {
   min-height: 100vh;
-  background-color: #f7f2f2;
 }
 
 .container .filter-panel {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.filter-panel {
+  width: 100%;
+  padding: 0 0 0 12px;
 }
 
 .search-container {
@@ -54,7 +57,7 @@
 }
 .discounts-wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 15px;
   justify-items: center;
 }

@@ -23,9 +23,7 @@ const AddItem = (props) => {
     show: false,
   })
   const [discountProviders, setDiscountProviders] = useState([])
-  const [discountProvidersLocations, setDiscountProvidersLocations] = useState(
-    []
-  )
+
   const [tags, setTags] = useState([])
   const [category, setCategory] = useState({})
   const companyOptions = discountProviders.map((company) => {
@@ -33,21 +31,6 @@ const AddItem = (props) => {
       value: company.name,
       label: company.name,
       id: company.id,
-    }
-  })
-
-  const countryOptions = discountProvidersLocations.map((location) => {
-    return {
-      value: location.country.name,
-      label: location.country.name,
-      id: location.country.id,
-    }
-  })
-  let cityOptions = discountProvidersLocations.map((location) => {
-    return {
-      value: location.city,
-      label: location.city,
-      id: location.id,
     }
   })
 
@@ -95,9 +78,9 @@ const AddItem = (props) => {
     fetchData("/api/tags", setTags)
   }, [])
 
-  useEffect(() => {
-    fetchData("/api/location/all", setDiscountProvidersLocations)
-  }, [])
+  // useEffect(() => {
+  //   fetchData("/api/location/all", setDiscountProvidersLocations)
+  // }, [])
 
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
@@ -178,7 +161,7 @@ const AddItem = (props) => {
             <FileUploadPage />
           </div>
           <div className='description'>
-            <h3>Description:</h3>
+            <span className='headers'>Description:</span>
             <InputGroup>
               <FormControl
                 as='textarea'
@@ -210,7 +193,7 @@ const AddItem = (props) => {
         </div>
         <div className='col input-fields '>
           <div className='discount-provider-name'>
-            <h4 className='discount-subtitle'>Select Company Name:</h4>
+            <span className='discount-subtitle'>Select Company Name:</span>
             <Select
               options={companyOptions}
               onChange={(e) => {
@@ -219,20 +202,8 @@ const AddItem = (props) => {
             />
           </div>
           {errors.company ? <ValidationError error={errors.company} /> : ""}
-          <div className='discount-provider-location'>
-            <h4 className='discount-subtitle'>Select Country:</h4>
-            <Select required options={countryOptions} onChange={() => {}} />
-            <h4 className='discount-subtitle'>Select City:</h4>
-            <Select options={cityOptions} onChange={() => {}} isMulti />
-            <h4>Enter address:</h4>
-            <InputGroup>
-              <FormControl
-                placeholder='Enter address:'
-                onChange={(e) => handleChange(e)}
-              />
-            </InputGroup>
-          </div>
-          <h4 className='discount-subtitle'>Category:</h4>
+
+          <span className='discount-subtitle headers'>Category:</span>
           <Select
             value={category}
             options={categoryOptions}
@@ -240,14 +211,14 @@ const AddItem = (props) => {
             onChange={(e) => handleChangeCategory(e)}
           />
           {errors.tags ? <ValidationError error={errors.tags} /> : ""}
-          <h4 className='discount-subtitle'>Discount Tags:</h4>
+          <span className='discount-subtitle headers'>Discount Tags:</span>
           <Select
             isMulti
             options={tagsOptions}
             onChange={(e) => handleChangeTags(e)}
           />
           {errors.tags ? <ValidationError error={errors.tags} /> : ""}
-          <h4>Name of discount:</h4>
+          <span className='discount-subtitle headers'>Name of discount:</span>
           <InputGroup>
             <FormControl
               size='sm'
@@ -259,8 +230,8 @@ const AddItem = (props) => {
           </InputGroup>
           {errors.name ? <ValidationError error={errors.name} /> : ""}
 
-          <h4>Terms:</h4>
-          <h5 className='date-headers'>From:</h5>
+          <span className='discount-subtitle headers'>Terms:</span>
+          <span className='date-headers'>From:</span>
           <InputGroup>
             <FormControl
               type='date'
@@ -274,7 +245,7 @@ const AddItem = (props) => {
           ) : (
             ""
           )}
-          <h5 className='date-headers'>To:</h5>
+          <span className='date-headers'>To:</span>
           <InputGroup>
             <FormControl
               type='date'
@@ -284,7 +255,7 @@ const AddItem = (props) => {
             />
           </InputGroup>
           {errors.periodEnd ? <ValidationError error={errors.periodEnd} /> : ""}
-          <h4>Promo:</h4>
+          <span className='discount-subtitle headers'>Promo:</span>
           <InputGroup>
             <FormControl
               placeholder='Fill the name of promo'
