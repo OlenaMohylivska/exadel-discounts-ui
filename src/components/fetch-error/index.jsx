@@ -5,7 +5,7 @@ const FetchError = () => {
   return (
     <>
       <div className='error-text'>
-        Sorry have some problems with server. Please, be patient waiting for
+        Sorry have some problems with server. Please, be patient and wait for
         fixing... Okay?
       </div>
       <img
