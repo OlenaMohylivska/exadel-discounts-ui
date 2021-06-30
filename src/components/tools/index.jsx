@@ -43,7 +43,7 @@ const Tools = () => {
               <Form className="d-flex flex-row">
                 <Form.Control
                   placeholder="Enter new tag"
-                  value={newTag.name ? newTag.name : ""}
+                  value={ newTag.name || "" }
                   onChange={(e) => setNewTag({ name: e.target.value })}
                   type="text"
                   className="tag-input"
@@ -57,7 +57,7 @@ const Tools = () => {
               <Form className="d-flex flex-row">
                 <Form.Control
                   placeholder="Enter new category"
-                  value={newCategory.name ? newCategory.name : ""}
+                  value={ newCategory.name || "" }
                   onChange={(e) => setNewCategory({ name: e.target.value })}
                   type="text"
                   className="tag-input"
