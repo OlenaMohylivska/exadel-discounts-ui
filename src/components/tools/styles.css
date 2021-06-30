@@ -1,20 +1,18 @@
 .tags {
-  height: 50%;
-  margin-top: 10px;
-  padding: 10px;
+  margin: 0 45px;
+  /* padding: 10px; */
   text-align: start;
-  overflow-y: scroll;
 }
 
 .tag-container {
-  margin: 20px 0;
+  margin-left: 50px;
+}
+
+.tag-wrapper {
+  margin: 10px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
-
-.tag-container > div {
-  margin-right: 10px;
 }
 
 .tag-input {
