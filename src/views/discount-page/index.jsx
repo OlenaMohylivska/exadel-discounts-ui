@@ -46,7 +46,7 @@ const DiscountPage = () => {
             <h3>Discount Name:{discount.name}</h3>
             <h4>
               Company:
-              {discount.company.name ? discount.company.name : ""}
+              {discount.company ? discount.company : ""}
             </h4>
             <h4>Tags:{discount.tags.map((tag) => ` ${tag.name};`)}</h4>
             <h4>Location:</h4>
