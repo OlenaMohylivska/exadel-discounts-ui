@@ -34,3 +34,7 @@
 .btn-correction {
   width: 100%;
 }
+.fetch-tags-error {
+  font-size: 24px;
+  padding-left: 10px;
+}

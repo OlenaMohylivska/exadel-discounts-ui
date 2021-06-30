@@ -12,8 +12,9 @@ const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const location = useLocation()
-  const { image } = location.state
+  const { image } = location.state ? location.state : ""
   const { id } = useParams()
   const fetchData = async () => {
     setLoading(true)
@@ -23,7 +24,7 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
-      throw new Error(e.message)
+      setErrorMessage(e.message)
     } finally {
       setLoading(false)
     }
@@ -81,7 +82,7 @@ const DiscountPage = () => {
           </div>
         </div>
       ) : (
-        <FetchError />
+        <FetchError error={errorMessage ? errorMessage : ""} />
       )}
     </>
   )

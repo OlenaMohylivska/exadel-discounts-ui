@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react"
-import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
+import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
 import axios from "axios"
@@ -15,6 +15,10 @@ const AddCompany = (props) => {
   const [country, setCountry] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
+  const [companyPostError, setCompanyPostError] = useState({
+    error: null,
+    show: false,
+  })
 
   const history = useHistory()
 
@@ -61,14 +65,18 @@ const AddCompany = (props) => {
     axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`)
   }
 
-  function saveCompanyChanges(id) {
-    axios.put(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`, {
-      id: id,
-      modified: null,
-      modifiedBy: null,
-      name: companyName,
-      locations: location.map((el) => ({ ...el })),
-    })
+  async function saveCompanyChanges(id) {
+    try {
+      axios.put(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`, {
+        id: id,
+        modified: null,
+        modifiedBy: null,
+        name: companyName,
+        locations: location.map((el) => ({ ...el })),
+      })
+    } catch (e) {
+      setCompanyPostError({ error: e.message, show: true })
+    }
   }
 
   const companyNameHandler = (e) => {
@@ -85,69 +93,74 @@ const AddCompany = (props) => {
 
   return (
     <Form>
-      <div className="container">
-        <div className="col">
-          <div className="company-logo">
+      <div className='container'>
+        <div className='col'>
+          <div className='company-logo'>
             <FileUploadPage />
           </div>
-          <div className="company-additional-info">
-            <div className="company-name">
-              <h4 className="company-info-subtitle">Company Name</h4>
+          <div className='company-additional-info'>
+            <div className='company-name'>
+              <h4 className='company-info-subtitle'>Company Name</h4>
               <InputGroup>
+                <Toast
+                  show={companyPostError.show}
+                  autohide
+                  onClose={() => {
+                    setCompanyPostError({ show: false, error: null })
+                  }}>
+                  <Toast.Body>{companyPostError.error}</Toast.Body>
+                </Toast>
                 <FormControl
                   value={companyName}
-                  name="company-name"
+                  name='company-name'
                   onChange={companyNameHandler}
-                  className="form-field"
+                  className='form-field'
                 />
               </InputGroup>
             </div>
-            <div className="company-address ">
-              <h4 className="company-info-subtitle">City</h4>
+            <div className='company-address '>
+              <h4 className='company-info-subtitle'>City</h4>
               <Select
                 value={props.isEdit && city}
-                className="address-field"
+                className='address-field'
                 isMulti
                 onChange={companyCityHandler}
                 options={citiesOptions}
               />
-              <h4 className="company-info-subtitle">Country</h4>
+              <h4 className='company-info-subtitle'>Country</h4>
               <Select
                 value={props.isEdit && country}
-                className="address-field"
+                className='address-field'
                 onChange={companyCountryHandler}
                 options={countryOptions}
               />
             </div>
           </div>
-          <div className="btn-field d-flex justify-content-between">
+          <div className='btn-field d-flex justify-content-between'>
             <Button
-              variant="primary"
-              className="btn company-info-btn"
-              onClick={() => saveCompanyChanges(props.company.id)}
-            >
+              variant='primary'
+              className='btn company-info-btn'
+              onClick={() => saveCompanyChanges(props.company.id)}>
               Save company info
             </Button>
             {props.isEdit ? (
               <Button
-                variant="secondary"
-                className="btn company-info-btn"
+                variant='secondary'
+                className='btn company-info-btn'
                 onClick={() => {
                   history.goBack()
-                }}
-              >
+                }}>
                 Go back to admin panel
               </Button>
             ) : null}
             {props.isEdit ? (
               <Button
-                variant="danger"
-                className="btn company-info-btn mx-3"
+                variant='danger'
+                className='btn company-info-btn mx-3'
                 onClick={() => {
                   toggleModal()
                   deleteCompany(props.company.id)
-                }}
-              >
+                }}>
                 Delete company
               </Button>
             ) : null}
@@ -158,7 +171,7 @@ const AddCompany = (props) => {
         <CustomModalWindow
           show={show}
           handleClose={toggleModal}
-          modalText="Company has been deleted"
+          modalText='Company has been deleted'
         />
       )}
     </Form>

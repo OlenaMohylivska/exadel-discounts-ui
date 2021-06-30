@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react"
 import ProductCard from "components/product-card"
 import { Form, Container } from "react-bootstrap"
-import FetchError from "components/fetch-error"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import * as axios from "axios"
@@ -30,20 +29,25 @@ const productImages = [
 ]
 
 const Catalog = () => {
-  const [discounts, setDiscounts] = useState([])
+  const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
+  const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const fetchData = async () => {
-    axios
-      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
-      .then((response) =>
-        setDiscounts(() =>
-          response.data.map((el, index) => ({
-            ...el,
-            img: productImages[index],
-          }))
+    try {
+      await axios
+        .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
+        .then((response) =>
+          setDiscounts(() =>
+            response.data.map((el, index) => ({
+              ...el,
+              img: productImages[index],
+            }))
+          )
         )
-      )
+    } catch (e) {
+      setDiscountsFetchError(e.message)
+    }
   }
   useEffect(() => {
     fetchData()
@@ -118,15 +122,17 @@ const Catalog = () => {
           />
         </div>
       </div>
-      <div className='discounts-wrapper'>
-        {discounts ? (
-          discounts.map((el) => {
+      {discounts ? (
+        <div className='discounts-wrapper'>
+          {discounts.map((el) => {
             return <ProductCard elem={el} key={el.id} />
-          })
-        ) : (
-          <FetchError />
-        )}
-      </div>
+          })}
+        </div>
+      ) : (
+        <div className='fetch-error-info'>
+          Sorry no info, {discountsFetchError ? discountsFetchError : ""}
+        </div>
+      )}
     </Container>
   )
 }
