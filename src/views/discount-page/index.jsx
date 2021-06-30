@@ -39,7 +39,7 @@ const DiscountPage = () => {
         <div className='container discount-container flex-wrap'>
           <div className='col-lg-6 col-md-12'>
             <div className='img-container'>
-              <img src={image} className="discount-image" alt="discount-img" />
+              <img src={image} className='discount-image' alt='discount-img' />
             </div>
           </div>
           <div className='col-lg-6 col-md-12'>
