@@ -21,7 +21,6 @@ function App() {
         <Switch>
           <AppRouter />
         </Switch>
-        <div>Version: 25.06.2021</div>
         <Footer />
       </BrowserRouter>
     </Context.Provider>
