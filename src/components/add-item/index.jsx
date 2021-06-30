@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
+import { Button, Form, FormControl, InputGroup, Container, Col, Row } from "react-bootstrap"
 import Error from "../error"
 import "./styles.scss"
 import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
 import PropTypes from "prop-types"
-
+/*eslint-disable */
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const AddItem = (props) => {
@@ -157,12 +157,89 @@ const AddItem = (props) => {
 
   return (
     <Form>
-      <div className='discount-container'>
-        <div className='discount-col '>
-          <div className='load-img'>
-            <FileUploadPage />
-          </div>
-          <div className='description'>
+      <Container className='mx-auto'>
+        <Row className='mx-auto fields-wrapper load-img'>
+          <FileUploadPage />
+        </Row>
+
+          <Row className='fields-wrapper w-75 mx-auto'>
+            <Col>
+              <h4 className='discount-subtitle'>Select Company Name:</h4>
+              <Select
+                options={companyOptions}
+                onChange={(e) => {
+                  handleChangeCompanies(e)
+                }}
+              />
+            </Col>
+          </Row>
+          {errors.company ? <Error error={errors.company} /> : ""}
+          <Row className='fields-wrapper'>
+            <Col className='px-3'>
+              <h4 className='discount-subtitle'>Select Country:</h4>
+              <Select
+                required
+                options={countryOptions}
+                onChange={() => { }}
+              />
+            </Col>
+            <Col className='px-3'>
+              <h4 className='discount-subtitle'>Select City:</h4>
+              <Select
+                options={cityOptions}
+                onChange={() => { }}
+                isMulti
+              />
+            </Col>
+            <Col className='px-3'>
+              <h4>Enter address:</h4>
+              <InputGroup>
+                <FormControl
+                  placeholder='Enter address:'
+                  onChange={(e) => handleChange(e)}
+                />
+              </InputGroup>
+            </Col>
+          </Row>
+          <Row className='fields-wrapper'>
+            <Col className='px-3'>
+              <h4 className='discount-subtitle'>Category:</h4>
+              <Select
+                value={category}
+                options={categoryOptions}
+                name='category'
+                onChange={(e) => handleChangeCategory(e)}
+              />
+              {errors.tags ? <Error error={errors.tags} /> : ""}
+            </Col>
+            <Col className='px-3'>
+              <h4 className='discount-subtitle'>Discount Tags:</h4>
+              <Select
+                isMulti
+                options={tagsOptions}
+                onChange={(e) => handleChangeTags(e)}
+              />
+              {errors.tags ? <Error error={errors.tags} /> : ""}
+            </Col>
+          </Row>
+          <Row className='fields-wrapper w-75 mx-auto'>
+            <Col className='px-3'>
+              <h4>Name of discount:</h4>
+              <InputGroup>
+                <FormControl
+                  placeholder='Fill the name of discount,first letter must be uppercase'
+                  name='name'
+                  value={data.name ? data.name : ""}
+                  onChange={(e) => handleChange(e)}
+                />
+              </InputGroup>
+              {errors.name ? <Error error={errors.name} /> : ""}
+
+            </Col>
+          </Row>
+
+        <Row className='fields-wrapper align-items-center'>
+          <Col className='px-3'>
             <h3>Description:</h3>
             <InputGroup>
               <FormControl
@@ -175,113 +252,67 @@ const AddItem = (props) => {
               />
             </InputGroup>
             {errors.description ? <Error error={errors.description} /> : ""}
-          </div>
+          </Col>
+          <Col className='px-3'>
+            <Col className='fields-wrapper justify-content-around'>
+              <div>
+                <h5 className='date-headers'>From:</h5>
+                <InputGroup>
+                  <FormControl
+                    type='date'
+                    name='periodStart'
+                    value={data.periodStart ? data.periodStart : ""}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </InputGroup>
+                {errors.periodStart ? <Error error={errors.periodStart} /> : ""}
+              </div>
+              <div>
+                <h5 className='date-headers'>To:</h5>
+                <InputGroup>
+                  <FormControl
+                    type='date'
+                    name='periodEnd'
+                    value={data.periodEnd ? data.periodEnd : ""}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </InputGroup>
+                {errors.periodEnd ? <Error error={errors.periodEnd} /> : ""}
+              </div>
+            </Col>
+            <Col>
+              <h4>Promo:</h4>
+              <InputGroup>
+                <FormControl
+                  placeholder='Fill the name of promo'
+                  name='promoCode'
+                  onChange={(e) => handleChange(e)}
+                  value={data.promoCode ? data.promoCode : ""}
+                />
+              </InputGroup>
 
-          <div className='btn-field'>
-            <Button
-              variant='primary'
-              className='btn'
-              onClick={props.isEditable ? () => edit() : () => submit()}>
-              Save
-            </Button>
-            <Button variant='danger' onClick={() => reset()} className='btn'>
-              Reset
-            </Button>
-          </div>
-        </div>
-        <div className='col input-fields '>
-          <div className='discount-provider-name'>
-            <h4 className='discount-subtitle'>Select Company Name:</h4>
-            <Select
-              options={companyOptions}
-              onChange={(e) => {
-                handleChangeCompanies(e)
-              }}
-            />
-          </div>
-          {errors.company ? <Error error={errors.company} /> : ""}
-          <div className='discount-provider-location'>
-            <h4 className='discount-subtitle'>Select Country:</h4>
-            <Select
-              required
-              options={countryOptions}
-              onChange={() => { }}
-            />
-            <h4 className='discount-subtitle'>Select City:</h4>
-            <Select
-              options={cityOptions}
-              onChange={() => { }}
-              isMulti
-            />
-            <h4>Enter address:</h4>
-            <InputGroup>
-              <FormControl
-                placeholder='Enter address:'
-                onChange={(e) => handleChange(e)}
-              />
-            </InputGroup>
-          </div>
-          <h4 className='discount-subtitle'>Category:</h4>
-          <Select
-            value={category}
-            options={categoryOptions}
-            name='category'
-            onChange={(e) => handleChangeCategory(e)}
-          />
-          {errors.tags ? <Error error={errors.tags} /> : ""}
-          <h4 className='discount-subtitle'>Discount Tags:</h4>
-          <Select
-            isMulti
-            options={tagsOptions}
-            onChange={(e) => handleChangeTags(e)}
-          />
-          {errors.tags ? <Error error={errors.tags} /> : ""}
-          <h4>Name of discount:</h4>
-          <InputGroup>
-            <FormControl
-              size='sm'
-              placeholder='Fill the name of discount,first letter must be uppercase'
-              name='name'
-              value={data.name ? data.name : ""}
-              onChange={(e) => handleChange(e)}
-            />
-          </InputGroup>
-          {errors.name ? <Error error={errors.name} /> : ""}
+              {errors.promoCode ? <Error error={errors.promoCode} /> : ""}
+            </Col>
 
-          <h4>Terms:</h4>
-          <h5 className='date-headers'>From:</h5>
-          <InputGroup>
-            <FormControl
-              type='date'
-              name='periodStart'
-              value={data.periodStart ? data.periodStart : ""}
-              onChange={(e) => handleChange(e)}
-            />
-          </InputGroup>
-          {errors.periodStart ? <Error error={errors.periodStart} /> : ""}
-          <h5 className='date-headers'>To:</h5>
-          <InputGroup>
-            <FormControl
-              type='date'
-              name='periodEnd'
-              value={data.periodEnd ? data.periodEnd : ""}
-              onChange={(e) => handleChange(e)}
-            />
-          </InputGroup>
-          {errors.periodEnd ? <Error error={errors.periodEnd} /> : ""}
-          <h4>Promo:</h4>
-          <InputGroup>
-            <FormControl
-              placeholder='Fill the name of promo'
-              name='promoCode'
-              onChange={(e) => handleChange(e)}
-              value={data.promoCode ? data.promoCode : ""}
-            />
-          </InputGroup>
+          </Col>
 
-          {errors.promoCode ? <Error error={errors.promoCode} /> : ""}
-        </div>
-      </div>
+        </Row>
+        <Row className='fields-wrapper '>
+          <Col className='btn-field'>
+              <Button
+                variant='primary'
+                className='btn'
+                onClick={props.isEditable ? () => edit() : () => submit()}>
+                Save
+              </Button>
+              <Button variant='danger' onClick={() => reset()} className='btn'>
+                Reset
+              </Button>
+          </Col>
+
+        </Row>
+
+      </Container>
     </Form>
   )
 }
