@@ -1,10 +1,10 @@
-import React from "react"
-import { Container, Nav, Navbar, NavbarBrand } from "react-bootstrap"
-import { NavLink } from "react-router-dom"
-import Logo from "../icons/logo.png"
-import "./styles.scss"
-import NavbarToggle from "react-bootstrap/esm/NavbarToggle"
-import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse"
+import React from "react";
+import { Container, Nav, Navbar, NavbarBrand } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import Logo from "../icons/logo.png";
+import "./styles.scss";
+import NavbarToggle from "react-bootstrap/esm/NavbarToggle";
+import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
 
 function Header() {
   return (
@@ -70,7 +70,7 @@ function Header() {
         </NavbarCollapse>
       </Container>
     </Navbar>
-  )
+  );
 }
 
-export default Header
+export default Header;

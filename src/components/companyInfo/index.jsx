@@ -1,10 +1,9 @@
-import React from "react"
-import { Card, Button } from "react-bootstrap"
-import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Card, Button } from "react-bootstrap";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const CompanyInfo = ({ name, id }) => {
-
   return (
     <div className="col-lg-12">
       <Card className="d-flex flex-lg-row flex-md-row flex-sm-column w-100 mt-3 p-2 align-items-center position-relative">
@@ -18,20 +17,18 @@ const CompanyInfo = ({ name, id }) => {
           </div>
         </Card.Body>
         <Link to={`/admin/edit-company/${id}`}>
-          <Button
-            variant="primary"
-            className="h-100 px-4 align-self-center">
+          <Button variant="primary" className="h-100 px-4 align-self-center">
             Update company
           </Button>
         </Link>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default CompanyInfo
+export default CompanyInfo;
 
 CompanyInfo.propTypes = {
   name: PropTypes.string,
   id: PropTypes.number,
-}
+};

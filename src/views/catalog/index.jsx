@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react"
-import ProductCard from "components/product-card"
-import { Form, Container } from "react-bootstrap"
-import Loupe from "components/icons/Loupe"
-import Select from "react-select"
-import * as axios from "axios"
-import "./styles.scss"
+import React, { useState, useEffect, useMemo } from "react";
+import ProductCard from "components/product-card";
+import { Form, Container } from "react-bootstrap";
+import Loupe from "components/icons/Loupe";
+import Select from "react-select";
+import * as axios from "axios";
+import "./styles.scss";
 
 const productImages = [
   "https://image.freepik.com/free-photo/flat-lay-salad-with-chicken-sesame-seeds_23-2148700369.jpg",
@@ -26,13 +26,13 @@ const productImages = [
   "https://image.freepik.com/free-photo/african-american-woman-experiencing-vr-simulation_53876-98564.jpg",
   "https://as1.ftcdn.net/jpg/02/96/54/62/500_F_296546295_j8CKPzLmQ3xHmD2X7wmivK1m5WnIxo6W.jpg",
   "https://image.freepik.com/free-photo/pancake-week-shrovetide-rolled-pancakes-stuffed-chicken-meat-vegetables-savory-crepes_2829-20292.jpg",
-]
+];
 
 const Catalog = () => {
-  const [discounts, setDiscounts] = useState(null)
-  const [searchLocation, setSearchLocation] = useState([])
-  const [filterTags, setFilterTags] = useState([])
-  const [discountsFetchError, setDiscountsFetchError] = useState(null)
+  const [discounts, setDiscounts] = useState(null);
+  const [searchLocation, setSearchLocation] = useState([]);
+  const [filterTags, setFilterTags] = useState([]);
+  const [discountsFetchError, setDiscountsFetchError] = useState(null);
   const fetchData = async () => {
     try {
       await axios
@@ -44,97 +44,97 @@ const Catalog = () => {
               img: productImages[index],
             }))
           )
-        )
+        );
     } catch (e) {
-      setDiscountsFetchError(e.message)
+      setDiscountsFetchError(e.message);
     }
-  }
+  };
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all";
     axios.get(apiUrl).then((resp) => {
-      setSearchLocation(resp.data)
-    })
-  }, [])
+      setSearchLocation(resp.data);
+    });
+  }, []);
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/";
     axios.get(apiUrl).then((res) => {
-      setFilterTags(res.data)
-    })
-  }, [])
+      setFilterTags(res.data);
+    });
+  }, []);
 
-  const sortingByRate = ["Top rated"]
+  const sortingByRate = ["Top rated"];
 
   const citiesOptions = useMemo(() => {
     return searchLocation.map((location) => ({
       label: location.city,
       value: location.city,
-    }))
-  }, [searchLocation])
+    }));
+  }, [searchLocation]);
 
   const categoriesOptions = filterTags.map((el) => {
     return {
       value: el.name,
       label: el.name,
-    }
-  })
+    };
+  });
 
   const sortingOptions = sortingByRate.map((el) => {
     return {
       value: el,
       label: el,
-    }
-  })
+    };
+  });
 
   return (
-    <Container className='catalog-wrapper'>
-      <div className='row filter-panel'>
-        <label className='col-lg-5 col-md-12 search-container padding-right-12px '>
-          <div className='search-icon'>
+    <Container className="catalog-wrapper">
+      <div className="row filter-panel">
+        <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
+          <div className="search-icon">
             <Loupe />
           </div>
-          <Form className='search-input'>
-            <Form.Group controlId='exampleForm.ControlInput1'>
-              <Form.Control type='text' placeholder='Enter your search' />
+          <Form className="search-input">
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Control type="text" placeholder="Enter your search" />
             </Form.Group>
           </Form>
         </label>
-        <div className=' col-lg-7 col-md-12 catalog-filters'>
+        <div className=" col-lg-7 col-md-12 catalog-filters">
           <Select
-            className='catalog-selects'
+            className="catalog-selects"
             options={citiesOptions}
-            placeholder='Location'
+            placeholder="Location"
           />
           <Select
-            className='catalog-selects'
+            className="catalog-selects"
             isMulti
             options={categoriesOptions}
-            placeholder='Categories'
+            placeholder="Categories"
           />
           <Select
-            className='catalog-selects'
+            className="catalog-selects"
             options={sortingOptions}
-            placeholder='Sorting by...'
+            placeholder="Sorting by..."
           />
         </div>
       </div>
-      <h1 className='catalog-title'>Catalog of discounts</h1>
+      <h1 className="catalog-title">Catalog of discounts</h1>
       {discounts ? (
-        <div className='discounts-wrapper'>
+        <div className="discounts-wrapper">
           {discounts.map((el) => {
-            return <ProductCard elem={el} key={el.id} />
+            return <ProductCard elem={el} key={el.id} />;
           })}
         </div>
       ) : (
-        <div className='fetch-error-info'>
+        <div className="fetch-error-info">
           Sorry no info, {discountsFetchError ? discountsFetchError : ""}
         </div>
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default Catalog
+export default Catalog;

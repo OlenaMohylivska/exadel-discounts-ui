@@ -1,6 +1,6 @@
-import React from "react"
-import { Facebook, Twitter, Linkedin } from "react-bootstrap-icons"
-import "./styles.scss"
+import React from "react";
+import { Facebook, Twitter, Linkedin } from "react-bootstrap-icons";
+import "./styles.scss";
 
 function Footer() {
   return (
@@ -52,7 +52,7 @@ function Footer() {
       </div>
       <div className="footer-socials"></div>
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

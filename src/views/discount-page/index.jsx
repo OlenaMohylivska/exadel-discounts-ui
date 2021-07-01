@@ -1,49 +1,49 @@
-import React, { useState, useEffect } from "react"
-import { useParams, useLocation } from "react-router"
-import { Button } from "react-bootstrap"
-import StarRatings from "react-star-ratings"
-import * as axios from "axios"
-import FetchError from "../../components/fetch-error"
-import "./styles.css"
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router";
+import { Button } from "react-bootstrap";
+import StarRatings from "react-star-ratings";
+import * as axios from "axios";
+import FetchError from "../../components/fetch-error";
+import "./styles.css";
 
-const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
 
 const DiscountPage = () => {
-  const [discount, setDiscount] = useState(null)
-  const [show, setShow] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(null)
-  const location = useLocation()
-  const { image } = location.state ? location.state : ""
-  const { id } = useParams()
+  const [discount, setDiscount] = useState(null);
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const location = useLocation();
+  const { image } = location.state ? location.state : "";
+  const { id } = useParams();
   const fetchData = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await axios
         .get(`${baseUrl}/api/discounts/${id}`)
-        .then((response) => setDiscount(response.data))
-      setLoading(false)
+        .then((response) => setDiscount(response.data));
+      setLoading(false);
     } catch (e) {
-      setErrorMessage(e.message)
+      setErrorMessage(e.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <>
       {loading ? <div>Loading</div> : ""}
       {discount ? (
-        <div className='container discount-container flex-wrap'>
-          <div className='col-lg-6 col-md-12'>
-            <div className='img-container'>
-              <img src={image} className='discount-image' alt='discount-img' />
+        <div className="container discount-container flex-wrap">
+          <div className="col-lg-6 col-md-12">
+            <div className="img-container">
+              <img src={image} className="discount-image" alt="discount-img" />
             </div>
           </div>
-          <div className='col-lg-6 col-md-12'>
+          <div className="col-lg-6 col-md-12">
             <h3>Discount Name:{discount.name}</h3>
             <h4>
               Company:
@@ -67,14 +67,14 @@ const DiscountPage = () => {
             </h4>
             <h4>Description:</h4>
             <p>{discount.description}</p>
-            <div className='rates'>
-              <StarRatings starDimension='27px' starSpacing='5px' />
+            <div className="rates">
+              <StarRatings starDimension="27px" starSpacing="5px" />
             </div>
-            <div className='action'>
-              <Button onClick={() => setShow(!show)} variant='primary'>
+            <div className="action">
+              <Button onClick={() => setShow(!show)} variant="primary">
                 Order
               </Button>
-              <Button variant='dark'>Feedbacks</Button>
+              <Button variant="dark">Feedbacks</Button>
             </div>
             <div className={`${!show ? "hide" : "display"}`}>
               {discount.promoCode}
@@ -85,7 +85,7 @@ const DiscountPage = () => {
         <FetchError error={errorMessage ? errorMessage : ""} />
       )}
     </>
-  )
-}
+  );
+};
 
-export default DiscountPage
+export default DiscountPage;
