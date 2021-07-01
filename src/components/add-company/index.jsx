@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react"
-import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
+import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
 import axios from "axios"
@@ -16,6 +16,10 @@ const AddCompany = (props) => {
   const [address, setAddress] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
+  const [companyPostError, setCompanyPostError] = useState({
+    error: null,
+    show: false,
+  })
 
   const history = useHistory()
 
@@ -62,14 +66,18 @@ const AddCompany = (props) => {
     axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`)
   }
 
-  function saveCompanyChanges(id) {
-    axios.put(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`, {
-      id: id,
-      modified: null,
-      modifiedBy: null,
-      name: companyName,
-      locations: location.map((el) => ({ ...el })),
-    })
+  async function saveCompanyChanges(id) {
+    try {
+      axios.put(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`, {
+        id: id,
+        modified: null,
+        modifiedBy: null,
+        name: companyName,
+        locations: location.map((el) => ({ ...el })),
+      })
+    } catch (e) {
+      setCompanyPostError({ error: e.message, show: true })
+    }
   }
 
   const companyNameHandler = (e) => {
@@ -99,6 +107,15 @@ const AddCompany = (props) => {
             <div className="company-name">
               <h4 className="company-info-subtitle">Company Name</h4>
               <InputGroup>
+                <Toast
+                  show={companyPostError.show}
+                  autohide
+                  onClose={() => {
+                    setCompanyPostError({ show: false, error: null })
+                  }}
+                >
+                  <Toast.Body>{companyPostError.error}</Toast.Body>
+                </Toast>
                 <FormControl
                   value={companyName}
                   name="company-name"

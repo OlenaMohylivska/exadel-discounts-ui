@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
-import { Line, Bar, Doughnut, Pie } from 'react-chartjs-2'
-import * as axios from 'axios'
+import React, { useState, useEffect } from "react"
+import { Col, Container, Row } from "react-bootstrap"
+import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
+import * as axios from "axios"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const Statistics = () => {
-
   // eslint-disable-next-line no-unused-vars
   const [allOrdersByRatingData, setAllOrdersByRatingData] = useState([])
   const [allOrdersByRating, setAllOrdersByRating] = useState({})
@@ -14,7 +13,15 @@ const Statistics = () => {
 
   /*1 */
   const ordersOfEachCompanyForWeek = {
-    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    labels: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ],
     datasets: [
       {
         label: "How many discounts were used this week",
@@ -31,8 +38,8 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => { }
-      }
+        onClick: () => {},
+      },
     },
     scales: {
       yAxes: [
@@ -46,10 +53,9 @@ const Statistics = () => {
   }
   /*2 */
   useEffect(() => {
-    axios.get(baseUrl + "/api/discounts/all")
-      .then(response => {
-        setAllOrdersByRatingData(response.data)
-      })
+    axios.get(baseUrl + "/api/discounts/all").then((response) => {
+      setAllOrdersByRatingData(response.data)
+    })
   }, [])
 
   useEffect(() => {
@@ -71,8 +77,8 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => { }
-      }
+        onClick: () => {},
+      },
     },
   }
 
@@ -91,7 +97,7 @@ const Statistics = () => {
   }, [])
   const roundChartsOptions = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   }
 
   /*4 */
@@ -100,10 +106,15 @@ const Statistics = () => {
       labels: ["Cheap Nikes", "Sushi", "Pizza", "Massage", "Sth else"],
       datasets: [
         {
-
           data: [19, 44, 32, 70, 39],
 
-          backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff00b3"],
+          backgroundColor: [
+            "#2f1bb2",
+            "#540d72",
+            "#0bc1e1",
+            "#d349e2",
+            "#ff00b3",
+          ],
         },
       ],
     })
@@ -113,23 +124,43 @@ const Statistics = () => {
     <Container>
       <Row className="my-4">
         <Col>
-          <Line data={ordersOfEachCompanyForWeek} height={300} options={ordersOfEachCompanyForWeekOptions} />
+          <Line
+            data={ordersOfEachCompanyForWeek}
+            height={300}
+            options={ordersOfEachCompanyForWeekOptions}
+          />
         </Col>
         <Col>
-          <Bar data={allOrdersByRating} height={300} options={allOrdersByRatingOptions} />
+          <Bar
+            data={allOrdersByRating}
+            height={300}
+            options={allOrdersByRatingOptions}
+          />
         </Col>
       </Row>
       <Row>
-        <Col >
-          <p className="text-center mb-3 font-size-14">How many orders each company has</p>
+        <Col>
+          <p className="text-center mb-3 font-size-14">
+            How many orders each company has
+          </p>
           <div>
-            <Doughnut data={ordersOfEachCompany} height={250} options={roundChartsOptions} />
+            <Doughnut
+              data={ordersOfEachCompany}
+              height={250}
+              options={roundChartsOptions}
+            />
           </div>
         </Col>
         <Col>
-          <p className="text-center mb-3 font-size-14">How many discounts were bought(in general)</p>
+          <p className="text-center mb-3 font-size-14">
+            How many discounts were bought(in general)
+          </p>
           <div>
-            <Pie data={allOrdersByCount} height={250} options={roundChartsOptions} />
+            <Pie
+              data={allOrdersByCount}
+              height={250}
+              options={roundChartsOptions}
+            />
           </div>
         </Col>
       </Row>

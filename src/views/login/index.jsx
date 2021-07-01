@@ -26,16 +26,19 @@ function Login() {
         <Form>
           <Form.Group className="form-item" controlId="formBasicEmail">
             <Form.Label>Enter your login</Form.Label>
+
             <Form.Control
               type="text"
               placeholder="Login"
               value={login}
               onChange={(event) => onLoginChange(event)}
             />
+
           </Form.Group>
 
           <Form.Group className="form-item" controlId="formBasicPassword">
             <Form.Label>Enter your password</Form.Label>
+
             <Form.Control
               type={passwordVisible ? "text" : "password"}
               placeholder="Password"
@@ -50,6 +53,7 @@ function Login() {
 
           <div className="d-flex justify-content-center">
             <Button className="btn-md px-5 mt-3" variant="dark" type="submit">
+
               Log in
             </Button>
           </div>
