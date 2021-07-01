@@ -33,6 +33,7 @@ const EditSlider = () => {
     <div className="container">
       <div className="row">
         <div className="col-lg-12">
+          <h3 className="mt-4 text-center">Edit Slider</h3>
           <div className="d-flex justify-content-center my-3">
             <div>
               <div className="input-wrapper">

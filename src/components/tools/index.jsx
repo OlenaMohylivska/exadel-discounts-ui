@@ -1,14 +1,14 @@
-import { Button, Form } from "react-bootstrap"
-import React, { useState, useEffect } from "react"
-import * as axios from "axios"
+import React, { useState, useEffect } from 'react'
+import { Button, Form } from 'react-bootstrap'
+import * as axios from 'axios'
 import "./styles.css"
 
-const pics = ["pic1", "pic2", "pic3", "pic4"]
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const Tools = () => {
   const [newTag, setNewTag] = useState({ name: "" })
   const [tags, setTags] = useState([])
+  const [newCategory, setNewCategory] = useState({ name: "" })
 
   const fetchData = async (url, setter) => {
     axios.get(baseUrl + url).then((res) => setter(res.data))
@@ -28,53 +28,63 @@ const Tools = () => {
     setNewTag({ name: "" })
   }
 
+  const deleteTag = (id) => {
+    axios.delete(`${baseUrl}/api/tags/${id}`)
+  }
+
   return (
-    <div className='tool-container'>
-      <div>
-        <Form>
-          <h4> Here You may add new Tag </h4>
-          <Form.Control
-            placeholder='new tag'
-            value={newTag.name ? newTag.name : ""}
-            onChange={(e) => setNewTag({ name: e.target.value })}
-            type='text'
-          />
-          <br />
-          <Button onClick={() => postTag()} variant='primary'>
-            Submit
-          </Button>
-        </Form>
-        <div className='tags'>
-          <h4>Here you see all current Tags</h4>
-          {tags &&
-            tags.map((tag) => (
-              <div className='tag-container' key={tag.id}>
-                <div>{tag.name}</div>
-                <Button variant='outline-dark'>delete</Button>
+    <div className="container">
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="d-flex flex-lg-row flex-md-column flex-column justify-content-between mb-5">
+            <div className="col-lg-6 col-md-12">
+
+              <h4 className="my-4 text-center">Add new Tag</h4>
+              <Form className="d-flex flex-row">
+                <Form.Control
+                  placeholder="Enter new tag"
+                  value={ newTag.name || "" }
+                  onChange={(e) => setNewTag({ name: e.target.value })}
+                  type="text"
+                  className="tag-input"
+                />
+                <Button className="ml-3" onClick={() => postTag()} variant="primary">
+                  Submit
+                </Button>
+              </Form>
+
+              <h4 className="my-4 text-center">Add new Category</h4>
+              <Form className="d-flex flex-row">
+                <Form.Control
+                  placeholder="Enter new category"
+                  value={ newCategory.name || "" }
+                  onChange={(e) => setNewCategory({ name: e.target.value })}
+                  type="text"
+                  className="tag-input"
+                />
+                <Button className="ml-3" variant="primary">
+                  Submit
+                </Button>
+              </Form>
+            </div>
+
+            <div className="col-lg-6 col-md-12 tag-container">
+              <h4 className="my-4 text-center">All current Tags</h4>
+              <div className="tags">
+                {tags &&
+                  tags.map((tag) => (
+                    <div className="tag-wrapper" key={tag.id}>
+                      <div>{tag.name}</div>
+                      <Button
+                        variant="outline-dark"
+                        onClick={() => deleteTag(tag.id)}>delete</Button>
+                    </div>
+                  ))}
               </div>
-            ))}
-        </div>
-      </div>
-      <Form>
-        <h4>You may update slider here</h4>
-        <div>
-          <h5>Current pics</h5>
-          <div className='pics-list'>
-            {pics.map((pic) => (
-              <div className='list-elem' key={pic}>
-                {pic} <Button variant='primary'>update</Button>{" "}
-                <Button variant='outline-dark'>delete</Button>
-              </div>
-            ))}
-            <Button
-              className='btn-correction'
-              size='lg'
-              variant='outline-primary'>
-              Add one more pics
-            </Button>
+            </div>
           </div>
         </div>
-      </Form>
+      </div>
     </div>
   )
 }
