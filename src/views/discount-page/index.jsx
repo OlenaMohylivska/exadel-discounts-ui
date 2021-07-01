@@ -16,7 +16,7 @@ const DiscountPage = () => {
   const location = useLocation()
   const { image } = location.state ? location.state : ""
   const { id } = useParams()
-  const [reviewText, setReviewText] = useState('')
+  const [reviewText, setReviewText] = useState("")
   const [review, setReview] = useState(null)
 
   const fetchData = async () => {
@@ -59,15 +59,15 @@ const DiscountPage = () => {
 
   const addReview = () => {
     axios.post(baseUrl + "/api/reviews", review)
-    setReviewText('')
+    setReviewText("")
   }
   return (
     <>
       {loading ? <div>Loading</div> : ""}
       {discount ? (
-        <div className='container discount-container d-flex align-items-center flex-wrap'>
-          <div className='col-lg-6 col-md-12'>
-            <div className='img-container'>
+        <div className="container discount-container d-flex align-items-center flex-wrap">
+          <div className="col-lg-6 col-md-12">
+            <div className="img-container">
               <img src={image} className="discount-image" alt="discount-img" />
             </div>
           </div>
@@ -98,22 +98,22 @@ const DiscountPage = () => {
             <div className="rates">
               <StarRatings starDimension="27px" starSpacing="5px" />
             </div>
-            <div className='action'>
+            <div className="action">
               <div>
                 <Form.Group>
-                  <Form.Control className='mb-3' as='textarea' rows={4} cols={50} value={reviewText} onChange={handleReviewText}>
+                  <Form.Control className="mb-3" as="textarea" rows={4} cols={50} value={reviewText} onChange={handleReviewText}>
 
                   </Form.Control>
 
                 </Form.Group>
-                <Button className='d-flex align-self-start' variant='dark' onClick={() => { addReview() }}>Leave feedback</Button>
+                <Button className="d-flex align-self-start" variant="dark" onClick={() => { addReview() }}>Leave feedback</Button>
               </div>
-              <Button className='w-25 d-flex align-self-end justify-content-center' onClick={() => setShow(!show)} variant='primary'>
+              <Button className="w-25 d-flex align-self-end justify-content-center" onClick={() => setShow(!show)} variant="primary">
                 Order
               </Button>
 
             </div>
-            <div className='d-flex justify-content-end'>
+            <div className="d-flex justify-content-end">
               <p className={`${!show ? "hide" : "display"}`}>
                 {discount.promoCode}
               </p>
