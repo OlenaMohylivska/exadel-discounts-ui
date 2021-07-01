@@ -38,10 +38,17 @@ function ProductCard({ elem }) {
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">
           <Card.Text className="product-feedback">{elem.description}</Card.Text>
+
+          <Card.Text className="product-discount">10%</Card.Text>
         </div>
 
         <div className="product-footer">
-          <StarRatings starDimension="27px" starSpacing="5px" rating={elem.rate} starRatedColor="#FFD700" />
+          <StarRatings
+            starDimension="27px"
+            starSpacing="5px"
+            rating={elem.rate}
+            starRatedColor="#FFD700"
+          />
           <Button variant="dark">Order</Button>
         </div>
       </Card.Body>
@@ -58,6 +65,6 @@ ProductCard.propTypes = {
     description: PropTypes.string,
     id: PropTypes.number,
     img: PropTypes.string,
-    rate: PropTypes.number
+    rate: PropTypes.number,
   }),
 }

@@ -34,7 +34,6 @@ const Catalog = () => {
   const [filterTags, setFilterTags] = useState([])
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const fetchData = async () => {
-
     try {
       await axios
         .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
@@ -49,7 +48,6 @@ const Catalog = () => {
     } catch (e) {
       setDiscountsFetchError(e.message)
     }
-
   }
   useEffect(() => {
     fetchData()
@@ -68,13 +66,12 @@ const Catalog = () => {
     })
   }, [])
 
-  const topRatedHandler = () => {
-    const topRated = discounts.filter((el) => el.rate >= 4)
-    setDiscounts(topRated)
-  }
+  // const topRatedHandler = () => {
+  //   const topRated = discounts.filter((el) => el.rate >= 4)
+  //   setDiscounts(topRated)
+  // }
 
   const sortingByRate = ["Top rated"]
-
 
   const citiesOptions = useMemo(() => {
     return searchLocation.map((location) => ({
@@ -99,10 +96,8 @@ const Catalog = () => {
 
   return (
     <Container className="catalog-wrapper">
-
       <div className="row filter-panel">
         <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
-
           <div className="search-icon">
             <Loupe />
           </div>
@@ -114,7 +109,6 @@ const Catalog = () => {
         </label>
 
         <div className=" col-lg-7 col-md-12 catalog-filters">
-
           <Select
             className="catalog-selects"
             options={citiesOptions}
@@ -130,7 +124,6 @@ const Catalog = () => {
             className="catalog-selects"
             options={sortingOptions}
             placeholder="Sorting by..."
-
           />
         </div>
       </div>
@@ -138,7 +131,6 @@ const Catalog = () => {
       {discounts ? (
         <div className="discounts-wrapper">
           {discounts.map((el) => {
-
             return <ProductCard elem={el} key={el.id} />
           })}
         </div>
