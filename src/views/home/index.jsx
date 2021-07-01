@@ -1,12 +1,11 @@
 import React from "react"
 import Catalog from "views/catalog"
-import Slider from "../../components/slider"
+
 import "./styles.scss"
 
 function Home() {
   return (
     <div>
-      <Slider />
       <Catalog />
       {/* <div className="info">
         <div className="about-company-block">

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react"
 import ProductCard from "components/product-card"
 import { Form, Container } from "react-bootstrap"
-import FetchError from "components/fetch-error"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import * as axios from "axios"
@@ -30,20 +29,25 @@ const productImages = [
 ]
 
 const Catalog = () => {
-  const [discounts, setDiscounts] = useState([])
+  const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
+  const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const fetchData = async () => {
-    axios
-      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
-      .then((response) =>
-        setDiscounts(() =>
-          response.data.map((el, index) => ({
-            ...el,
-            img: productImages[index],
-          }))
+    try {
+      await axios
+        .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
+        .then((response) =>
+          setDiscounts(() =>
+            response.data.map((el, index) => ({
+              ...el,
+              img: productImages[index],
+            }))
+          )
         )
-      )
+    } catch (e) {
+      setDiscountsFetchError(e.message)
+    }
   }
   useEffect(() => {
     fetchData()
@@ -62,13 +66,12 @@ const Catalog = () => {
     })
   }, [])
 
-  const topRatedHandler = () => {
-    const topRated = discounts.filter((el) => el.rate >= 4)
-    setDiscounts(topRated)
-  }
+  // const topRatedHandler = () => {
+  //   const topRated = discounts.filter((el) => el.rate >= 4)
+  //   setDiscounts(topRated)
+  // }
 
   const sortingByRate = ["Top rated"]
-
 
   const citiesOptions = useMemo(() => {
     return searchLocation.map((location) => ({
@@ -93,9 +96,8 @@ const Catalog = () => {
 
   return (
     <Container className="catalog-wrapper">
-      <h1 className="catalog-title">Catalog of discounts</h1>
       <div className="row filter-panel">
-        <label className="col-lg-5 col-md-12 search-container">
+        <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
           <div className="search-icon">
             <Loupe />
           </div>
@@ -105,7 +107,8 @@ const Catalog = () => {
             </Form.Group>
           </Form>
         </label>
-        <div className="catalog-filters col-lg-7 col-md-12">
+
+        <div className=" col-lg-7 col-md-12 catalog-filters">
           <Select
             className="catalog-selects"
             options={citiesOptions}
@@ -121,19 +124,21 @@ const Catalog = () => {
             className="catalog-selects"
             options={sortingOptions}
             placeholder="Sorting by..."
-            onSelect={topRatedHandler}
           />
         </div>
       </div>
-      <div className="discounts-wrapper">
-        {discounts ? (
-          discounts.map((el) => {
+      <h1 className="catalog-title">Catalog of discounts</h1>
+      {discounts ? (
+        <div className="discounts-wrapper">
+          {discounts.map((el) => {
             return <ProductCard elem={el} key={el.id} />
-          })
-        ) : (
-          <FetchError />
-        )}
-      </div>
+          })}
+        </div>
+      ) : (
+        <div className="fetch-error-info">
+          Sorry no info, {discountsFetchError ? discountsFetchError : ""}
+        </div>
+      )}
     </Container>
   )
 }

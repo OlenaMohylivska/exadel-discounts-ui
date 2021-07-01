@@ -14,7 +14,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
-
-.tag-input {
-  margin-right: 15px;
+.fetch-tags-error {
+  font-size: 24px;
+  padding-left: 10px;
 }

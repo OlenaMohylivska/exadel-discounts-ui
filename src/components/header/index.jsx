@@ -1,6 +1,6 @@
 import React from "react"
 import { Container, Nav, Navbar, NavbarBrand } from "react-bootstrap"
-import { NavLink } from "react-router-dom"
+import { NavLink, Link } from "react-router-dom"
 import Logo from "../icons/logo.png"
 import "./styles.scss"
 import NavbarToggle from "react-bootstrap/esm/NavbarToggle"
@@ -12,7 +12,9 @@ function Header() {
       <Container className="nav-wrapper">
         <NavbarBrand>
           <div className="logo">
-            <img src={Logo} alt="Exadel logotype" className="logo" />
+            <Link to="/">
+              <img src={Logo} alt="Exadel logotype" className="logo" />
+            </Link>
           </div>
         </NavbarBrand>
 
