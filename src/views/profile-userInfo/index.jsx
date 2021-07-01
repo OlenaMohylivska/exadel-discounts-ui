@@ -24,17 +24,21 @@ function ProfileUserInfo() {
     <div className="profile">
       <div className="profile-info">
         <h4 className="personal-info-title">Personal Info</h4>
-        <img className="profile-img"
+        <img
+          className="profile-img"
           src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
           alt="user-image"
         />
 
-        <div>First name: <span className="filled-in">John</span></div>
-        <div>Last name: <span className="filled-in">Brown </span> </div>
+        <div>
+          First name: <span className="filled-in">John</span>
+        </div>
+        <div>
+          Last name: <span className="filled-in">Brown </span>
+        </div>
         <div className="location">
-          Location:
-          <div className="location-country">country: <span className="filled-in">Ukraine</span></div>
-          <div>city: <span className="filled-in">Lviv</span> </div>
+          Location: <span className="filled-in">Lviv, </span>
+          <span className="filled-in">Ukraine</span>
         </div>
       </div>
       <div className="user-subscriptions">
