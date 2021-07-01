@@ -1,68 +1,70 @@
-import React from "react"
+import React, { useState } from "react"
 import "./styles.scss"
-import { PersonFill, PencilSquare } from "react-bootstrap-icons"
-import { Form } from "react-bootstrap"
+import { Button, FormControl, InputGroup } from "react-bootstrap"
+import Select from "react-select"
 
 function ProfileUserInfo() {
+  const [category, setCategory] = useState([])
+  const [expirationDate, setExpirationDate] = useState([])
+
+  const categoryOptions = [
+    { value: "Food", label: "Food" },
+    { value: "Sport", label: "Sport" },
+    { value: "Education", label: "Education" },
+  ]
+
+  const handleChangeCategory = (e) => {
+    setCategory(e)
+  }
+  const handleExpirationFilter = (e) => {
+    setExpirationDate(e.target.value)
+  }
+
   return (
     <div className="profile">
-      <h3 className="profile-title">Personal Info</h3>
-      <div className="profile-container">
-        <div className="profile-icons">
-          <div className="profile-icons-left">
-            <PersonFill />
-            <h6 className="profile-icons-title">Personal Info</h6>
-          </div>
-          <div className="profile-icons-right">
-            <PencilSquare />
-            <h6 className="profile-icons-title">Edit</h6>
-          </div>
+      <div className="profile-info">
+        <h4 className="personal-info-title">Personal Info</h4>
+        <img
+          className="profile-img"
+          src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
+          alt="user-image"
+        />
+
+        <div>
+          First name: <span className="filled-in">John</span>
         </div>
-
-        <Form className="form-input">
-          <Form.Group className="form-floating">
-            <Form.Control
-              type="text"
-              label="name"
-              placeholder="Name"
-              id="floatingInputName"
-            />
-            <label htmlFor="floatingInputName">Name</label>
-          </Form.Group>
-
-          <Form.Group className="form-floating">
-            <Form.Control
-              type="text"
-              placeholder="Surname"
-              id="floatingInputSurname"
-            />
-            <label htmlFor="floatingInputName">Surname</label>
-          </Form.Group>
-          <Form.Group className="form-floating">
-            <Form.Control
-              type="date"
-              placeholder="Date of birth"
-              id="floatingInputDate"
-            />
-            <label htmlFor="floatingInputDate">Date of birth</label>
-          </Form.Group>
-          <Form.Group className="form-floating">
-            <Form.Control
-              type="text"
-              placeholder="Gender"
-              id="floatingInputGender"
-            />
-            <label htmlFor="floatingInputGender">Gender</label>
-          </Form.Group>
-          <Form.Group className="form-floating">
-            <Form.Control
-              type="text"
-              placeholder="Language"
-              id="floatingInputLanguage"
-            />
-            <label htmlFor="floatingInputGender">Language</label>
-          </Form.Group>
-        </Form>
+        <div>
+          Last name: <span className="filled-in">Brown </span>
+        </div>
+        <div className="location">
+          Location: <span className="filled-in">Lviv, </span>
+          <span className="filled-in">Ukraine</span>
+        </div>
+      </div>
+      <div className="user-subscriptions">
+        <h4 className="subscriptions-title">Manage my subscriptions</h4>
+        <h5 className="subscriptions-title">Choose by category</h5>
+        <Select
+          className="subscription-category"
+          theme="primary75"
+          options={categoryOptions}
+          onChange={(e) => handleChangeCategory(e)}
+          value={category}
+          placeholder="Select..."
+        />
+        <h5 className="subscriptions-title">Choose by expiration date</h5>
+        <InputGroup>
+          <FormControl
+            type="date"
+            name="periodEnd"
+            value={expirationDate ? expirationDate : ""}
+            onChange={handleExpirationFilter}
+          />
+        </InputGroup>
+        <div className="subsription-buttons">
+          <Button className="subscriptions-btn">Sort by criteria</Button>
+          <Button className="subscriptions-btn">View all</Button>
+        </div>
       </div>
     </div>
   )
