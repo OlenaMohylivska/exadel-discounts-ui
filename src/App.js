@@ -11,15 +11,19 @@ function App() {
   const contextCheck = "Context that can be passed to Login"
 
   return (
-    <Context.Provider value={{ contextCheck: contextCheck }}>
-      <BrowserRouter>
-        <Header />
-        <Switch>
-          <AppRouter />
-        </Switch>
-        <Footer />
-      </BrowserRouter>
-    </Context.Provider>
+    <>
+      <Context.Provider value={{ contextCheck: contextCheck }}>
+        <BrowserRouter>
+          <div className="app-wrapper">
+            <Header />
+            <Switch>
+              <AppRouter />
+            </Switch>
+          </div>
+          <Footer />
+        </BrowserRouter>
+      </Context.Provider>
+    </>
   )
 }
 

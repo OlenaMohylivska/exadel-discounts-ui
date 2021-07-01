@@ -13,10 +13,11 @@
   flex: 0 0 auto;
   justify-content: space-around;
   align-items: flex-start;
-  width: 100%;
 
-  font-size: 0.5rem;
-  padding: 0.5rem;
+  max-width: 1280px;
+  font-size: 0.6rem;
+  padding: .5rem;
+  margin: 0 auto;
 
   h5 {
     font-size: 0.8rem;
@@ -86,18 +87,21 @@
     margin-bottom: 0 !important;
   }
 
-  .footer-career li,
-  .footer-domains li {
-    display: none;
-  }
-  .footer-corporate {
-    .footer-socials {
-      position: absolute;
-      left: 203px;
-      top: 24px;
-      li {
-        margin-right: 0.5rem;
+		.footer-career li, .footer-domains li{
+			display: none;
+		}
+		.footer-corporate{
+      .corporate-line{
+        display:none;
       }
-    }
-  }
+			.footer-socials{
+				position: absolute;
+				left: 180px;
+				top: 24px;
+				li{
+					margin-right: 0.2rem;
+				}
+			}
+		}
+	}
 }
