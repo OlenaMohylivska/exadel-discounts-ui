@@ -8,6 +8,7 @@ const Admin = () => {
     { eventKey: "add-company", title: "✚ Add company" },
     { eventKey: "add-item", title: "✚ Add promotion" },
     { eventKey: "all-companies", title: "All companies" },
+    { eventKey: "all-promotions", title: "All promotions" },
     { eventKey: "tools", title: "Tools" },
   ]
 

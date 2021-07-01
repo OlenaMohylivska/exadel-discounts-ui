@@ -15,6 +15,7 @@ import Tools from "components/tools"
 import EditSlider from "components/edit-slider"
 import Statistics from "components/statistics"
 import Companies from "components/companies"
+import Promotions from "components/promotions"
 import "./styles.scss"
 
 function AppRouter() {
@@ -74,6 +75,10 @@ function AppRouter() {
 
       <Route path="/admin/all-companies">
         <Companies />
+      </Route>
+
+      <Route path="/admin/all-promotions">
+        <Promotions />
       </Route>
     </>
   )
