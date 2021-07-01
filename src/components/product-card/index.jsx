@@ -43,7 +43,7 @@ function ProductCard({ elem }) {
           <Card.Text className="product-discount">10%</Card.Text>
         </div>
         <div className="product-footer">
-          <StarRatings starDimension="27px" starSpacing="5px" />
+          <StarRatings starDimension="27px" starSpacing="5px" rating={elem.rate} starRatedColor="#FFD700" />
           <Button variant="dark">Order</Button>
         </div>
       </Card.Body>
@@ -60,5 +60,6 @@ ProductCard.propTypes = {
     description: PropTypes.string,
     id: PropTypes.number,
     img: PropTypes.string,
+    rate: PropTypes.number
   }),
 }
