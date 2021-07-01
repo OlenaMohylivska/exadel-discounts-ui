@@ -16,7 +16,7 @@ const DiscountPage = () => {
   const { image } = location.state
   const { id } = useParams()
   const [reviewText, setReviewText] = useState('')
-  const [review, setReview] = useState()
+  const [review, setReview] = useState(null)
 
   const fetchData = async () => {
     setLoading(true)
@@ -35,14 +35,8 @@ const DiscountPage = () => {
     fetchData()
   }, [])
 
-  const handleReviewText = e => {
-    setReviewText(e.target.value)
-  }
-
-  const addReview = () => {
-    console.log(reviewText)
+  useEffect(() => {
     setReview({
-
       rate: 5,
       comment: reviewText,
       date: 1274389200000,
@@ -54,7 +48,13 @@ const DiscountPage = () => {
         role: "USER"
       }
     })
-    console.log(reviewText)
+  }, [reviewText])
+
+  const handleReviewText = e => {
+    setReviewText(e.target.value)
+  }
+
+  const addReview = () => {
     axios.post(baseUrl + "/api/reviews", review).then(response => console.log(response))
     setReviewText('')
   }
@@ -110,7 +110,7 @@ const DiscountPage = () => {
               </Button>
 
             </div>
-            <div className=' d-flex justify-content-end'>
+            <div className='d-flex justify-content-end'>
               <p className={`${!show ? "hide" : "display"}`}>
                 {discount.promoCode}
               </p>
