@@ -23,7 +23,7 @@ const AddItem = (props) => {
     show: false,
   })
   const [discountProviders, setDiscountProviders] = useState([])
-
+  const [actualLocation, setActualLocation] = useState({ countries: [] })
   const [tags, setTags] = useState([])
   const [category, setCategory] = useState({})
   const companyOptions = discountProviders.map((company) => {
@@ -33,7 +33,13 @@ const AddItem = (props) => {
       id: company.id,
     }
   })
-
+  const locationOptions = actualLocation.countries.map((country) => {
+    return {
+      value: country.name,
+      label: country.name,
+      id: country.id,
+    }
+  })
 
   const tagsOptions = tags.map((tag) => {
     return {
@@ -43,13 +49,11 @@ const AddItem = (props) => {
     }
   })
 
-
   const categoryOptions = [
     { value: "Food", label: "Food" },
     { value: "Sport", label: "Sport" },
     { value: "Education", label: "Education" },
   ]
-
 
   const fetchData = async (url, setFunc) => {
     axios.get(baseUrl + url).then((response) => setFunc(response.data))
@@ -68,23 +72,19 @@ const AddItem = (props) => {
     })
   }
   const handleChangeCompanies = (e) => {
-    return setData({
+    setData({
       ...data,
       company: { id: e.id },
     })
+    fetchData(`/api/company/${e.id}`, setActualLocation)
   }
-
+  console.log(actualLocation)
   useEffect(() => {
     fetchData("/api/company/all", setDiscountProviders)
   }, [])
   useEffect(() => {
     fetchData("/api/tags", setTags)
   }, [])
-
-  // useEffect(() => {
-  //   fetchData("/api/location/all", setDiscountProvidersLocations)
-  // }, [])
-
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
@@ -150,7 +150,6 @@ const AddItem = (props) => {
 
   return (
     <Form>
-
       <div className="discount-container">
         <Toast
           show={discountPostError.show}
@@ -163,7 +162,6 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
-
             <FileUploadPage />
           </div>
           <div className="description">
@@ -208,8 +206,11 @@ const AddItem = (props) => {
               }}
             />
           </div>
-
           {errors.company ? <ValidationError error={errors.company} /> : ""}
+          <div>
+            <span className="discount-subtitle">Location </span>
+            <Select options={locationOptions} />
+          </div>
 
           <span className="discount-subtitle headers">Category:</span>
           <Select
