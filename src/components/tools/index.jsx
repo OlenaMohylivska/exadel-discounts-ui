@@ -1,19 +1,22 @@
+
 import { Button, Form, Toast } from "react-bootstrap"
 import React, { useState, useEffect } from "react"
 import * as axios from "axios"
+
 import "./styles.css"
 
-const pics = ["pic1", "pic2", "pic3", "pic4"]
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const Tools = () => {
   const [newTag, setNewTag] = useState({ name: "" })
+
   const [tags, setTags] = useState(null)
   const [tagsError, setTagsError] = useState(null)
   const [tagsPostError, setTagsPostError] = useState({
     error: null,
     show: false,
   })
+
 
   const fetchData = async (url, setter) => {
     try {
@@ -41,7 +44,12 @@ const Tools = () => {
     setNewTag({ name: "" })
   }
 
+  const deleteTag = (id) => {
+    axios.delete(`${baseUrl}/api/tags/${id}`)
+  }
+
   return (
+
     <div className="tool-container">
       <div>
         <Form>
@@ -99,9 +107,10 @@ const Tools = () => {
             >
               Add one more pics
             </Button>
+
           </div>
         </div>
-      </Form>
+      </div>
     </div>
   )
 }

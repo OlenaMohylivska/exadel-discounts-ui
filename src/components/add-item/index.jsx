@@ -34,6 +34,7 @@ const AddItem = (props) => {
     }
   })
 
+
   const tagsOptions = tags.map((tag) => {
     return {
       value: tag.name,
@@ -42,11 +43,13 @@ const AddItem = (props) => {
     }
   })
 
+
   const categoryOptions = [
     { value: "Food", label: "Food" },
     { value: "Sport", label: "Sport" },
     { value: "Education", label: "Education" },
   ]
+
 
   const fetchData = async (url, setFunc) => {
     axios.get(baseUrl + url).then((response) => setFunc(response.data))
@@ -147,6 +150,7 @@ const AddItem = (props) => {
 
   return (
     <Form>
+
       <div className="discount-container">
         <Toast
           show={discountPostError.show}
@@ -159,6 +163,7 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
+
             <FileUploadPage />
           </div>
           <div className="description">
@@ -203,6 +208,7 @@ const AddItem = (props) => {
               }}
             />
           </div>
+
           {errors.company ? <ValidationError error={errors.company} /> : ""}
 
           <span className="discount-subtitle headers">Category:</span>
@@ -214,6 +220,7 @@ const AddItem = (props) => {
           />
           {errors.tags ? <ValidationError error={errors.tags} /> : ""}
           <span className="discount-subtitle headers">Discount Tags:</span>
+
           <Select
             isMulti
             options={tagsOptions}
@@ -256,8 +263,10 @@ const AddItem = (props) => {
               onChange={(e) => handleChange(e)}
             />
           </InputGroup>
+
           {errors.periodEnd ? <ValidationError error={errors.periodEnd} /> : ""}
           <span className="discount-subtitle headers">Promo:</span>
+
           <InputGroup>
             <FormControl
               placeholder="Fill the name of promo"

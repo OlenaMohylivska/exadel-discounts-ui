@@ -24,7 +24,9 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
+
       setErrorMessage(e.message)
+
     } finally {
       setLoading(false)
     }

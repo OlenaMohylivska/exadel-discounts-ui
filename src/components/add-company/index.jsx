@@ -13,6 +13,7 @@ const AddCompany = (props) => {
   const [companyName, setCompanyName] = useState("")
   const [city, setCity] = useState("")
   const [country, setCountry] = useState("")
+  const [address, setAddress] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
   const [companyPostError, setCompanyPostError] = useState({
@@ -83,6 +84,10 @@ const AddCompany = (props) => {
     setCompanyName(e.target.value)
   }
 
+  const companyAddressHandler = (e) => {
+    setAddress(e.target.value)
+  }
+
   const companyCityHandler = (e) => {
     setCity(e)
   }
@@ -120,6 +125,14 @@ const AddCompany = (props) => {
               </InputGroup>
             </div>
             <div className="company-address ">
+              <h4 className="company-info-subtitle">Country</h4>
+              <Select
+                value={props.isEdit && country}
+                className="address-field"
+                onChange={companyCountryHandler}
+                options={countryOptions}
+                required
+              />
               <h4 className="company-info-subtitle">City</h4>
               <Select
                 value={props.isEdit && city}
@@ -128,13 +141,15 @@ const AddCompany = (props) => {
                 onChange={companyCityHandler}
                 options={citiesOptions}
               />
-              <h4 className="company-info-subtitle">Country</h4>
-              <Select
-                value={props.isEdit && country}
-                className="address-field"
-                onChange={companyCountryHandler}
-                options={countryOptions}
-              />
+              <h4 className="company-info-subtitle">Address</h4>
+              <InputGroup>
+                <FormControl
+                  value={address}
+                  name="company-address"
+                  onChange={companyAddressHandler}
+                  className="form-field"
+                />
+              </InputGroup>
             </div>
           </div>
           <div className="btn-field d-flex justify-content-between">

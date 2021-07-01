@@ -26,41 +26,34 @@ function Login() {
         <Form>
           <Form.Group className="form-item" controlId="formBasicEmail">
             <Form.Label>Enter your login</Form.Label>
-            <div className="d-flex">
-              <Form.Control
-                type="text"
-                placeholder="Login"
-                value={login}
-                onChange={(event) => onLoginChange(event)}
-              />
-              <EyeFill className="invisible" />
-            </div>
+
+            <Form.Control
+              type="text"
+              placeholder="Login"
+              value={login}
+              onChange={(event) => onLoginChange(event)}
+            />
+
           </Form.Group>
 
           <Form.Group className="form-item" controlId="formBasicPassword">
             <Form.Label>Enter your password</Form.Label>
-            <div className="d-flex">
-              <Form.Control
-                type={passwordVisible ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(event) => onPasswordChange(event)}
-              />
-              <EyeFill
-                className="password-show-icon"
-                onClick={onPasswordShow}
-              />
-            </div>
-          </Form.Group>
 
-          <Form.Group className="form-item">
-            <Form.Text className="text-secondary">
-              Your data is confidential
+            <Form.Control
+              type={passwordVisible ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(event) => onPasswordChange(event)}
+            />
+            <EyeFill className="password-show-icon" onClick={onPasswordShow} />
+            <Form.Text className="text-muted form-text">
+            Must be 8-20 characters long.
             </Form.Text>
           </Form.Group>
 
           <div className="d-flex justify-content-center">
-            <Button className="w-75" variant="success" type="submit">
+            <Button className="btn-md px-5 mt-3" variant="dark" type="submit">
+
               Log in
             </Button>
           </div>
