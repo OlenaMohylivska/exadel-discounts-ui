@@ -13,7 +13,7 @@ const DiscountPage = () => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const location = useLocation()
-  const { image } = location.state
+  const { image } = location.state ? location.state : ""
   const { id } = useParams()
   const fetchData = async () => {
     setLoading(true)
@@ -23,7 +23,7 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
-      throw new Error(e.message)
+      setLoading(false)
     } finally {
       setLoading(false)
     }
