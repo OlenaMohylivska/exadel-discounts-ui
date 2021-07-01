@@ -12,6 +12,7 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: null,
+    location: [],
     tags: [],
     quantity: null,
     company: null,
@@ -23,7 +24,9 @@ const AddItem = (props) => {
     show: false,
   })
   const [discountProviders, setDiscountProviders] = useState([])
-  const [actualLocation, setActualLocation] = useState({ countries: [] })
+  const [chooseLocation, setChooseLocation] = useState({ countries: [] })
+  const [chooseCityLocation, setChooseCityLocation] = useState([])
+  const [chooseAddressLocation, setChooseAddressLocation] = useState([])
   const [tags, setTags] = useState([])
   const [category, setCategory] = useState({})
   const companyOptions = discountProviders.map((company) => {
@@ -33,13 +36,34 @@ const AddItem = (props) => {
       id: company.id,
     }
   })
-  const locationOptions = actualLocation.countries.map((country) => {
+  const countryOptions = chooseLocation.countries.map((country) => {
     return {
       value: country.name,
       label: country.name,
-      id: country.id,
+      elem: country.cities,
     }
   })
+  const cityOptions = chooseCityLocation.map((city) => {
+    return {
+      value: city.name,
+      label: city.name,
+      elem: city.addresses,
+    }
+  })
+  console.log(chooseAddressLocation)
+  const addressOptions = chooseAddressLocation.map((address) => {
+    return {
+      value: address.address,
+      label: address.address,
+    }
+  })
+  const handleChangeCountryLocation = (e) => {
+    setChooseCityLocation(e.elem)
+  }
+  const handleChangeCityLocation = (e) => {
+    setChooseAddressLocation(e.elem)
+  }
+  console.log(chooseCityLocation)
 
   const tagsOptions = tags.map((tag) => {
     return {
@@ -48,13 +72,11 @@ const AddItem = (props) => {
       id: tag.id,
     }
   })
-
   const categoryOptions = [
     { value: "Food", label: "Food" },
     { value: "Sport", label: "Sport" },
     { value: "Education", label: "Education" },
   ]
-
   const fetchData = async (url, setFunc) => {
     axios.get(baseUrl + url).then((response) => setFunc(response.data))
   }
@@ -71,14 +93,15 @@ const AddItem = (props) => {
       tags: e.map((elem) => ({ name: elem.value, id: elem.id })),
     })
   }
+
   const handleChangeCompanies = (e) => {
     setData({
       ...data,
       company: { id: e.id },
     })
-    fetchData(`/api/company/${e.id}`, setActualLocation)
+    fetchData(`/api/company/${e.id}`, setChooseLocation)
   }
-  console.log(actualLocation)
+
   useEffect(() => {
     fetchData("/api/company/all", setDiscountProviders)
   }, [])
@@ -209,7 +232,21 @@ const AddItem = (props) => {
           {errors.company ? <ValidationError error={errors.company} /> : ""}
           <div>
             <span className="discount-subtitle">Location </span>
-            <Select options={locationOptions} />
+            <Select
+              options={countryOptions}
+              onChange={(e) => {
+                handleChangeCountryLocation(e)
+              }}
+              placeholder="country"
+            />
+            <Select
+              options={cityOptions}
+              onChange={(e) => {
+                handleChangeCityLocation(e)
+              }}
+              placeholder="city"
+            />
+            <Select options={addressOptions} placeholder="street" isMulti />
           </div>
 
           <span className="discount-subtitle headers">Category:</span>
