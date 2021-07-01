@@ -58,7 +58,7 @@ const DiscountPage = () => {
   }
 
   const addReview = () => {
-    axios.post(baseUrl + "/api/reviews", review).then(response => console.log(response))
+    axios.post(baseUrl + "/api/reviews", review)
     setReviewText('')
   }
   return (
