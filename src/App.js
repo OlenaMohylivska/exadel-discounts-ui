@@ -12,10 +12,11 @@ function App() {
     <Context.Provider value={productImages}>
       <BrowserRouter>
         <Header />
-        <Switch>
-          <AppRouter />
-        </Switch>
-        <div>Version: 25.06.2021</div>
+        <div className="app-wrapper">
+          <Switch>
+            <AppRouter />
+          </Switch>
+        </div>
         <Footer />
       </BrowserRouter>
     </Context.Provider>
