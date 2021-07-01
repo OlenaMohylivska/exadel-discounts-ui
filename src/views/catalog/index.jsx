@@ -35,7 +35,7 @@ const Catalog = () => {
   const [filterTags, setFilterTags] = useState([])
   const fetchData = async () => {
     axios
-      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
+      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
       .then((response) => setDiscounts(() => response.data.map((el, index) => ({...el, img: productImages[index]}))))
   }
   useEffect(() => {
