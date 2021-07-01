@@ -16,7 +16,7 @@
 
   max-width: 1280px;
   font-size: 0.6rem;
-  padding: .5rem;
+  padding: 0.5rem;
   margin: 0 auto;
 
   h5 {
@@ -42,7 +42,6 @@
         background-color: #000;
       }
     }
-
     .footer-socials {
       display: flex;
       align-items: flex-end;
@@ -87,21 +86,21 @@
     margin-bottom: 0 !important;
   }
 
-		.footer-career li, .footer-domains li{
-			display: none;
-		}
-		.footer-corporate{
-      .corporate-line{
-        display:none;
+  .footer-career li,
+  .footer-domains li {
+    display: none;
+  }
+  .footer-corporate {
+    .corporate-line {
+      display: none;
+    }
+    .footer-socials {
+      position: absolute;
+      left: 180px;
+      top: 24px;
+      li {
+        margin-right: 0.2rem;
       }
-			.footer-socials{
-				position: absolute;
-				left: 180px;
-				top: 24px;
-				li{
-					margin-right: 0.2rem;
-				}
-			}
-		}
-	}
+    }
+  }
 }
