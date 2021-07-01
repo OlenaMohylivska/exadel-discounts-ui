@@ -8,7 +8,7 @@ import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse"
 
 function Header() {
   return (
-    <Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
+    <Navbar collapseOnSelect expand="md" className="navbar" sticky="top" w-100>
       <Container className="nav-wrapper">
         <NavbarBrand>
           <div className="logo">

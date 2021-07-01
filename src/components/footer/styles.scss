@@ -13,9 +13,10 @@
   flex: 0 0 auto;
   justify-content: space-around;
   align-items: flex-start;
-  width: 100%;
+  max-width: 1280px;
   font-size: 0.6rem;
   padding: .5rem;
+  margin: 0 auto;
 
   h5 {
     font-size: 0.8rem;
@@ -91,12 +92,15 @@
 			display: none;
 		}
 		.footer-corporate{
+      .corporate-line{
+        display:none;
+      }
 			.footer-socials{
 				position: absolute;
-				left: 203px;
+				left: 180px;
 				top: 24px;
 				li{
-					margin-right: 0.5rem;
+					margin-right: 0.2rem;
 				}
 			}
 		}
