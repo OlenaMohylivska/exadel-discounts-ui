@@ -62,7 +62,7 @@ const DiscountPage = () => {
     <>
       {loading ? <div>Loading</div> : ""}
       {discount ? (
-        <div className='container discount-container flex-wrap'>
+        <div className='container discount-container d-flex align-items-center flex-wrap'>
           <div className='col-lg-6 col-md-12'>
             <div className='img-container'>
               <img src={image} className="discount-image" alt="discount-img" />
