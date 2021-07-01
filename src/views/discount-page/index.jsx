@@ -12,8 +12,9 @@ const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const location = useLocation()
-  const { image } = location.state
+  const { image } = location.state ? location.state : ""
   const { id } = useParams()
   const [reviewText, setReviewText] = useState('')
   const [review, setReview] = useState(null)
@@ -26,7 +27,9 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
-      throw new Error(e.message)
+
+      setErrorMessage(e.message)
+
     } finally {
       setLoading(false)
     }
@@ -68,7 +71,7 @@ const DiscountPage = () => {
               <img src={image} className="discount-image" alt="discount-img" />
             </div>
           </div>
-          <div className='col-lg-6 col-md-12'>
+          <div className="col-lg-6 col-md-12">
             <h3>Discount Name:{discount.name}</h3>
             <h4>
               Company:
@@ -92,8 +95,8 @@ const DiscountPage = () => {
             </h4>
             <h4>Description:</h4>
             <p>{discount.description}</p>
-            <div className='rates'>
-              <StarRatings starDimension='27px' starSpacing='5px' />
+            <div className="rates">
+              <StarRatings starDimension="27px" starSpacing="5px" />
             </div>
             <div className='action'>
               <div>
@@ -118,7 +121,7 @@ const DiscountPage = () => {
           </div>
         </div>
       ) : (
-        <FetchError />
+        <FetchError error={errorMessage ? errorMessage : ""} />
       )}
     </>
   )

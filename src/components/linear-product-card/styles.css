@@ -10,7 +10,7 @@
     right: 15px;
   }
 }
-  
+
 @media (min-width: 721px) {
   .image {
     width: 200px !important;

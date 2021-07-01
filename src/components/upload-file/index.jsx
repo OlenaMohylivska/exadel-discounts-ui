@@ -13,7 +13,7 @@ function FileUploadPage() {
   }
 
   return (
-    <div>
+    <div className="upload-container">
       {isSelected ? (
         <div>
           <h6 className="file-name-title">Filename: {selectedFile.name}</h6>
@@ -25,8 +25,16 @@ function FileUploadPage() {
           src="http://damadex.com.ng/wp-content/uploads/2020/05/default-placeholder.png"
         />
       )}
-      <div>
-        <input type="file" name="file" onChange={changeHandler} />
+      <div className="img-loader">
+        <input
+          id="loader-for-img"
+          type="file"
+          name="file"
+          onChange={changeHandler}
+        />
+        <label className="label-for-img-loader" htmlFor="loader-for-img">
+          Load img
+        </label>
       </div>
     </div>
   )
