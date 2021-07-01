@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import LinearProductCard from 'components/linear-product-card'
 import axios from 'axios'
-import DiscountPage from 'views/discount-page'
 import './styles.scss'
+import { Context } from 'store/context'
+
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const FavouritePage = () => {
   const [discounts, setDiscounts] = useState([])
+  const images = useContext(Context)
 
   useEffect(() => {
     axios.get(`${baseUrl}/api/discounts`)
       .then(resp => {
-        const allDiscounts = resp.data.map(el => (
-          { ...el, isFavourite: false }
+        const allDiscounts = resp.data.map((el, index) => (
+          { ...el, isFavourite: true, image: images[index] }
         ))
         setDiscounts(allDiscounts)
       })
@@ -23,12 +25,11 @@ const FavouritePage = () => {
       <div className="favourite-card-wrapper">
         {discounts.map(el => {
           return <LinearProductCard
-            isFavouritePage={true}
+            buttonText="Order"
             discount={el}
             discounts={discounts}
             setDiscounts={setDiscounts}
             key={el.id}
-            onClick={() => <DiscountPage />}
           />})}
       </div>
     </div>
