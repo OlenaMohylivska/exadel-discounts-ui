@@ -1,45 +1,45 @@
-import { Button, Form, Toast } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
-import * as axios from "axios";
-import "./styles.css";
+import { Button, Form, Toast } from "react-bootstrap"
+import React, { useState, useEffect } from "react"
+import * as axios from "axios"
+import "./styles.css"
 
-const pics = ["pic1", "pic2", "pic3", "pic4"];
-const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
+const pics = ["pic1", "pic2", "pic3", "pic4"]
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const Tools = () => {
-  const [newTag, setNewTag] = useState({ name: "" });
-  const [tags, setTags] = useState(null);
-  const [tagsError, setTagsError] = useState(null);
+  const [newTag, setNewTag] = useState({ name: "" })
+  const [tags, setTags] = useState(null)
+  const [tagsError, setTagsError] = useState(null)
   const [tagsPostError, setTagsPostError] = useState({
     error: null,
     show: false,
-  });
+  })
 
   const fetchData = async (url, setter) => {
     try {
-      await axios.get(baseUrl + url).then((res) => setter(res.data));
+      await axios.get(baseUrl + url).then((res) => setter(res.data))
     } catch (e) {
-      setTagsError(e.message);
+      setTagsError(e.message)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData("/api/tags", setTags);
-  }, [tags]);
+    fetchData("/api/tags", setTags)
+  }, [tags])
 
   const postTag = async () => {
     try {
-      await axios.post(baseUrl + "/api/tags", newTag);
-      reset();
-      fetchData();
+      await axios.post(baseUrl + "/api/tags", newTag)
+      reset()
+      fetchData()
     } catch (e) {
-      setTagsPostError({ error: e.message, show: true });
+      setTagsPostError({ error: e.message, show: true })
     }
-  };
+  }
 
   const reset = () => {
-    setNewTag({ name: "" });
-  };
+    setNewTag({ name: "" })
+  }
 
   return (
     <div className="tool-container">
@@ -49,7 +49,7 @@ const Tools = () => {
             show={tagsPostError.show}
             autohide
             onClose={() => {
-              setTagsPostError({ show: false, error: null });
+              setTagsPostError({ show: false, error: null })
             }}
           >
             <Toast.Body>{tagsPostError.error}</Toast.Body>
@@ -103,7 +103,7 @@ const Tools = () => {
         </div>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default Tools;
+export default Tools

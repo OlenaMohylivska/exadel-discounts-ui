@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import Filters from "components/filters";
-import ProductCard from "components/product-card";
-import { Button } from "react-bootstrap";
-import "./styles.css";
-import { Link } from "react-router-dom";
+import React, { useState } from "react"
+import Filters from "components/filters"
+import ProductCard from "components/product-card"
+import { Button } from "react-bootstrap"
+import "./styles.css"
+import { Link } from "react-router-dom"
 
 // eslint-disable-next-line react/prop-types
 const ProductList = ({ data }) => {
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState("")
   {
     /* eslint-disable-next-line react/prop-types */
   }
-  const fixedArr = data && data.length > 0 ? data.slice(0, 9) : [];
+  const fixedArr = data && data.length > 0 ? data.slice(0, 9) : []
   const filter = (arr1, val1) => {
     return arr1.filter(
       (item) =>
         item.title.toLowerCase().includes(val1.toLowerCase()) ||
         item.body.toLowerCase().includes(val1.toLowerCase())
-    );
-  };
+    )
+  }
   return (
     <div className="container">
       <h1 className="py-5 text-center">Discount</h1>
@@ -38,7 +38,7 @@ const ProductList = ({ data }) => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductList;
+export default ProductList

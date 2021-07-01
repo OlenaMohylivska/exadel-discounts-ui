@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const Loupe = () => {
   return (
@@ -36,7 +36,7 @@ const Loupe = () => {
       <g></g>
       <g></g>
     </svg>
-  );
-};
+  )
+}
 
-export default Loupe;
+export default Loupe

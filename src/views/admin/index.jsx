@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Tabs, Tab } from "react-bootstrap";
-import { useRouteMatch, useHistory } from "react-router-dom";
+import React, { useEffect } from "react"
+import { Tabs, Tab } from "react-bootstrap"
+import { useRouteMatch, useHistory } from "react-router-dom"
 
 const Admin = () => {
   const adminTabs = [
@@ -9,17 +9,17 @@ const Admin = () => {
     { eventKey: "add-item", title: "✚ Add promotion" },
     { eventKey: "all-companies", title: "All companies" },
     { eventKey: "tools", title: "Tools" },
-  ];
+  ]
 
-  const { path } = useRouteMatch();
-  const history = useHistory();
-  const onTabSelected = (eventKey) => history.push(`${path}/${eventKey}`);
+  const { path } = useRouteMatch()
+  const history = useHistory()
+  const onTabSelected = (eventKey) => history.push(`${path}/${eventKey}`)
 
   useEffect(() => {
     if (history.location.pathname === "/admin") {
-      history.push(`${path}/statistics`);
+      history.push(`${path}/statistics`)
     }
-  }, []);
+  }, [])
 
   return (
     <div className="container">
@@ -33,7 +33,7 @@ const Admin = () => {
         ))}
       </Tabs>
     </div>
-  );
-};
+  )
+}
 
-export default Admin;
+export default Admin

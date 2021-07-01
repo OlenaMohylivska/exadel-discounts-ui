@@ -1,14 +1,14 @@
-import React from "react";
-import { Accordion } from "react-bootstrap";
-import CustomToggle from "../custom-toggle";
-import PropTypes from "prop-types";
-import Loupe from "../icons/Loupe";
-import "./styles.css";
+import React from "react"
+import { Accordion } from "react-bootstrap"
+import CustomToggle from "../custom-toggle"
+import PropTypes from "prop-types"
+import Loupe from "../icons/Loupe"
+import "./styles.css"
 
 const Filters = ({ setVal }) => {
   const handleChange = (e) => {
-    setVal(e.target.value);
-  };
+    setVal(e.target.value)
+  }
   return (
     <div className="filters">
       <Accordion>
@@ -56,11 +56,11 @@ const Filters = ({ setVal }) => {
         </div>
       </Accordion>
     </div>
-  );
-};
+  )
+}
 
-export default Filters;
+export default Filters
 
 Filters.propTypes = {
   setVal: PropTypes.func,
-};
+}

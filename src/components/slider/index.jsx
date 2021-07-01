@@ -1,13 +1,13 @@
-import React from "react";
-import { Carousel } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Image1 from "../../assets/1.jpg";
-import Image2 from "../../assets/2.jpg";
-import Image3 from "../../assets/3.jpg";
-import "./styles.css";
+import React from "react"
+import { Carousel } from "react-bootstrap"
+import { Link } from "react-router-dom"
+import Image1 from "../../assets/1.jpg"
+import Image2 from "../../assets/2.jpg"
+import Image3 from "../../assets/3.jpg"
+import "./styles.css"
 
 const Slider = () => {
-  const sliderImages = [Image1, Image2, Image3];
+  const sliderImages = [Image1, Image2, Image3]
   return (
     <Carousel
       prevLabel={null}
@@ -28,10 +28,10 @@ const Slider = () => {
               />
             </Link>
           </Carousel.Item>
-        );
+        )
       })}
     </Carousel>
-  );
-};
+  )
+}
 
-export default Slider;
+export default Slider

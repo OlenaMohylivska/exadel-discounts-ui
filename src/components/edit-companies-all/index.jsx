@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from "react";
-import * as axios from "axios";
-import Loupe from "components/icons/Loupe";
-import { Form, Button } from "react-bootstrap";
-import CompanyInfo from "components/companyInfo";
-import "./styles.scss";
+import React, { useState, useEffect } from "react"
+import * as axios from "axios"
+import Loupe from "components/icons/Loupe"
+import { Form, Button } from "react-bootstrap"
+import CompanyInfo from "components/companyInfo"
+import "./styles.scss"
 // import AddCompany from "components/add-company"
-import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom"
 
-const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const EditCompaniesAll = () => {
-  const [companies, setCompanies] = useState(null);
-  const [newCompany, setNewCompany] = useState(false);
-  const [companiesFetchError, setCompaniesFetchError] = useState(null);
+  const [companies, setCompanies] = useState(null)
+  const [newCompany, setNewCompany] = useState(false)
+  const [companiesFetchError, setCompaniesFetchError] = useState(null)
 
   const fetchData = async (url, setFunc) => {
     try {
-      await axios.get(baseUrl + url).then((response) => setFunc(response.data));
+      await axios.get(baseUrl + url).then((response) => setFunc(response.data))
     } catch (e) {
-      setCompaniesFetchError(e.message);
+      setCompaniesFetchError(e.message)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData("/api/company/all", setCompanies);
-  }, []);
+    fetchData("/api/company/all", setCompanies)
+  }, [])
 
   const addNewCompanyHandler = () => {
-    setNewCompany(!newCompany);
-  };
+    setNewCompany(!newCompany)
+  }
 
   return (
     <div className="container">
@@ -66,7 +66,7 @@ const EditCompaniesAll = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EditCompaniesAll;
+export default EditCompaniesAll

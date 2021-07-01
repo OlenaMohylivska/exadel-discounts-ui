@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
-import ProductCard from "components/product-card";
-import { Form, Container } from "react-bootstrap";
-import Loupe from "components/icons/Loupe";
-import Select from "react-select";
-import * as axios from "axios";
-import "./styles.scss";
+import React, { useState, useEffect, useMemo } from "react"
+import ProductCard from "components/product-card"
+import { Form, Container } from "react-bootstrap"
+import Loupe from "components/icons/Loupe"
+import Select from "react-select"
+import * as axios from "axios"
+import "./styles.scss"
 
 const productImages = [
   "https://image.freepik.com/free-photo/flat-lay-salad-with-chicken-sesame-seeds_23-2148700369.jpg",
@@ -26,13 +26,13 @@ const productImages = [
   "https://image.freepik.com/free-photo/african-american-woman-experiencing-vr-simulation_53876-98564.jpg",
   "https://as1.ftcdn.net/jpg/02/96/54/62/500_F_296546295_j8CKPzLmQ3xHmD2X7wmivK1m5WnIxo6W.jpg",
   "https://image.freepik.com/free-photo/pancake-week-shrovetide-rolled-pancakes-stuffed-chicken-meat-vegetables-savory-crepes_2829-20292.jpg",
-];
+]
 
 const Catalog = () => {
-  const [discounts, setDiscounts] = useState(null);
-  const [searchLocation, setSearchLocation] = useState([]);
-  const [filterTags, setFilterTags] = useState([]);
-  const [discountsFetchError, setDiscountsFetchError] = useState(null);
+  const [discounts, setDiscounts] = useState(null)
+  const [searchLocation, setSearchLocation] = useState([])
+  const [filterTags, setFilterTags] = useState([])
+  const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const fetchData = async () => {
     try {
       await axios
@@ -44,50 +44,50 @@ const Catalog = () => {
               img: productImages[index],
             }))
           )
-        );
+        )
     } catch (e) {
-      setDiscountsFetchError(e.message);
+      setDiscountsFetchError(e.message)
     }
-  };
+  }
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all";
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all"
     axios.get(apiUrl).then((resp) => {
-      setSearchLocation(resp.data);
-    });
-  }, []);
+      setSearchLocation(resp.data)
+    })
+  }, [])
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/";
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/"
     axios.get(apiUrl).then((res) => {
-      setFilterTags(res.data);
-    });
-  }, []);
+      setFilterTags(res.data)
+    })
+  }, [])
 
-  const sortingByRate = ["Top rated"];
+  const sortingByRate = ["Top rated"]
 
   const citiesOptions = useMemo(() => {
     return searchLocation.map((location) => ({
       label: location.city,
       value: location.city,
-    }));
-  }, [searchLocation]);
+    }))
+  }, [searchLocation])
 
   const categoriesOptions = filterTags.map((el) => {
     return {
       value: el.name,
       label: el.name,
-    };
-  });
+    }
+  })
 
   const sortingOptions = sortingByRate.map((el) => {
     return {
       value: el,
       label: el,
-    };
-  });
+    }
+  })
 
   return (
     <Container className="catalog-wrapper">
@@ -125,7 +125,7 @@ const Catalog = () => {
       {discounts ? (
         <div className="discounts-wrapper">
           {discounts.map((el) => {
-            return <ProductCard elem={el} key={el.id} />;
+            return <ProductCard elem={el} key={el.id} />
           })}
         </div>
       ) : (
@@ -134,7 +134,7 @@ const Catalog = () => {
         </div>
       )}
     </Container>
-  );
-};
+  )
+}
 
-export default Catalog;
+export default Catalog

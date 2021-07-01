@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { Line, Bar, Doughnut, Pie } from "react-chartjs-2";
-import * as axios from "axios";
+import React, { useState, useEffect } from "react"
+import { Col, Container, Row } from "react-bootstrap"
+import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
+import * as axios from "axios"
 
-const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const Statistics = () => {
   // eslint-disable-next-line no-unused-vars
-  const [allOrdersByRatingData, setAllOrdersByRatingData] = useState([]);
-  const [allOrdersByRating, setAllOrdersByRating] = useState({});
-  const [allOrdersByCount, setAllOrdersByCount] = useState({});
-  const [ordersOfEachCompany, setOrdersOfEachCompany] = useState({});
+  const [allOrdersByRatingData, setAllOrdersByRatingData] = useState([])
+  const [allOrdersByRating, setAllOrdersByRating] = useState({})
+  const [allOrdersByCount, setAllOrdersByCount] = useState({})
+  const [ordersOfEachCompany, setOrdersOfEachCompany] = useState({})
 
   /*1 */
   const ordersOfEachCompanyForWeek = {
@@ -31,7 +31,7 @@ const Statistics = () => {
         borderColor: "#c728f6",
       },
     ],
-  };
+  }
 
   const ordersOfEachCompanyForWeekOptions = {
     responsive: true,
@@ -50,13 +50,13 @@ const Statistics = () => {
         },
       ],
     },
-  };
+  }
   /*2 */
   useEffect(() => {
     axios.get(baseUrl + "/api/discounts/all").then((response) => {
-      setAllOrdersByRatingData(response.data);
-    });
-  }, []);
+      setAllOrdersByRatingData(response.data)
+    })
+  }, [])
 
   useEffect(() => {
     setAllOrdersByRating({
@@ -69,8 +69,8 @@ const Statistics = () => {
           backgroundColor: "#1fbeff",
         },
       ],
-    });
-  }, []);
+    })
+  }, [])
 
   const allOrdersByRatingOptions = {
     responsive: true,
@@ -80,7 +80,7 @@ const Statistics = () => {
         onClick: () => {},
       },
     },
-  };
+  }
 
   /*3 */
   useEffect(() => {
@@ -93,12 +93,12 @@ const Statistics = () => {
           backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
         },
       ],
-    });
-  }, []);
+    })
+  }, [])
   const roundChartsOptions = {
     responsive: true,
     maintainAspectRatio: false,
-  };
+  }
 
   /*4 */
   useEffect(() => {
@@ -117,8 +117,8 @@ const Statistics = () => {
           ],
         },
       ],
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <Container>
@@ -165,7 +165,7 @@ const Statistics = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Statistics;
+export default Statistics

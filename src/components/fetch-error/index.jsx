@@ -1,8 +1,8 @@
-import React from "react";
-import "./styles.css";
-import PropTypes from "prop-types";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React from "react"
+import "./styles.css"
+import PropTypes from "prop-types"
+import { Button } from "react-bootstrap"
+import { Link } from "react-router-dom"
 
 const FetchError = ({ error }) => {
   return (
@@ -24,11 +24,11 @@ const FetchError = ({ error }) => {
         alt=""
       />
     </div>
-  );
-};
+  )
+}
 
-export default FetchError;
+export default FetchError
 
 FetchError.propTypes = {
   error: PropTypes.string,
-};
+}

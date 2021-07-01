@@ -1,7 +1,7 @@
-import React from "react";
-import { Card, Button } from "react-bootstrap";
-import propTypes from "prop-types";
-import "./styles.css";
+import React from "react"
+import { Card, Button } from "react-bootstrap"
+import propTypes from "prop-types"
+import "./styles.css"
 
 const LinearProductCard = ({
   IconComponent,
@@ -52,14 +52,14 @@ const LinearProductCard = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 LinearProductCard.propTypes = {
   IconComponent: propTypes.elementType,
   id: propTypes.number,
   favourite: propTypes.bool,
   toggleFavourite: propTypes.func,
-};
+}
 
-export default LinearProductCard;
+export default LinearProductCard

@@ -1,21 +1,21 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import Admin from "../views/admin";
-import DiscountPage from "../views/discount-page";
-import Home from "./../views/home";
-import Login from "./../views/login";
-import Profile from "./../views/profile";
-import FavouritePage from "views/favourite-page";
-import HistoryPage from "views/history-page";
-import AddCompany from "components/add-company";
-import AddItem from "components/add-item";
-import EditCompany from "components/edit-company";
-import EditItem from "components/edit-item";
-import Tools from "components/tools";
-import EditSlider from "components/edit-slider";
-import Statistics from "components/statistics";
-import Companies from "components/companies";
-import "./styles.scss";
+import React from "react"
+import { Route } from "react-router-dom"
+import Admin from "../views/admin"
+import DiscountPage from "../views/discount-page"
+import Home from "./../views/home"
+import Login from "./../views/login"
+import Profile from "./../views/profile"
+import FavouritePage from "views/favourite-page"
+import HistoryPage from "views/history-page"
+import AddCompany from "components/add-company"
+import AddItem from "components/add-item"
+import EditCompany from "components/edit-company"
+import EditItem from "components/edit-item"
+import Tools from "components/tools"
+import EditSlider from "components/edit-slider"
+import Statistics from "components/statistics"
+import Companies from "components/companies"
+import "./styles.scss"
 
 function AppRouter() {
   return (
@@ -76,7 +76,7 @@ function AppRouter() {
         <Companies />
       </Route>
     </>
-  );
+  )
 }
 
-export default AppRouter;
+export default AppRouter

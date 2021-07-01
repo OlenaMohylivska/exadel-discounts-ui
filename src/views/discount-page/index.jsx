@@ -1,37 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router";
-import { Button } from "react-bootstrap";
-import StarRatings from "react-star-ratings";
-import * as axios from "axios";
-import FetchError from "../../components/fetch-error";
-import "./styles.css";
+import React, { useState, useEffect } from "react"
+import { useParams, useLocation } from "react-router"
+import { Button } from "react-bootstrap"
+import StarRatings from "react-star-ratings"
+import * as axios from "axios"
+import FetchError from "../../components/fetch-error"
+import "./styles.css"
 
-const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const DiscountPage = () => {
-  const [discount, setDiscount] = useState(null);
-  const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const location = useLocation();
-  const { image } = location.state ? location.state : "";
-  const { id } = useParams();
+  const [discount, setDiscount] = useState(null)
+  const [show, setShow] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const location = useLocation()
+  const { image } = location.state ? location.state : ""
+  const { id } = useParams()
   const fetchData = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       await axios
         .get(`${baseUrl}/api/discounts/${id}`)
-        .then((response) => setDiscount(response.data));
-      setLoading(false);
+        .then((response) => setDiscount(response.data))
+      setLoading(false)
     } catch (e) {
-      setErrorMessage(e.message);
+      setErrorMessage(e.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   return (
     <>
@@ -85,7 +85,7 @@ const DiscountPage = () => {
         <FetchError error={errorMessage ? errorMessage : ""} />
       )}
     </>
-  );
-};
+  )
+}
 
-export default DiscountPage;
+export default DiscountPage

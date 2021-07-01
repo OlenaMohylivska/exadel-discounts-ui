@@ -1,7 +1,7 @@
-import React from "react";
-import Catalog from "views/catalog";
+import React from "react"
+import Catalog from "views/catalog"
 
-import "./styles.scss";
+import "./styles.scss"
 
 function Home() {
   return (
@@ -34,7 +34,7 @@ function Home() {
         </div>
       </div> */}
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home

@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import "./styles.scss";
-import { Form, Button, Container, Col } from "react-bootstrap";
-import { EyeFill } from "react-bootstrap-icons";
+import React, { useState } from "react"
+import "./styles.scss"
+import { Form, Button, Container, Col } from "react-bootstrap"
+import { EyeFill } from "react-bootstrap-icons"
 
 function Login() {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordVisible, setpasswordVisible] = useState(false);
+  const [login, setLogin] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordVisible, setpasswordVisible] = useState(false)
 
   const onLoginChange = (event) => {
-    setLogin(event.target.value);
-  };
+    setLogin(event.target.value)
+  }
 
   const onPasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
+    setPassword(event.target.value)
+  }
 
   const onPasswordShow = () => {
-    setpasswordVisible(!passwordVisible);
-  };
+    setpasswordVisible(!passwordVisible)
+  }
 
   return (
     <Container>
@@ -67,7 +67,7 @@ function Login() {
         </Form>
       </Col>
     </Container>
-  );
+  )
 }
 
-export default Login;
+export default Login

@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Image } from "react-bootstrap";
-import { XLg, Download } from "react-bootstrap-icons";
-import Image1 from "../../assets/1.jpg";
-import Image2 from "../../assets/2.jpg";
-import Image3 from "../../assets/3.jpg";
-import "./styles.scss";
+import React, { useState, useEffect } from "react"
+import { Image } from "react-bootstrap"
+import { XLg, Download } from "react-bootstrap-icons"
+import Image1 from "../../assets/1.jpg"
+import Image2 from "../../assets/2.jpg"
+import Image3 from "../../assets/3.jpg"
+import "./styles.scss"
 
 const EditSlider = () => {
-  const sliderImages = [Image1, Image2, Image3];
-  const [images, setImages] = useState(sliderImages);
-  const [fileImage, setFileImage] = useState("");
+  const sliderImages = [Image1, Image2, Image3]
+  const [images, setImages] = useState(sliderImages)
+  const [fileImage, setFileImage] = useState("")
 
   const onAddImage = (event) => {
-    setFileImage(URL.createObjectURL(event.target.files[0]));
-  };
+    setFileImage(URL.createObjectURL(event.target.files[0]))
+  }
 
   useEffect(() => {
     if (fileImage) {
-      setImages((images) => [...images, fileImage]);
+      setImages((images) => [...images, fileImage])
     }
-  }, [fileImage]);
+  }, [fileImage])
 
   const deleteImage = (index) => {
     setImages((images) => {
-      const newState = [...images];
-      newState.splice(index, 1);
-      return newState;
-    });
-  };
+      const newState = [...images]
+      newState.splice(index, 1)
+      return newState
+    })
+  }
 
   return (
     <div className="container">
@@ -63,7 +63,7 @@ const EditSlider = () => {
                     onClick={() => deleteImage(index)}
                   />
                 </div>
-              );
+              )
             })}
             {images.length !== 0 ? null : (
               <h5 className="text-center mt-3">No images found</h5>
@@ -72,7 +72,7 @@ const EditSlider = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EditSlider;
+export default EditSlider

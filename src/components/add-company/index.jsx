@@ -1,34 +1,34 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap";
-import Select from "react-select";
-import PropTypes from "prop-types";
-import axios from "axios";
-import CustomModalWindow from "components/custom-modal-window";
-import "./styles.scss";
-import FileUploadPage from "components/upload-file";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState, useMemo } from "react"
+import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
+import Select from "react-select"
+import PropTypes from "prop-types"
+import axios from "axios"
+import CustomModalWindow from "components/custom-modal-window"
+import "./styles.scss"
+import FileUploadPage from "components/upload-file"
+import { useHistory } from "react-router-dom"
 
 const AddCompany = (props) => {
-  const [allLocationList, setAllLocationList] = useState([]);
-  const [companyName, setCompanyName] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [show, setShow] = useState(false);
-  const toggleModal = () => setShow(!show);
+  const [allLocationList, setAllLocationList] = useState([])
+  const [companyName, setCompanyName] = useState("")
+  const [city, setCity] = useState("")
+  const [country, setCountry] = useState("")
+  const [show, setShow] = useState(false)
+  const toggleModal = () => setShow(!show)
   const [companyPostError, setCompanyPostError] = useState({
     error: null,
     show: false,
-  });
+  })
 
-  const history = useHistory();
+  const history = useHistory()
 
   const citiesOptions = useMemo(() => {
     return allLocationList.map((location) => ({
       ...location,
       label: location.city,
       value: location.city,
-    }));
-  }, [allLocationList]);
+    }))
+  }, [allLocationList])
 
   const countryOptions = [
     {
@@ -39,30 +39,30 @@ const AddCompany = (props) => {
       label: "Belarus",
       value: "Belarus",
     },
-  ];
+  ]
 
   useEffect(() => {
-    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location/all`;
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location/all`
     axios.get(apiUrl).then((resp) => {
-      setAllLocationList(resp.data);
-    });
-  }, []);
+      setAllLocationList(resp.data)
+    })
+  }, [])
 
   useEffect(() => {
     if (props.isEdit) {
-      setCompanyName(props.company.name);
+      setCompanyName(props.company.name)
       setCity(
         props.company.locations.map((el) => ({
           ...el,
           value: el.city,
           label: el.city,
         }))
-      );
+      )
     }
-  }, []);
+  }, [])
 
   function deleteCompany(id) {
-    axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`);
+    axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`)
   }
 
   async function saveCompanyChanges(id) {
@@ -73,23 +73,23 @@ const AddCompany = (props) => {
         modifiedBy: null,
         name: companyName,
         locations: location.map((el) => ({ ...el })),
-      });
+      })
     } catch (e) {
-      setCompanyPostError({ error: e.message, show: true });
+      setCompanyPostError({ error: e.message, show: true })
     }
   }
 
   const companyNameHandler = (e) => {
-    setCompanyName(e.target.value);
-  };
+    setCompanyName(e.target.value)
+  }
 
   const companyCityHandler = (e) => {
-    setCity(e);
-  };
+    setCity(e)
+  }
 
   const companyCountryHandler = (e) => {
-    setCountry(e);
-  };
+    setCountry(e)
+  }
 
   return (
     <Form>
@@ -106,7 +106,7 @@ const AddCompany = (props) => {
                   show={companyPostError.show}
                   autohide
                   onClose={() => {
-                    setCompanyPostError({ show: false, error: null });
+                    setCompanyPostError({ show: false, error: null })
                   }}
                 >
                   <Toast.Body>{companyPostError.error}</Toast.Body>
@@ -150,7 +150,7 @@ const AddCompany = (props) => {
                 variant="secondary"
                 className="btn company-info-btn"
                 onClick={() => {
-                  history.goBack();
+                  history.goBack()
                 }}
               >
                 Go back to admin panel
@@ -161,8 +161,8 @@ const AddCompany = (props) => {
                 variant="danger"
                 className="btn company-info-btn mx-3"
                 onClick={() => {
-                  toggleModal();
-                  deleteCompany(props.company.id);
+                  toggleModal()
+                  deleteCompany(props.company.id)
                 }}
               >
                 Delete company
@@ -179,10 +179,10 @@ const AddCompany = (props) => {
         />
       )}
     </Form>
-  );
-};
+  )
+}
 
-export default AddCompany;
+export default AddCompany
 
 AddCompany.propTypes = {
   display: PropTypes.bool,
@@ -190,4 +190,4 @@ AddCompany.propTypes = {
   isEdit: PropTypes.bool,
   company: PropTypes.object,
   setCompany: PropTypes.func,
-};
+}

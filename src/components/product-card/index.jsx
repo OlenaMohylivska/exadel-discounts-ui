@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Card, Button } from "react-bootstrap";
-import StarRatings from "react-star-ratings";
-import "./styles.css";
-import { Link } from "react-router-dom";
+import React from "react"
+import PropTypes from "prop-types"
+import { Card, Button } from "react-bootstrap"
+import StarRatings from "react-star-ratings"
+import "./styles.css"
+import { Link } from "react-router-dom"
 
 function ProductCard({ elem }) {
   const formattedData = new Date(elem.periodEnd)
@@ -16,7 +16,7 @@ function ProductCard({ elem }) {
     .join("")
     .split("-")
     .reverse()
-    .join("-");
+    .join("-")
 
   return (
     <Card className=" shadow product-card">
@@ -46,10 +46,10 @@ function ProductCard({ elem }) {
         </div>
       </Card.Body>
     </Card>
-  );
+  )
 }
 
-export default ProductCard;
+export default ProductCard
 
 ProductCard.propTypes = {
   elem: PropTypes.shape({
@@ -59,4 +59,4 @@ ProductCard.propTypes = {
     id: PropTypes.number,
     img: PropTypes.string,
   }),
-};
+}

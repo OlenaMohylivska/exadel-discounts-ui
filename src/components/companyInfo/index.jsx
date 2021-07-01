@@ -1,7 +1,7 @@
-import React from "react";
-import { Card, Button } from "react-bootstrap";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Card, Button } from "react-bootstrap"
+import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 
 const CompanyInfo = ({ name, id }) => {
   return (
@@ -23,12 +23,12 @@ const CompanyInfo = ({ name, id }) => {
         </Link>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default CompanyInfo;
+export default CompanyInfo
 
 CompanyInfo.propTypes = {
   name: PropTypes.string,
   id: PropTypes.number,
-};
+}

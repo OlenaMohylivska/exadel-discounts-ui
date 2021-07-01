@@ -1,7 +1,7 @@
-import React from "react";
-import "./styles.scss";
-import { PersonFill, PencilSquare } from "react-bootstrap-icons";
-import { Form } from "react-bootstrap";
+import React from "react"
+import "./styles.scss"
+import { PersonFill, PencilSquare } from "react-bootstrap-icons"
+import { Form } from "react-bootstrap"
 
 function ProfileUserInfo() {
   return (
@@ -65,7 +65,7 @@ function ProfileUserInfo() {
         </Form>
       </div>
     </div>
-  );
+  )
 }
 
-export default ProfileUserInfo;
+export default ProfileUserInfo

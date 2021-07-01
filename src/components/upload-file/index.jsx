@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import "./styles.scss";
+import React, { useState } from "react"
+import "./styles.scss"
 
 function FileUploadPage() {
-  const [selectedFile, setSelectedFile] = useState();
-  const [isSelected, setIsSelected] = useState(false);
-  const [fileView, setFileView] = useState(null);
+  const [selectedFile, setSelectedFile] = useState()
+  const [isSelected, setIsSelected] = useState(false)
+  const [fileView, setFileView] = useState(null)
 
   const changeHandler = (event) => {
-    setSelectedFile(event.target.files[0]);
-    setIsSelected(true);
-    setFileView(URL.createObjectURL(event.target.files[0]));
-  };
+    setSelectedFile(event.target.files[0])
+    setIsSelected(true)
+    setFileView(URL.createObjectURL(event.target.files[0]))
+  }
 
   return (
     <div className="upload-container">
@@ -37,7 +37,7 @@ function FileUploadPage() {
         </label>
       </div>
     </div>
-  );
+  )
 }
 
-export default FileUploadPage;
+export default FileUploadPage

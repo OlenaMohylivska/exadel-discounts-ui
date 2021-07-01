@@ -1,6 +1,6 @@
-import { Modal } from "bootstrap";
-import React from "react";
-import "./styles.css";
+import { Modal } from "bootstrap"
+import React from "react"
+import "./styles.css"
 const Promocode = () => {
   return (
     <Modal>
@@ -9,7 +9,7 @@ const Promocode = () => {
       </Modal.Header>
       <Modal.Body>This is your</Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default Promocode;
+export default Promocode
