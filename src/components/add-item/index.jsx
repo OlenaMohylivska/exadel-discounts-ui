@@ -78,7 +78,7 @@ const AddItem = (props) => {
     })
     fetchData(`/api/company/${e.id}`, setActualLocation)
   }
-  console.log(actualLocation)
+
   useEffect(() => {
     fetchData("/api/company/all", setDiscountProviders)
   }, [])
