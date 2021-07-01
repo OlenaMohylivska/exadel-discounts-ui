@@ -12,6 +12,7 @@ const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const location = useLocation()
   const { image } = location.state ? location.state : ""
   const { id } = useParams()
@@ -23,7 +24,9 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
-      setLoading(false)
+
+      setErrorMessage(e.message)
+
     } finally {
       setLoading(false)
     }
@@ -36,13 +39,13 @@ const DiscountPage = () => {
     <>
       {loading ? <div>Loading</div> : ""}
       {discount ? (
-        <div className='container discount-container flex-wrap'>
-          <div className='col-lg-6 col-md-12'>
-            <div className='img-container'>
-              <img src={image} className='discount-image' alt='discount-img' />
+        <div className="container discount-container flex-wrap">
+          <div className="col-lg-6 col-md-12">
+            <div className="img-container">
+              <img src={image} className="discount-image" alt="discount-img" />
             </div>
           </div>
-          <div className='col-lg-6 col-md-12'>
+          <div className="col-lg-6 col-md-12">
             <h3>Discount Name:{discount.name}</h3>
             <h4>
               Company:
@@ -66,14 +69,14 @@ const DiscountPage = () => {
             </h4>
             <h4>Description:</h4>
             <p>{discount.description}</p>
-            <div className='rates'>
-              <StarRatings starDimension='27px' starSpacing='5px' />
+            <div className="rates">
+              <StarRatings starDimension="27px" starSpacing="5px" />
             </div>
-            <div className='action'>
-              <Button onClick={() => setShow(!show)} variant='primary'>
+            <div className="action">
+              <Button onClick={() => setShow(!show)} variant="primary">
                 Order
               </Button>
-              <Button variant='dark'>Feedbacks</Button>
+              <Button variant="dark">Feedbacks</Button>
             </div>
             <div className={`${!show ? "hide" : "display"}`}>
               {discount.promoCode}
@@ -81,7 +84,7 @@ const DiscountPage = () => {
           </div>
         </div>
       ) : (
-        <FetchError />
+        <FetchError error={errorMessage ? errorMessage : ""} />
       )}
     </>
   )

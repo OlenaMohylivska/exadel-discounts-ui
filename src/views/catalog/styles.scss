@@ -3,15 +3,18 @@
   text-align: center;
 }
 
-.catalog-wrapper{
+.catalog-wrapper {
   min-height: 100vh;
-  background-color: #f7f2f2;
 }
 
 .container .filter-panel {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.filter-panel {
+  width: 100%;
+  padding: 0 0 0 12px;
 }
 
 .search-container {
@@ -48,13 +51,13 @@
   position: absolute;
   right: 11px;
   padding: 5px;
-  background-color: #E5EBF0;
+  background-color: #e5ebf0;
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
 }
 .discounts-wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 15px;
   justify-items: center;
 }
@@ -63,6 +66,11 @@
   margin: 30px 0;
   display: flex;
   justify-content: center;
+}
+.fetch-error-info {
+  width: 100%;
+  padding: 40px;
+  font-size: 32px;
 }
 
 @media (max-width: 720px) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { Button, Form, FormControl, InputGroup } from "react-bootstrap"
-import Error from "../error"
+import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
+import ValidationError from "../validation-error"
 import "./styles.scss"
 import * as axios from "axios"
 import Select from "react-select"
@@ -18,11 +18,12 @@ const AddItem = (props) => {
     periodStart: null,
   })
   const [errors, setErrors] = useState({})
-
+  const [discountPostError, setDiscountPostError] = useState({
+    error: null,
+    show: false,
+  })
   const [discountProviders, setDiscountProviders] = useState([])
-  const [discountProvidersLocations, setDiscountProvidersLocations] = useState(
-    []
-  )
+
   const [tags, setTags] = useState([])
   const [category, setCategory] = useState({})
   const companyOptions = discountProviders.map((company) => {
@@ -33,21 +34,6 @@ const AddItem = (props) => {
     }
   })
 
-  const countryOptions = discountProvidersLocations.map((location) => {
-    return {
-      value: location.country.name,
-      label: location.country.name,
-      id: location.country.id,
-    }
-  })
-  let cityOptions = discountProvidersLocations.map((location) => {
-    return {
-      value: location.city,
-      label: location.city,
-      id: location.id,
-    }
-
-  })
 
   const tagsOptions = tags.map((tag) => {
     return {
@@ -57,7 +43,13 @@ const AddItem = (props) => {
     }
   })
 
-  const categoryOptions = [{ value: "Food", label: "Food" }, { value: "Sport", label: "Sport" }, { value: "Education", label: "Education" }]
+
+  const categoryOptions = [
+    { value: "Food", label: "Food" },
+    { value: "Sport", label: "Sport" },
+    { value: "Education", label: "Education" },
+  ]
+
 
   const fetchData = async (url, setFunc) => {
     axios.get(baseUrl + url).then((response) => setFunc(response.data))
@@ -89,9 +81,9 @@ const AddItem = (props) => {
     fetchData("/api/tags", setTags)
   }, [])
 
-  useEffect(() => {
-    fetchData("/api/location/all", setDiscountProvidersLocations)
-  }, [])
+  // useEffect(() => {
+  //   fetchData("/api/location/all", setDiscountProvidersLocations)
+  // }, [])
 
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
@@ -109,7 +101,8 @@ const AddItem = (props) => {
     if (data.periodStart > data.periodEnd) errorObj.periodEnd = "Wrong data"
     if (!data.name) errorObj.name = "Name cannot be blank"
     if (!data.promoCode) errorObj.promoCode = "PromoCode cannot be blank"
-    if (data.company.length === 0) errorObj.company = "Choose company"
+    if (data.company && data.company.length === 0)
+      errorObj.company = "Choose company"
     if (data.tags.length === 0) errorObj.tags = "Select tags"
     return errorObj
   }
@@ -124,7 +117,7 @@ const AddItem = (props) => {
         axios.post(baseUrl + "/api/discounts", data)
         reset()
       } catch (e) {
-        throw e.message
+        setDiscountPostError({ error: e.message, show: true })
       }
     }
   }
@@ -157,41 +150,57 @@ const AddItem = (props) => {
 
   return (
     <Form>
-      <div className='discount-container'>
-        <div className='discount-col '>
-          <div className='load-img'>
+
+      <div className="discount-container">
+        <Toast
+          show={discountPostError.show}
+          autohide
+          onClose={() => {
+            setDiscountPostError({ show: false, error: null })
+          }}
+        >
+          <Toast.Body>{discountPostError.error}</Toast.Body>
+        </Toast>
+        <div className="discount-col ">
+          <div className="load-img">
+
             <FileUploadPage />
           </div>
-          <div className='description'>
-            <h3>Description:</h3>
+          <div className="description">
+            <span className="headers">Description:</span>
             <InputGroup>
               <FormControl
-                as='textarea'
-                className='description-text'
-                name='description'
+                as="textarea"
+                className="description-text"
+                name="description"
                 value={data.description ? data.description : ""}
                 onChange={(e) => handleChange(e)}
-                id=''
+                id=""
               />
             </InputGroup>
-            {errors.description ? <Error error={errors.description} /> : ""}
+            {errors.description ? (
+              <ValidationError error={errors.description} />
+            ) : (
+              ""
+            )}
           </div>
 
-          <div className='btn-field'>
+          <div className="btn-field">
             <Button
-              variant='primary'
-              className='btn'
-              onClick={props.isEditable ? () => edit() : () => submit()}>
+              variant="primary"
+              className="btn"
+              onClick={props.isEditable ? () => edit() : () => submit()}
+            >
               Save
             </Button>
-            <Button variant='danger' onClick={() => reset()} className='btn'>
+            <Button variant="danger" onClick={() => reset()} className="btn">
               Reset
             </Button>
           </div>
         </div>
-        <div className='col input-fields '>
-          <div className='discount-provider-name'>
-            <h4 className='discount-subtitle'>Select Company Name:</h4>
+        <div className="col input-fields ">
+          <div className="discount-provider-name">
+            <span className="discount-subtitle">Select Company Name:</span>
             <Select
               options={companyOptions}
               onChange={(e) => {
@@ -199,87 +208,75 @@ const AddItem = (props) => {
               }}
             />
           </div>
-          {errors.company ? <Error error={errors.company} /> : ""}
-          <div className='discount-provider-location'>
-            <h4 className='discount-subtitle'>Select Country:</h4>
-            <Select
-              required
-              options={countryOptions}
-              onChange={() => { }}
-            />
-            <h4 className='discount-subtitle'>Select City:</h4>
-            <Select
-              options={cityOptions}
-              onChange={() => { }}
-              isMulti
-            />
-            <h4>Enter address:</h4>
-            <InputGroup>
-              <FormControl
-                placeholder='Enter address:'
-                onChange={(e) => handleChange(e)}
-              />
-            </InputGroup>
-          </div>
-          <h4 className='discount-subtitle'>Category:</h4>
+
+          {errors.company ? <ValidationError error={errors.company} /> : ""}
+
+          <span className="discount-subtitle headers">Category:</span>
           <Select
             value={category}
             options={categoryOptions}
-            name='category'
+            name="category"
             onChange={(e) => handleChangeCategory(e)}
           />
-          {errors.tags ? <Error error={errors.tags} /> : ""}
-          <h4 className='discount-subtitle'>Discount Tags:</h4>
+          {errors.tags ? <ValidationError error={errors.tags} /> : ""}
+          <span className="discount-subtitle headers">Discount Tags:</span>
+
           <Select
             isMulti
             options={tagsOptions}
             onChange={(e) => handleChangeTags(e)}
           />
-          {errors.tags ? <Error error={errors.tags} /> : ""}
-          <h4>Name of discount:</h4>
+          {errors.tags ? <ValidationError error={errors.tags} /> : ""}
+          <span className="discount-subtitle headers">Name of discount:</span>
           <InputGroup>
             <FormControl
-              size='sm'
-              placeholder='Fill the name of discount,first letter must be uppercase'
-              name='name'
+              size="sm"
+              placeholder="Fill the name of discount,first letter must be uppercase"
+              name="name"
               value={data.name ? data.name : ""}
               onChange={(e) => handleChange(e)}
             />
           </InputGroup>
-          {errors.name ? <Error error={errors.name} /> : ""}
+          {errors.name ? <ValidationError error={errors.name} /> : ""}
 
-          <h4>Terms:</h4>
-          <h5 className='date-headers'>From:</h5>
+          <span className="discount-subtitle headers">Terms:</span>
+          <span className="date-headers">From:</span>
           <InputGroup>
             <FormControl
-              type='date'
-              name='periodStart'
+              type="date"
+              name="periodStart"
               value={data.periodStart ? data.periodStart : ""}
               onChange={(e) => handleChange(e)}
             />
           </InputGroup>
-          {errors.periodStart ? <Error error={errors.periodStart} /> : ""}
-          <h5 className='date-headers'>To:</h5>
+          {errors.periodStart ? (
+            <ValidationError error={errors.periodStart} />
+          ) : (
+            ""
+          )}
+          <span className="date-headers">To:</span>
           <InputGroup>
             <FormControl
-              type='date'
-              name='periodEnd'
+              type="date"
+              name="periodEnd"
               value={data.periodEnd ? data.periodEnd : ""}
               onChange={(e) => handleChange(e)}
             />
           </InputGroup>
-          {errors.periodEnd ? <Error error={errors.periodEnd} /> : ""}
-          <h4>Promo:</h4>
+
+          {errors.periodEnd ? <ValidationError error={errors.periodEnd} /> : ""}
+          <span className="discount-subtitle headers">Promo:</span>
+
           <InputGroup>
             <FormControl
-              placeholder='Fill the name of promo'
-              name='promoCode'
+              placeholder="Fill the name of promo"
+              name="promoCode"
               onChange={(e) => handleChange(e)}
               value={data.promoCode ? data.promoCode : ""}
             />
           </InputGroup>
 
-          {errors.promoCode ? <Error error={errors.promoCode} /> : ""}
+          {errors.promoCode ? <ValidationError error={errors.promoCode} /> : ""}
         </div>
       </div>
     </Form>
