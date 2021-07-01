@@ -6,11 +6,11 @@ import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import * as axios from "axios"
 import "./styles.scss"
-import {ContextImages} from "store/context"
+import { Context } from "store/context"
 
 const Catalog = () => {
 
-  const cardImages = useContext(ContextImages)
+  const cardImages = useContext(Context)
 
   const [discounts, setDiscounts] = useState([])
   const [searchLocation, setSearchLocation] = useState([])
