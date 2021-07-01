@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { Tabs, Tab } from 'react-bootstrap'
-import { useRouteMatch, useHistory } from 'react-router-dom'
+import React, { useEffect } from "react"
+import { Tabs, Tab } from "react-bootstrap"
+import { useRouteMatch, useHistory } from "react-router-dom"
 
 const Admin = () => {
   const adminTabs = [
@@ -8,7 +8,7 @@ const Admin = () => {
     { eventKey: "add-company", title: "✚ Add company" },
     { eventKey: "add-item", title: "✚ Add promotion" },
     { eventKey: "all-companies", title: "All companies" },
-    { eventKey: "tools", title: "Tools" }
+    { eventKey: "tools", title: "Tools" },
   ]
 
   const { path } = useRouteMatch()
@@ -23,8 +23,14 @@ const Admin = () => {
 
   return (
     <div className="container">
-      <Tabs onSelect={onTabSelected} defaultActiveKey="statistics" transition={false}>
-        {adminTabs.map((tab) => <Tab eventKey={tab.eventKey} title={tab.title} key={tab.eventKey} />)}
+      <Tabs
+        onSelect={onTabSelected}
+        defaultActiveKey="statistics"
+        transition={false}
+      >
+        {adminTabs.map((tab) => (
+          <Tab eventKey={tab.eventKey} title={tab.title} key={tab.eventKey} />
+        ))}
       </Tabs>
     </div>
   )

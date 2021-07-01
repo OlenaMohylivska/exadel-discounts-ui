@@ -13,6 +13,7 @@
   flex: 0 0 auto;
   justify-content: space-around;
   align-items: flex-start;
+
   max-width: 1280px;
   font-size: 0.6rem;
   padding: 0.5rem;
@@ -79,26 +80,26 @@
 @media (max-width: 420px) {
   .footer-inner {
     flex-direction: column;
+  }
 
-    ul {
-      margin-bottom: 0 !important;
-    }
+  ul {
+    margin-bottom: 0 !important;
+  }
 
-    .footer-career li,
-    .footer-domains li {
+  .footer-career li,
+  .footer-domains li {
+    display: none;
+  }
+  .footer-corporate {
+    .corporate-line {
       display: none;
     }
-    .footer-corporate {
-      .corporate-line {
-        display: none;
-      }
-      .footer-socials {
-        position: absolute;
-        left: 180px;
-        top: 24px;
-        li {
-          margin-right: 0.2rem;
-        }
+    .footer-socials {
+      position: absolute;
+      left: 180px;
+      top: 24px;
+      li {
+        margin-right: 0.2rem;
       }
     }
   }

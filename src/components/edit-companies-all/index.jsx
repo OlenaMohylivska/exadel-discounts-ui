@@ -10,11 +10,16 @@ import { Redirect } from "react-router-dom"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const EditCompaniesAll = () => {
-  const [companies, setCompanies] = useState([])
+  const [companies, setCompanies] = useState(null)
   const [newCompany, setNewCompany] = useState(false)
+  const [companiesFetchError, setCompaniesFetchError] = useState(null)
 
   const fetchData = async (url, setFunc) => {
-    axios.get(baseUrl + url).then((response) => setFunc(response.data))
+    try {
+      await axios.get(baseUrl + url).then((response) => setFunc(response.data))
+    } catch (e) {
+      setCompaniesFetchError(e.message)
+    }
   }
 
   useEffect(() => {
@@ -49,10 +54,16 @@ const EditCompaniesAll = () => {
             Add new company
           </Button>
         </div>
-        {newCompany ? <Redirect to="/admin/add-company" /> : ''}
-        {companies.map((company) => (
-          <CompanyInfo key={company.id} name={company.name} id={company.id} />
-        ))}
+        {newCompany ? <Redirect to="/admin/add-company" /> : ""}
+        {companies ? (
+          companies.map((company) => (
+            <CompanyInfo key={company.id} name={company.name} id={company.id} />
+          ))
+        ) : (
+          <div className="fetch-error-info">
+            Sorry, no info, {companiesFetchError && companiesFetchError}
+          </div>
+        )}
       </div>
     </div>
   )

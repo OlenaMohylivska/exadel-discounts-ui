@@ -1,30 +1,25 @@
-import React from "react"
-import { BrowserRouter, Switch } from "react-router-dom"
-import Context from "./store/context"
-import AppRouter from "./router"
-
-import Header from "./components/header"
-import Footer from "./components/footer"
-
-import "./App.scss"
+import React from 'react'
+import { BrowserRouter, Switch } from 'react-router-dom'
+import { Context } from './store/context'
+import AppRouter from './router'
+import Header from './components/header'
+import Footer from './components/footer'
+import { productImages } from 'store/constants'
+import './App.scss'
 
 function App() {
-  const contextCheck = "Context that can be passed to Login"
-
   return (
-    <>
-      <Context.Provider value={{ contextCheck: contextCheck }}>
-        <BrowserRouter>
-          <div className="app-wrapper">
-            <Header />
-            <Switch>
-              <AppRouter />
-            </Switch>
-          </div>
-          <Footer />
-        </BrowserRouter>
-      </Context.Provider>
-    </>
+    <Context.Provider value={productImages}>
+      <BrowserRouter>
+        <Header />
+        <div className="app-wrapper">
+          <Switch>
+            <AppRouter />
+          </Switch>
+        </div>
+        <Footer />
+      </BrowserRouter>
+    </Context.Provider>
   )
 }
 
