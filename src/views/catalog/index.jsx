@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect } from "react"
 import ProductCard from "components/product-card"
 import { Form, Container } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
@@ -36,7 +36,7 @@ const Catalog = () => {
   const fetchData = async () => {
     try {
       await axios
-        .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
+        .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
             response.data.map((el, index) => ({
@@ -54,13 +54,14 @@ const Catalog = () => {
   }, [])
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
     axios.get(apiUrl).then((resp) => {
       setSearchLocation(resp.data)
     })
   }, [])
+
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
     axios.get(apiUrl).then((res) => {
       setFilterTags(res.data)
     })
@@ -73,12 +74,10 @@ const Catalog = () => {
 
   const sortingByRate = ["Top rated"]
 
-  const citiesOptions = useMemo(() => {
-    return searchLocation.map((location) => ({
-      label: location.city,
-      value: location.city,
-    }))
-  }, [searchLocation])
+  const citiesOptions = searchLocation.map((location) => ({
+    label: location.country.name,
+    value: location.country.name,
+  }))
 
   const categoriesOptions = filterTags.map((el) => {
     return {

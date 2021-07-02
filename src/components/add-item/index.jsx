@@ -23,8 +23,10 @@ const AddItem = (props) => {
     error: null,
     show: false,
   })
+  // const [currentLocation, setCurrentLocation] = useState({})
+  const [additionalLocation, setAdditionalLocation] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
-  const [chooseLocation, setChooseLocation] = useState({ countries: [] })
+  const [chooseLocation, setChooseLocation] = useState([])
   const [chooseCityLocation, setChooseCityLocation] = useState([])
   const [chooseAddressLocation, setChooseAddressLocation] = useState([])
   const [tags, setTags] = useState([])
@@ -36,7 +38,8 @@ const AddItem = (props) => {
       id: company.id,
     }
   })
-  const countryOptions = chooseLocation.countries.map((country) => {
+
+  const countryOptions = chooseLocation.map((country) => {
     return {
       value: country.name,
       label: country.name,
@@ -50,21 +53,26 @@ const AddItem = (props) => {
       elem: city.addresses,
     }
   })
-  console.log(chooseAddressLocation)
+  const testClick = () => {
+    setChooseCityLocation()
+    setChooseAddressLocation()
+  }
+
   const addressOptions = chooseAddressLocation.map((address) => {
     return {
       value: address.address,
       label: address.address,
     }
   })
-  const handleChangeCountryLocation = (e) => {
-    setChooseCityLocation(e.elem)
-  }
-  const handleChangeCityLocation = (e) => {
-    setChooseAddressLocation(e.elem)
-  }
-  console.log(chooseCityLocation)
 
+  const addLocation = () => {
+    return setAdditionalLocation([
+      ...additionalLocation,
+      { id: additionalLocation.length },
+    ])
+  }
+
+  console.log(additionalLocation)
   const tagsOptions = tags.map((tag) => {
     return {
       value: tag.name,
@@ -93,17 +101,21 @@ const AddItem = (props) => {
       tags: e.map((elem) => ({ name: elem.value, id: elem.id })),
     })
   }
-
+  const fetchDataLocation = async (url, setFunc) => {
+    axios
+      .get(baseUrl + url)
+      .then((response) => setFunc(response.data.countries))
+  }
   const handleChangeCompanies = (e) => {
     setData({
       ...data,
       company: { id: e.id },
     })
-    fetchData(`/api/company/${e.id}`, setChooseLocation)
+    fetchDataLocation(`/api/company/${e.id}`, setChooseLocation)
   }
 
   useEffect(() => {
-    fetchData("/api/company/all", setDiscountProviders)
+    fetchData("/api/company", setDiscountProviders)
   }, [])
   useEffect(() => {
     fetchData("/api/tags", setTags)
@@ -230,24 +242,24 @@ const AddItem = (props) => {
             />
           </div>
           {errors.company ? <ValidationError error={errors.company} /> : ""}
-          <div>
-            <span className="discount-subtitle">Location </span>
-            <Select
-              options={countryOptions}
-              onChange={(e) => {
-                handleChangeCountryLocation(e)
-              }}
-              placeholder="country"
-            />
-            <Select
-              options={cityOptions}
-              onChange={(e) => {
-                handleChangeCityLocation(e)
-              }}
-              placeholder="city"
-            />
-            <Select options={addressOptions} placeholder="street" isMulti />
-          </div>
+
+          {additionalLocation.map((elem) => (
+            <div key={elem.id}>
+              <span className="discount-subtitle">Location </span>
+              <Select options={countryOptions} placeholder="country" />
+              <Select options={cityOptions} placeholder="city" />
+              <Select options={addressOptions} placeholder="street" isMulti />
+              {elem > 1 ? (
+                <Button variant="outline-dark">Delete location</Button>
+              ) : (
+                ""
+              )}
+            </div>
+          ))}
+          <Button variant="primary" onClick={() => addLocation()}>
+            Add location
+          </Button>
+          <span onClick={() => testClick()}>do not click</span>
 
           <span className="discount-subtitle headers">Category:</span>
           <Select

@@ -24,9 +24,7 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
-
       setErrorMessage(e.message)
-
     } finally {
       setLoading(false)
     }
@@ -45,7 +43,7 @@ const DiscountPage = () => {
               <img src={image} className="discount-image" alt="discount-img" />
             </div>
           </div>
-          <div className="col-lg-6 col-md-12">
+          <div className="col-lg-6 col-md-12 space-between">
             <h3>Discount Name:{discount.name}</h3>
             <h4>
               Company:
