@@ -17,7 +17,7 @@ const Catalog = () => {
   const fetchData = async () => {
     try {
       await axios
-        .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
+        .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
             response.data.map((el, index) => ({
@@ -35,7 +35,7 @@ const Catalog = () => {
   }, [])
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
     axios.get(apiUrl).then((resp) => {
       setSearchLocation(resp.data)
     })
@@ -47,7 +47,7 @@ const Catalog = () => {
     })
   }, [])
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company/all"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company"
     axios.get(apiUrl).then((res) => {
       setSearchCompanies(res.data)
     })
