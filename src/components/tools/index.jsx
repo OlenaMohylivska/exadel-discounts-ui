@@ -69,7 +69,7 @@ const Tools = () => {
             </div>
 
             <div className="col-lg-6 col-md-12 tag-container">
-              <h4 className="my-4 text-center">All current Tags</h4>
+              <h4 className="my-4 text-center">All current Tags </h4>
               <div className="tags">
                 {tags &&
                   tags.map((tag) => (
