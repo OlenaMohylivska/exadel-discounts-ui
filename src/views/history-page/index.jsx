@@ -25,7 +25,7 @@ const HistoryPage = () => {
       <div className="history-card-wrapper">
         {discounts.map(el => {
           return <LinearProductCard
-            buttonText="Leave feedback"
+            buttonText=""
             discount={el}
             discounts={discounts}
             setDiscounts={setDiscounts}

@@ -39,9 +39,9 @@ const LinearProductCard = ({ discount, buttonText, discounts, setDiscounts }) =>
                 <StarRatings starDimension="27px" starSpacing="5px" rating={discount.rate} starRatedColor="gold" />
               </div>
             </Card.Body>
-            <div className="d-flex justify-content-center">
+            { buttonText && <div className="d-flex justify-content-center">
               <Button variant="primary" className="h-100 px-4">{buttonText}</Button>
-            </div>
+            </div> }
           </Link>
           {SuitHeartFill &&
             <div className="star-wrapper">
