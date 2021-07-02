@@ -2,7 +2,7 @@ import React from "react"
 import { Container, Card, Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import PropTypes from "prop-types"
-import { Link, Redirect } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import "./styles.scss"
 
 const PromotionInfo = ({ elem }) => {
@@ -18,8 +18,11 @@ const PromotionInfo = ({ elem }) => {
     .reverse()
     .join("-")
 
+  const history = useHistory()
+  const path = history.location.pathname
+
   const updateItemHandler = () => {
-    <Redirect to={`/edit-item/${elem.id}`} />
+    history.push(`${path}/edit-item/${elem.id}`)
   }
 
   return (

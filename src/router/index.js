@@ -53,7 +53,7 @@ function AppRouter() {
       <Route path="/admin/add-item">
         <AddItem />
       </Route>
-      <Route path="/admin/edit-item/:id">
+      <Route path="/admin/all-promotions/edit-item/:id">
         <EditItem />
       </Route>
 
