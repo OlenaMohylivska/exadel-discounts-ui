@@ -23,7 +23,7 @@ const EditCompaniesAll = () => {
   }
 
   useEffect(() => {
-    fetchData("/api/company/all", setCompanies)
+    fetchData("/api/company", setCompanies)
   }, [])
 
   const addNewCompanyHandler = () => {

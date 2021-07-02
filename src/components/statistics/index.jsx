@@ -53,7 +53,7 @@ const Statistics = () => {
   }
   /*2 */
   useEffect(() => {
-    axios.get(baseUrl + "/api/discounts/all").then((response) => {
+    axios.get(baseUrl + "/api/discounts").then((response) => {
       setAllOrdersByRatingData(response.data)
     })
   }, [])

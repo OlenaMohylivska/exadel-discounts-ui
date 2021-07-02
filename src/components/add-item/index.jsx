@@ -80,7 +80,7 @@ const AddItem = (props) => {
   }
 
   useEffect(() => {
-    fetchData("/api/company/all", setDiscountProviders)
+    fetchData("/api/company", setDiscountProviders)
   }, [])
   useEffect(() => {
     fetchData("/api/tags", setTags)
