@@ -9,7 +9,7 @@ import { Context } from "store/context"
 
 const Catalog = () => {
   const cardImages = useContext(Context)
-  const [discounts, setDiscounts] = useState([])
+  const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
@@ -17,7 +17,7 @@ const Catalog = () => {
   const fetchData = async () => {
     try {
       await axios
-        .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts/all")
+        .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
             response.data.map((el, index) => ({
@@ -35,7 +35,7 @@ const Catalog = () => {
   }, [])
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location/all"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
     axios.get(apiUrl).then((resp) => {
       setSearchLocation(resp.data)
     })
