@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useParams, useLocation } from "react-router"
-import { Button, Form } from "react-bootstrap"
+import { Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import * as axios from "axios"
 import FetchError from "../../components/fetch-error"
@@ -16,7 +16,7 @@ const DiscountPage = () => {
   const location = useLocation()
   const { image } = location.state ? location.state : ""
   const { id } = useParams()
-  const [reviewText, setReviewText] = useState("")
+  // const [reviewText, setReviewText] = useState("")
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allReviews, setAllReviews] = useState([])
@@ -61,7 +61,7 @@ const DiscountPage = () => {
   useEffect(() => {
     setReview({
       rate: rating,
-      comment: reviewText,
+      comment: "",
       date: new Date(),
       discount: discount,
       employee: {
@@ -71,18 +71,18 @@ const DiscountPage = () => {
         role: "USER"
       }
     })
-  }, [reviewText, rating])
+  }, [rating])
 
-  const handleReviewText = e => {
-    setReviewText(e.target.value)
-  }
+  // const handleReviewText = e => {
+  //   setReviewText(e.target.value)
+  // }
   const handleRating = value => {
     setRating(value)
   }
 
   const addReview = () => {
     axios.post(baseUrl + "/api/reviews", review)
-    setReviewText("")
+    // setReviewText("")
     setRating(0)
   }
 
@@ -97,22 +97,25 @@ const DiscountPage = () => {
             </div>
 
             <div>
-              <div className="rates">
-                <StarRatings starDimension="27px" starSpacing="5px" rating={rating} changeRating={handleRating} starRatedColor="#FFD700" />
-              </div>
+
               <div className="action">
-                <div>
-                  <Form.Group>
+                <Button className="w-25 d-flex align-self-end justify-content-center" onClick={() => setShow(!show)} variant="primary">
+                  Order
+                </Button>
+                {/* <Form.Group>
                     <Form.Control className="mb-3" as="textarea" rows={4} cols={50} value={reviewText} onChange={handleReviewText}>
 
                     </Form.Control>
 
-                  </Form.Group>
-                  <Button className="d-flex align-self-start" variant="dark" onClick={() => { addReview() }}>Leave feedback</Button>
+                  </Form.Group> */}
+                <div className="feedback-area">
+                  <div>
+                    <StarRatings starDimension="27px" starSpacing="5px" rating={rating} changeRating={handleRating} starRatedColor="#FFD700" />
+                  </div>
+                  <Button className="d-flex align-self-center mt-3" disabled={rating === 0} variant="dark" onClick={() => { addReview() }}>Leave feedback</Button>
+
                 </div>
-                <Button className="w-25 d-flex align-self-end justify-content-center" onClick={() => setShow(!show)} variant="primary">
-                  Order
-                </Button>
+
 
               </div>
               <div className="d-flex justify-content-end">
@@ -166,30 +169,21 @@ const DiscountPage = () => {
                           </div>
 
                           <p>{review.employee.location || ""}</p>
-                          <p className="my-2"> {new Date(review.date)
-                            .toISOString()
-                            .split(":")
-                            .splice(0, 1)
-                            .join("")
-                            .split("")
-                            .splice(0, 10)
-                            .join("")
-                            .split("-")
-                            .reverse()
-                            .join("-")}</p>
-                        </div>
-                        <div className="d-flex justify-content-between align-items-end">
-                          <p className="comment">{review.comment}</p>
-                          <div className="rates align-self-end">
+                          <div className="align-self-center">
                             <StarRatings starDimension="24px" starSpacing="4px" rating={review.rate} starRatedColor="#FFD700" />
                           </div>
-
                         </div>
+                        {/* <div className="d-flex justify-content-between align-items-end">
+                          <p className="comment">{review.comment}</p>
+
+
+                        </div> */}
                       </div>
                     )
                   })}
 
-                </div> : ""}
+                </div> : <p>No reviews yet(</p>
+              }
             </div>
 
           </div>
