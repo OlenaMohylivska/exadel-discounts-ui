@@ -46,7 +46,7 @@ function AppRouter() {
         <AddCompany />
       </Route>
 
-      <Route path="/admin/edit-company/:id">
+      <Route path="/admin/all-companies/edit-company/:id">
         <EditCompany />
       </Route>
 
@@ -73,11 +73,11 @@ function AppRouter() {
         <Statistics />
       </Route>
 
-      <Route path="/admin/all-companies">
+      <Route path="/admin/all-companies" exact>
         <Companies />
       </Route>
 
-      <Route path="/admin/all-promotions">
+      <Route path="/admin/all-promotions" exact>
         <Promotions />
       </Route>
     </>

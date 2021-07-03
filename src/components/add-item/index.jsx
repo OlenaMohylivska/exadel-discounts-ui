@@ -5,11 +5,13 @@ import "./styles.scss"
 import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
+import { useHistory } from "react-router-dom"
 import PropTypes from "prop-types"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const AddItem = (props) => {
+  const history = useHistory()
   const [data, setData] = useState({
     periodEnd: null,
     tags: [],
@@ -191,6 +193,17 @@ const AddItem = (props) => {
             >
               Save
             </Button>
+            {props.isEditable ? (
+              <Button
+                variant="dark"
+                className="btn"
+                onClick={() => {
+                  history.goBack()
+                }}
+              >
+                Go back to promotions
+              </Button>
+            ) : null}
             <Button variant="danger" onClick={() => reset()} className="btn">
               Reset
             </Button>

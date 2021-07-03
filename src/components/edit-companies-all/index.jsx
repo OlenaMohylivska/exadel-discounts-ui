@@ -56,12 +56,20 @@ const EditCompaniesAll = () => {
         </div>
         {newCompany ? <Redirect to="/admin/add-company" /> : ""}
         {companies ? (
-          companies.map((company) => (
-            <CompanyInfo key={company.id} name={company.name} id={company.id} />
-          ))
+          <div className="companies-wrapper">
+            {companies.map((company) => {
+              return (
+                <CompanyInfo
+                  key={company.id}
+                  name={company.name}
+                  id={company.id}
+                />
+              )
+            })}
+          </div>
         ) : (
           <div className="fetch-error-info">
-            Sorry, no info, {companiesFetchError && companiesFetchError}
+            Sorry no info, {companiesFetchError && companiesFetchError}
           </div>
         )}
       </div>

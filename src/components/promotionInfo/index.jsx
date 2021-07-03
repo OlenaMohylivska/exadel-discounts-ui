@@ -2,7 +2,7 @@ import React from "react"
 import { Container, Card, Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import PropTypes from "prop-types"
-import { Link, useHistory } from "react-router-dom"
+import { Link, useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
 
 const PromotionInfo = ({ elem }) => {
@@ -19,7 +19,8 @@ const PromotionInfo = ({ elem }) => {
     .join("-")
 
   const history = useHistory()
-  const path = history.location.pathname
+  const { path } = useRouteMatch()
+
 
   const updateItemHandler = () => {
     history.push(`${path}/edit-item/${elem.id}`)

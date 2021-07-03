@@ -12,7 +12,7 @@ const AddCompany = (props) => {
   const [allLocationList, setAllLocationList] = useState([])
   const [companyName, setCompanyName] = useState("")
   const [city, setCity] = useState("")
-  const [country, setCountry] = useState("")
+  const [countries, setCountries] = useState("")
   const [address, setAddress] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
@@ -26,24 +26,29 @@ const AddCompany = (props) => {
   const citiesOptions = useMemo(() => {
     return allLocationList.map((location) => ({
       ...location,
-      label: location.city,
-      value: location.city,
+      label: location.country.cities.map((city) => city.name),
+      value: location.country.cities.map((city) => city.name),
     }))
   }, [allLocationList])
 
-  const countryOptions = [
-    {
-      label: "Ukraine",
-      value: "Ukraine",
-    },
-    {
-      label: "Belarus",
-      value: "Belarus",
-    },
-  ]
+  const addressOptions = useMemo(() => {
+    return allLocationList.map((location) => ({
+      ...location,
+      label: location.country.cities[0].addresses[0].address,
+      value: location.country.cities[0].addresses[0].address,
+    }))
+  }, [allLocationList])
+
+  const countryOptions = useMemo(() => {
+    return allLocationList.map((location) => ({
+      ...location,
+      label: location.country.name,
+      value: location.country.name,
+    }))
+  }, [allLocationList])
 
   useEffect(() => {
-    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location/all`
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
     axios.get(apiUrl).then((resp) => {
       setAllLocationList(resp.data)
     })
@@ -60,6 +65,13 @@ const AddCompany = (props) => {
         }))
       )
     }
+  }, [])
+
+  useEffect(() => {
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
+    axios.get(apiUrl).then((resp) => {
+      setCountries(resp.data)
+    })
   }, [])
 
   function deleteCompany(id) {
@@ -93,64 +105,63 @@ const AddCompany = (props) => {
   }
 
   const companyCountryHandler = (e) => {
-    setCountry(e)
+    setCountries(e)
   }
 
   return (
     <Form>
-      <div className="container">
+      <div className="container d-flex flex-row-reverse align-items-start pt-5">
         <div className="col">
           <div className="company-logo">
             <FileUploadPage />
           </div>
-          <div className="company-additional-info">
-            <div className="company-name">
-              <h4 className="company-info-subtitle">Company Name</h4>
-              <InputGroup>
-                <Toast
-                  show={companyPostError.show}
-                  autohide
-                  onClose={() => {
-                    setCompanyPostError({ show: false, error: null })
-                  }}
-                >
-                  <Toast.Body>{companyPostError.error}</Toast.Body>
-                </Toast>
-                <FormControl
-                  value={companyName}
-                  name="company-name"
-                  onChange={companyNameHandler}
-                  className="form-field"
-                />
-              </InputGroup>
-            </div>
-            <div className="company-address ">
-              <h4 className="company-info-subtitle">Country</h4>
-              <Select
-                value={props.isEdit && country}
-                className="address-field"
-                onChange={companyCountryHandler}
-                options={countryOptions}
-                required
+        </div>
+        <div className="col">
+          <div className="company-name">
+            <span className="company-info-subtitle">Company Name</span>
+            <InputGroup>
+              <Toast
+                show={companyPostError.show}
+                autohide
+                onClose={() => {
+                  setCompanyPostError({ show: false, error: null })
+                }}
+              >
+                <Toast.Body>{companyPostError.error}</Toast.Body>
+              </Toast>
+              <FormControl
+                value={companyName}
+                name="company-name"
+                onChange={companyNameHandler}
+                className="form-field"
               />
-              <h4 className="company-info-subtitle">City</h4>
-              <Select
-                value={props.isEdit && city}
-                className="address-field"
-                isMulti
-                onChange={companyCityHandler}
-                options={citiesOptions}
-              />
-              <h4 className="company-info-subtitle">Address</h4>
-              <InputGroup>
-                <FormControl
-                  value={address}
-                  name="company-address"
-                  onChange={companyAddressHandler}
-                  className="form-field"
-                />
-              </InputGroup>
-            </div>
+            </InputGroup>
+          </div>
+          <div className="company-address">
+            <span className="company-info-subtitle">Country</span>
+            <Select
+              value={props.isEdit && countries}
+              className="address-field"
+              onChange={companyCountryHandler}
+              options={countryOptions}
+              required
+            />
+            <span className="company-info-subtitle">City</span>
+            <Select
+              value={props.isEdit && city}
+              className="address-field"
+              isMulti
+              onChange={companyCityHandler}
+              options={citiesOptions}
+            />
+            <span className="company-info-subtitle">Address</span>
+            <Select
+              value={props.isEdit && address}
+              className="address-field"
+              isMulti
+              onChange={companyAddressHandler}
+              options={addressOptions}
+            />
           </div>
           <div className="btn-field d-flex justify-content-between">
             <Button
