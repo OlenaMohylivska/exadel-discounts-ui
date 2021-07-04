@@ -1,38 +1,36 @@
-import React from "react"
-import LinearProductCard from "components/linear-product-card"
-import { StarFill } from "react-bootstrap-icons"
+import React, { useState, useEffect, useContext } from 'react'
+import LinearProductCard from 'components/linear-product-card'
+import axios from 'axios'
+import './styles.scss'
+import { Context } from 'store/context'
+
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const FavouritePage = () => {
-  const [arr, setArr] = React.useState([
-    { id: 1, isFavourite: false },
-    { id: 2, isFavourite: true },
-    { id: 3, isFavourite: false },
-    { id: 4, isFavourite: false },
-  ])
+  const [discounts, setDiscounts] = useState([])
+  const images = useContext(Context)
 
-  function toggleFavourite(id) {
-    setArr(
-      arr.map((el) => {
-        if (el.id === id) {
-          el.isFavourite = !el.isFavourite
-        }
-        return el
+  useEffect(() => {
+    axios.get(`${baseUrl}/api/discounts`)
+      .then(resp => {
+        const allDiscounts = resp.data.map((el, index) => (
+          { ...el, isFavourite: true, image: images[index] }
+        ))
+        setDiscounts(allDiscounts)
       })
-    )
-  }
+  }, [])
 
   return (
     <div className="container">
-      <div className="row">
-        {arr.map((el) => (
-          <LinearProductCard
-            IconComponent={StarFill}
-            id={el.id}
-            favourite={el.isFavourite}
-            toggleFavourite={toggleFavourite}
+      <div className="favourite-card-wrapper">
+        {discounts.map(el => {
+          return <LinearProductCard
+            buttonText="Order"
+            discount={el}
+            discounts={discounts}
+            setDiscounts={setDiscounts}
             key={el.id}
-          />
-        ))}
+          />})}
       </div>
     </div>
   )
