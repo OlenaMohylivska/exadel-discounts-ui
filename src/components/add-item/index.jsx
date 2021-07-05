@@ -6,13 +6,14 @@ import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
 import PropTypes from "prop-types"
+import AddLocation from "../add-location"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: null,
-    location: [],
+    location: null,
     tags: [],
     quantity: null,
     company: null,
@@ -23,14 +24,13 @@ const AddItem = (props) => {
     error: null,
     show: false,
   })
-  // const [currentLocation, setCurrentLocation] = useState({})
-  const [additionalLocation, setAdditionalLocation] = useState([])
+  const [newLocations, setNewLocations] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
-  const [chooseLocation, setChooseLocation] = useState([])
-  const [chooseCityLocation, setChooseCityLocation] = useState([])
-  const [chooseAddressLocation, setChooseAddressLocation] = useState([])
   const [tags, setTags] = useState([])
-  const [category, setCategory] = useState({})
+  const [category, setCategory] = useState("")
+  const [chooseLocation, setChooseLocation] = useState([])
+  const [actualLocation, setActualLocation] = useState([])
+
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -38,41 +38,11 @@ const AddItem = (props) => {
       id: company.id,
     }
   })
-
-  const countryOptions = chooseLocation.map((country) => {
-    return {
-      value: country.name,
-      label: country.name,
-      elem: country.cities,
-    }
-  })
-  const cityOptions = chooseCityLocation.map((city) => {
-    return {
-      value: city.name,
-      label: city.name,
-      elem: city.addresses,
-    }
-  })
-  const testClick = () => {
-    setChooseCityLocation()
-    setChooseAddressLocation()
-  }
-
-  const addressOptions = chooseAddressLocation.map((address) => {
-    return {
-      value: address.address,
-      label: address.address,
-    }
-  })
-
   const addLocation = () => {
-    return setAdditionalLocation([
-      ...additionalLocation,
-      { id: additionalLocation.length },
-    ])
+    setNewLocations([...newLocations, { id: newLocations.length + 1 }])
   }
+  console.log(actualLocation)
 
-  console.log(additionalLocation)
   const tagsOptions = tags.map((tag) => {
     return {
       value: tag.name,
@@ -93,12 +63,16 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
-    setCategory(e)
+    setCategory(e.value)
   }
   const handleChangeTags = (e) => {
     setData({
       ...data,
-      tags: e.map((elem) => ({ name: elem.value, id: elem.id })),
+      tags: e.map((elem) => ({
+        name: elem.value,
+        id: elem.id,
+        category: { name: category },
+      })),
     })
   }
   const fetchDataLocation = async (url, setFunc) => {
@@ -243,27 +217,37 @@ const AddItem = (props) => {
           </div>
           {errors.company ? <ValidationError error={errors.company} /> : ""}
 
-          {additionalLocation.map((elem) => (
-            <div key={elem.id}>
+          {chooseLocation.length !== 0 ? (
+            <>
               <span className="discount-subtitle">Location </span>
-              <Select options={countryOptions} placeholder="country" />
-              <Select options={cityOptions} placeholder="city" />
-              <Select options={addressOptions} placeholder="street" isMulti />
-              {elem > 1 ? (
-                <Button variant="outline-dark">Delete location</Button>
-              ) : (
-                ""
-              )}
-            </div>
-          ))}
-          <Button variant="primary" onClick={() => addLocation()}>
-            Add location
-          </Button>
-          <span onClick={() => testClick()}>do not click</span>
+              <AddLocation
+                chooseLocation={chooseLocation}
+                actualLocation={actualLocation}
+                setActualLocation={setActualLocation}
+              />
+              {newLocations.map((elem) => (
+                <AddLocation
+                  key={elem.id}
+                  chooseLocation={chooseLocation}
+                  actualLocation={actualLocation}
+                  setActualLocation={setActualLocation}
+                />
+              ))}
+              <Button
+                variant="primary"
+                onClick={() => {
+                  addLocation()
+                }}
+              >
+                Add location
+              </Button>
+            </>
+          ) : (
+            ""
+          )}
 
           <span className="discount-subtitle headers">Category:</span>
           <Select
-            value={category}
             options={categoryOptions}
             name="category"
             onChange={(e) => handleChangeCategory(e)}

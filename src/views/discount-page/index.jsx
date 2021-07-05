@@ -16,6 +16,7 @@ const DiscountPage = () => {
   const location = useLocation()
   const { image } = location.state ? location.state : ""
   const { id } = useParams()
+  console.log(discount)
   const fetchData = async () => {
     setLoading(true)
     try {
