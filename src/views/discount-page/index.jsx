@@ -13,6 +13,7 @@ import {
   BackspaceReverse,
   EmojiLaughing,
 } from "react-bootstrap-icons"
+import moment from "moment"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -159,17 +160,7 @@ const DiscountPage = () => {
               <BackspaceReverse className="discount-icon" />
               Expire at:&nbsp;
               <span className="discount-info">
-                {new Date(discount.periodEnd)
-                  .toISOString()
-                  .split(":")
-                  .splice(0, 1)
-                  .join("")
-                  .split("")
-                  .splice(0, 10)
-                  .join("")
-                  .split("-")
-                  .reverse()
-                  .join("-")}
+                {moment(discount.periodEnd).format("MMM Do YYYY")}
               </span>
             </div>
             <span className="discount-subtitle">

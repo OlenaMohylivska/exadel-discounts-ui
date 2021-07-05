@@ -105,7 +105,7 @@ const AddCompany = (props) => {
           </div>
           <div className="company-additional-info">
             <div className="company-name">
-              <h4 className="company-info-subtitle">Company Name</h4>
+              <label className="company-info-subtitle">Company Name</label>
               <InputGroup>
                 <Toast
                   show={companyPostError.show}
@@ -125,7 +125,7 @@ const AddCompany = (props) => {
               </InputGroup>
             </div>
             <div className="company-address ">
-              <h4 className="company-info-subtitle">Country</h4>
+              <label className="company-info-subtitle">Country</label>
               <Select
                 value={props.isEdit && country}
                 className="address-field"
@@ -133,7 +133,7 @@ const AddCompany = (props) => {
                 options={countryOptions}
                 required
               />
-              <h4 className="company-info-subtitle">City</h4>
+              <label className="company-info-subtitle">City</label>
               <Select
                 value={props.isEdit && city}
                 className="address-field"
@@ -141,7 +141,7 @@ const AddCompany = (props) => {
                 onChange={companyCityHandler}
                 options={citiesOptions}
               />
-              <h4 className="company-info-subtitle">Address</h4>
+              <label className="company-info-subtitle">Address</label>
               <InputGroup>
                 <FormControl
                   value={address}
