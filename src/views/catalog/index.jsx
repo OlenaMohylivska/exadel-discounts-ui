@@ -87,8 +87,8 @@ const Catalog = () => {
     }
   })
 
-  const handleSortingOption = (ev) => {
-    if (ev.value === "Top rated") {
+  const handleSortingOption = (option) => {
+    if (option.value === "Top rated") {
       const sortedArr = [...discounts]
       sortedArr.sort((a, b) => a.rate < b.rate ? 1 : -1)
       setDiscounts(sortedArr)
@@ -131,7 +131,7 @@ const Catalog = () => {
           <Select
             className="catalog-selects"
             options={sortingOptions}
-            onChange={(ev) => handleSortingOption(ev)}
+            onChange={(option) => handleSortingOption(option)}
             placeholder="Sorting by..."
           />
         </div>
