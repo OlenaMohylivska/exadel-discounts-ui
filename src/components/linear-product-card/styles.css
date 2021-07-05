@@ -4,6 +4,11 @@
     top: 8px;
     right: 15px;
   }
+
+  .prod-image {
+    height: 278px;
+    object-fit: cover;
+  }
 }
 
 @media (min-width: 721px) {
@@ -11,6 +16,18 @@
     position: absolute;
     top: 5px;
     right: 10px;
+  }
+
+  .prod-image {
+    height: 152px;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  .prod-image {
+    height: 152px;
+    object-fit: cover;
   }
 }
 
