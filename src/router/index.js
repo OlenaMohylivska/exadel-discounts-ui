@@ -32,7 +32,6 @@ function AppRouter() {
       <Route path="/history-page">
         <HistoryPage />
       </Route>
-
       <Route path="/favourite">
         <FavouritePage />
       </Route>

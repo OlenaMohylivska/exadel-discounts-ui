@@ -47,7 +47,7 @@ const Catalog = () => {
     })
   }, [])
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company/all"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company"
     axios.get(apiUrl).then((res) => {
       setSearchCompanies(res.data)
     })

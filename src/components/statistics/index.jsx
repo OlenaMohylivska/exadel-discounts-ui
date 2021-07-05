@@ -4,12 +4,12 @@ import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
 import * as axios from "axios"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+
 const Statistics = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [allOrdersByRatingData, setAllOrdersByRatingData] = useState([])
-  const [allOrdersByRating, setAllOrdersByRating] = useState({})
-  const [allOrdersByCount, setAllOrdersByCount] = useState({})
-  const [ordersOfEachCompany, setOrdersOfEachCompany] = useState({})
+  const [discountsByOrders, setDiscountsByOrders] = useState({})
+  const [companiesByOrders, setCompaniesByOrders] = useState({})
+  const [tagsByOrders, setTagsByOrders] = useState({})
+
 
   /*1 */
   const ordersOfEachCompanyForWeek = {
@@ -24,7 +24,7 @@ const Statistics = () => {
     ],
     datasets: [
       {
-        label: "How many discounts were used this week",
+        label: "How many discounts were used this week(test)",
         data: [20, 60, 40, 37, 21, 73, 19],
 
         backgroundColor: "#1fbeff",
@@ -38,7 +38,7 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => {},
+        onClick: () => { },
       },
     },
     scales: {
@@ -53,76 +53,77 @@ const Statistics = () => {
   }
   /*2 */
   useEffect(() => {
-    axios.get(baseUrl + "/api/discounts/all").then((response) => {
-      setAllOrdersByRatingData(response.data)
+    axios.get(baseUrl + "/api/discounts/statistic").then((response) => {
+      setDiscountsByOrders({
+        labels: Object.keys(response.data),
+        datasets: [
+          {
+            label: " How many orders were done (by discounts)",
+            data: Object.values(response.data),
+            backgroundColor: "#1fbeff",
+          },
+        ],
+      })
     })
   }, [])
 
-  useEffect(() => {
-    setAllOrdersByRating({
-      labels: ["Cheap Nikes", "Sushi", "Pizza", "Massage", "Sth else"],
-      datasets: [
-        {
-          label: "All discounts by rating",
-          data: [2.5, 4.33, 4.8, 3.9, 3],
 
-          backgroundColor: "#1fbeff",
-        },
-      ],
-    })
-  }, [])
-
-  const allOrdersByRatingOptions = {
+  const discountsByOrdersOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => {},
+        onClick: () => { },
       },
     },
   }
 
   /*3 */
   useEffect(() => {
-    setOrdersOfEachCompany({
-      labels: ["Nike", "Dominos Pizza", "SportLife", "SPA"],
-      datasets: [
-        {
-          data: [20, 60, 40, 37],
-
-          backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
-        },
-      ],
+    axios.get(baseUrl + "/api/company/statistic").then((response) => {
+      setCompaniesByOrders({
+        labels: Object.keys(response.data),
+        datasets: [
+          {
+            data: Object.values(response.data),
+            backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
+          },
+        ],
+      })
     })
   }, [])
+
+  /*4 */
+  useEffect(() => {
+    axios.get(baseUrl + "/api/tags/statistic").then((response) => {
+      setTagsByOrders({
+        labels: Object.keys(response.data),
+        datasets: [
+          {
+            data: Object.values(response.data),
+            backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
+          },
+        ],
+      })
+    })
+  }, [])
+
   const roundChartsOptions = {
     responsive: true,
     maintainAspectRatio: false,
   }
 
-  /*4 */
-  useEffect(() => {
-    setAllOrdersByCount({
-      labels: ["Cheap Nikes", "Sushi", "Pizza", "Massage", "Sth else"],
-      datasets: [
-        {
-          data: [19, 44, 32, 70, 39],
-
-          backgroundColor: [
-            "#2f1bb2",
-            "#540d72",
-            "#0bc1e1",
-            "#d349e2",
-            "#ff00b3",
-          ],
-        },
-      ],
-    })
-  }, [])
-
   return (
     <Container>
       <Row className="my-4">
+
+        <Col>
+          <Bar
+            data={discountsByOrders}
+            height={300}
+            options={discountsByOrdersOptions}
+          />
+        </Col>
         <Col>
           <Line
             data={ordersOfEachCompanyForWeek}
@@ -130,22 +131,15 @@ const Statistics = () => {
             options={ordersOfEachCompanyForWeekOptions}
           />
         </Col>
-        <Col>
-          <Bar
-            data={allOrdersByRating}
-            height={300}
-            options={allOrdersByRatingOptions}
-          />
-        </Col>
       </Row>
       <Row>
         <Col>
           <p className="text-center mb-3 font-size-14">
-            How many orders each company has
+            How many orders were done(By companies)
           </p>
           <div>
             <Doughnut
-              data={ordersOfEachCompany}
+              data={companiesByOrders}
               height={250}
               options={roundChartsOptions}
             />
@@ -153,11 +147,11 @@ const Statistics = () => {
         </Col>
         <Col>
           <p className="text-center mb-3 font-size-14">
-            How many discounts were bought(in general)
+            How many orders were done(By tags)
           </p>
           <div>
             <Pie
-              data={allOrdersByCount}
+              data={tagsByOrders}
               height={250}
               options={roundChartsOptions}
             />
