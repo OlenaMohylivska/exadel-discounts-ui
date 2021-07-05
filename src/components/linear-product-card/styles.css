@@ -1,9 +1,4 @@
 @media (max-width: 720px) {
-  .image {
-    width: 100%;
-    height: auto;
-  }
-
   .star-wrapper {
     position: absolute;
     top: 8px;
@@ -12,14 +7,9 @@
 }
 
 @media (min-width: 721px) {
-  .image {
-    width: 200px !important;
-    height: 150px;
-  }
-
   .star-wrapper {
     position: absolute;
-    bottom: 138px;
+    top: 5px;
     right: 10px;
   }
 }
@@ -33,4 +23,12 @@
 
 .common {
   fill: lightgray;
+}
+
+.card-wrapper {
+  width: 100%;
+}
+
+.discount-description {
+  height: 35px;
 }

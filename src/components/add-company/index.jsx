@@ -43,7 +43,7 @@ const AddCompany = (props) => {
   ]
 
   useEffect(() => {
-    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location/all`
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
     axios.get(apiUrl).then((resp) => {
       setAllLocationList(resp.data)
     })

@@ -8,7 +8,7 @@ import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse"
 
 function Header() {
   return (
-    <Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
+    <Navbar collapseOnSelect expand="md" className="navbar" sticky="top" w-100>
       <Container className="nav-wrapper">
         <NavbarBrand>
           <div className="logo">
@@ -44,21 +44,6 @@ function Header() {
               activeClassName="nav-item-active"
             >
               Admin panel
-            </NavLink>
-            <NavLink
-              to="/history-page"
-              className="nav-item"
-              activeClassName="nav-item-active"
-            >
-              History
-            </NavLink>
-
-            <NavLink
-              to="/favourite"
-              className="nav-item"
-              activeClassName="nav-item-active"
-            >
-              Favourite
             </NavLink>
 
             <NavLink
