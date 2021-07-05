@@ -6,6 +6,7 @@ import Select from "react-select"
 import * as axios from "axios"
 import "./styles.scss"
 import { Context } from "store/context"
+import Pagination from "components/pagination"
 
 const Catalog = () => {
   const cardImages = useContext(Context)
@@ -14,18 +15,18 @@ const Catalog = () => {
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
+  const [itemsPerPage, setItemsPerPage] = useState(8)
+
   const fetchData = async () => {
     try {
       await axios
         .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
-        .then((response) =>
-          setDiscounts(() =>
-            response.data.map((el, index) => ({
-              ...el,
-              img: cardImages[index],
-            }))
-          )
-        )
+        .then((response) => setDiscounts(() =>
+          response.data.map((el, index) => ({
+            ...el,
+            img: cardImages[index],
+          }))
+        ))
     } catch (e) {
       setDiscountsFetchError(e.message)
     }
@@ -130,7 +131,7 @@ const Catalog = () => {
 
       {discounts ? (
         <div className="discounts-wrapper">
-          {discounts.map((el) => {
+          {discounts.slice(0, itemsPerPage).map((el) => {
             return <ProductCard elem={el} key={el.id} />
           })}
         </div>
@@ -139,6 +140,11 @@ const Catalog = () => {
           Sorry no info, {discountsFetchError ? discountsFetchError : ""}
         </div>
       )}
+      <Pagination
+        discounts={discounts}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+      />
     </Container>
   )
 }
