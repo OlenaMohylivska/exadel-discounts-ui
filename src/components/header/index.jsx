@@ -24,32 +24,32 @@ function Header() {
             <NavLink
               exact
               to="/"
-              className="nav-item"
-              activeClassName="nav-item-active"
+              className="menu-link"
+              activeClassName="menu-link-active"
             >
               Home
             </NavLink>
 
             <NavLink
               to="/profile"
-              className="nav-item"
-              activeClassName="nav-item-active"
+              className="menu-link"
+              activeClassName="menu-link-active"
             >
               My account
             </NavLink>
 
             <NavLink
               to="/admin"
-              className="nav-item"
-              activeClassName="nav-item-active"
+              className="menu-link"
+              activeClassName="menu-link-active"
             >
               Admin panel
             </NavLink>
 
             <NavLink
               to="/login"
-              className="nav-item"
-              activeClassName="nav-item-active"
+              className="menu-link"
+              activeClassName="menu-link-active"
             >
               Sign In
             </NavLink>

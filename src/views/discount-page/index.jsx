@@ -126,14 +126,13 @@ const DiscountPage = () => {
             </div>
           </div>
           <div className="col-lg-6 col-md-12">
-            <h3>Discount Name:{discount.name}</h3>
-            <h4>
-              Company:
-              {discount.company ? discount.company.name : ""}
-            </h4>
-            <h4>Tags:{discount.tags.map((tag) => ` ${tag.name};`)}</h4>
-            <h4>Location:</h4>
-            <h4>
+            <h3 className="discount-field">Discount Name: {discount.name}</h3>
+            <h3 className="discount-field">
+              Company: {discount.company ? discount.company.name : ""}
+            </h3>
+            <h3 className="discount-field">Tags: {discount.tags.map((tag) => ` ${tag.name};`)}</h3>
+            <h3 className="discount-field">Location: </h3>
+            <h3 className="discount-field">
               Expired to:
               {new Date(discount.periodEnd)
                 .toISOString()
@@ -146,14 +145,13 @@ const DiscountPage = () => {
                 .split("-")
                 .reverse()
                 .join("-")}
-            </h4>
-            <h4>Description:</h4>
-            <p>{discount.description}</p>
+            </h3>
+            <h3 className="discount-field">Description: {discount.description}</h3>
 
             <div >
               {allReviews.length ?
                 <div>
-                  <h4>Reviews:</h4>
+                  <h3 className="discount-field">Reviews:</h3>
                   {allReviews.map(review => {
                     return (
 
@@ -182,7 +180,7 @@ const DiscountPage = () => {
                     )
                   })}
 
-                </div> : <p>No reviews yet(</p>
+                </div> : <h3 className="discount-field">No reviews yet(</h3>
               }
             </div>
 
