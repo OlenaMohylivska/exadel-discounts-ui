@@ -5,6 +5,14 @@ import StarRatings from "react-star-ratings"
 import * as axios from "axios"
 import FetchError from "../../components/fetch-error"
 import "./styles.scss"
+import {
+  Shop,
+  People,
+  BookmarkHeartFill,
+  Globe,
+  BackspaceReverse,
+  EmojiLaughing,
+} from "react-bootstrap-icons"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -16,7 +24,6 @@ const DiscountPage = () => {
   const location = useLocation()
   const { image } = location.state ? location.state : ""
   const { id } = useParams()
-  // const [reviewText, setReviewText] = useState("")
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allReviews, setAllReviews] = useState([])
@@ -29,9 +36,7 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
-
       setErrorMessage(e.message)
-
     } finally {
       setLoading(false)
     }
@@ -43,16 +48,12 @@ const DiscountPage = () => {
   useEffect(() => {
     setLoading(true)
     try {
-      axios
-        .get(`${baseUrl}/api/discounts/${id}/reviews`)
-        .then((response) => {
-          setAllReviews(response.data)
-        })
+      axios.get(`${baseUrl}/api/discounts/${id}/reviews`).then((response) => {
+        setAllReviews(response.data)
+      })
       setLoading(false)
     } catch (e) {
-
       setErrorMessage(e.message)
-
     } finally {
       setLoading(false)
     }
@@ -68,21 +69,17 @@ const DiscountPage = () => {
         id: 2,
         login: "E00002",
         location: null,
-        role: "USER"
-      }
+        role: "USER",
+      },
     })
   }, [rating])
 
-  // const handleReviewText = e => {
-  //   setReviewText(e.target.value)
-  // }
-  const handleRating = value => {
+  const handleRating = (value) => {
     setRating(value)
   }
 
   const addReview = () => {
     axios.post(baseUrl + "/api/reviews", review)
-    // setReviewText("")
     setRating(0)
   }
 
@@ -97,26 +94,35 @@ const DiscountPage = () => {
             </div>
 
             <div>
-
               <div className="action">
-                <Button className="w-25 d-flex align-self-end justify-content-center" onClick={() => setShow(!show)} variant="primary">
+                <Button
+                  className="w-25 d-flex align-self-end justify-content-center"
+                  onClick={() => setShow(!show)}
+                  variant="primary"
+                >
                   Order
                 </Button>
-                {/* <Form.Group>
-                    <Form.Control className="mb-3" as="textarea" rows={4} cols={50} value={reviewText} onChange={handleReviewText}>
-
-                    </Form.Control>
-
-                  </Form.Group> */}
                 <div className="feedback-area">
                   <div>
-                    <StarRatings starDimension="27px" starSpacing="5px" rating={rating} changeRating={handleRating} starRatedColor="#FFD700" />
+                    <StarRatings
+                      starDimension="27px"
+                      starSpacing="5px"
+                      rating={rating}
+                      changeRating={handleRating}
+                      starRatedColor="#FFD700"
+                    />
                   </div>
-                  <Button className="d-flex align-self-center mt-3" disabled={rating === 0} variant="dark" onClick={() => { addReview() }}>Leave feedback</Button>
-
+                  <Button
+                    className="d-flex align-self-center mt-3"
+                    disabled={rating === 0}
+                    variant="dark"
+                    onClick={() => {
+                      addReview()
+                    }}
+                  >
+                    Leave feedback
+                  </Button>
                 </div>
-
-
               </div>
               <div className="d-flex justify-content-end">
                 <p className={`${!show ? "hide" : "display"}`}>
@@ -126,37 +132,58 @@ const DiscountPage = () => {
             </div>
           </div>
           <div className="col-lg-6 col-md-12">
-            <h3>Discount Name:{discount.name}</h3>
-            <h4>
-              Company:
-              {discount.company ? discount.company.name : ""}
-            </h4>
-            <h4>Tags:{discount.tags.map((tag) => ` ${tag.name};`)}</h4>
-            <h4>Location:</h4>
-            <h4>
-              Expired to:
-              {new Date(discount.periodEnd)
-                .toISOString()
-                .split(":")
-                .splice(0, 1)
-                .join("")
-                .split("")
-                .splice(0, 10)
-                .join("")
-                .split("-")
-                .reverse()
-                .join("-")}
-            </h4>
-            <h4>Description:</h4>
-            <p>{discount.description}</p>
+            <div className="discount-subtitle">
+              <Shop className="discount-icon" />
+              Discount Name:{" "}
+              <span className="discount-info">{discount.name}</span>
+            </div>
+            <div className="discount-subtitle">
+              <People className="discount-icon" />
+              Company:&nbsp;
+              <span className="discount-info">
+                {discount.company ? discount.company.name : ""}
+              </span>
+            </div>
+            <div className="discount-subtitle">
+              <BookmarkHeartFill className="discount-icon" />
+              Tags:
+              <span className="discount-info">
+                {discount.tags.map((tag) => ` ${tag.name};`)}
+              </span>
+            </div>
+            <div className="discount-subtitle">
+              <Globe className="discount-icon" />
+              Location:{" "}
+            </div>
+            <div className="discount-subtitle">
+              <BackspaceReverse className="discount-icon" />
+              Expire at:&nbsp;
+              <span className="discount-info">
+                {new Date(discount.periodEnd)
+                  .toISOString()
+                  .split(":")
+                  .splice(0, 1)
+                  .join("")
+                  .split("")
+                  .splice(0, 10)
+                  .join("")
+                  .split("-")
+                  .reverse()
+                  .join("-")}
+              </span>
+            </div>
+            <span className="discount-subtitle">
+              <EmojiLaughing className="discount-icon" />
+              Description:&nbsp;
+              <span className="discount-info">{discount.description}</span>
+            </span>
 
-            <div >
-              {allReviews.length ?
+            <div>
+              {allReviews.length ? (
                 <div>
-                  <h4>Reviews:</h4>
-                  {allReviews.map(review => {
+                  <span className="discount-subtitle">Reviews:</span>
+                  {allReviews.map((review) => {
                     return (
-
                       <div key={review.id} className="review">
                         <div className="d-flex justify-content-between">
                           <div className="m-2">
@@ -165,27 +192,31 @@ const DiscountPage = () => {
                               src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
                               alt="user-image"
                             />
-                            <p className="d-inline mx-3">{review.employee.login}</p>
+                            <p className="d-inline mx-3">
+                              {review.employee.login}
+                            </p>
                           </div>
 
                           <p>{review.employee.location || ""}</p>
                           <div className="align-self-center">
-                            <StarRatings starDimension="24px" starSpacing="4px" rating={review.rate} starRatedColor="#FFD700" />
+                            <StarRatings
+                              starDimension="24px"
+                              starSpacing="4px"
+                              rating={review.rate}
+                              starRatedColor="#FFD700"
+                            />
                           </div>
                         </div>
-                        {/* <div className="d-flex justify-content-between align-items-end">
-                          <p className="comment">{review.comment}</p>
-
-
-                        </div> */}
                       </div>
                     )
                   })}
-
-                </div> : <p>No reviews yet(</p>
-              }
+                </div>
+              ) : (
+                <p className="discount-no-reviews">
+                  No reviews available yet. Please, check back later!
+                </p>
+              )}
             </div>
-
           </div>
         </div>
       ) : (
@@ -196,6 +227,3 @@ const DiscountPage = () => {
 }
 
 export default DiscountPage
-
-
-
