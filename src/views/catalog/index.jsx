@@ -87,6 +87,14 @@ const Catalog = () => {
     }
   })
 
+  const handleSortingOption = (ev) => {
+    if (ev.value === "Top rated") {
+      const sortedArr = [...discounts]
+      sortedArr.sort((a, b) => a.rate < b.rate ? 1 : -1)
+      setDiscounts(sortedArr)
+    }
+  }
+
   return (
     <Container className="catalog-wrapper">
       <div className=" filter-panel column ">
@@ -123,6 +131,7 @@ const Catalog = () => {
           <Select
             className="catalog-selects"
             options={sortingOptions}
+            onChange={(ev) => handleSortingOption(ev)}
             placeholder="Sorting by..."
           />
         </div>
