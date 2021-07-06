@@ -5,4 +5,28 @@
   max-width: 1280px;
   margin: 0 auto;
 }
+.menu-link{
+  text-decoration: none;
+  color: #000;
+  font-size: 18px;
+}
 
+.menu-link:hover{
+  color: #0082ca;
+  transition: 0.4s ease-in;
+}
+
+.menu-link-active{
+  color: #0082ca;
+}
+
+.section-header{
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.discount-field{
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
