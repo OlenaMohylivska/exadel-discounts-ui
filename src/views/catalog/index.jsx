@@ -12,7 +12,7 @@ import { axiosInstance } from "../../components/api"
 const Catalog = () => {
   const cardImages = useContext(Context)
 
-  const [discounts, setDiscounts] = useState(null)
+  const [discounts, setDiscounts] = useState([])
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
