@@ -135,7 +135,7 @@ const DiscountPage = () => {
           <div className="col-lg-6 col-md-12">
             <div className="discount-subtitle">
               <Shop className="discount-icon" />
-              Discount Name:{" "}
+              Discount Name:&nbsp;
               <span className="discount-info">{discount.name}</span>
             </div>
             <div className="discount-subtitle">
@@ -154,7 +154,10 @@ const DiscountPage = () => {
             </div>
             <div className="discount-subtitle">
               <Globe className="discount-icon" />
-              Location:{" "}
+              Location:&nbsp;
+              <span className="discount-info">
+                {discount.country.cities.map((city) => `${city.name} `)}
+              </span>
             </div>
             <div className="discount-subtitle">
               <BackspaceReverse className="discount-icon" />
