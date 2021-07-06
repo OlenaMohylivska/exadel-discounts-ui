@@ -6,12 +6,14 @@ import * as axios from "axios"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
 import PropTypes from "prop-types"
+import AddLocation from "../add-location"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: null,
+    location: null,
     tags: [],
     quantity: null,
     company: null,
@@ -22,10 +24,13 @@ const AddItem = (props) => {
     error: null,
     show: false,
   })
+  const [newLocations, setNewLocations] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
-  const [actualLocation, setActualLocation] = useState({ countries: [] })
   const [tags, setTags] = useState([])
-  const [category, setCategory] = useState({})
+  const [category, setCategory] = useState("")
+  const [chooseLocation, setChooseLocation] = useState([])
+  const [actualLocation, setActualLocation] = useState([])
+
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -33,13 +38,9 @@ const AddItem = (props) => {
       id: company.id,
     }
   })
-  const locationOptions = actualLocation.countries.map((country) => {
-    return {
-      value: country.name,
-      label: country.name,
-      id: country.id,
-    }
-  })
+  const addLocation = () => {
+    setNewLocations([...newLocations, { id: newLocations.length + 1 }])
+  }
 
   const tagsOptions = tags.map((tag) => {
     return {
@@ -48,13 +49,11 @@ const AddItem = (props) => {
       id: tag.id,
     }
   })
-
   const categoryOptions = [
     { value: "Food", label: "Food" },
     { value: "Sport", label: "Sport" },
     { value: "Education", label: "Education" },
   ]
-
   const fetchData = async (url, setFunc) => {
     axios.get(baseUrl + url).then((response) => setFunc(response.data))
   }
@@ -63,20 +62,29 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
-    setCategory(e)
+    setCategory(e.value)
   }
   const handleChangeTags = (e) => {
     setData({
       ...data,
-      tags: e.map((elem) => ({ name: elem.value, id: elem.id })),
+      tags: e.map((elem) => ({
+        name: elem.value,
+        id: elem.id,
+        category: { name: category },
+      })),
     })
+  }
+  const fetchDataLocation = async (url, setFunc) => {
+    axios
+      .get(baseUrl + url)
+      .then((response) => setFunc(response.data.countries))
   }
   const handleChangeCompanies = (e) => {
     setData({
       ...data,
       company: { id: e.id },
     })
-    fetchData(`/api/company/${e.id}`, setActualLocation)
+    fetchDataLocation(`/api/company/${e.id}`, setChooseLocation)
   }
 
   useEffect(() => {
@@ -147,6 +155,32 @@ const AddItem = (props) => {
       company: null,
     })
   }
+  const getLocation = (
+    <>
+      <span className="discount-subtitle">Location </span>
+      <AddLocation
+        chooseLocation={chooseLocation}
+        actualLocation={actualLocation}
+        setActualLocation={setActualLocation}
+      />
+      {newLocations.map((elem) => (
+        <AddLocation
+          key={elem.id}
+          chooseLocation={chooseLocation}
+          actualLocation={actualLocation}
+          setActualLocation={setActualLocation}
+        />
+      ))}
+      <Button
+        variant="primary"
+        onClick={() => {
+          addLocation()
+        }}
+      >
+        Add location
+      </Button>
+    </>
+  )
 
   return (
     <Form>
@@ -207,14 +241,11 @@ const AddItem = (props) => {
             />
           </div>
           {errors.company ? <ValidationError error={errors.company} /> : ""}
-          <div>
-            <span className="discount-subtitle">Location </span>
-            <Select options={locationOptions} />
-          </div>
+
+          {chooseLocation.length !== 0 && getLocation}
 
           <span className="discount-subtitle headers">Category:</span>
           <Select
-            value={category}
             options={categoryOptions}
             name="category"
             onChange={(e) => handleChangeCategory(e)}
