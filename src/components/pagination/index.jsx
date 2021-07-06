@@ -1,8 +1,8 @@
-import React from 'react'
-import propTypes from 'prop-types'
+import React from "react"
+import propTypes from "prop-types"
 import { Button } from "react-bootstrap"
 
-const Pagination = ({discounts, itemsPerPage, setItemsPerPage}) => {
+const Pagination = ({ discounts, itemsPerPage, setItemsPerPage }) => {
   const handleLoadMore = () => {
     setItemsPerPage(itemsPerPage + 8)
   }
@@ -13,8 +13,10 @@ const Pagination = ({discounts, itemsPerPage, setItemsPerPage}) => {
         variant="primary"
         onClick={handleLoadMore}
         className="mt-3"
-        disabled={discounts.length <= itemsPerPage}
-      >Load more</Button>
+        disabled={discounts && discounts.length <= itemsPerPage}
+      >
+        Load more
+      </Button>
     </div>
   )
 }
