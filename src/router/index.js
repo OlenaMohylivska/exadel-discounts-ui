@@ -15,6 +15,7 @@ import Tools from "components/tools"
 import EditSlider from "components/edit-slider"
 import Statistics from "components/statistics"
 import Companies from "components/companies"
+import Promotions from "components/promotions"
 import "./styles.scss"
 
 function AppRouter() {
@@ -59,7 +60,8 @@ function AppRouter() {
         )}
       </Route>
 
-      <Route path="/admin/edit-company/:id">
+
+      <Route path="/admin/all-companies/edit-company/:id">
         {!localStorage.getItem("jwt") ? (
           <Redirect to="/login" />
         ) : (
@@ -70,7 +72,7 @@ function AppRouter() {
       <Route path="/admin/add-item">
         {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <AddItem />}
       </Route>
-      <Route path="/admin/edit-item/:id">
+      <Route path="/admin/all-promotions/edit-item/:id">
         {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <EditItem />}
       </Route>
 
@@ -102,12 +104,17 @@ function AppRouter() {
         )}
       </Route>
 
-      <Route path="/admin/all-companies">
+
+      <Route path="/admin/all-companies" exact>
         {!localStorage.getItem("jwt") ? (
           <Redirect to="/login" />
         ) : (
           <Companies />
         )}
+      </Route>
+
+      <Route path="/admin/all-promotions" exact>
+        <Promotions />
       </Route>
     </>
   )

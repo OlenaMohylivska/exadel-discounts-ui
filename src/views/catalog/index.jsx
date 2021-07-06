@@ -119,7 +119,7 @@ const Catalog = () => {
             className="catalog-selects"
             options={citiesOptions}
             placeholder="Location"
-          />{" "}
+          />
           <Select
             className="catalog-selects"
             options={companiesOptions}
