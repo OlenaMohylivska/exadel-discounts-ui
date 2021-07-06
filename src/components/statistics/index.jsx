@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
-import * as axios from "axios"
+import { axiosInstance } from "components/api"
 import FetchError from "components/fetch-error"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
@@ -11,7 +11,6 @@ const Statistics = () => {
   const [companiesByOrders, setCompaniesByOrders] = useState({})
   const [tagsByOrders, setTagsByOrders] = useState({})
   const [fetchError, setFetchError] = useState(null)
-
 
   /*1 */
   const ordersOfEachCompanyForWeek = {
@@ -55,7 +54,7 @@ const Statistics = () => {
   }
   /*2 */
   useEffect(() => {
-    axios.get(baseUrl + "/api/discounts/statistic").then((response) => {
+    axiosInstance.get(baseUrl + "/api/discounts/statistic").then((response) => {
       setDiscountsByOrders({
         labels: Object.keys(response.data),
         datasets: [
@@ -69,7 +68,6 @@ const Statistics = () => {
     }).catch(err => setFetchError(err.message))
   }, [])
 
-
   const discountsByOrdersOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -82,7 +80,7 @@ const Statistics = () => {
 
   /*3 */
   useEffect(() => {
-    axios.get(baseUrl + "/api/company/statistic").then((response) => {
+    axiosInstance.get(baseUrl + "/api/company/statistic").then((response) => {
       setCompaniesByOrders({
         labels: Object.keys(response.data),
         datasets: [
@@ -97,7 +95,7 @@ const Statistics = () => {
 
   /*4 */
   useEffect(() => {
-    axios.get(baseUrl + "/api/tags/statistic").then((response) => {
+    axiosInstance.get(baseUrl + "/api/tags/statistic").then((response) => {
       setTagsByOrders({
         labels: Object.keys(response.data),
         datasets: [

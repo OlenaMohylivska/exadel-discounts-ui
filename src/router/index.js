@@ -1,5 +1,5 @@
 import React from "react"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import Admin from "../views/admin"
 import DiscountPage from "../views/discount-page"
 import Home from "./../views/home"
@@ -20,59 +20,94 @@ import "./styles.scss"
 function AppRouter() {
   return (
     <>
+      <Route path="/">
+        {!localStorage.getItem("jwt") && <Redirect to="/login" />}
+      </Route>
       <Route exact path="/">
-        <Home />
+        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Home />}
       </Route>
       <Route path="/login">
         <Login />
       </Route>
       <Route path="/profile">
-        <Profile />
+        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Profile />}
       </Route>
       <Route path="/history-page">
-        <HistoryPage />
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <HistoryPage />
+        )}
       </Route>
       <Route path="/favourite">
-        <FavouritePage />
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <FavouritePage />
+        )}
       </Route>
 
       <Route path="/admin">
-        <Admin />
+        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Admin />}
       </Route>
 
       <Route path="/admin/add-company">
-        <AddCompany />
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <AddCompany />
+        )}
       </Route>
 
       <Route path="/admin/edit-company/:id">
-        <EditCompany />
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <EditCompany />
+        )}
       </Route>
 
       <Route path="/admin/add-item">
-        <AddItem />
+        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <AddItem />}
       </Route>
       <Route path="/admin/edit-item/:id">
-        <EditItem />
+        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <EditItem />}
       </Route>
 
       <Route path="/discount/:id">
-        <DiscountPage />
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <DiscountPage />
+        )}
       </Route>
 
       <Route path="/admin/tools">
-        <Tools />
+        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Tools />}
       </Route>
 
       <Route path="/edit-slider/">
-        <EditSlider />
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <EditSlider />
+        )}
       </Route>
 
       <Route path="/admin/statistics">
-        <Statistics />
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <Statistics />
+        )}
       </Route>
 
       <Route path="/admin/all-companies">
-        <Companies />
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <Companies />
+        )}
       </Route>
     </>
   )

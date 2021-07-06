@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Form } from 'react-bootstrap'
-import * as axios from 'axios'
+import React, { useState, useEffect } from "react"
+import { Button, Form } from "react-bootstrap"
+import { axiosInstance } from "components/api"
 import "./styles.css"
 import FetchError from 'components/fetch-error'
 
@@ -14,7 +14,7 @@ const Tools = () => {
   const [fetchError, setFetchError] = useState(null)
 
   const fetchData = async (url, setter) => {
-    axios.get(baseUrl + url).then((res) => setter(res.data))
+    axiosInstance.get(baseUrl + url).then((res) => setter(res.data))
       .catch(err => setFetchError(err.message))
   }
 
@@ -23,7 +23,7 @@ const Tools = () => {
   }, [tags])
 
   const postTag = () => {
-    axios.post(baseUrl + "/api/tags", newTag)
+    axiosInstance.post(baseUrl + "/api/tags", newTag)
     reset()
     fetchData()
   }
@@ -33,7 +33,7 @@ const Tools = () => {
   }
 
   const deleteTag = (id) => {
-    axios.delete(`${baseUrl}/api/tags/${id}`)
+    axiosInstance.delete(`${baseUrl}/api/tags/${id}`)
   }
 
   return (

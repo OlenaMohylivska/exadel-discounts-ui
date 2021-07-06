@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import axios from "axios"
+import { axiosInstance } from "components/api"
 import AddCompany from "components/add-company"
 import { useParams } from "react-router-dom"
 import FetchError from 'components/fetch-error'
@@ -9,7 +9,7 @@ const EditCompany = () => {
   const { id } = useParams()
   const [fetchError, setFetchError] = useState(null)
   useEffect(() => {
-    axios
+    axiosInstance
       .get(`https://sandbox-team5.herokuapp.com/api/company/${id}`)
       .then((res) => {
         setCompany(res.data)

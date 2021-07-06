@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
-import axios from "axios"
+import { axiosInstance } from "components/api"
 import CustomModalWindow from "components/custom-modal-window"
 import "./styles.scss"
 import FileUploadPage from "components/upload-file"
@@ -44,7 +44,7 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
-    axios.get(apiUrl).then((resp) => {
+    axiosInstance.get(apiUrl).then((resp) => {
       setAllLocationList(resp.data)
     })
   }, [])
@@ -63,18 +63,23 @@ const AddCompany = (props) => {
   }, [])
 
   function deleteCompany(id) {
-    axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`)
+    axiosInstance.delete(
+      `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`
+    )
   }
 
   async function saveCompanyChanges(id) {
     try {
-      axios.put(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`, {
-        id: id,
-        modified: null,
-        modifiedBy: null,
-        name: companyName,
-        locations: location.map((el) => ({ ...el })),
-      })
+      axiosInstance.put(
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`,
+        {
+          id: id,
+          modified: null,
+          modifiedBy: null,
+          name: companyName,
+          locations: location.map((el) => ({ ...el })),
+        }
+      )
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
     }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import ValidationError from "../validation-error"
 import "./styles.scss"
-import * as axios from "axios"
+import { axiosInstance } from "components/api"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
 import PropTypes from "prop-types"
@@ -55,7 +55,7 @@ const AddItem = (props) => {
     { value: "Education", label: "Education" },
   ]
   const fetchData = async (url, setFunc) => {
-    axios.get(baseUrl + url).then((response) => setFunc(response.data))
+    axiosInstance.get(baseUrl + url).then((response) => setFunc(response.data))
   }
 
   const handleChange = (e) => {
@@ -75,7 +75,7 @@ const AddItem = (props) => {
     })
   }
   const fetchDataLocation = async (url, setFunc) => {
-    axios
+    axiosInstance
       .get(baseUrl + url)
       .then((response) => setFunc(response.data.countries))
   }
@@ -122,7 +122,7 @@ const AddItem = (props) => {
     }
     if (Object.keys(errorsObj).length == 0) {
       try {
-        axios.post(baseUrl + "/api/discounts", data)
+        axiosInstance.post(baseUrl + "/api/discounts", data)
         reset()
       } catch (e) {
         setDiscountPostError({ error: e.message, show: true })
@@ -136,7 +136,7 @@ const AddItem = (props) => {
     }
     if (Object.keys(errorsObj).length == 0) {
       try {
-        axios.put(baseUrl + `/api/discounts/${props.id}`, data)
+        axiosInstance.put(baseUrl + `/api/discounts/${props.id}`, data)
         reset()
       } catch (e) {
         throw e.message
