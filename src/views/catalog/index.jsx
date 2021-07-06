@@ -22,7 +22,7 @@ const Catalog = () => {
     pageNum: 1,
     rate: 0,
     searchText: "",
-    tags: [""],
+    tags: [],
   })
   const handleChangeSearchValue = (e) => {
     setSearchValue(e.target.value)
@@ -30,7 +30,7 @@ const Catalog = () => {
   const searching = () => {
     setSearchRequest({ ...searchRequest, searchText: searchValue })
   }
-  console.log(searchValue)
+
   const handleSortChange = () => {
     setSearchRequest({
       ...searchRequest,
@@ -67,24 +67,19 @@ const Catalog = () => {
     fetchData()
   }, [])
 
-  // useEffect(() => {
-  //   const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
-  //   axios.get(apiUrl).then((resp) => {
-  //     setSearchLocation(resp.data)
-  //   })
-  // }, [])
+  useEffect(() => {
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
+    axios.get(apiUrl).then((resp) => {
+      setSearchLocation(resp.data)
+    })
+  }, [])
 
-  // useEffect(() => {
-  //   const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
-  //   axios.get(apiUrl).then((res) => {
-  //     setFilterTags(res.data)
-  //   })
-  // }, [])
-  const test = () => {
-    setSearchLocation([])
-    setSearchCompanies([])
-    setFilterTags([])
-  }
+  useEffect(() => {
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
+    axios.get(apiUrl).then((res) => {
+      setFilterTags(res.data)
+    })
+  }, [])
 
   const search = async () => {
     const apiUrl =
@@ -101,12 +96,12 @@ const Catalog = () => {
     }
   }
 
-  // useEffect(() => {
-  //   const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company"
-  //   axios.get(apiUrl).then((res) => {
-  //     setSearchCompanies(res.data)
-  //   })
-  // }, [])
+  useEffect(() => {
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company"
+    axios.get(apiUrl).then((res) => {
+      setSearchCompanies(res.data)
+    })
+  }, [])
 
   // const topRatedHandler = () => {
   //   const topRated = discounts.filter((el) => el.rate >= 4)
@@ -121,9 +116,9 @@ const Catalog = () => {
     }))
   })
 
-  const citiesOptions = searchLocation.map((location) => ({
-    label: location.country.name,
-    value: location.country.name,
+  const locationOptions = searchLocation.map((location) => ({
+    label: location.name,
+    value: location.name,
   }))
 
   const categoriesOptions = filterTags.map((el) => {
@@ -163,7 +158,7 @@ const Catalog = () => {
         <div className=" catalog-filters width-100">
           <Select
             className="catalog-selects"
-            options={citiesOptions}
+            options={locationOptions}
             placeholder="Location"
           />{" "}
           <Select
