@@ -3,13 +3,14 @@ import ProductCard from "components/product-card"
 import { Form, Container } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
-import * as axios from "axios"
 import "./styles.scss"
 import { Context } from "store/context"
 import Pagination from "components/pagination"
+import { axiosInstance } from "../../components/api"
 
 const Catalog = () => {
   const cardImages = useContext(Context)
+
   const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
@@ -19,7 +20,7 @@ const Catalog = () => {
 
   const fetchData = async () => {
     try {
-      await axios
+      await axiosInstance
         .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
@@ -39,20 +40,20 @@ const Catalog = () => {
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
-    axios.get(apiUrl).then((resp) => {
+    axiosInstance.get(apiUrl).then((resp) => {
       setSearchLocation(resp.data)
     })
   }, [])
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
-    axios.get(apiUrl).then((res) => {
+    axiosInstance.get(apiUrl).then((res) => {
       setFilterTags(res.data)
     })
   }, [])
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company"
-    axios.get(apiUrl).then((res) => {
+    axiosInstance.get(apiUrl).then((res) => {
       setSearchCompanies(res.data)
     })
   }, [])

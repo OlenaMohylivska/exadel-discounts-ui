@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import * as axios from "axios"
+import { axiosInstance } from "components/api"
 import Loupe from "components/icons/Loupe"
 import { Form, Button } from "react-bootstrap"
 import CompanyInfo from "components/companyInfo"
@@ -16,7 +16,9 @@ const EditCompaniesAll = () => {
 
   const fetchData = async (url, setFunc) => {
     try {
-      await axios.get(baseUrl + url).then((response) => setFunc(response.data))
+      await axiosInstance
+        .get(baseUrl + url)
+        .then((response) => setFunc(response.data))
     } catch (e) {
       setCompaniesFetchError(e.message)
     }
