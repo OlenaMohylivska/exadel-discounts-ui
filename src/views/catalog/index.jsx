@@ -44,7 +44,6 @@ const Catalog = () => {
     setTimeout(search(), 2000)
   }, [searchRequest])
 
-  console.log(searchRequest)
   const fetchData = async () => {
     setLoading(true)
     try {
