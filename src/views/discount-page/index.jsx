@@ -21,6 +21,7 @@ const DiscountPage = () => {
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allReviews, setAllReviews] = useState([])
+  console.log(discount)
 
   const fetchData = async () => {
     setLoading(true)

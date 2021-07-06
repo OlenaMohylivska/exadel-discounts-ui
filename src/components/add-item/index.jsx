@@ -41,7 +41,6 @@ const AddItem = (props) => {
   const addLocation = () => {
     setNewLocations([...newLocations, { id: newLocations.length + 1 }])
   }
-  console.log(actualLocation)
 
   const tagsOptions = tags.map((tag) => {
     return {
@@ -312,6 +311,7 @@ const AddItem = (props) => {
 
           {errors.promoCode ? <ValidationError error={errors.promoCode} /> : ""}
         </div>
+        е
       </div>
     </Form>
   )

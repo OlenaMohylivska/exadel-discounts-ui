@@ -81,6 +81,16 @@
   padding: 40px;
   font-size: 32px;
 }
+.large-spinner-container {
+  padding-top: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.large-spinner {
+  width: 300px !important;
+  height: 300px !important;
+}
 
 @media (max-width: 720px) {
   .catalog-selects {

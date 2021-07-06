@@ -33,7 +33,6 @@ function Login() {
               value={login}
               onChange={(event) => onLoginChange(event)}
             />
-
           </Form.Group>
 
           <Form.Group className="form-item" controlId="formBasicPassword">
@@ -47,13 +46,12 @@ function Login() {
             />
             <EyeFill className="password-show-icon" onClick={onPasswordShow} />
             <Form.Text className="text-muted form-text">
-            Must be 8-20 characters long.
+              Must be 8-20 characters long.
             </Form.Text>
           </Form.Group>
 
           <div className="d-flex justify-content-center">
             <Button className="btn-md px-5 mt-3" variant="dark" type="submit">
-
               Log in
             </Button>
           </div>
