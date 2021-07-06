@@ -2,24 +2,29 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import AddCompany from "components/add-company"
 import { useParams } from "react-router-dom"
+import FetchError from 'components/fetch-error'
 
 const EditCompany = () => {
   const [company, setCompany] = useState(null)
   const { id } = useParams()
+  const [fetchError, setFetchError] = useState(null)
   useEffect(() => {
     axios
       .get(`https://sandbox-team5.herokuapp.com/api/company/${id}`)
       .then((res) => {
         setCompany(res.data)
-      })
+      }).catch(err => setFetchError(err.message))
   }, [])
 
   return (
-    <div className="container">
-      {company && (
-        <AddCompany isEdit={true} company={company} setCompany={setCompany} />
-      )}
-    </div>
+    <>
+      {fetchError ? <FetchError error={fetchError} /> :
+        <div className="container">
+          {company && (
+            <AddCompany isEdit={true} company={company} setCompany={setCompany} />
+          )}
+        </div>}
+    </>
   )
 }
 

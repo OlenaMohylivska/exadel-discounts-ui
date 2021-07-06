@@ -3,11 +3,13 @@ import LinearProductCard from 'components/linear-product-card'
 import axios from 'axios'
 import './styles.scss'
 import { Context } from 'store/context'
+import FetchError from 'components/fetch-error'
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const FavouritePage = () => {
   const [discounts, setDiscounts] = useState([])
+  const [fetchError, setFetchError] = useState(null)
   const images = useContext(Context)
 
   useEffect(() => {
@@ -17,22 +19,28 @@ const FavouritePage = () => {
           { ...el, isFavourite: true, image: images[index] }
         ))
         setDiscounts(allDiscounts)
-      })
+      }).catch(err => setFetchError(err.message))
   }, [])
 
   return (
-    <div className="container">
-      <div className="favourite-card-wrapper">
-        {discounts.map(el => {
-          return <LinearProductCard
-            buttonText="Order"
-            discount={el}
-            discounts={discounts}
-            setDiscounts={setDiscounts}
-            key={el.id}
-          />})}
-      </div>
-    </div>
+    <>
+      {fetchError ? <FetchError error={fetchError} /> :
+        <div className="container">
+          <div className="favourite-card-wrapper">
+            {discounts.map(el => {
+              return <LinearProductCard
+                buttonText="Order"
+                discount={el}
+                discounts={discounts}
+                setDiscounts={setDiscounts}
+                key={el.id}
+              />
+            })}
+          </div>
+        </div>
+      }
+
+    </>
   )
 }
 
