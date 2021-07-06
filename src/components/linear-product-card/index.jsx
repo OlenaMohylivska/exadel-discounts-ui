@@ -1,65 +1,64 @@
-import React from "react"
-import { Card, Button } from "react-bootstrap"
-import propTypes from "prop-types"
-import "./styles.css"
+import React from 'react'
+import { Card, Button } from 'react-bootstrap'
+import propTypes from 'prop-types'
+import { SuitHeartFill } from 'react-bootstrap-icons'
+import StarRatings from 'react-star-ratings'
+import './styles.css'
+import { Link } from 'react-router-dom'
+import { formattedData } from 'store/utils'
 
-const LinearProductCard = ({
-  IconComponent,
-  id,
-  favourite,
-  toggleFavourite,
-}) => {
+const LinearProductCard = ({ discount, buttonText, discounts, setDiscounts }) => {
+
+  const toggleFavourite = id => {
+    setDiscounts(
+      discounts.map(el => {
+        if (el.id === id) {
+          el.isFavourite = !el.isFavourite
+        }
+        return el
+      })
+    )
+  }
+
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-lg-12">
-          <Card className="d-flex flex-lg-row flex-md-row flex-sm-column w-100 mt-3 p-2 align-items-center position-relative">
-            <Card.Img
-              className="col-lg-2 col-md-2 image"
-              src="https://via.placeholder.com/600/24f355"
-            />
-            <Card.Body className="d-lg-flex d-md-flex d-sm-block flex-lg-row flex-md-row flex-sm-column">
-              <div className="col-lg-10 col-md-9 col-sm-12 d-flex flex-column justify-content-center">
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text className=" h-100 mb-2">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card content.
-                </Card.Text>
+    <div className="card-wrapper">
+      <div className="mt-3">
+        <Card className="p-3 position-relative shadow">
+          <Link to={`/discount/${discount.id}`} key={discount.id}>
+            <Card.Body>
+              <div className="d-flex flex-row">
+                <Card.Subtitle className="text-secondary">Expires in: {formattedData(discount.periodEnd)} </Card.Subtitle>
               </div>
-              <div className="col-lg-2 col-md-3 col-sm-12 d-flex flex-column">
-                <Card.Title className="text-lg-center text-sm-start">
-                  Date
-                </Card.Title>
-                <Card.Subtitle className="text-lg-center text-sm-start text-muted">
-                  18.06.2021
-                </Card.Subtitle>
+              <div>
+                <Card.Title className="my-4 text-center">{discount.name}</Card.Title>
+                <Card.Img variant="top" className="prod-image" src={discount.image} />
+                <Card.Subtitle className="my-3 text-muted discount-description">{discount.description}</Card.Subtitle>
+              </div>
+
+              <div className="d-flex justify-content-center">
+                <StarRatings starDimension="27px" starSpacing="5px" rating={discount.rate} starRatedColor="gold" />
               </div>
             </Card.Body>
-            <Button variant="primary" className="h-100 px-4 align-self-center">
-              {IconComponent ? "Order" : "Leave feedback"}
-            </Button>
-            {IconComponent && (
-              <div className="star-wrapper">
-                {
-                  <IconComponent
-                    onClick={() => toggleFavourite(id)}
-                    className={favourite ? "favourite" : "common"}
-                  />
-                }
-              </div>
-            )}
-          </Card>
-        </div>
+            { buttonText && <div className="d-flex justify-content-center">
+              <Button variant="primary" className="h-100 px-4">{buttonText}</Button>
+            </div> }
+          </Link>
+          {SuitHeartFill &&
+            <div className="star-wrapper">
+              {<SuitHeartFill onClick={() => toggleFavourite(discount.id)} className={discount.isFavourite ? "favourite" : "common"} />}
+            </div>
+          }
+        </Card>
       </div>
     </div>
   )
 }
 
 LinearProductCard.propTypes = {
-  IconComponent: propTypes.elementType,
-  id: propTypes.number,
-  favourite: propTypes.bool,
-  toggleFavourite: propTypes.func,
+  buttonText: propTypes.string,
+  discounts: propTypes.array,
+  setDiscounts: propTypes.func,
+  discount: propTypes.object
 }
 
 export default LinearProductCard

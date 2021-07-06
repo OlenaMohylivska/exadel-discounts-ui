@@ -45,21 +45,6 @@ function Header() {
             >
               Admin panel
             </NavLink>
-            <NavLink
-              to="/history-page"
-              className="nav-item"
-              activeClassName="nav-item-active"
-            >
-              History
-            </NavLink>
-
-            <NavLink
-              to="/favourite"
-              className="nav-item"
-              activeClassName="nav-item-active"
-            >
-              Favourite
-            </NavLink>
 
             <NavLink
               to="/login"
