@@ -89,9 +89,9 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
 
   return (
     <>
-      {chooseLocation.length !== 0 ?? selectCountry}
-      {cityLocation.length !== 0 ?? selectCity}
-      {addressLocation.length !== 0 ?? selectAdress}
+      {chooseLocation.length !== 0 && selectCountry}
+      {cityLocation.length !== 0 && selectCity}
+      {addressLocation.length !== 0 && selectAdress}
 
       <Button onClick={() => setCheck(true)} variant="primary">
         save

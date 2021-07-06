@@ -242,7 +242,7 @@ const AddItem = (props) => {
           </div>
           {errors.company ? <ValidationError error={errors.company} /> : ""}
 
-          {chooseLocation.length !== 0 ?? getLocation}
+          {chooseLocation.length !== 0 && getLocation}
 
           <span className="discount-subtitle headers">Category:</span>
           <Select
