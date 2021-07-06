@@ -4,23 +4,13 @@ import StarRatings from "react-star-ratings"
 import PropTypes from "prop-types"
 import { Link, useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
+import moment from "moment"
 
 const PromotionInfo = ({ elem }) => {
-  const formattedData = new Date(elem.periodEnd)
-    .toISOString()
-    .split(":")
-    .splice(0, 1)
-    .join("")
-    .split("")
-    .splice(0, 10)
-    .join("")
-    .split("-")
-    .reverse()
-    .join("-")
+  const formattedData = moment(elem.periodEnd).format("MMM Do YYYY")
 
   const history = useHistory()
   const { path } = useRouteMatch()
-
 
   const updateItemHandler = () => {
     history.push(`${path}/edit-item/${elem.id}`)

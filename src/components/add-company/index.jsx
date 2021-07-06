@@ -11,8 +11,9 @@ import { useHistory } from "react-router-dom"
 const AddCompany = (props) => {
   const [allLocationList, setAllLocationList] = useState([])
   const [companyName, setCompanyName] = useState("")
-  const [city, setCity] = useState("")
+  const [cities, setCities] = useState([])
   const [countries, setCountries] = useState("")
+  const [selectedCountry, setSelectedCountry] = useState(null)
   const [address, setAddress] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
@@ -23,27 +24,16 @@ const AddCompany = (props) => {
 
   const history = useHistory()
 
-  const citiesOptions = useMemo(() => {
-    return allLocationList.map((location) => ({
-      ...location,
-      label: location.country.cities.map((city) => city.name),
-      value: location.country.cities.map((city) => city.name),
-    }))
-  }, [allLocationList])
-
-  const addressOptions = useMemo(() => {
-    return allLocationList.map((location) => ({
-      ...location,
-      label: location.country.cities[0].addresses[0].address,
-      value: location.country.cities[0].addresses[0].address,
-    }))
-  }, [allLocationList])
+  const citiesOptions = {
+    label: selectedCountry.cities.map((city) => city.name),
+    value: selectedCountry.cities.map((city) => city.name),
+  }
 
   const countryOptions = useMemo(() => {
     return allLocationList.map((location) => ({
       ...location,
-      label: location.country.name,
-      value: location.country.name,
+      label: location.name,
+      value: location.name,
     }))
   }, [allLocationList])
 
@@ -55,13 +45,20 @@ const AddCompany = (props) => {
   }, [])
 
   useEffect(() => {
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
+    axios.get(apiUrl).then((resp) => {
+      setCities(resp.data)
+    })
+  }, [])
+
+  useEffect(() => {
     if (props.isEdit) {
       setCompanyName(props.company.name)
-      setCity(
-        props.company.locations.map((el) => ({
-          ...el,
-          value: el.city,
-          label: el.city,
+      setCities(
+        props.company.countries.map((location) => ({
+          ...location,
+          value: location.cities.name,
+          label: location.cities.name,
         }))
       )
     }
@@ -101,11 +98,13 @@ const AddCompany = (props) => {
   }
 
   const companyCityHandler = (e) => {
-    setCity(e)
+    setCities(e)
   }
 
   const companyCountryHandler = (e) => {
     setCountries(e)
+    console.log(e)
+    setSelectedCountry(e.name)
   }
 
   return (
@@ -148,20 +147,22 @@ const AddCompany = (props) => {
             />
             <span className="company-info-subtitle">City</span>
             <Select
-              value={props.isEdit && city}
               className="address-field"
+              value={props.isEdit && cities}
               isMulti
               onChange={companyCityHandler}
               options={citiesOptions}
+              disabled={selectedCountry === null}
             />
             <span className="company-info-subtitle">Address</span>
-            <Select
-              value={props.isEdit && address}
-              className="address-field"
-              isMulti
-              onChange={companyAddressHandler}
-              options={addressOptions}
-            />
+            <InputGroup>
+              <FormControl
+                value={address}
+                name="company-address"
+                onChange={companyAddressHandler}
+                className="form-field"
+              />
+            </InputGroup>
           </div>
           <div className="btn-field d-flex justify-content-between">
             <Button
