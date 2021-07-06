@@ -11,7 +11,7 @@ import Pagination from "components/pagination"
 
 const Catalog = () => {
   const cardImages = useContext(Context)
-  const [discounts, setDiscounts] = useState([])
+  const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
@@ -40,7 +40,7 @@ const Catalog = () => {
   }, [])
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
     axios.get(apiUrl).then((res) => {
       setFilterTags(res.data)
     }).catch(err => setFetchError(err.message))
@@ -67,12 +67,10 @@ const Catalog = () => {
     }))
   })
 
-  const citiesOptions = useMemo(() => {
-    return searchLocation.map((location) => ({
-      label: location.city,
-      value: location.city,
-    }))
-  }, [searchLocation])
+  const citiesOptions = searchLocation.map((location) => ({
+    label: location.country.name,
+    value: location.country.name,
+  }))
 
   const categoriesOptions = filterTags.map((el) => {
     return {
