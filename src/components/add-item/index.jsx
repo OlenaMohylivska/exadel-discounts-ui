@@ -41,7 +41,6 @@ const AddItem = (props) => {
   const addLocation = () => {
     setNewLocations([...newLocations, { id: newLocations.length + 1 }])
   }
-  
 
   const tagsOptions = tags.map((tag) => {
     return {

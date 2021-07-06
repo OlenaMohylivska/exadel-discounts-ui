@@ -19,6 +19,13 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       cities: country.cities,
     }
   })
+  const selectCity = (
+    <Select
+      options={cityOptions}
+      onChange={(e) => cityHandleChange(e)}
+      placeholder="city"
+    />
+  )
 
   const countryHandleChange = (e) => {
     setCityLocation(e.cities)
@@ -50,7 +57,7 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       cities: [{ name: cityTargetLocation, addresses: arr }],
     })
   }
-  
+
   const addToActualLocation = () => {
     if (check) {
       setActualLocation([...actualLocation, locationBuilder])
@@ -73,15 +80,7 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       ) : (
         ""
       )}
-      {cityLocation.length !== 0 ? (
-        <Select
-          options={cityOptions}
-          onChange={(e) => cityHandleChange(e)}
-          placeholder="city"
-        />
-      ) : (
-        ""
-      )}
+      {cityLocation.length !== 0 ?? selectCity}
       {addressLocation.length !== 0 ? (
         <Select
           onChange={(e) => {
