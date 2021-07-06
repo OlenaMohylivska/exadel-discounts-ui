@@ -50,7 +50,7 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       cities: [{ name: cityTargetLocation, addresses: arr }],
     })
   }
-  console.log(locationBuilder)
+  
   const addToActualLocation = () => {
     if (check) {
       setActualLocation([...actualLocation, locationBuilder])
