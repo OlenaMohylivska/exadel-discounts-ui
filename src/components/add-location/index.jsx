@@ -19,13 +19,6 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       cities: country.cities,
     }
   })
-  const selectCity = (
-    <Select
-      options={cityOptions}
-      onChange={(e) => cityHandleChange(e)}
-      placeholder="city"
-    />
-  )
 
   const countryHandleChange = (e) => {
     setCityLocation(e.cities)
@@ -67,32 +60,38 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
     }
   }
   addToActualLocation()
+  const selectCountry = (
+    <Select
+      options={countryOptions}
+      onChange={(e) => {
+        countryHandleChange(e)
+      }}
+      placeholder="country"
+    />
+  )
+  const selectCity = (
+    <Select
+      options={cityOptions}
+      onChange={(e) => cityHandleChange(e)}
+      placeholder="city"
+    />
+  )
+  const selectAdress = (
+    <Select
+      onChange={(e) => {
+        addressHandleChange(e)
+      }}
+      options={addressOptions}
+      placeholder="street"
+      isMulti
+    />
+  )
+
   return (
     <>
-      {chooseLocation.length !== 0 ? (
-        <Select
-          options={countryOptions}
-          onChange={(e) => {
-            countryHandleChange(e)
-          }}
-          placeholder="country"
-        />
-      ) : (
-        ""
-      )}
+      {chooseLocation.length !== 0 ?? selectCountry}
       {cityLocation.length !== 0 ?? selectCity}
-      {addressLocation.length !== 0 ? (
-        <Select
-          onChange={(e) => {
-            addressHandleChange(e)
-          }}
-          options={addressOptions}
-          placeholder="street"
-          isMulti
-        />
-      ) : (
-        ""
-      )}
+      {addressLocation.length !== 0 ?? selectAdress}
 
       <Button onClick={() => setCheck(true)} variant="primary">
         save

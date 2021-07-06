@@ -155,6 +155,32 @@ const AddItem = (props) => {
       company: null,
     })
   }
+  const getLocation = (
+    <>
+      <span className="discount-subtitle">Location </span>
+      <AddLocation
+        chooseLocation={chooseLocation}
+        actualLocation={actualLocation}
+        setActualLocation={setActualLocation}
+      />
+      {newLocations.map((elem) => (
+        <AddLocation
+          key={elem.id}
+          chooseLocation={chooseLocation}
+          actualLocation={actualLocation}
+          setActualLocation={setActualLocation}
+        />
+      ))}
+      <Button
+        variant="primary"
+        onClick={() => {
+          addLocation()
+        }}
+      >
+        Add location
+      </Button>
+    </>
+  )
 
   return (
     <Form>
@@ -216,34 +242,7 @@ const AddItem = (props) => {
           </div>
           {errors.company ? <ValidationError error={errors.company} /> : ""}
 
-          {chooseLocation.length !== 0 ? (
-            <>
-              <span className="discount-subtitle">Location </span>
-              <AddLocation
-                chooseLocation={chooseLocation}
-                actualLocation={actualLocation}
-                setActualLocation={setActualLocation}
-              />
-              {newLocations.map((elem) => (
-                <AddLocation
-                  key={elem.id}
-                  chooseLocation={chooseLocation}
-                  actualLocation={actualLocation}
-                  setActualLocation={setActualLocation}
-                />
-              ))}
-              <Button
-                variant="primary"
-                onClick={() => {
-                  addLocation()
-                }}
-              >
-                Add location
-              </Button>
-            </>
-          ) : (
-            ""
-          )}
+          {chooseLocation.length !== 0 ?? getLocation}
 
           <span className="discount-subtitle headers">Category:</span>
           <Select
