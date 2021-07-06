@@ -16,6 +16,7 @@ const DiscountPage = () => {
   const location = useLocation()
   const { image } = location.state ? location.state : ""
   const { id } = useParams()
+
   // const [reviewText, setReviewText] = useState("")
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
@@ -29,9 +30,7 @@ const DiscountPage = () => {
         .then((response) => setDiscount(response.data))
       setLoading(false)
     } catch (e) {
-
       setErrorMessage(e.message)
-
     } finally {
       setLoading(false)
     }
@@ -43,16 +42,12 @@ const DiscountPage = () => {
   useEffect(() => {
     setLoading(true)
     try {
-      axios
-        .get(`${baseUrl}/api/discounts/${id}/reviews`)
-        .then((response) => {
-          setAllReviews(response.data)
-        })
+      axios.get(`${baseUrl}/api/discounts/${id}/reviews`).then((response) => {
+        setAllReviews(response.data)
+      })
       setLoading(false)
     } catch (e) {
-
       setErrorMessage(e.message)
-
     } finally {
       setLoading(false)
     }
@@ -68,15 +63,15 @@ const DiscountPage = () => {
         id: 2,
         login: "E00002",
         location: null,
-        role: "USER"
-      }
+        role: "USER",
+      },
     })
   }, [rating])
 
   // const handleReviewText = e => {
   //   setReviewText(e.target.value)
   // }
-  const handleRating = value => {
+  const handleRating = (value) => {
     setRating(value)
   }
 
@@ -97,9 +92,12 @@ const DiscountPage = () => {
             </div>
 
             <div>
-
               <div className="action">
-                <Button className="w-25 d-flex align-self-end justify-content-center" onClick={() => setShow(!show)} variant="primary">
+                <Button
+                  className="w-25 d-flex align-self-end justify-content-center"
+                  onClick={() => setShow(!show)}
+                  variant="primary"
+                >
                   Order
                 </Button>
                 {/* <Form.Group>
@@ -110,13 +108,25 @@ const DiscountPage = () => {
                   </Form.Group> */}
                 <div className="feedback-area">
                   <div>
-                    <StarRatings starDimension="27px" starSpacing="5px" rating={rating} changeRating={handleRating} starRatedColor="#FFD700" />
+                    <StarRatings
+                      starDimension="27px"
+                      starSpacing="5px"
+                      rating={rating}
+                      changeRating={handleRating}
+                      starRatedColor="#FFD700"
+                    />
                   </div>
-                  <Button className="d-flex align-self-center mt-3" disabled={rating === 0} variant="dark" onClick={() => { addReview() }}>Leave feedback</Button>
-
+                  <Button
+                    className="d-flex align-self-center mt-3"
+                    disabled={rating === 0}
+                    variant="dark"
+                    onClick={() => {
+                      addReview()
+                    }}
+                  >
+                    Leave feedback
+                  </Button>
                 </div>
-
-
               </div>
               <div className="d-flex justify-content-end">
                 <p className={`${!show ? "hide" : "display"}`}>
@@ -148,13 +158,12 @@ const DiscountPage = () => {
             </h3>
             <h3 className="discount-field">Description: {discount.description}</h3>
 
-            <div >
-              {allReviews.length ?
+            <div>
+              {allReviews.length ? (
                 <div>
                   <h3 className="discount-field">Reviews:</h3>
                   {allReviews.map(review => {
                     return (
-
                       <div key={review.id} className="review">
                         <div className="d-flex justify-content-between">
                           <div className="m-2">
@@ -163,12 +172,19 @@ const DiscountPage = () => {
                               src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
                               alt="user-image"
                             />
-                            <p className="d-inline mx-3">{review.employee.login}</p>
+                            <p className="d-inline mx-3">
+                              {review.employee.login}
+                            </p>
                           </div>
 
                           <p>{review.employee.location || ""}</p>
                           <div className="align-self-center">
-                            <StarRatings starDimension="24px" starSpacing="4px" rating={review.rate} starRatedColor="#FFD700" />
+                            <StarRatings
+                              starDimension="24px"
+                              starSpacing="4px"
+                              rating={review.rate}
+                              starRatedColor="#FFD700"
+                            />
                           </div>
                         </div>
                         {/* <div className="d-flex justify-content-between align-items-end">
@@ -180,10 +196,9 @@ const DiscountPage = () => {
                     )
                   })}
 
-                </div> : <h3 className="discount-field">No reviews yet(</h3>
+                </div>) : <h3 className="discount-field">No reviews yet</h3>
               }
             </div>
-
           </div>
         </div>
       ) : (
@@ -194,6 +209,3 @@ const DiscountPage = () => {
 }
 
 export default DiscountPage
-
-
-

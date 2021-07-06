@@ -10,7 +10,7 @@ import Pagination from "components/pagination"
 
 const Catalog = () => {
   const cardImages = useContext(Context)
-  const [discounts, setDiscounts] = useState([])
+  const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
@@ -41,8 +41,9 @@ const Catalog = () => {
       setSearchLocation(resp.data)
     })
   }, [])
+
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/"
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
     axios.get(apiUrl).then((res) => {
       setFilterTags(res.data)
     })
@@ -67,12 +68,10 @@ const Catalog = () => {
     }))
   })
 
-  const citiesOptions = useMemo(() => {
-    return searchLocation.map((location) => ({
-      label: location.city,
-      value: location.city,
-    }))
-  }, [searchLocation])
+  const citiesOptions = searchLocation.map((location) => ({
+    label: location.country.name,
+    value: location.country.name,
+  }))
 
   const categoriesOptions = filterTags.map((el) => {
     return {
@@ -87,6 +86,14 @@ const Catalog = () => {
       label: el,
     }
   })
+
+  const handleSortingOption = (option) => {
+    if (option.value === "Top rated") {
+      const sortedArr = [...discounts]
+      sortedArr.sort((a, b) => a.rate < b.rate ? 1 : -1)
+      setDiscounts(sortedArr)
+    }
+  }
 
   return (
     <Container className="catalog-wrapper">
@@ -124,6 +131,7 @@ const Catalog = () => {
           <Select
             className="catalog-selects"
             options={sortingOptions}
+            onChange={(option) => handleSortingOption(option)}
             placeholder="Sorting by..."
           />
         </div>
