@@ -13,7 +13,7 @@ const AddCompany = (props) => {
   const [companyName, setCompanyName] = useState("")
   const [cities, setCities] = useState([])
   const [countries, setCountries] = useState("")
-  const [selectedCountry, setSelectedCountry] = useState(null)
+  // const [selectedCountry, setSelectedCountry] = useState(null)
   const [address, setAddress] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
@@ -24,10 +24,19 @@ const AddCompany = (props) => {
 
   const history = useHistory()
 
-  const citiesOptions = {
-    label: selectedCountry.cities.map((city) => city.name),
-    value: selectedCountry.cities.map((city) => city.name),
-  }
+  // const citiesOptions = {
+  //   label: countries.cities.map((city) => city.name),
+  //   value: countries.cities.map((city) => city.name),
+  // }
+
+  // const citiesOptions = useMemo(() => {
+  //   return countries.map((country) => ({
+  //     ...country,
+  //     label: country.name,
+  //     value: country.name,
+  //   }))
+  // }, [allLocationList])
+
 
   const countryOptions = useMemo(() => {
     return allLocationList.map((location) => ({
@@ -104,7 +113,7 @@ const AddCompany = (props) => {
   const companyCountryHandler = (e) => {
     setCountries(e)
     console.log(e)
-    setSelectedCountry(e.name)
+    // setSelectedCountry(e.name)
   }
 
   return (
@@ -151,8 +160,8 @@ const AddCompany = (props) => {
               value={props.isEdit && cities}
               isMulti
               onChange={companyCityHandler}
-              options={citiesOptions}
-              disabled={selectedCountry === null}
+              // options={citiesOptions}
+              // disabled={selectedCountry === null}
             />
             <span className="company-info-subtitle">Address</span>
             <InputGroup>
