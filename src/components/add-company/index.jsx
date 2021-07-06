@@ -13,7 +13,6 @@ const AddCompany = (props) => {
   const [companyName, setCompanyName] = useState("")
   const [cities, setCities] = useState([])
   const [countries, setCountries] = useState("")
-  // const [selectedCountry, setSelectedCountry] = useState(null)
   const [address, setAddress] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
@@ -24,20 +23,6 @@ const AddCompany = (props) => {
 
   const history = useHistory()
 
-  // const citiesOptions = {
-  //   label: countries.cities.map((city) => city.name),
-  //   value: countries.cities.map((city) => city.name),
-  // }
-
-  // const citiesOptions = useMemo(() => {
-  //   return countries.map((country) => ({
-  //     ...country,
-  //     label: country.name,
-  //     value: country.name,
-  //   }))
-  // }, [allLocationList])
-
-
   const countryOptions = useMemo(() => {
     return allLocationList.map((location) => ({
       ...location,
@@ -46,6 +31,14 @@ const AddCompany = (props) => {
     }))
   }, [allLocationList])
 
+  const citiesOptions = useMemo(() => {
+    return cities.map((city) => ({
+      ...city,
+      label: city,
+      value: city,
+    }))
+  }, [cities])
+
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
     axios.get(apiUrl).then((resp) => {
@@ -53,12 +46,6 @@ const AddCompany = (props) => {
     })
   }, [])
 
-  useEffect(() => {
-    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
-    axios.get(apiUrl).then((resp) => {
-      setCities(resp.data)
-    })
-  }, [])
 
   useEffect(() => {
     if (props.isEdit) {
@@ -112,8 +99,7 @@ const AddCompany = (props) => {
 
   const companyCountryHandler = (e) => {
     setCountries(e)
-    console.log(e)
-    // setSelectedCountry(e.name)
+    setCities(e.cities.map(city => city.name))
   }
 
   return (
@@ -160,8 +146,7 @@ const AddCompany = (props) => {
               value={props.isEdit && cities}
               isMulti
               onChange={companyCityHandler}
-              // options={citiesOptions}
-              // disabled={selectedCountry === null}
+              options={citiesOptions}
             />
             <span className="company-info-subtitle">Address</span>
             <InputGroup>
