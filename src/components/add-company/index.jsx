@@ -11,8 +11,8 @@ import { useHistory } from "react-router-dom"
 const AddCompany = (props) => {
   const [allLocationList, setAllLocationList] = useState([])
   const [companyName, setCompanyName] = useState("")
-  const [city, setCity] = useState("")
-  const [country, setCountry] = useState("")
+  const [cities, setCities] = useState([])
+  const [countries, setCountries] = useState("")
   const [address, setAddress] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
@@ -23,43 +23,48 @@ const AddCompany = (props) => {
 
   const history = useHistory()
 
-  const citiesOptions = useMemo(() => {
+  const countryOptions = useMemo(() => {
     return allLocationList.map((location) => ({
       ...location,
-      label: location.city,
-      value: location.city,
+      label: location.name,
+      value: location.name,
     }))
   }, [allLocationList])
 
-  const countryOptions = [
-    {
-      label: "Ukraine",
-      value: "Ukraine",
-    },
-    {
-      label: "Belarus",
-      value: "Belarus",
-    },
-  ]
+  const citiesOptions = useMemo(() => {
+    return cities.map((city) => ({
+      ...city,
+      label: city,
+      value: city,
+    }))
+  }, [cities])
 
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
-    axiosInstance.get(apiUrl).then((resp) => {
+    axios.get(apiUrl).then((resp) => {
       setAllLocationList(resp.data)
     })
   }, [])
 
+
   useEffect(() => {
     if (props.isEdit) {
       setCompanyName(props.company.name)
-      setCity(
-        props.company.locations.map((el) => ({
-          ...el,
-          value: el.city,
-          label: el.city,
+      setCities(
+        props.company.countries.map((location) => ({
+          ...location,
+          value: location.cities.name,
+          label: location.cities.name,
         }))
       )
     }
+  }, [])
+
+  useEffect(() => {
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
+    axios.get(apiUrl).then((resp) => {
+      setCountries(resp.data)
+    })
   }, [])
 
   function deleteCompany(id) {
@@ -94,23 +99,24 @@ const AddCompany = (props) => {
   }
 
   const companyCityHandler = (e) => {
-    setCity(e)
+    setCities(e)
   }
 
   const companyCountryHandler = (e) => {
-    setCountry(e)
+    setCountries(e)
+    setCities(e.cities.map(city => city.name))
   }
 
   return (
     <Form>
-      <div className="container">
+      <div className="container d-flex flex-row-reverse align-items-start pt-5">
         <div className="col">
           <div className="company-logo">
             <FileUploadPage />
           </div>
           <div className="company-additional-info">
             <div className="company-name">
-              <label className="company-info-subtitle">Company Name</label>
+              <label className="company-info-subtitle" htmlFor="name">Company Name</label>
               <InputGroup>
                 <Toast
                   show={companyPostError.show}
@@ -124,35 +130,39 @@ const AddCompany = (props) => {
                 <FormControl
                   value={companyName}
                   name="company-name"
+                  id="name"
                   onChange={companyNameHandler}
                   className="form-field"
                 />
               </InputGroup>
             </div>
             <div className="company-address ">
-              <label className="company-info-subtitle">Country</label>
+              <label className="company-info-subtitle" htmlFor="country">Country</label>
               <Select
                 value={props.isEdit && country}
                 className="address-field"
                 onChange={companyCountryHandler}
                 options={countryOptions}
                 required
+                inputId="country"
               />
-              <label className="company-info-subtitle">City</label>
+              <label className="company-info-subtitle" htmlFor="city">City</label>
               <Select
                 value={props.isEdit && city}
                 className="address-field"
                 isMulti
                 onChange={companyCityHandler}
                 options={citiesOptions}
+                inputId="city"
               />
-              <label className="company-info-subtitle">Address</label>
+              <label className="company-info-subtitle" htmlFor="address">Address</label>
               <InputGroup>
                 <FormControl
                   value={address}
                   name="company-address"
                   onChange={companyAddressHandler}
                   className="form-field"
+                  id="address"
                 />
               </InputGroup>
             </div>
