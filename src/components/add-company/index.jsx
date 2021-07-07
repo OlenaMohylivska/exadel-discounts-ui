@@ -41,11 +41,10 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
-    axios.get(apiUrl).then((resp) => {
+    axiosInstance.get(apiUrl).then((resp) => {
       setAllLocationList(resp.data)
     })
   }, [])
-
 
   useEffect(() => {
     if (props.isEdit) {
@@ -62,7 +61,7 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
-    axios.get(apiUrl).then((resp) => {
+    axiosInstance.get(apiUrl).then((resp) => {
       setCountries(resp.data)
     })
   }, [])
@@ -104,7 +103,7 @@ const AddCompany = (props) => {
 
   const companyCountryHandler = (e) => {
     setCountries(e)
-    setCities(e.cities.map(city => city.name))
+    setCities(e.cities.map((city) => city.name))
   }
 
   return (
