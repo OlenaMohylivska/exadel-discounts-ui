@@ -1,8 +1,10 @@
 import * as axios from "axios"
 
-const jwt = localStorage.getItem("jwt") || ""
-const headers = { Authorization: "Bearer " + jwt }
+const TOKEN_STRING = localStorage.getItem("jwt") || ""
+
+
 
 export const axiosInstance = axios.create({
-  headers: headers,
+  headers: {Authorization: `Bearer ${TOKEN_STRING}`},
 })
+

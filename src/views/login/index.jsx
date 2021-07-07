@@ -14,7 +14,6 @@ function Login() {
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value })
   }
-
   const onPasswordShow = () => {
     setpasswordVisible(!passwordVisible)
   }
@@ -28,7 +27,6 @@ function Login() {
     }
   }
 
-  //e00001 pass1
   return (
     <Container>
       <Col className="form-wrapper" xl={5} lg={6} md={9} xs={10}>

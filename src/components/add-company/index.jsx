@@ -20,7 +20,9 @@ const AddCompany = (props) => {
     error: null,
     show: false,
   })
-
+  console.log(countries)
+  const country = null
+  const city = null
   const history = useHistory()
 
   const countryOptions = useMemo(() => {
@@ -115,7 +117,9 @@ const AddCompany = (props) => {
           </div>
           <div className="company-additional-info">
             <div className="company-name">
-              <label className="company-info-subtitle" htmlFor="name">Company Name</label>
+              <label className="company-info-subtitle" htmlFor="name">
+                Company Name
+              </label>
               <InputGroup>
                 <Toast
                   show={companyPostError.show}
@@ -136,7 +140,9 @@ const AddCompany = (props) => {
               </InputGroup>
             </div>
             <div className="company-address ">
-              <label className="company-info-subtitle" htmlFor="country">Country</label>
+              <label className="company-info-subtitle" htmlFor="country">
+                Country
+              </label>
               <Select
                 value={props.isEdit && country}
                 className="address-field"
@@ -145,7 +151,9 @@ const AddCompany = (props) => {
                 required
                 inputId="country"
               />
-              <label className="company-info-subtitle" htmlFor="city">City</label>
+              <label className="company-info-subtitle" htmlFor="city">
+                City
+              </label>
               <Select
                 value={props.isEdit && city}
                 className="address-field"
@@ -154,7 +162,9 @@ const AddCompany = (props) => {
                 options={citiesOptions}
                 inputId="city"
               />
-              <label className="company-info-subtitle" htmlFor="address">Address</label>
+              <label className="company-info-subtitle" htmlFor="address">
+                Address
+              </label>
               <InputGroup>
                 <FormControl
                   value={address}
