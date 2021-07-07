@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
-import axios from "axios"
+import { axiosInstance } from "components/api"
 import CustomModalWindow from "components/custom-modal-window"
 import "./styles.scss"
 import FileUploadPage from "components/upload-file"
@@ -11,8 +11,8 @@ import { useHistory } from "react-router-dom"
 const AddCompany = (props) => {
   const [allLocationList, setAllLocationList] = useState([])
   const [companyName, setCompanyName] = useState("")
-  const [city, setCity] = useState("")
-  const [country, setCountry] = useState("")
+  const [cities, setCities] = useState([])
+  const [countries, setCountries] = useState("")
   const [address, setAddress] = useState("")
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
@@ -23,24 +23,21 @@ const AddCompany = (props) => {
 
   const history = useHistory()
 
-  const citiesOptions = useMemo(() => {
+  const countryOptions = useMemo(() => {
     return allLocationList.map((location) => ({
       ...location,
-      label: location.city,
-      value: location.city,
+      label: location.name,
+      value: location.name,
     }))
   }, [allLocationList])
 
-  const countryOptions = [
-    {
-      label: "Ukraine",
-      value: "Ukraine",
-    },
-    {
-      label: "Belarus",
-      value: "Belarus",
-    },
-  ]
+  const citiesOptions = useMemo(() => {
+    return cities.map((city) => ({
+      ...city,
+      label: city,
+      value: city,
+    }))
+  }, [cities])
 
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
@@ -49,32 +46,45 @@ const AddCompany = (props) => {
     })
   }, [])
 
+
   useEffect(() => {
     if (props.isEdit) {
       setCompanyName(props.company.name)
-      setCity(
-        props.company.locations.map((el) => ({
-          ...el,
-          value: el.city,
-          label: el.city,
+      setCities(
+        props.company.countries.map((location) => ({
+          ...location,
+          value: location.cities.name,
+          label: location.cities.name,
         }))
       )
     }
   }, [])
 
+  useEffect(() => {
+    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
+    axios.get(apiUrl).then((resp) => {
+      setCountries(resp.data)
+    })
+  }, [])
+
   function deleteCompany(id) {
-    axios.delete(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`)
+    axiosInstance.delete(
+      `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`
+    )
   }
 
   async function saveCompanyChanges(id) {
     try {
-      axios.put(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`, {
-        id: id,
-        modified: null,
-        modifiedBy: null,
-        name: companyName,
-        locations: location.map((el) => ({ ...el })),
-      })
+      axiosInstance.put(
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`,
+        {
+          id: id,
+          modified: null,
+          modifiedBy: null,
+          name: companyName,
+          locations: location.map((el) => ({ ...el })),
+        }
+      )
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
     }
@@ -89,16 +99,17 @@ const AddCompany = (props) => {
   }
 
   const companyCityHandler = (e) => {
-    setCity(e)
+    setCities(e)
   }
 
   const companyCountryHandler = (e) => {
-    setCountry(e)
+    setCountries(e)
+    setCities(e.cities.map(city => city.name))
   }
 
   return (
     <Form>
-      <div className="container">
+      <div className="container d-flex flex-row-reverse align-items-start pt-5">
         <div className="col">
           <div className="company-logo">
             <FileUploadPage />

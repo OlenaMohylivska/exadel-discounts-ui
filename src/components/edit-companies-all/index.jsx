@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import * as axios from "axios"
+import { axiosInstance } from "components/api"
 import Loupe from "components/icons/Loupe"
 import { Form, Button } from "react-bootstrap"
 import CompanyInfo from "components/companyInfo"
@@ -16,7 +16,9 @@ const EditCompaniesAll = () => {
 
   const fetchData = async (url, setFunc) => {
     try {
-      await axios.get(baseUrl + url).then((response) => setFunc(response.data))
+      await axiosInstance
+        .get(baseUrl + url)
+        .then((response) => setFunc(response.data))
     } catch (e) {
       setCompaniesFetchError(e.message)
     }
@@ -56,12 +58,20 @@ const EditCompaniesAll = () => {
         </div>
         {newCompany ? <Redirect to="/admin/add-company" /> : ""}
         {companies ? (
-          companies.map((company) => (
-            <CompanyInfo key={company.id} name={company.name} id={company.id} />
-          ))
+          <div className="companies-wrapper">
+            {companies.map((company) => {
+              return (
+                <CompanyInfo
+                  key={company.id}
+                  name={company.name}
+                  id={company.id}
+                />
+              )
+            })}
+          </div>
         ) : (
           <div className="fetch-error-info">
-            Sorry, no info, {companiesFetchError && companiesFetchError}
+            Sorry no info, {companiesFetchError && companiesFetchError}
           </div>
         )}
       </div>

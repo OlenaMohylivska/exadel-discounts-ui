@@ -3,20 +3,24 @@ import ProductCard from "components/product-card"
 import { Form, Container } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
-import * as axios from "axios"
 import "./styles.scss"
 import { Context } from "store/context"
+import Pagination from "components/pagination"
+import { axiosInstance } from "../../components/api"
 
 const Catalog = () => {
   const cardImages = useContext(Context)
-  const [discounts, setDiscounts] = useState([])
+
+  const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
+  const [itemsPerPage, setItemsPerPage] = useState(8)
+
   const fetchData = async () => {
     try {
-      await axios
+      await axiosInstance
         .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
@@ -36,19 +40,20 @@ const Catalog = () => {
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
-    axios.get(apiUrl).then((resp) => {
+    axiosInstance.get(apiUrl).then((resp) => {
       setSearchLocation(resp.data)
     })
   }, [])
+
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags/"
-    axios.get(apiUrl).then((res) => {
+    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
+    axiosInstance.get(apiUrl).then((res) => {
       setFilterTags(res.data)
     })
   }, [])
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company"
-    axios.get(apiUrl).then((res) => {
+    axiosInstance.get(apiUrl).then((res) => {
       setSearchCompanies(res.data)
     })
   }, [])
@@ -66,12 +71,10 @@ const Catalog = () => {
     }))
   })
 
-  const citiesOptions = useMemo(() => {
-    return searchLocation.map((location) => ({
-      label: location.city,
-      value: location.city,
-    }))
-  }, [searchLocation])
+  const citiesOptions = searchLocation.map((location) => ({
+    label: location.name,
+    value: location.name,
+  }))
 
   const categoriesOptions = filterTags.map((el) => {
     return {
@@ -86,6 +89,14 @@ const Catalog = () => {
       label: el,
     }
   })
+
+  const handleSortingOption = (option) => {
+    if (option.value === "Top rated") {
+      const sortedArr = [...discounts]
+      sortedArr.sort((a, b) => (a.rate < b.rate ? 1 : -1))
+      setDiscounts(sortedArr)
+    }
+  }
 
   return (
     <Container className="catalog-wrapper">
@@ -108,7 +119,7 @@ const Catalog = () => {
             className="catalog-selects"
             options={citiesOptions}
             placeholder="Location"
-          />{" "}
+          />
           <Select
             className="catalog-selects"
             options={companiesOptions}
@@ -123,6 +134,7 @@ const Catalog = () => {
           <Select
             className="catalog-selects"
             options={sortingOptions}
+            onChange={(option) => handleSortingOption(option)}
             placeholder="Sorting by..."
           />
         </div>
@@ -130,7 +142,7 @@ const Catalog = () => {
 
       {discounts ? (
         <div className="discounts-wrapper">
-          {discounts.map((el) => {
+          {discounts.slice(0, itemsPerPage).map((el) => {
             return <ProductCard elem={el} key={el.id} />
           })}
         </div>
@@ -139,6 +151,11 @@ const Catalog = () => {
           Sorry no info, {discountsFetchError ? discountsFetchError : ""}
         </div>
       )}
+      <Pagination
+        discounts={discounts}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+      />
     </Container>
   )
 }

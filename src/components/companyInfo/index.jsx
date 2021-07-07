@@ -1,28 +1,44 @@
 import React from "react"
-import { Card, Button } from "react-bootstrap"
+import { Container, Card, Button } from "react-bootstrap"
 import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
+import { Link, useHistory, useRouteMatch } from "react-router-dom"
+import "./styles.scss"
 
 const CompanyInfo = ({ name, id }) => {
+  const history = useHistory()
+  const { path } = useRouteMatch()
+
+  const updateItemHandler = () => {
+    history.push(`${path}/edit-company/${id}`)
+  }
+
   return (
-    <div className="col-lg-12">
-      <Card className="d-flex flex-lg-row flex-md-row flex-sm-column w-100 mt-3 p-2 align-items-center position-relative">
-        <Card.Img
-          className="col-lg-1 col-md-1 company-logo image"
-          src="https://zo.ua/uploads/no-logo.png"
-        />
-        <Card.Body className="d-lg-flex d-md-flex d-sm-block flex-lg-row flex-md-row flex-sm-column">
-          <div className="col-lg-10 col-md-9 col-sm-12 d-flex flex-column justify-content-center">
-            <Card.Title>{name}</Card.Title>
+    <Container className="company-wrapper">
+      <Card className="shadow product-card d-flex flex-column align-items-center card-size">
+        <Link
+          key={id}
+          to={{
+            pathname: `/edit-company/${id}`,
+          }}
+        >
+          <Card.Title className="mb-3 card-title d-flex justify-content-center">
+            {name}
+          </Card.Title>
+          <Card.Img
+            variant="top"
+            className="product-image mb-5"
+            src="https://zo.ua/uploads/no-logo.png"
+          />
+        </Link>
+        <Card.Body className="p-0 d-flex flex-column justify-content-between">
+          <div className="product-footer">
+            <Button variant="dark" onClick={updateItemHandler}>
+              Update
+            </Button>
           </div>
         </Card.Body>
-        <Link to={`/admin/edit-company/${id}`}>
-          <Button variant="primary" className="h-100 px-4 align-self-center">
-            Update company
-          </Button>
-        </Link>
       </Card>
-    </div>
+    </Container>
   )
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useParams, useLocation } from "react-router"
 import { Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
-import * as axios from "axios"
+import { axiosInstance } from "components/api"
 import FetchError from "../../components/fetch-error"
 import "./styles.scss"
 import {
@@ -32,7 +32,7 @@ const DiscountPage = () => {
   const fetchData = async () => {
     setLoading(true)
     try {
-      await axios
+      await axiosInstance
         .get(`${baseUrl}/api/discounts/${id}`)
         .then((response) => setDiscount(response.data))
       setLoading(false)
@@ -49,9 +49,11 @@ const DiscountPage = () => {
   useEffect(() => {
     setLoading(true)
     try {
-      axios.get(`${baseUrl}/api/discounts/${id}/reviews`).then((response) => {
-        setAllReviews(response.data)
-      })
+      axiosInstance
+        .get(`${baseUrl}/api/discounts/${id}/reviews`)
+        .then((response) => {
+          setAllReviews(response.data)
+        })
       setLoading(false)
     } catch (e) {
       setErrorMessage(e.message)
@@ -80,7 +82,8 @@ const DiscountPage = () => {
   }
 
   const addReview = () => {
-    axios.post(baseUrl + "/api/reviews", review)
+    axiosInstance.post(baseUrl + "/api/reviews", review)
+    // setReviewText("")
     setRating(0)
   }
 
