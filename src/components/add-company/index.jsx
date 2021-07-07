@@ -113,54 +113,58 @@ const AddCompany = (props) => {
           <div className="company-logo">
             <FileUploadPage />
           </div>
-        </div>
-        <div className="col">
-          <div className="company-name">
-            <span className="company-info-subtitle">Company Name</span>
-            <InputGroup>
-              <Toast
-                show={companyPostError.show}
-                autohide
-                onClose={() => {
-                  setCompanyPostError({ show: false, error: null })
-                }}
-              >
-                <Toast.Body>{companyPostError.error}</Toast.Body>
-              </Toast>
-              <FormControl
-                value={companyName}
-                name="company-name"
-                onChange={companyNameHandler}
-                className="form-field"
+          <div className="company-additional-info">
+            <div className="company-name">
+              <label className="company-info-subtitle" htmlFor="name">Company Name</label>
+              <InputGroup>
+                <Toast
+                  show={companyPostError.show}
+                  autohide
+                  onClose={() => {
+                    setCompanyPostError({ show: false, error: null })
+                  }}
+                >
+                  <Toast.Body>{companyPostError.error}</Toast.Body>
+                </Toast>
+                <FormControl
+                  value={companyName}
+                  name="company-name"
+                  id="name"
+                  onChange={companyNameHandler}
+                  className="form-field"
+                />
+              </InputGroup>
+            </div>
+            <div className="company-address ">
+              <label className="company-info-subtitle" htmlFor="country">Country</label>
+              <Select
+                value={props.isEdit && country}
+                className="address-field"
+                onChange={companyCountryHandler}
+                options={countryOptions}
+                required
+                inputId="country"
               />
-            </InputGroup>
-          </div>
-          <div className="company-address">
-            <span className="company-info-subtitle">Country</span>
-            <Select
-              value={props.isEdit && countries}
-              className="address-field"
-              onChange={companyCountryHandler}
-              options={countryOptions}
-              required
-            />
-            <span className="company-info-subtitle">City</span>
-            <Select
-              className="address-field"
-              value={props.isEdit && cities}
-              isMulti
-              onChange={companyCityHandler}
-              options={citiesOptions}
-            />
-            <span className="company-info-subtitle">Address</span>
-            <InputGroup>
-              <FormControl
-                value={address}
-                name="company-address"
-                onChange={companyAddressHandler}
-                className="form-field"
+              <label className="company-info-subtitle" htmlFor="city">City</label>
+              <Select
+                value={props.isEdit && city}
+                className="address-field"
+                isMulti
+                onChange={companyCityHandler}
+                options={citiesOptions}
+                inputId="city"
               />
-            </InputGroup>
+              <label className="company-info-subtitle" htmlFor="address">Address</label>
+              <InputGroup>
+                <FormControl
+                  value={address}
+                  name="company-address"
+                  onChange={companyAddressHandler}
+                  className="form-field"
+                  id="address"
+                />
+              </InputGroup>
+            </div>
           </div>
           <div className="btn-field d-flex justify-content-between">
             <Button

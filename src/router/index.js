@@ -60,7 +60,6 @@ function AppRouter() {
         )}
       </Route>
 
-
       <Route path="/admin/all-companies/edit-company/:id">
         {!localStorage.getItem("jwt") ? (
           <Redirect to="/login" />
@@ -103,7 +102,6 @@ function AppRouter() {
           <Statistics />
         )}
       </Route>
-
 
       <Route path="/admin/all-companies" exact>
         {!localStorage.getItem("jwt") ? (
