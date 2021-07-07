@@ -63,6 +63,15 @@ function Header() {
             >
               Log out
             </NavLink>
+
+            <NavLink
+              to="/login"
+              className="nav-item"
+              activeClassName="nav-item-active"
+              onClick={logout}
+            >
+              Log out
+            </NavLink>
           </Nav>
         </NavbarCollapse>
       </Container>
