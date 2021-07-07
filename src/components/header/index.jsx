@@ -5,6 +5,7 @@ import Logo from "../icons/logo.png"
 import "./styles.scss"
 import NavbarToggle from "react-bootstrap/esm/NavbarToggle"
 import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse"
+import { logout } from "store/utils"
 
 function Header() {
   return (
@@ -52,6 +53,15 @@ function Header() {
               activeClassName="menu-link-active"
             >
               Sign In
+            </NavLink>
+
+            <NavLink
+              to="/login"
+              className="nav-item"
+              activeClassName="nav-item-active"
+              onClick={logout}
+            >
+              Log out
             </NavLink>
           </Nav>
         </NavbarCollapse>

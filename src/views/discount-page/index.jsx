@@ -2,9 +2,18 @@ import React, { useState, useEffect } from "react"
 import { useParams, useLocation } from "react-router"
 import { Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
-import * as axios from "axios"
+import { axiosInstance } from "components/api"
 import FetchError from "../../components/fetch-error"
 import "./styles.scss"
+import {
+  Shop,
+  People,
+  BookmarkHeartFill,
+  Globe,
+  BackspaceReverse,
+  EmojiLaughing,
+} from "react-bootstrap-icons"
+import moment from "moment"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -16,8 +25,6 @@ const DiscountPage = () => {
   const location = useLocation()
   const { image } = location.state ? location.state : ""
   const { id } = useParams()
-
-  // const [reviewText, setReviewText] = useState("")
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allReviews, setAllReviews] = useState([])
@@ -25,7 +32,7 @@ const DiscountPage = () => {
   const fetchData = async () => {
     setLoading(true)
     try {
-      await axios
+      await axiosInstance
         .get(`${baseUrl}/api/discounts/${id}`)
         .then((response) => setDiscount(response.data))
       setLoading(false)
@@ -42,9 +49,11 @@ const DiscountPage = () => {
   useEffect(() => {
     setLoading(true)
     try {
-      axios.get(`${baseUrl}/api/discounts/${id}/reviews`).then((response) => {
-        setAllReviews(response.data)
-      })
+      axiosInstance
+        .get(`${baseUrl}/api/discounts/${id}/reviews`)
+        .then((response) => {
+          setAllReviews(response.data)
+        })
       setLoading(false)
     } catch (e) {
       setErrorMessage(e.message)
@@ -68,15 +77,12 @@ const DiscountPage = () => {
     })
   }, [rating])
 
-  // const handleReviewText = e => {
-  //   setReviewText(e.target.value)
-  // }
   const handleRating = (value) => {
     setRating(value)
   }
 
   const addReview = () => {
-    axios.post(baseUrl + "/api/reviews", review)
+    axiosInstance.post(baseUrl + "/api/reviews", review)
     // setReviewText("")
     setRating(0)
   }
@@ -100,12 +106,6 @@ const DiscountPage = () => {
                 >
                   Order
                 </Button>
-                {/* <Form.Group>
-                    <Form.Control className="mb-3" as="textarea" rows={4} cols={50} value={reviewText} onChange={handleReviewText}>
-
-                    </Form.Control>
-
-                  </Form.Group> */}
                 <div className="feedback-area">
                   <div>
                     <StarRatings
@@ -136,33 +136,50 @@ const DiscountPage = () => {
             </div>
           </div>
           <div className="col-lg-6 col-md-12">
-            <h3 className="discount-field">Discount Name: {discount.name}</h3>
-            <h3 className="discount-field">
-              Company: {discount.company ? discount.company.name : ""}
-            </h3>
-            <h3 className="discount-field">Tags: {discount.tags.map((tag) => ` ${tag.name};`)}</h3>
-            <h3 className="discount-field">Location: </h3>
-            <h3 className="discount-field">
-              Expired to:
-              {new Date(discount.periodEnd)
-                .toISOString()
-                .split(":")
-                .splice(0, 1)
-                .join("")
-                .split("")
-                .splice(0, 10)
-                .join("")
-                .split("-")
-                .reverse()
-                .join("-")}
-            </h3>
-            <h3 className="discount-field">Description: {discount.description}</h3>
+            <div className="discount-subtitle">
+              <Shop className="discount-icon" />
+              Discount Name:&nbsp;
+              <span className="discount-info">{discount.name}</span>
+            </div>
+            <div className="discount-subtitle">
+              <People className="discount-icon" />
+              Company:&nbsp;
+              <span className="discount-info">
+                {discount.company ? discount.company.name : ""}
+              </span>
+            </div>
+            <div className="discount-subtitle">
+              <BookmarkHeartFill className="discount-icon" />
+              Tags:
+              <span className="discount-info">
+                {discount.tags.map((tag) => ` ${tag.name};`)}
+              </span>
+            </div>
+            <div className="discount-subtitle">
+              <Globe className="discount-icon" />
+              Location:&nbsp;
+              <span className="discount-info">
+                {discount.country.cities.map((city) => `${city.name} `)}
+              </span>
+            </div>
+            <div className="discount-subtitle">
+              <BackspaceReverse className="discount-icon" />
+              Expire at:&nbsp;
+              <span className="discount-info">
+                {moment(discount.periodEnd).format("MMM Do YYYY")}
+              </span>
+            </div>
+            <span className="discount-subtitle">
+              <EmojiLaughing className="discount-icon" />
+              Description:&nbsp;
+              <span className="discount-info">{discount.description}</span>
+            </span>
 
             <div>
               {allReviews.length ? (
                 <div>
-                  <h3 className="discount-field">Reviews:</h3>
-                  {allReviews.map(review => {
+                  <span className="discount-subtitle">Reviews:</span>
+                  {allReviews.map((review) => {
                     return (
                       <div key={review.id} className="review">
                         <div className="d-flex justify-content-between">
@@ -187,17 +204,15 @@ const DiscountPage = () => {
                             />
                           </div>
                         </div>
-                        {/* <div className="d-flex justify-content-between align-items-end">
-                          <p className="comment">{review.comment}</p>
-
-
-                        </div> */}
                       </div>
                     )
                   })}
-
-                </div>) : <h3 className="discount-field">No reviews yet</h3>
-              }
+                </div>
+              ) : (
+                <p className="discount-no-reviews">
+                  No reviews available yet. Please, check back later!
+                </p>
+              )}
             </div>
           </div>
         </div>
