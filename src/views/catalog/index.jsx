@@ -97,59 +97,59 @@ const Catalog = () => {
 
   return (
     <>
-      {fetchError ? <FetchError error={fetchError} /> :
-        <Container className="catalog-wrapper">
-          <div className=" filter-panel column ">
-            <div className="width-100">
-              <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
-                <div className="search-icon">
-                  <Loupe />
-                </div>
-                <Form className="search-input">
-                  <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Control type="text" placeholder="Enter your search" />
-                  </Form.Group>
-                </Form>
-              </label>
-            </div>
-
-            <div className=" catalog-filters width-100">
-              <Select
-                className="catalog-selects"
-                options={citiesOptions}
-                placeholder="Location"
-              />{" "}
-              <Select
-                className="catalog-selects"
-                options={companiesOptions}
-                placeholder="Companies"
-              />
-              <Select
-                className="catalog-selects"
-                isMulti
-                options={categoriesOptions}
-                placeholder="Categories"
-              />
-              <Select
-                className="catalog-selects"
-                options={sortingOptions}
-                onChange={(option) => handleSortingOption(option)}
-                placeholder="Sorting by..."
-              />
-            </div>
+      {fetchError && <FetchError error={fetchError} />}
+      {!fetchError && <Container className="catalog-wrapper">
+        <div className=" filter-panel column ">
+          <div className="width-100">
+            <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
+              <div className="search-icon">
+                <Loupe />
+              </div>
+              <Form className="search-input">
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Control type="text" placeholder="Enter your search" />
+                </Form.Group>
+              </Form>
+            </label>
           </div>
 
-          <div className="discounts-wrapper">
-            {discounts.slice(0, itemsPerPage).map((el) => {
-              return <ProductCard elem={el} key={el.id} />
-            })}
+          <div className=" catalog-filters width-100">
+            <Select
+              className="catalog-selects"
+              options={citiesOptions}
+              placeholder="Location"
+            />{" "}
+            <Select
+              className="catalog-selects"
+              options={companiesOptions}
+              placeholder="Companies"
+            />
+            <Select
+              className="catalog-selects"
+              isMulti
+              options={categoriesOptions}
+              placeholder="Categories"
+            />
+            <Select
+              className="catalog-selects"
+              options={sortingOptions}
+              onChange={(option) => handleSortingOption(option)}
+              placeholder="Sorting by..."
+            />
           </div>
-          <Pagination
-            discounts={discounts}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-          />
-        </Container>
+        </div>
+
+        <div className="discounts-wrapper">
+          {discounts.slice(0, itemsPerPage).map((el) => {
+            return <ProductCard elem={el} key={el.id} />
+          })}
+        </div>
+        <Pagination
+          discounts={discounts}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+        />
+      </Container>
       }
     </>
   )

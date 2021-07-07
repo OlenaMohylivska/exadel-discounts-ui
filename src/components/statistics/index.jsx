@@ -115,52 +115,53 @@ const Statistics = () => {
 
   return (
     <>
-      {fetchError ? <FetchError error={fetchError} /> :
-        <Container>
-          <Row className="my-4">
+      {fetchError && <FetchError error={fetchError} />}
+      {!fetchError && <Container>
 
-            <Col>
-              <Bar
-                data={discountsByOrders}
-                height={300}
-                options={discountsByOrdersOptions}
+        <Row className="my-4">
+
+          <Col>
+            <Bar
+              data={discountsByOrders}
+              height={300}
+              options={discountsByOrdersOptions}
+            />
+          </Col>
+          <Col>
+            <Line
+              data={ordersOfEachCompanyForWeek}
+              height={300}
+              options={ordersOfEachCompanyForWeekOptions}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <p className="text-center mb-3 font-size-14">
+              How many orders were done(By companies)
+            </p>
+            <div>
+              <Doughnut
+                data={companiesByOrders}
+                height={250}
+                options={roundChartsOptions}
               />
-            </Col>
-            <Col>
-              <Line
-                data={ordersOfEachCompanyForWeek}
-                height={300}
-                options={ordersOfEachCompanyForWeekOptions}
+            </div>
+          </Col>
+          <Col>
+            <p className="text-center mb-3 font-size-14">
+              How many orders were done(By tags)
+            </p>
+            <div>
+              <Pie
+                data={tagsByOrders}
+                height={250}
+                options={roundChartsOptions}
               />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <p className="text-center mb-3 font-size-14">
-                How many orders were done(By companies)
-              </p>
-              <div>
-                <Doughnut
-                  data={companiesByOrders}
-                  height={250}
-                  options={roundChartsOptions}
-                />
-              </div>
-            </Col>
-            <Col>
-              <p className="text-center mb-3 font-size-14">
-                How many orders were done(By tags)
-              </p>
-              <div>
-                <Pie
-                  data={tagsByOrders}
-                  height={250}
-                  options={roundChartsOptions}
-                />
-              </div>
-            </Col>
-          </Row>
-        </Container>
+            </div>
+          </Col>
+        </Row>
+      </Container>
       }
     </>
   )

@@ -18,13 +18,15 @@ const EditCompany = () => {
 
   return (
     <>
-      {fetchError ? <FetchError error={fetchError} /> :
-        <div className="container">
-          {company && (
-            <AddCompany isEdit={true} company={company} setCompany={setCompany} />
-          )}
-        </div>}
+      {fetchError && <FetchError error={fetchError} />}
+      {!fetchError && <div className="container">
+        {company && (
+          <AddCompany isEdit={true} company={company} setCompany={setCompany} />
+        )}
+      </div>
+      }
     </>
+
   )
 }
 

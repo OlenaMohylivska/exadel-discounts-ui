@@ -24,20 +24,20 @@ const FavouritePage = () => {
 
   return (
     <>
-      {fetchError ? <FetchError error={fetchError} /> :
-        <div className="container">
-          <div className="favourite-card-wrapper">
-            {discounts.map(el => {
-              return <LinearProductCard
-                buttonText="Order"
-                discount={el}
-                discounts={discounts}
-                setDiscounts={setDiscounts}
-                key={el.id}
-              />
-            })}
-          </div>
+      {fetchError && <FetchError error={fetchError} />}
+      {!fetchError && <div className="container">
+        <div className="favourite-card-wrapper">
+          {discounts.map(el => {
+            return <LinearProductCard
+              buttonText="Order"
+              discount={el}
+              discounts={discounts}
+              setDiscounts={setDiscounts}
+              key={el.id}
+            />
+          })}
         </div>
+      </div>
       }
 
     </>

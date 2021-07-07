@@ -25,20 +25,20 @@ const HistoryPage = () => {
 
   return (
     <>
-      {fetchError ? <FetchError error={fetchError} /> :
-        <div className="container">
-          <div className="history-card-wrapper">
-            {discounts.map(el => {
-              return <LinearProductCard
-                buttonText=""
-                discount={el}
-                discounts={discounts}
-                setDiscounts={setDiscounts}
-                key={el.id}
-              />
-            })}
-          </div>
+      {fetchError && <FetchError error={fetchError} />}
+      {!fetchError && <div className="container">
+        <div className="history-card-wrapper">
+          {discounts.map(el => {
+            return <LinearProductCard
+              buttonText=""
+              discount={el}
+              discounts={discounts}
+              setDiscounts={setDiscounts}
+              key={el.id}
+            />
+          })}
         </div>
+      </div>
       }
     </>
   )
