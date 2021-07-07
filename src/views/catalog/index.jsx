@@ -41,7 +41,7 @@ const Catalog = () => {
     setSearchRequest({ ...searchRequest, tags: e.map((elem) => elem.value) })
   }
   useEffect(() => {
-    setTimeout(search(), 2000)
+    setTimeout(search, 4000)
   }, [searchRequest])
 
   const fetchData = async () => {
