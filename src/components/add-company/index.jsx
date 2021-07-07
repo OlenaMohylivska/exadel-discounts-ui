@@ -105,7 +105,7 @@ const AddCompany = (props) => {
           </div>
           <div className="company-additional-info">
             <div className="company-name">
-              <label className="company-info-subtitle">Company Name</label>
+              <label className="company-info-subtitle" htmlFor="name">Company Name</label>
               <InputGroup>
                 <Toast
                   show={companyPostError.show}
@@ -119,35 +119,39 @@ const AddCompany = (props) => {
                 <FormControl
                   value={companyName}
                   name="company-name"
+                  id="name"
                   onChange={companyNameHandler}
                   className="form-field"
                 />
               </InputGroup>
             </div>
             <div className="company-address ">
-              <label className="company-info-subtitle">Country</label>
+              <label className="company-info-subtitle" htmlFor="country">Country</label>
               <Select
                 value={props.isEdit && country}
                 className="address-field"
                 onChange={companyCountryHandler}
                 options={countryOptions}
                 required
+                inputId="country"
               />
-              <label className="company-info-subtitle">City</label>
+              <label className="company-info-subtitle" htmlFor="city">City</label>
               <Select
                 value={props.isEdit && city}
                 className="address-field"
                 isMulti
                 onChange={companyCityHandler}
                 options={citiesOptions}
+                inputId="city"
               />
-              <label className="company-info-subtitle">Address</label>
+              <label className="company-info-subtitle" htmlFor="address">Address</label>
               <InputGroup>
                 <FormControl
                   value={address}
                   name="company-address"
                   onChange={companyAddressHandler}
                   className="form-field"
+                  id="address"
                 />
               </InputGroup>
             </div>
