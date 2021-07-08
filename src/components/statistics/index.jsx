@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
 import { axiosInstance } from "components/api"
+import FetchError from "components/fetch-error"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -9,6 +10,7 @@ const Statistics = () => {
   const [discountsByOrders, setDiscountsByOrders] = useState({})
   const [companiesByOrders, setCompaniesByOrders] = useState({})
   const [tagsByOrders, setTagsByOrders] = useState({})
+  const [fetchError, setFetchError] = useState(null)
 
   /*1 */
   const ordersOfEachCompanyForWeek = {
@@ -37,7 +39,7 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => {},
+        onClick: () => { },
       },
     },
     scales: {
@@ -63,7 +65,7 @@ const Statistics = () => {
           },
         ],
       })
-    })
+    }).catch(err => setFetchError(err.message))
   }, [])
 
   const discountsByOrdersOptions = {
@@ -71,7 +73,7 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => {},
+        onClick: () => { },
       },
     },
   }
@@ -88,7 +90,7 @@ const Statistics = () => {
           },
         ],
       })
-    })
+    }).catch(err => setFetchError(err.message))
   }, [])
 
   /*4 */
@@ -103,7 +105,7 @@ const Statistics = () => {
           },
         ],
       })
-    })
+    }).catch(err => setFetchError(err.message))
   }, [])
 
   const roundChartsOptions = {
@@ -112,50 +114,56 @@ const Statistics = () => {
   }
 
   return (
-    <Container>
-      <Row className="my-4">
-        <Col>
-          <Bar
-            data={discountsByOrders}
-            height={300}
-            options={discountsByOrdersOptions}
-          />
-        </Col>
-        <Col>
-          <Line
-            data={ordersOfEachCompanyForWeek}
-            height={300}
-            options={ordersOfEachCompanyForWeekOptions}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <p className="text-center mb-3 font-size-14">
-            How many orders were done(By companies)
-          </p>
-          <div>
-            <Doughnut
-              data={companiesByOrders}
-              height={250}
-              options={roundChartsOptions}
+    <>
+      {fetchError && <FetchError error={fetchError} />}
+      {!fetchError && <Container>
+
+        <Row className="my-4">
+
+          <Col>
+            <Bar
+              data={discountsByOrders}
+              height={300}
+              options={discountsByOrdersOptions}
             />
-          </div>
-        </Col>
-        <Col>
-          <p className="text-center mb-3 font-size-14">
-            How many orders were done(By tags)
-          </p>
-          <div>
-            <Pie
-              data={tagsByOrders}
-              height={250}
-              options={roundChartsOptions}
+          </Col>
+          <Col>
+            <Line
+              data={ordersOfEachCompanyForWeek}
+              height={300}
+              options={ordersOfEachCompanyForWeekOptions}
             />
-          </div>
-        </Col>
-      </Row>
-    </Container>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <p className="text-center mb-3 font-size-14">
+              How many orders were done(By companies)
+            </p>
+            <div>
+              <Doughnut
+                data={companiesByOrders}
+                height={250}
+                options={roundChartsOptions}
+              />
+            </div>
+          </Col>
+          <Col>
+            <p className="text-center mb-3 font-size-14">
+              How many orders were done(By tags)
+            </p>
+            <div>
+              <Pie
+                data={tagsByOrders}
+                height={250}
+                options={roundChartsOptions}
+              />
+            </div>
+          </Col>
+        </Row>
+      </Container>
+      }
+    </>
   )
 }
 

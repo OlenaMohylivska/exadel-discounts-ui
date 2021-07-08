@@ -41,7 +41,7 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
-    axios.get(apiUrl).then((resp) => {
+    axiosInstance.get(apiUrl).then((resp) => {
       setAllLocationList(resp.data)
     })
   }, [])
@@ -62,7 +62,7 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
-    axios.get(apiUrl).then((resp) => {
+    axiosInstance.get(apiUrl).then((resp) => {
       setCountries(resp.data)
     })
   }, [])
@@ -139,7 +139,7 @@ const AddCompany = (props) => {
             <div className="company-address ">
               <label className="company-info-subtitle" htmlFor="country">Country</label>
               <Select
-                value={props.isEdit && country}
+                value={props.isEdit && countries}
                 className="address-field"
                 onChange={companyCountryHandler}
                 options={countryOptions}
@@ -148,7 +148,7 @@ const AddCompany = (props) => {
               />
               <label className="company-info-subtitle" htmlFor="city">City</label>
               <Select
-                value={props.isEdit && city}
+                value={props.isEdit && cities}
                 className="address-field"
                 isMulti
                 onChange={companyCityHandler}
