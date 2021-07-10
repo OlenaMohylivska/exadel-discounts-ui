@@ -144,7 +144,7 @@ const AddCompany = (props) => {
                 Country
               </label>
               <Select
-                value={props.isEdit && country}
+                value={props.isEdit && countries}
                 className="address-field"
                 onChange={companyCountryHandler}
                 options={countryOptions}
@@ -155,7 +155,7 @@ const AddCompany = (props) => {
                 City
               </label>
               <Select
-                value={props.isEdit && city}
+                value={props.isEdit && cities}
                 className="address-field"
                 isMulti
                 onChange={companyCityHandler}
