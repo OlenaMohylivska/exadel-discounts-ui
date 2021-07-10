@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
-import { axiosInstance } from "components/api"
+import axiosInstance from "components/api"
 import CustomModalWindow from "components/custom-modal-window"
 import "./styles.scss"
 import FileUploadPage from "components/upload-file"
@@ -45,7 +45,6 @@ const AddCompany = (props) => {
       setAllLocationList(resp.data)
     })
   }, [])
-
 
   useEffect(() => {
     if (props.isEdit) {
@@ -104,7 +103,7 @@ const AddCompany = (props) => {
 
   const companyCountryHandler = (e) => {
     setCountries(e)
-    setCities(e.cities.map(city => city.name))
+    setCities(e.cities.map((city) => city.name))
   }
 
   return (
@@ -116,7 +115,9 @@ const AddCompany = (props) => {
           </div>
           <div className="company-additional-info">
             <div className="company-name">
-              <label className="company-info-subtitle" htmlFor="name">Company Name</label>
+              <label className="company-info-subtitle" htmlFor="name">
+                Company Name
+              </label>
               <InputGroup>
                 <Toast
                   show={companyPostError.show}
@@ -137,7 +138,9 @@ const AddCompany = (props) => {
               </InputGroup>
             </div>
             <div className="company-address ">
-              <label className="company-info-subtitle" htmlFor="country">Country</label>
+              <label className="company-info-subtitle" htmlFor="country">
+                Country
+              </label>
               <Select
                 value={props.isEdit && countries}
                 className="address-field"
@@ -146,7 +149,9 @@ const AddCompany = (props) => {
                 required
                 inputId="country"
               />
-              <label className="company-info-subtitle" htmlFor="city">City</label>
+              <label className="company-info-subtitle" htmlFor="city">
+                City
+              </label>
               <Select
                 value={props.isEdit && cities}
                 className="address-field"
@@ -155,7 +160,9 @@ const AddCompany = (props) => {
                 options={citiesOptions}
                 inputId="city"
               />
-              <label className="company-info-subtitle" htmlFor="address">Address</label>
+              <label className="company-info-subtitle" htmlFor="address">
+                Address
+              </label>
               <InputGroup>
                 <FormControl
                   value={address}

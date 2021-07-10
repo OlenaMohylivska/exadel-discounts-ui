@@ -1,36 +1,41 @@
 import React, { useState, useEffect, useMemo, useContext } from "react"
 import ProductCard from "components/product-card"
-import { Form, Container } from "react-bootstrap"
+import { Form, Container, Spinner } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import "./styles.scss"
 import { Context } from "store/context"
+import FetchError from "components/fetch-error"
 import Pagination from "components/pagination"
-import { axiosInstance } from "../../components/api"
+import axiosInstance from "../../components/api"
 
 const Catalog = () => {
-  const cardImages = useContext(Context)
-
+  const { cardImages } = useContext(Context)
   const [discounts, setDiscounts] = useState(null)
+  const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
-  const [discountsFetchError, setDiscountsFetchError] = useState(null)
+  const [fetchError, setFetchError] = useState(null)
   const [itemsPerPage, setItemsPerPage] = useState(8)
+  const [loading, setLoading] = useState(false)
+  console.log(cardImages)
 
   const fetchData = async () => {
+    setLoading(true)
     try {
       await axiosInstance
         .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
-            response.data.map((el, index) => ({
+            response.data.map((el) => ({
               ...el,
-              img: cardImages[index],
             }))
           )
         )
+      setLoading(false)
     } catch (e) {
+      setLoading(false)
       setDiscountsFetchError(e.message)
     }
   }
@@ -40,22 +45,31 @@ const Catalog = () => {
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
-    axiosInstance.get(apiUrl).then((resp) => {
-      setSearchLocation(resp.data)
-    })
+    axiosInstance
+      .get(apiUrl)
+      .then((resp) => {
+        setSearchLocation(resp.data)
+      })
+      .catch((err) => setFetchError(err.message))
   }, [])
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
-    axiosInstance.get(apiUrl).then((res) => {
-      setFilterTags(res.data)
-    })
+    axiosInstance
+      .get(apiUrl)
+      .then((res) => {
+        setFilterTags(res.data)
+      })
+      .catch((err) => setFetchError(err.message))
   }, [])
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company"
-    axiosInstance.get(apiUrl).then((res) => {
-      setSearchCompanies(res.data)
-    })
+    axiosInstance
+      .get(apiUrl)
+      .then((res) => {
+        setSearchCompanies(res.data)
+      })
+      .catch((err) => setFetchError(err.message))
   }, [])
 
   // const topRatedHandler = () => {
@@ -99,64 +113,76 @@ const Catalog = () => {
   }
 
   return (
-    <Container className="catalog-wrapper">
-      <div className=" filter-panel column ">
-        <div className="width-100">
-          <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
-            <div className="search-icon">
-              <Loupe />
-            </div>
-            <Form className="search-input">
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Control type="text" placeholder="Enter your search" />
-              </Form.Group>
-            </Form>
-          </label>
-        </div>
-
-        <div className=" catalog-filters width-100">
-          <Select
-            className="catalog-selects"
-            options={citiesOptions}
-            placeholder="Location"
-          />
-          <Select
-            className="catalog-selects"
-            options={companiesOptions}
-            placeholder="Companies"
-          />
-          <Select
-            className="catalog-selects"
-            isMulti
-            options={categoriesOptions}
-            placeholder="Categories"
-          />
-          <Select
-            className="catalog-selects"
-            options={sortingOptions}
-            onChange={(option) => handleSortingOption(option)}
-            placeholder="Sorting by..."
-          />
-        </div>
-      </div>
-
-      {discounts ? (
-        <div className="discounts-wrapper">
-          {discounts.slice(0, itemsPerPage).map((el) => {
-            return <ProductCard elem={el} key={el.id} />
-          })}
-        </div>
+    <>
+      {fetchError ? (
+        <FetchError error={fetchError} />
       ) : (
-        <div className="fetch-error-info">
-          Sorry no info, {discountsFetchError ? discountsFetchError : ""}
-        </div>
+        <Container className="catalog-wrapper">
+          <div className=" filter-panel column ">
+            <div className="width-100">
+              <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
+                <div className="search-icon">
+                  <Loupe />
+                </div>
+                <Form className="search-input">
+                  <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Control type="text" placeholder="Enter your search" />
+                  </Form.Group>
+                </Form>
+              </label>
+            </div>
+
+            <div className=" catalog-filters width-100">
+              <Select
+                className="catalog-selects"
+                options={citiesOptions}
+                placeholder="Location"
+              />
+              <Select
+                className="catalog-selects"
+                options={companiesOptions}
+                placeholder="Companies"
+              />
+              <Select
+                className="catalog-selects"
+                isMulti
+                options={categoriesOptions}
+                placeholder="Categories"
+              />
+              <Select
+                className="catalog-selects"
+                options={sortingOptions}
+                onChange={(option) => handleSortingOption(option)}
+                placeholder="Sorting by..."
+              />
+            </div>
+          </div>
+
+          {loading && (
+            <div className="spin-container">
+              <Spinner className="spin-loader" animation="border" />
+            </div>
+          )}
+          {discounts && (
+            <div className="discounts-wrapper">
+              {discounts.slice(0, itemsPerPage).map((el) => {
+                return <ProductCard elem={el} key={el.id} />
+              })}
+            </div>
+          )}
+          {discountsFetchError && (
+            <div className="spinner">Sorry no info, {discountsFetchError}</div>
+          )}
+          {discounts && (
+            <Pagination
+              discounts={discounts}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+            />
+          )}
+        </Container>
       )}
-      <Pagination
-        discounts={discounts}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-      />
-    </Container>
+    </>
   )
 }
 

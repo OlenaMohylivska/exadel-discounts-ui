@@ -1,16 +1,18 @@
-import React from "react"
+import React, { useState } from "react"
 import { BrowserRouter, Switch } from "react-router-dom"
 import { Context } from "./store/context"
 import AppRouter from "./router"
 import Header from "./components/header"
 import Footer from "./components/footer"
 import { productImages } from "store/constants"
+
 import "./App.scss"
 import Breadcrumbs from "components/breadcrumbs"
 
 function App() {
+  const [isAuthorized, setIsAuthorized] = useState(false)
   return (
-    <Context.Provider value={productImages}>
+    <Context.Provider value={{ productImages, isAuthorized, setIsAuthorized }}>
       <BrowserRouter>
         <Header />
         <div className="app-wrapper">

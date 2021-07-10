@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { axiosInstance } from "components/api"
+import axiosInstance from "components/api"
 import Loupe from "components/icons/Loupe"
 import { Form, Button } from "react-bootstrap"
 import CompanyInfo from "components/companyInfo"
