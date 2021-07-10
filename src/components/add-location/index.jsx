@@ -86,7 +86,7 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       isMulti
     />
   )
-  console.log(locationBuilder)
+
   return (
     <>
       {chooseLocation.length !== 0 && selectCountry}

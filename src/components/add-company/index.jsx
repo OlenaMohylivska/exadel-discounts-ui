@@ -20,7 +20,6 @@ const AddCompany = (props) => {
     error: null,
     show: false,
   })
-  console.log(countries)
 
   const history = useHistory()
 

@@ -83,11 +83,10 @@ const DiscountPage = () => {
   }
 
   const addReview = () => {
-
     axiosInstance.post(baseUrl + "/api/reviews", review)
     setRating(0)
   }
-  console.log(discount)
+
   return (
     <>
       {loading ? <div>Loading</div> : ""}

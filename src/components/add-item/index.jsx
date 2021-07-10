@@ -105,7 +105,6 @@ const AddItem = (props) => {
     if (data.quantity && data.quantity < 1) setData({ ...data, quantity: 1 })
   }
   checkQuantity()
-  console.log(data)
 
   const validate = () => {
     let errorObj = {}
