@@ -21,8 +21,7 @@ const AddCompany = (props) => {
     show: false,
   })
   console.log(countries)
-  const country = null
-  const city = null
+
   const history = useHistory()
 
   const countryOptions = useMemo(() => {
@@ -144,7 +143,7 @@ const AddCompany = (props) => {
                 Country
               </label>
               <Select
-                value={props.isEdit && country}
+                value={props.isEdit && countries}
                 className="address-field"
                 onChange={companyCountryHandler}
                 options={countryOptions}
@@ -155,7 +154,7 @@ const AddCompany = (props) => {
                 City
               </label>
               <Select
-                value={props.isEdit && city}
+                value={props.isEdit && cities}
                 className="address-field"
                 isMulti
                 onChange={companyCityHandler}

@@ -54,6 +54,7 @@ const DiscountPage = () => {
         .then((response) => {
           setAllReviews(response.data)
         })
+
       setLoading(false)
     } catch (e) {
       setErrorMessage(e.message)
@@ -82,8 +83,8 @@ const DiscountPage = () => {
   }
 
   const addReview = () => {
+
     axiosInstance.post(baseUrl + "/api/reviews", review)
-    // setReviewText("")
     setRating(0)
   }
   console.log(discount)
@@ -179,7 +180,6 @@ const DiscountPage = () => {
               Description:&nbsp;
               <span className="discount-info">{discount.description}</span>
             </span>
-
             <div>
               {allReviews.length ? (
                 <div>
