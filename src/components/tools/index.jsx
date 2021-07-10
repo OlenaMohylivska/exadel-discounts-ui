@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Button, Form } from "react-bootstrap"
-import { axiosInstance } from "components/api"
+import axiosInstance from "components/api"
 import "./styles.css"
 import FetchError from 'components/fetch-error'
 

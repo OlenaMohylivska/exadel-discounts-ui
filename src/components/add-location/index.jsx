@@ -93,7 +93,10 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       {cityLocation.length !== 0 && selectCity}
       {addressLocation.length !== 0 && selectAdress}
 
-      <Button onClick={() => setCheck(true)} variant="primary">
+      <Button
+        onClick={() => setActualLocation([...actualLocation, locationBuilder])}
+        variant="primary"
+      >
         save
       </Button>
     </>
