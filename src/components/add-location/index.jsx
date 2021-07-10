@@ -43,11 +43,17 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       address: { address: address.address },
     }
   })
+  const locationFunc = (arr) => {
+    this.cities.length === 0
+      ? [{ name: cityTargetLocation, addresses: arr }]
+      : this.cities.push({ name: cityTargetLocation, addresses: arr })
+  }
+
   const addressHandleChange = (e) => {
     const arr = e.map((elem) => elem.address)
     setLocationBuilder({
-      country: countryTargetLocation,
-      cities: [{ name: cityTargetLocation, addresses: arr }],
+      name: countryTargetLocation,
+      cities: locationFunc(arr),
     })
   }
 
@@ -86,6 +92,7 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       isMulti
     />
   )
+  console.log(locationBuilder)
 
   return (
     <>

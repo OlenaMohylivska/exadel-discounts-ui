@@ -32,7 +32,7 @@ const AddItem = (props) => {
   const [tags, setTags] = useState([])
   const [category, setCategory] = useState("")
   const [chooseLocation, setChooseLocation] = useState([])
-  const [actualLocation, setActualLocation] = useState([])
+  const [actualLocation, setActualLocation] = useState({})
   useEffect(() => {
     setData({ ...data, country: actualLocation })
   }, [actualLocation])
