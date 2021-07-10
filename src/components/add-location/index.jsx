@@ -86,14 +86,17 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
       isMulti
     />
   )
-
+  console.log(locationBuilder)
   return (
     <>
       {chooseLocation.length !== 0 && selectCountry}
       {cityLocation.length !== 0 && selectCity}
       {addressLocation.length !== 0 && selectAdress}
 
-      <Button onClick={() => setCheck(true)} variant="primary">
+      <Button
+        onClick={() => setActualLocation([...actualLocation, locationBuilder])}
+        variant="primary"
+      >
         save
       </Button>
     </>

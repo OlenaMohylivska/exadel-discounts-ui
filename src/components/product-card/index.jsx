@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
-import StarRatings from "react-star-ratings"
+// import StarRatings from "react-star-ratings"
 import "./styles.css"
 import { Link } from "react-router-dom"
 
@@ -41,12 +41,12 @@ function ProductCard({ elem }) {
         </div>
 
         <div className="product-footer">
-          <StarRatings
+          {/* <StarRatings
             starDimension="27px"
             starSpacing="5px"
             rating={elem.rate}
             starRatedColor="#FFD700"
-          />
+          /> */}
           <Button variant="dark">Order</Button>
         </div>
       </Card.Body>

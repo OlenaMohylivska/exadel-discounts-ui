@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import LinearProductCard from "components/linear-product-card"
-import { axiosInstance } from "components/api"
+import axiosInstance from "components/api"
 import "./styles.scss"
 import { Context } from "store/context"
 

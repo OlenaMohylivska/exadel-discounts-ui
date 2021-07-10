@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import ValidationError from "../validation-error"
 import "./styles.scss"
-import { axiosInstance } from "components/api"
+import axiosInstance from "components/api"
 import Select from "react-select"
 import FileUploadPage from "components/upload-file"
 import { useHistory } from "react-router-dom"
@@ -15,7 +15,7 @@ const AddItem = (props) => {
   const history = useHistory()
   const [data, setData] = useState({
     periodEnd: null,
-    location: null,
+    country: null,
     tags: [],
     quantity: null,
     company: null,
@@ -26,13 +26,16 @@ const AddItem = (props) => {
     error: null,
     show: false,
   })
+
   const [newLocations, setNewLocations] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
   const [category, setCategory] = useState("")
   const [chooseLocation, setChooseLocation] = useState([])
   const [actualLocation, setActualLocation] = useState([])
-
+  useEffect(() => {
+    setData({ ...data, country: actualLocation })
+  }, [actualLocation])
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -102,6 +105,7 @@ const AddItem = (props) => {
     if (data.quantity && data.quantity < 1) setData({ ...data, quantity: 1 })
   }
   checkQuantity()
+  console.log(data)
 
   const validate = () => {
     let errorObj = {}

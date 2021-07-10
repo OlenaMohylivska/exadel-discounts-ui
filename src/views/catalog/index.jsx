@@ -1,36 +1,39 @@
 import React, { useState, useEffect, useMemo, useContext } from "react"
 import ProductCard from "components/product-card"
-import { Form, Container } from "react-bootstrap"
+import { Form, Container, Spinner } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import "./styles.scss"
 import { Context } from "store/context"
 import Pagination from "components/pagination"
-import { axiosInstance } from "../../components/api"
+import axiosInstance from "../../components/api"
 
 const Catalog = () => {
-  const cardImages = useContext(Context)
-
+  const { cardImages } = useContext(Context)
   const [discounts, setDiscounts] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [itemsPerPage, setItemsPerPage] = useState(8)
+  const [loading, setLoading] = useState(false)
+  console.log(cardImages)
 
   const fetchData = async () => {
+    setLoading(true)
     try {
       await axiosInstance
         .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
-            response.data.map((el, index) => ({
+            response.data.map((el) => ({
               ...el,
-              img: cardImages[index],
             }))
           )
         )
+      setLoading(false)
     } catch (e) {
+      setLoading(false)
       setDiscountsFetchError(e.message)
     }
   }
@@ -139,23 +142,28 @@ const Catalog = () => {
           />
         </div>
       </div>
-
-      {discounts ? (
+      {loading && (
+        <div className="spin-container">
+          <Spinner className="spin-loader" animation="border" />
+        </div>
+      )}
+      {discounts && (
         <div className="discounts-wrapper">
           {discounts.slice(0, itemsPerPage).map((el) => {
             return <ProductCard elem={el} key={el.id} />
           })}
         </div>
-      ) : (
-        <div className="fetch-error-info">
-          Sorry no info, {discountsFetchError ? discountsFetchError : ""}
-        </div>
       )}
-      <Pagination
-        discounts={discounts}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-      />
+      {discountsFetchError && (
+        <div className="spinner">Sorry no info, {discountsFetchError}</div>
+      )}
+      {discounts && (
+        <Pagination
+          discounts={discounts}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+        />
+      )}
     </Container>
   )
 }

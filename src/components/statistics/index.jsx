@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
-import { axiosInstance } from "components/api"
+import axiosInstance from "components/api"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 

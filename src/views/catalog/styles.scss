@@ -81,6 +81,15 @@
   padding: 40px;
   font-size: 32px;
 }
+.spin-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+.spin-loader {
+  width: 300px !important;
+  height: 300px !important;
+}
 
 @media (max-width: 720px) {
   .catalog-selects {

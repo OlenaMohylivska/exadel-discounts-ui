@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { axiosInstance } from "components/api"
+import axiosInstance from "components/api"
 import AddCompany from "components/add-company"
 import { useParams } from "react-router-dom"
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useParams, useLocation } from "react-router"
 import { Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
-import { axiosInstance } from "components/api"
+import axiosInstance from "components/api"
 import FetchError from "../../components/fetch-error"
 import "./styles.scss"
 import {
@@ -86,7 +86,7 @@ const DiscountPage = () => {
     // setReviewText("")
     setRating(0)
   }
-
+  console.log(discount)
   return (
     <>
       {loading ? <div>Loading</div> : ""}
@@ -158,9 +158,14 @@ const DiscountPage = () => {
             <div className="discount-subtitle">
               <Globe className="discount-icon" />
               Location:&nbsp;
-              <span className="discount-info">
-                {discount.country.cities.map((city) => `${city.name} `)}
-              </span>
+              <div className="discount-info">
+                {discount.countries &&
+                  discount.countries.map((country) =>
+                    country.cities.map((city) => (
+                      <div key={city.id}>{city.name}</div>
+                    ))
+                  )}
+              </div>
             </div>
             <div className="discount-subtitle">
               <BackspaceReverse className="discount-icon" />
