@@ -47,6 +47,10 @@ const DiscountPage = () => {
   }, [])
 
   useEffect(() => {
+    axiosInstance
+      .put(`${baseUrl}/api/discounts/${id}/views`)
+  }, [])
+  useEffect(() => {
     setLoading(true)
     try {
       axiosInstance
