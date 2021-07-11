@@ -54,7 +54,6 @@ const DiscountPage = () => {
         .then((response) => {
           setAllReviews(response.data)
         })
-
       setLoading(false)
     } catch (e) {
       setErrorMessage(e.message)
