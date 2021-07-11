@@ -1,8 +1,6 @@
-/*eslint-disable*/
 import React, { useState, useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
-
 import axiosInstance from "components/api"
 import FetchError from "components/fetch-error"
 
@@ -17,7 +15,6 @@ const Statistics = () => {
   const [fetchError, setFetchError] = useState(null)
 
   /*1 */
-
   useEffect(() => {
     axiosInstance
       .get(baseUrl + "/api/discounts/statistic")
@@ -45,12 +42,12 @@ const Statistics = () => {
       },
     },
   }
+
   /*2 */
   useEffect(() => {
     axiosInstance
       .get(baseUrl + "/api/discounts/statistic/views")
       .then((response) => {
-        console.log(response.data)
         setDiscountsByViews({
           labels: Object.keys(response.data),
           datasets: [
