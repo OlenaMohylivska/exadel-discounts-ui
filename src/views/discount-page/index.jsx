@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import { useParams, useLocation } from "react-router"
+import React, { useState, useEffect, useContext } from "react"
+import { useParams } from "react-router"
 import { Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import axiosInstance from "components/api"
@@ -14,6 +14,7 @@ import {
   EmojiLaughing,
 } from "react-bootstrap-icons"
 import moment from "moment"
+import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -22,12 +23,11 @@ const DiscountPage = () => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
-  const location = useLocation()
-  const { image } = location.state ? location.state : ""
   const { id } = useParams()
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allReviews, setAllReviews] = useState([])
+  const images = useContext(Context)
 
   const fetchData = async () => {
     setLoading(true)
@@ -93,7 +93,7 @@ const DiscountPage = () => {
         <div className="container discount-container flex-wrap">
           <div className="col-lg-6 col-md-12">
             <div className="img-container">
-              <img src={image} className="discount-image" alt="discount-img" />
+              <img src={images.productImages[discount.id -1]} className="discount-image" alt="discount-img" />
             </div>
 
             <div>

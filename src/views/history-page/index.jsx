@@ -17,7 +17,7 @@ const HistoryPage = () => {
     axiosInstance.get(`${baseUrl}/api/discounts`)
       .then(resp => {
         const allDiscounts = resp.data.map((el, index) => (
-          { ...el, isFavourite: false, image: images[index] }
+          { ...el, isFavourite: false, image: images.productImages[index] }
         ))
         setDiscounts(allDiscounts)
       }).catch(err => setFetchError(err.message))
