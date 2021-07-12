@@ -25,6 +25,7 @@ function Login() {
       token ? (config.headers.Authorization = token) : config
       return config
     })
+    localStorage.setItem("username", loginData.username)
     localStorage.setItem("jwt", token)
     setIsAuthorized(true)
   }
