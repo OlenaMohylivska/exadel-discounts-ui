@@ -17,6 +17,7 @@ import Statistics from "components/statistics"
 import Companies from "components/companies"
 import Promotions from "components/promotions"
 import "./styles.scss"
+import GoogleMapComponent from "components/google-map/googleMap"
 
 function AppRouter() {
   return (
@@ -51,7 +52,9 @@ function AppRouter() {
       <Route path="/admin">
         {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Admin />}
       </Route>
-
+      <Route path="/map">
+        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <GoogleMapComponent />}
+      </Route>
       <Route path="/admin/add-company">
         {!localStorage.getItem("jwt") ? (
           <Redirect to="/login" />
