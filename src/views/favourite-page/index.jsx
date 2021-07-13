@@ -16,7 +16,7 @@ const FavouritePage = () => {
     axiosInstance.get(`${baseUrl}/api/discounts`)
       .then(resp => {
         const allDiscounts = resp.data.map((el, index) => (
-          { ...el, isFavourite: true, image: images[index] }
+          { ...el, isFavourite: true, image: images.productImages[index] }
         ))
         setDiscounts(allDiscounts)
       }).catch(err => setFetchError(err.message))

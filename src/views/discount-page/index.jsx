@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react"
-import { useParams, useLocation } from "react-router"
+
+import React, { useState, useEffect, useContext } from "react"
+import { useParams } from "react-router"
 import { Button, Col, Container, Row } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import axiosInstance from "components/api"
@@ -14,6 +15,7 @@ import {
   EmojiLaughing,
 } from "react-bootstrap-icons"
 import moment from "moment"
+import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -22,12 +24,11 @@ const DiscountPage = () => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
-  const location = useLocation()
-  const { image } = location.state ? location.state : ""
   const { id } = useParams()
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allReviews, setAllReviews] = useState([])
+  const images = useContext(Context)
 
   const fetchData = async () => {
     setLoading(true)
@@ -90,6 +91,7 @@ const DiscountPage = () => {
     <>
       {loading ? <div>Loading</div> : ""}
       {discount ? (
+
         <Container>
           <Row className="discount-page-container">
             <Col lg={6}>
@@ -97,6 +99,7 @@ const DiscountPage = () => {
                 <Shop className="discount-icon" />
                 Discount Name:&nbsp;
                 <span className="discount-info">{discount.name}</span>
+
               </div>
               <div className="discount-subtitle">
                 <People className="discount-icon" />
@@ -178,9 +181,8 @@ const DiscountPage = () => {
             </Col>
             <Col lg={6}>
               <div className="img-container">
-                <img src={image ?? "https://i.stack.imgur.com/y9DpT.jpg"} className="discount-image" alt="discount-img" />
+                <img src={images.productImages[discount.id -1] ?? "https://i.stack.imgur.com/y9DpT.jpg"} className="discount-image" alt="discount-img" />
               </div>
-
               <div>
                 <div className="action">
                   <Button
