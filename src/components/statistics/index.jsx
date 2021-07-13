@@ -4,8 +4,8 @@ import { Col, Container, Row, Button } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
 import axiosInstance from "components/api"
 import FetchError from "components/fetch-error"
+import "./styles.scss"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
-
 const Statistics = () => {
   const [discountsByOrders, setDiscountsByOrders] = useState({})
   const [discountsByViews, setDiscountsByViews] = useState({})
@@ -14,7 +14,6 @@ const Statistics = () => {
   const [categoriesByOrders, setCategoriesByOrders] = useState({})
   const [fetchError, setFetchError] = useState(null)
   const [downloadLink, setDownloadLink] = useState("")
-  const [fileName, setFileName] = useState()
 
 
   /*1 */
@@ -151,19 +150,24 @@ const Statistics = () => {
   }
 
 
-  const downloadStatisctics = (url) => {
+  const downloadStatisctics = (apiUrl, name) => {
     axiosInstance
-      .get(url, {
+      .get(apiUrl, {
         responseType: "blob"
       })
       .then(response => {
-        setDownloadLink(URL.createObjectURL(response.data))
-        console.log(downloadLink)
+        const url = URL.createObjectURL(response.data)
+        console.log(response)
+        const link = document.createElement("a")
+        link.href = url
+        link.setAttribute(
+          "download",
+          name
+        );
+        document.body.appendChild(link)
+        link.click()
       }).catch((err) => setFetchError(err.message))
   }
-  // useEffect(() => {
-  //   downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByDiscounts")
-  // }, [])
 
   return (
     <>
@@ -172,25 +176,37 @@ const Statistics = () => {
         <Container>
           <Row className="my-4">
             <Col>
-              <Bar
-                data={discountsByOrders}
-                height={300}
-                options={discountsByOrdersOptions}
-              />
+              <div>
+                <Bar
+                  data={discountsByOrders}
+                  height={300}
+                  options={discountsByOrdersOptions}
+                />
+              </div>
 
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByDiscounts", "OrdersByDiscounts.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVOrdersByDiscounts", "OrdersByDiscounts.csv") }}>Download CSV</Button>
+              </div>
             </Col>
-            <Button >Download CSV</Button>
-            <a href={downloadLink ?? ""} download="OrdersByDiscounts.xlsx" onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByDiscounts") }} >
-              <Button >Download XLSX</Button>
-            </a>
+
             <Col>
-              <Line
-                data={discountsByViews}
-                height={300}
-                options={discountsByViewsOptions}
-              />
+              <div>
+                <Line
+                  data={discountsByViews}
+                  height={300}
+                  options={discountsByViewsOptions}
+                />
+              </div>
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXViewsByDiscounts", "ViewsByDiscounts.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVViewsByDiscounts", "ViewsByDiscounts.csv") }}>Download CSV</Button>
+              </div>
             </Col>
           </Row>
+
           <Row>
             <Col>
               <p className="text-center mb-3 font-size-14">
@@ -202,6 +218,11 @@ const Statistics = () => {
                   height={250}
                   options={roundChartsOptions}
                 />
+              </div>
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByCompanies", "OrdersByCompanies.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVOrdersByCompanies", "OrdersByCompanies.csv") }}>Download CSV</Button>
               </div>
             </Col>
             <Col>
@@ -215,6 +236,11 @@ const Statistics = () => {
                   options={roundChartsOptions}
                 />
               </div>
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByCategories", "OrdersByCategories.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVOrdersByCategories", "OrdersByCategories.csv") }}>Download CSV</Button>
+              </div>
             </Col>
             <Col>
               <p className="text-center mb-3 font-size-14">
@@ -227,10 +253,16 @@ const Statistics = () => {
                   options={roundChartsOptions}
                 />
               </div>
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByTag", "OrdersByTag.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVOrdersByTag", "OrdersByTag.csv") }}>Download CSV</Button>
+              </div>
             </Col>
           </Row>
         </Container>
-      )}
+      )
+      }
     </>
   )
 }
