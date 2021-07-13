@@ -12,6 +12,7 @@ import {
   Globe,
   BackspaceReverse,
   EmojiLaughing,
+  Map,
 } from "react-bootstrap-icons"
 import moment from "moment"
 
@@ -137,6 +138,7 @@ const DiscountPage = () => {
           <div className="col-lg-6 col-md-12">
             <div className="discount-subtitle">
               <Shop className="discount-icon" />
+              <Map className="discount-icon" />
               Discount Name:&nbsp;
               <span className="discount-info">{discount.name}</span>
             </div>
