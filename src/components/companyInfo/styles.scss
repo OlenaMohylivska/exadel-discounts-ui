@@ -1,10 +1,17 @@
-.company-wrapper{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 15px;
-    justify-items: center;
+.company-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 15px;
+  justify-items: center;
 }
 
-// .card-size{
-//     height: 100px;
-// }
+.logo-style {
+  min-width: 268px;
+  height: 150px;
+}
+
+.card-size{
+    padding: 15px;
+    max-width: 400px;
+    min-width: 300px;
+}

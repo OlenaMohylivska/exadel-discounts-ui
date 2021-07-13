@@ -1,16 +1,30 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Container, Card, Button } from "react-bootstrap"
 import PropTypes from "prop-types"
 import { Link, useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
+import axiosInstance from "components/api"
 
 const CompanyInfo = ({ name, id }) => {
+  const [logo, setLogo] = useState("")
+  const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
   const history = useHistory()
   const { path } = useRouteMatch()
 
   const updateItemHandler = () => {
     history.push(`${path}/edit-company/${id}`)
   }
+
+  const fetchData = async (url, setFunc) => {
+    await axiosInstance
+      .get(baseUrl + url)
+      .then((response) => setFunc(response.data))
+  }
+  console.log(logo)
+
+  useEffect(() => {
+    fetchData(`/api/images/${id}`, setLogo)
+  }, [])
 
   return (
     <Container className="company-wrapper">
@@ -26,8 +40,8 @@ const CompanyInfo = ({ name, id }) => {
           </Card.Title>
           <Card.Img
             variant="top"
-            className="product-image mb-5"
-            src="https://zo.ua/uploads/no-logo.png"
+            className="product-image mb-5 logo-style"
+            src={logo ? logo : "https://zo.ua/uploads/no-logo.png"}
           />
         </Link>
         <Card.Body className="p-0 d-flex flex-column justify-content-between">
