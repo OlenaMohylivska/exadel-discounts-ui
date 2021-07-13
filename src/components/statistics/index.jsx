@@ -1,9 +1,9 @@
+/*eslint-disable*/
 import React, { useState, useEffect } from "react"
-import { Col, Container, Row } from "react-bootstrap"
+import { Col, Container, Row, Button } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
 import axiosInstance from "components/api"
 import FetchError from "components/fetch-error"
-
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const Statistics = () => {
@@ -13,11 +13,14 @@ const Statistics = () => {
   const [tagsByOrders, setTagsByOrders] = useState({})
   const [categoriesByOrders, setCategoriesByOrders] = useState({})
   const [fetchError, setFetchError] = useState(null)
+  const [downloadLink, setDownloadLink] = useState("")
+  const [fileName, setFileName] = useState()
+
 
   /*1 */
   useEffect(() => {
     axiosInstance
-      .get(baseUrl + "/api/discounts/statistic")
+      .get(baseUrl + "/api/discounts/statistic/orders")
       .then((response) => {
         setDiscountsByOrders({
           labels: Object.keys(response.data),
@@ -88,7 +91,7 @@ const Statistics = () => {
   /*3 */
   useEffect(() => {
     axiosInstance
-      .get(baseUrl + "/api/company/statistic")
+      .get(baseUrl + "/api/company/statistic/orders")
       .then((response) => {
         setCompaniesByOrders({
           labels: Object.keys(response.data),
@@ -126,7 +129,7 @@ const Statistics = () => {
   /*5 */
   useEffect(() => {
     axiosInstance
-      .get(baseUrl + "/api/tags/statistic")
+      .get(baseUrl + "/api/tags/statistic/orders")
       .then((response) => {
 
         setTagsByOrders({
@@ -147,6 +150,21 @@ const Statistics = () => {
     maintainAspectRatio: false,
   }
 
+
+  const downloadStatisctics = (url) => {
+    axiosInstance
+      .get(url, {
+        responseType: "blob"
+      })
+      .then(response => {
+        setDownloadLink(URL.createObjectURL(response.data))
+        console.log(downloadLink)
+      }).catch((err) => setFetchError(err.message))
+  }
+  // useEffect(() => {
+  //   downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByDiscounts")
+  // }, [])
+
   return (
     <>
       {fetchError && <FetchError error={fetchError} />}
@@ -159,7 +177,12 @@ const Statistics = () => {
                 height={300}
                 options={discountsByOrdersOptions}
               />
+
             </Col>
+            <Button >Download CSV</Button>
+            <a href={downloadLink ?? ""} download="OrdersByDiscounts.xlsx" onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByDiscounts") }} >
+              <Button >Download XLSX</Button>
+            </a>
             <Col>
               <Line
                 data={discountsByViews}
