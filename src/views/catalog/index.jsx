@@ -29,7 +29,9 @@ const Catalog = () => {
           setDiscounts(() =>
             response.data.map((el, index) => ({
               ...el,
+
               img: images.productImages[index]
+
             }))
           )
         )

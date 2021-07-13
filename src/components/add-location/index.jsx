@@ -2,103 +2,79 @@ import React, { useState } from "react"
 import Select from "react-select"
 import PropTypes from "prop-types"
 import { Button } from "react-bootstrap"
+import "./styles.scss"
 
-const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
-  const [locationBuilder, setLocationBuilder] = useState({
-    country: { name: "", cities: [] },
-  })
-  const [cityLocation, setCityLocation] = useState([])
-  const [countryTargetLocation, setCountryTargetLocation] = useState("")
-  const [cityTargetLocation, setCityTargetLocation] = useState("")
-  const [addressLocation, setAddressLocation] = useState([])
-  const [check, setCheck] = useState(false)
-  const countryOptions = chooseLocation.map((country) => {
-    return {
-      value: country.name,
-      label: country.name,
-      cities: country.cities,
-    }
-  })
+const AddLocation = ({
+  countryLocation,
+  citiesLocation,
+  setCitiesLocation,
+}) => {
+  const [locationObj, setLocationObj] = useState({ name: "", addresses: [] })
+  const [addressesList, setAddressesList] = useState([])
 
-  const countryHandleChange = (e) => {
-    setCityLocation(e.cities)
-    setCountryTargetLocation(e.value)
-  }
-  const cityOptions = cityLocation.map((city) => {
-    return {
-      value: city.name,
-      label: city.name,
-      addresses: city.addresses,
-    }
-  })
+  ////city
+  const citiesOptions =
+    countryLocation &&
+    countryLocation.map((city) => {
+      return {
+        value: city.name,
+        label: city.name,
+        addresses: city.addresses,
+      }
+    })
   const cityHandleChange = (e) => {
-    setAddressLocation(e.addresses)
-    setCityTargetLocation(e.value)
+    setLocationObj({ name: e.value })
+    setAddressesList(e.addresses)
   }
-
-  const addressOptions = addressLocation.map((address) => {
+  ////address
+  const addressesOptions = addressesList.map((address) => {
     return {
       value: address.address,
       label: address.address,
-      address: { address: address.address },
+      address: address,
     }
   })
-  const addressHandleChange = (e) => {
-    const arr = e.map((elem) => elem.address)
-    setLocationBuilder({
-      country: countryTargetLocation,
-      cities: [{ name: cityTargetLocation, addresses: arr }],
-    })
-  }
 
-  const addToActualLocation = () => {
-    if (check) {
-      setActualLocation([...actualLocation, locationBuilder])
-      setCheck(false)
-    } else {
-      return
-    }
+  const addressesHandleChange = (e) => {
+    const arr = e.map((e) => e.address)
+    setLocationObj({ ...locationObj, addresses: arr })
   }
-  addToActualLocation()
-  const selectCountry = (
-    <Select
-      options={countryOptions}
-      onChange={(e) => {
-        countryHandleChange(e)
-      }}
-      placeholder="country"
-    />
-  )
-  const selectCity = (
-    <Select
-      options={cityOptions}
-      onChange={(e) => cityHandleChange(e)}
-      placeholder="city"
-    />
-  )
-  const selectAdress = (
-    <Select
-      onChange={(e) => {
-        addressHandleChange(e)
-      }}
-      options={addressOptions}
-      placeholder="street"
-      isMulti
-    />
-  )
+  const save = () => {
+    setCitiesLocation([...citiesLocation, locationObj])
+  }
 
   return (
     <>
-      {chooseLocation.length !== 0 && selectCountry}
-      {cityLocation.length !== 0 && selectCity}
-      {addressLocation.length !== 0 && selectAdress}
+      {citiesOptions && citiesOptions.length > 0 ? (
+        <Select
+          options={citiesOptions}
+          onChange={(e) => {
+            cityHandleChange(e)
+          }}
+          className="margin-10px-top"
+        />
+      ) : (
+        ""
+      )}
 
-      <Button
-        onClick={() => setActualLocation([...actualLocation, locationBuilder])}
-        variant="primary"
-      >
-        save
-      </Button>
+      {addressesOptions && addressesOptions.length > 0 && (
+        <>
+          <Select
+            onChange={(e) => addressesHandleChange(e)}
+            options={addressesOptions}
+            isMulti
+            className="margin-10px-top"
+          />
+
+          <Button
+            varian="primary"
+            className="margin-10px-top margin-10px-bottom"
+            onClick={() => save()}
+          >
+            Save
+          </Button>
+        </>
+      )}
     </>
   )
 }
@@ -106,7 +82,7 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
 export default AddLocation
 
 AddLocation.propTypes = {
-  chooseLocation: PropTypes.array,
-  actualLocation: PropTypes.array,
-  setActualLocation: PropTypes.func,
+  countryLocation: PropTypes.array,
+  citiesLocation: PropTypes.array,
+  setCitiesLocation: PropTypes.func,
 }

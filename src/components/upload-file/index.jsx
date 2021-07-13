@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import axiosInstance from "components/api"
+import PropTypes from "prop-types"
 import "./styles.scss"
 import PropTypes from "prop-types"
 import axiosInstance from "components/api"
@@ -24,7 +26,6 @@ function FileUploadPage({setFileId }) {
     <div className="upload-container">
       {isSelected ? (
         <div>
-          <h6 className="file-name-title">Filename: {selectedFile.name}</h6>
           <img className="file-view" src={fileView} />
         </div>
       ) : (
@@ -38,7 +39,7 @@ function FileUploadPage({setFileId }) {
           id="loader-for-img"
           type="file"
           name="file"
-          onChange={changeHandler}
+          onChange={(e) => changeHandler(e)}
         />
         <label className="label-for-img-loader" htmlFor="loader-for-img">
           Load img
@@ -53,3 +54,4 @@ export default FileUploadPage
 FileUploadPage.propTypes = {
   setFileId: PropTypes.func,
 }
+

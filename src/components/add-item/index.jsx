@@ -12,30 +12,42 @@ import AddLocation from "../add-location"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const AddItem = (props) => {
+  ///// start states
   const history = useHistory()
   const [data, setData] = useState({
     periodEnd: null,
     country: null,
-    tags: [],
+    category: { name: "", tags: [] },
     quantity: null,
     company: null,
     periodStart: null,
+    imageId: 0,
+    tags: [],
   })
   const [errors, setErrors] = useState({})
   const [discountPostError, setDiscountPostError] = useState({
     error: null,
     show: false,
   })
-
-  const [newLocations, setNewLocations] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState({})
   const [chooseLocation, setChooseLocation] = useState([])
-  const [actualLocation, setActualLocation] = useState([])
-  useEffect(() => {
-    setData({ ...data, country: actualLocation })
-  }, [actualLocation])
+  const [actualLocation, setActualLocation] = useState({
+    country: "",
+    cities: [],
+  })
+  const [citiesLocation, setCitiesLocation] = useState([])
+  const [countryLocation, setCountryLocation] = useState(null)
+  const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
+  const [fileId, setFileId] = useState({ file: null })
+  /////// end states
+
+  ////consoles put here if it needs
+
+  ////// end consoles
+
+  ////// selector options
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -43,9 +55,6 @@ const AddItem = (props) => {
       id: company.id,
     }
   })
-  const addLocation = () => {
-    setNewLocations([...newLocations, { id: newLocations.length + 1 }])
-  }
 
   const tagsOptions = tags.map((tag) => {
     return {
@@ -59,30 +68,21 @@ const AddItem = (props) => {
     { value: "Sport", label: "Sport" },
     { value: "Education", label: "Education" },
   ]
-  const fetchData = async (url, setFunc) => {
-    axiosInstance.get(baseUrl + url).then((response) => setFunc(response.data))
-  }
+  const locationOptions = chooseLocation.map((country) => {
+    return {
+      value: country.name,
+      label: country.name,
+      cities: country.cities,
+    }
+  })
+  ////////// end selector category options
 
+  ////// handleChanges
   const handleChange = (e) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
-    setCategory(e.value)
-  }
-  const handleChangeTags = (e) => {
-    setData({
-      ...data,
-      tags: e.map((elem) => ({
-        name: elem.value,
-        id: elem.id,
-        category: { name: category },
-      })),
-    })
-  }
-  const fetchDataLocation = async (url, setFunc) => {
-    axiosInstance
-      .get(baseUrl + url)
-      .then((response) => setFunc(response.data.countries))
+    setCategory({ name: e.value })
   }
   const handleChangeCompanies = (e) => {
     setData({
@@ -91,6 +91,52 @@ const AddItem = (props) => {
     })
     fetchDataLocation(`/api/company/${e.id}`, setChooseLocation)
   }
+  const locationHandleChange = (e) => {
+    setActualLocation({ name: e.value })
+    setCountryLocation(e.cities)
+  }
+  ///// end handleChanges
+  //// fetch functions
+  const fetchData = async (url, setFunc) => {
+    axiosInstance.get(baseUrl + url).then((response) => setFunc(response.data))
+  }
+  const fetchDataLocation = async (url, setFunc) => {
+    axiosInstance
+      .get(baseUrl + url)
+      .then((response) => setFunc(response.data.countries))
+  }
+  //// end fetch functions
+
+  //// useEffects FOR CHANGE DATA
+
+  useEffect(() => {
+    setData({ ...data, category: category, tags: category.tags })
+  }, [category])
+  const handleChangeTags = (e) => {
+    const arr = e.map((elem) => ({
+      name: elem.value,
+      id: elem.id,
+    }))
+    setCategory({ ...category, tags: arr })
+  }
+
+  useEffect(() => {
+    setActualLocation({ ...actualLocation, cities: citiesLocation })
+  }, [citiesLocation])
+  useEffect(() => {
+    setData({ ...data, country: actualLocation })
+  }, [actualLocation])
+  useEffect(() => {
+    setData({ ...data, imageId: fileId })
+  }, [fileId])
+  ////
+
+  //// send file to server
+  // useEffect(() => {
+  //   axiosInstance.post("/api/images", file).then((res) => console.log(res))
+  // }, [file])
+  /////
+  ///// useEffects FOR FETCH DATA
 
   useEffect(() => {
     fetchData("/api/company", setDiscountProviders)
@@ -101,10 +147,15 @@ const AddItem = (props) => {
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
+  //////
+
   const checkQuantity = () => {
     if (data.quantity && data.quantity < 1) setData({ ...data, quantity: 1 })
   }
+
   checkQuantity()
+
+  ///// helping functions SUBMIT, VALIDATE etc...
 
   const validate = () => {
     let errorObj = {}
@@ -116,7 +167,7 @@ const AddItem = (props) => {
     if (!data.promoCode) errorObj.promoCode = "PromoCode cannot be blank"
     if (data.company && data.company.length === 0)
       errorObj.company = "Choose company"
-    if (data.tags.length === 0) errorObj.tags = "Select tags"
+
     return errorObj
   }
 
@@ -155,37 +206,41 @@ const AddItem = (props) => {
       periodStart: null,
       periodEnd: null,
       name: null,
-      tags: null,
+      category: { name: "", tags: [] },
       quantity: null,
       company: null,
     })
   }
+
+  const addNewLocation = () => {
+    setNewLocationsArr([...newLocationsArr, { id: newLocationsArr.length + 1 }])
+  }
+  //////// END HELPING FUNCTIONS
+  ///// SHORTCUT VARIABLES
   const getLocation = (
     <>
       <span className="discount-subtitle">Location </span>
-      <AddLocation
-        chooseLocation={chooseLocation}
-        actualLocation={actualLocation}
-        setActualLocation={setActualLocation}
-      />
-      {newLocations.map((elem) => (
+      {locationOptions && locationOptions.length > 0 ? (
+        <Select
+          options={locationOptions}
+          onChange={(e) => locationHandleChange(e)}
+          placeholder="country"
+        />
+      ) : (
+        ""
+      )}
+      {newLocationsArr.map((elem) => (
         <AddLocation
           key={elem.id}
-          chooseLocation={chooseLocation}
-          actualLocation={actualLocation}
-          setActualLocation={setActualLocation}
+          countryLocation={countryLocation}
+          citiesLocation={citiesLocation}
+          setCitiesLocation={setCitiesLocation}
         />
       ))}
-      <Button
-        variant="primary"
-        onClick={() => {
-          addLocation()
-        }}
-      >
-        Add location
-      </Button>
+      <Button onClick={() => addNewLocation()}>add location</Button>
     </>
   )
+  ////// END SHORTCUT VARIABLES
 
   return (
     <Form>
@@ -201,7 +256,7 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
-            <FileUploadPage />
+            <FileUploadPage setFileId={setFileId} />
           </div>
           <div className="description">
             <span className="headers">Description:</span>
@@ -258,7 +313,7 @@ const AddItem = (props) => {
           </div>
           {errors.company ? <ValidationError error={errors.company} /> : ""}
 
-          {chooseLocation.length !== 0 && getLocation}
+          {getLocation}
 
           <span className="discount-subtitle headers">Category:</span>
           <Select
