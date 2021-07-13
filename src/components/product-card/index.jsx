@@ -1,11 +1,13 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
+import axiosInstance from "components/api"
 // import StarRatings from "react-star-ratings"
 import "./styles.css"
 import { Link } from "react-router-dom"
 
 function ProductCard({ elem }) {
+  const [img, setImg] = useState("")
   const formattedData = new Date(elem.periodEnd)
     .toISOString()
     .split(":")
@@ -17,6 +19,13 @@ function ProductCard({ elem }) {
     .split("-")
     .reverse()
     .join("-")
+
+  useEffect(() => {
+    elem.imageId &&
+      axiosInstance
+        .get(`/api/images/${elem.imageId}`)
+        .then((response) => setImg(response.data))
+  }, [elem])
 
   return (
     <Card className=" shadow product-card">
@@ -33,7 +42,12 @@ function ProductCard({ elem }) {
           expires in {formattedData}
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
-        <Card.Img variant="top" className="product-image" src={elem.img} />
+
+        <Card.Img
+          variant="top"
+          className="product-image"
+          src={`https://sandbox-team5.herokuapp.com/api/images/${elem.imageId}`}
+        />
       </Link>
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">
@@ -64,5 +78,6 @@ ProductCard.propTypes = {
     id: PropTypes.number,
     img: PropTypes.string,
     rate: PropTypes.number,
+    imageId: PropTypes.number,
   }),
 }
