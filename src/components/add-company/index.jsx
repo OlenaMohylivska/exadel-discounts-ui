@@ -24,19 +24,25 @@ const AddCompany = (props) => {
   const history = useHistory()
 
   const countryOptions = useMemo(() => {
-    return allLocationList.map((location) => ({
-      ...location,
-      label: location.name,
-      value: location.name,
-    }))
+    return (
+      allLocationList.length > 0 &&
+      allLocationList.map((location) => ({
+        ...location,
+        label: location.name,
+        value: location.name,
+      }))
+    )
   }, [allLocationList])
 
   const citiesOptions = useMemo(() => {
-    return cities.map((city) => ({
-      ...city,
-      label: city,
-      value: city,
-    }))
+    return (
+      cities.length > 0 &&
+      cities.map((city) => ({
+        ...city,
+        label: city,
+        value: city,
+      }))
+    )
   }, [cities])
 
   useEffect(() => {
@@ -72,16 +78,68 @@ const AddCompany = (props) => {
     )
   }
 
-  async function saveCompanyChanges(id) {
+  async function saveCompanyInfo() {
+    try {
+      axiosInstance.post(
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/`,
+        {
+          countries: [
+            {
+              cities: [
+                {
+                  addresses: [
+                    {
+                      address: address,
+                      id: 0,
+                    },
+                  ],
+                  id: 0,
+                  name: cities,
+                },
+              ],
+              id: 0,
+              name: countries,
+            },
+          ],
+          id: 0,
+          imageId: 0,
+          name: companyName,
+        }
+      )
+      reset()
+    } catch (e) {
+      setCompanyPostError({ error: e.message, show: true })
+    }
+  }
+
+  const reset = () => {
+    setCompanyName("")
+    setCountries("")
+    setAddress("")
+    setCountries("")
+    setCities("")
+    setAllLocationList("")
+  }
+
+  async function updateCompanyInfo() {
     try {
       axiosInstance.put(
-        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`,
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`,
         {
-          id: id,
-          modified: null,
-          modifiedBy: null,
+          cities: [
+            {
+              addresses: [
+                {
+                  address: address,
+                  id: props.company.id,
+                },
+              ],
+              id: props.company.id,
+              name: cities,
+            },
+          ],
+          id: props.company.id,
           name: companyName,
-          locations: location.map((el) => ({ ...el })),
         }
       )
     } catch (e) {
@@ -113,6 +171,8 @@ const AddCompany = (props) => {
           <div className="company-logo">
             <FileUploadPage />
           </div>
+        </div>
+        <div className="col">
           <div className="company-additional-info">
             <div className="company-name">
               <label className="company-info-subtitle" htmlFor="name">
@@ -174,14 +234,25 @@ const AddCompany = (props) => {
               </InputGroup>
             </div>
           </div>
+
           <div className="btn-field d-flex justify-content-between">
-            <Button
-              variant="primary"
-              className="btn company-info-btn"
-              onClick={() => saveCompanyChanges(props.company.id)}
-            >
-              Save company info
-            </Button>
+            {props.isEdit ? (
+              <Button
+                variant="primary"
+                className="btn company-info-btn"
+                onClick={updateCompanyInfo}
+              >
+                Update company info
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                className="btn company-info-btn"
+                onClick={saveCompanyInfo}
+              >
+                Save company info
+              </Button>
+            )}
             {props.isEdit ? (
               <Button
                 variant="secondary"

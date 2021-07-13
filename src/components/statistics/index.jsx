@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
-
 import axiosInstance from "components/api"
 import FetchError from "components/fetch-error"
 
@@ -9,50 +8,13 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const Statistics = () => {
   const [discountsByOrders, setDiscountsByOrders] = useState({})
+  const [discountsByViews, setDiscountsByViews] = useState({})
   const [companiesByOrders, setCompaniesByOrders] = useState({})
   const [tagsByOrders, setTagsByOrders] = useState({})
+  const [categoriesByOrders, setCategoriesByOrders] = useState({})
   const [fetchError, setFetchError] = useState(null)
 
-  const ordersOfEachCompanyForWeek = {
-    labels: [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ],
-    datasets: [
-      {
-        label: "How many discounts were used this week(test)",
-        data: [20, 60, 40, 37, 21, 73, 19],
-
-        backgroundColor: "#1fbeff",
-        borderColor: "#c728f6",
-      },
-    ],
-  }
-
-  const ordersOfEachCompanyForWeekOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        onClick: () => {},
-      },
-    },
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
-  }
-  /*2 */
+  /*1 */
   useEffect(() => {
     axiosInstance
       .get(baseUrl + "/api/discounts/statistic")
@@ -76,10 +38,52 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => {},
+        onClick: () => { },
       },
     },
   }
+
+  /*2 */
+  useEffect(() => {
+    axiosInstance
+      .get(baseUrl + "/api/discounts/statistic/views")
+      .then((response) => {
+        setDiscountsByViews({
+          labels: Object.keys(response.data),
+          datasets: [
+            {
+              label: " How many views each proposition has (by discounts)",
+              data: Object.values(response.data),
+              backgroundColor: "#1fbeff",
+              borderColor: "#c728f6",
+            },
+          ],
+        })
+      })
+      .catch((err) => setFetchError(err.message))
+  }, [])
+
+
+  const discountsByViewsOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        onClick: () => { },
+      },
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  }
+
+
 
   /*3 */
   useEffect(() => {
@@ -102,8 +106,29 @@ const Statistics = () => {
   /*4 */
   useEffect(() => {
     axiosInstance
+      .get(baseUrl + "/api/tags/statistic/categories")
+      .then((response) => {
+
+        setCategoriesByOrders({
+          labels: Object.keys(response.data),
+          datasets: [
+            {
+              data: Object.values(response.data),
+              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
+            },
+          ],
+        })
+      })
+      .catch((err) => setFetchError(err.message))
+  }, [])
+
+
+  /*5 */
+  useEffect(() => {
+    axiosInstance
       .get(baseUrl + "/api/tags/statistic")
       .then((response) => {
+
         setTagsByOrders({
           labels: Object.keys(response.data),
           datasets: [
@@ -137,9 +162,9 @@ const Statistics = () => {
             </Col>
             <Col>
               <Line
-                data={ordersOfEachCompanyForWeek}
+                data={discountsByViews}
                 height={300}
-                options={ordersOfEachCompanyForWeekOptions}
+                options={discountsByViewsOptions}
               />
             </Col>
           </Row>
@@ -151,6 +176,18 @@ const Statistics = () => {
               <div>
                 <Doughnut
                   data={companiesByOrders}
+                  height={250}
+                  options={roundChartsOptions}
+                />
+              </div>
+            </Col>
+            <Col>
+              <p className="text-center mb-3 font-size-14">
+                How many orders were done(By categories)
+              </p>
+              <div>
+                <Pie
+                  data={categoriesByOrders}
                   height={250}
                   options={roundChartsOptions}
                 />
