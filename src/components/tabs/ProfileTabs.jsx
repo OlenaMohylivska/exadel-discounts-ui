@@ -1,18 +1,27 @@
-import React from "react"
+import React, {useEffect} from "react"
 import "./styles.scss"
-import HistoryPage from "views/history-page"
 import { Tab, Tabs } from "react-bootstrap"
-import FavouritePage from "views/favourite-page"
-import ProfileUserInfo from "views/profile-userInfo"
 import { useHistory, useRouteMatch } from "react-router-dom"
 
 function ProfileTabs() {
   const history = useHistory()
   const { path } = useRouteMatch()
 
+  const profileTabsList = [
+    {eventKey: "info", title: "Profile"},
+    {eventKey: "favourite", title: "Favourite"},
+    {eventKey: "history", title: "History"}
+  ]
+
   const handleUrlChange = (eventKey) => {
     history.push(`${path}/${eventKey}`)
   }
+
+  useEffect(() => {
+    if (history.location.pathname === "/profile") {
+      history.push(`${path}/info`)
+    }
+  }, [])
 
   return (
     <div className="profile-tabs">
@@ -21,15 +30,9 @@ function ProfileTabs() {
         transition={false}
         onSelect={handleUrlChange}
       >
-        <Tab eventKey="info" title="Profile">
-          <ProfileUserInfo />
-        </Tab>
-        <Tab eventKey="favourite" title="Favourite">
-          <FavouritePage />
-        </Tab>
-        <Tab eventKey="history" title="History">
-          <HistoryPage />
-        </Tab>
+        {profileTabsList.map(tab => (
+          <Tab eventKey={tab.eventKey} title={tab.title} key={tab.eventKey} />
+        ))}
       </Tabs>
     </div>
   )

@@ -25,6 +25,7 @@ function Login() {
       token ? (config.headers.Authorization = token) : config
       return config
     })
+    localStorage.setItem("username", loginData.username)
     localStorage.setItem("jwt", token)
     setIsAuthorized(true)
   }
@@ -39,6 +40,18 @@ function Login() {
     }
   }
 
+  const handleEnter = async (e) => {
+    if (e.keyCode === 13) {
+      try {
+        await axiosInstance
+          .post("/api/login", loginData)
+          .then((res) => bindFunc(res.data.jwt))
+      } catch (e) {
+        setError(e.message)
+      }
+    }
+  }
+
   return (
     <Route path="/login">
       {isAuthorized && <Redirect to="/" />}
@@ -47,7 +60,6 @@ function Login() {
           <Form>
             <Form.Group className="form-item" controlId="formBasicEmail">
               <Form.Label>Enter your login</Form.Label>
-
               <Form.Control
                 type="text"
                 placeholder="Login"
@@ -55,20 +67,21 @@ function Login() {
                 onChange={(event) => handleChange(event)}
               />
             </Form.Group>
-
             <Form.Group className="form-item" controlId="formBasicPassword">
               <Form.Label>Enter your password</Form.Label>
-
-              <Form.Control
-                type={passwordVisible ? "text" : "password"}
-                placeholder="Password"
-                name="password"
-                onChange={(event) => handleChange(event)}
-              />
-              <EyeFill
-                className="password-show-icon"
-                onClick={onPasswordShow}
-              />
+              <div className="password-input">
+                <Form.Control
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Password"
+                  name="password"
+                  onChange={(event) => handleChange(event)}
+                  onKeyPress={() => handleEnter(event)}
+                />
+                <EyeFill
+                  className="password-show-icon"
+                  onClick={onPasswordShow}
+                />
+              </div>
               <Form.Text className="text-muted form-text">
                 Must be 8-20 characters long.
               </Form.Text>

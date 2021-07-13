@@ -6,21 +6,28 @@
 
   .form-item {
     margin-bottom: 1rem;
+    position: relative;
+  }
+
+  
+
+  .password-input {
+    display: flex;
+    align-items: center;
 
     .password-show-icon {
-      position: relative;
-      top: -38px;
-      left: 435px;
-      cursor: pointer;
+      margin-left: -35px;
+
+    
     }
-    label {
-      margin-bottom: 0.7rem;
-      font-size: 1.2rem;
-    }
-    .form-text {
-      font-size: 0.8rem;
-      margin-left: -15px;
-    }
+  }
+
+  label {
+    margin-bottom: 0.7rem;
+    font-size: 1.2rem;
+  }
+  .form-text {
+    font-size: 0.8rem;
   }
 }
 
