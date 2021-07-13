@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect, useMemo, useContext } from "react"
 import ProductCard from "components/product-card"
 import { Form, Container, Spinner } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import "./styles.scss"
-// import { Context } from "store/context"
+import { Context } from "store/context"
 import FetchError from "components/fetch-error"
 import Pagination from "components/pagination"
 import axiosInstance from "../../components/api"
 
 const Catalog = () => {
-  // const { cardImages } = useContext(Context)
+  const images = useContext(Context)
   const [discounts, setDiscounts] = useState(null)
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
@@ -27,8 +27,9 @@ const Catalog = () => {
         .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
-            response.data.map((el) => ({
+            response.data.map((el, index) => ({
               ...el,
+              img: images.productImages[index],
             }))
           )
         )
