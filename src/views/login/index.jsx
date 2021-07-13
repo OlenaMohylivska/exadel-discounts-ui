@@ -39,6 +39,18 @@ function Login() {
     }
   }
 
+  const handleEnter = async (e) => {
+    if (e.keyCode === 13) {
+      try {
+        await axiosInstance
+          .post("/api/login", loginData)
+          .then((res) => bindFunc(res.data.jwt))
+      } catch (e) {
+        setError(e.message)
+      }
+    }
+  }
+
   return (
     <Route path="/login">
       {isAuthorized && <Redirect to="/" />}
@@ -62,6 +74,7 @@ function Login() {
                   placeholder="Password"
                   name="password"
                   onChange={(event) => handleChange(event)}
+                  onKeyPress={() => handleEnter(event)}
                 />
                 <EyeFill
                   className="password-show-icon"
