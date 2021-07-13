@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import React, { useState, useEffect } from "react"
 import { Col, Container, Row, Button } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
@@ -13,8 +12,6 @@ const Statistics = () => {
   const [tagsByOrders, setTagsByOrders] = useState({})
   const [categoriesByOrders, setCategoriesByOrders] = useState({})
   const [fetchError, setFetchError] = useState(null)
-  const [downloadLink, setDownloadLink] = useState("")
-
 
   /*1 */
   useEffect(() => {
@@ -150,20 +147,19 @@ const Statistics = () => {
   }
 
 
-  const downloadStatisctics = (apiUrl, name) => {
+  const downloadStatistics = (apiUrl, name) => {
     axiosInstance
       .get(apiUrl, {
         responseType: "blob"
       })
       .then(response => {
         const url = URL.createObjectURL(response.data)
-        console.log(response)
         const link = document.createElement("a")
         link.href = url
         link.setAttribute(
           "download",
           name
-        );
+        )
         document.body.appendChild(link)
         link.click()
       }).catch((err) => setFetchError(err.message))
@@ -186,8 +182,8 @@ const Statistics = () => {
 
               <div className="statistics-btn-area">
                 <Button
-                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByDiscounts", "OrdersByDiscounts.xlsx") }}>Download XLSX</Button>
-                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVOrdersByDiscounts", "OrdersByDiscounts.csv") }}>Download CSV</Button>
+                  onClick={() => { downloadStatistics("/api/discounts/statistic/downloadXLSXOrdersByDiscounts", "OrdersByDiscounts.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/discounts/statistic/downloadCSVOrdersByDiscounts", "OrdersByDiscounts.csv") }}>Download CSV</Button>
               </div>
             </Col>
 
@@ -201,8 +197,8 @@ const Statistics = () => {
               </div>
               <div className="statistics-btn-area">
                 <Button
-                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXViewsByDiscounts", "ViewsByDiscounts.xlsx") }}>Download XLSX</Button>
-                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVViewsByDiscounts", "ViewsByDiscounts.csv") }}>Download CSV</Button>
+                  onClick={() => { downloadStatistics("/api/discounts/statistic/downloadXLSXViewsByDiscounts", "ViewsByDiscounts.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/discounts/statistic/downloadCSVViewsByDiscounts", "ViewsByDiscounts.csv") }}>Download CSV</Button>
               </div>
             </Col>
           </Row>
@@ -221,8 +217,8 @@ const Statistics = () => {
               </div>
               <div className="statistics-btn-area">
                 <Button
-                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByCompanies", "OrdersByCompanies.xlsx") }}>Download XLSX</Button>
-                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVOrdersByCompanies", "OrdersByCompanies.csv") }}>Download CSV</Button>
+                  onClick={() => { downloadStatistics("/api/company/statistic/downloadXLSXOrdersByCompanies", "OrdersByCompanies.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/company/statistic/downloadCSVOrdersByCompanies", "OrdersByCompanies.csv") }}>Download CSV</Button>
               </div>
             </Col>
             <Col>
@@ -237,9 +233,8 @@ const Statistics = () => {
                 />
               </div>
               <div className="statistics-btn-area">
-                <Button
-                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByCategories", "OrdersByCategories.xlsx") }}>Download XLSX</Button>
-                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVOrdersByCategories", "OrdersByCategories.csv") }}>Download CSV</Button>
+                <Button onClick={() => { downloadStatistics("/api/tags/statistic/downloadXLSXOrdersByCategories", "OrdersByCategories.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/tags/statistic/downloadCSVOrdersByCategories", "OrdersByCategories.csv") }}>Download CSV</Button>
               </div>
             </Col>
             <Col>
@@ -255,8 +250,8 @@ const Statistics = () => {
               </div>
               <div className="statistics-btn-area">
                 <Button
-                  onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadXLSXOrdersByTag", "OrdersByTag.xlsx") }}>Download XLSX</Button>
-                <Button onClick={() => { downloadStatisctics("/api/discounts/statistic/downloadCSVOrdersByTag", "OrdersByTag.csv") }}>Download CSV</Button>
+                  onClick={() => { downloadStatistics("/api/tags/statistic/downloadXLSXOrdersByTag", "OrdersByTag.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/tags/statistic/downloadCSVOrdersByTag", "OrdersByTag.csv") }}>Download CSV</Button>
               </div>
             </Col>
           </Row>
