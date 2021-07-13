@@ -36,12 +36,12 @@ const LinearProductCard = ({ discount, buttonText, discounts, setDiscounts }) =>
               </div>
 
               <div className="d-flex justify-content-center">
-                <StarRatings starDimension="27px" starSpacing="5px" rating={discount.rate} starRatedColor="gold" />
+                <StarRatings starDimension="27px" starSpacing="5px" rating={discount.rate ?? 0} starRatedColor="gold" />
               </div>
             </Card.Body>
-            { buttonText && <div className="d-flex justify-content-center">
+            {buttonText && <div className="d-flex justify-content-center">
               <Button variant="primary" className="h-100 px-4">{buttonText}</Button>
-            </div> }
+            </div>}
           </Link>
           {SuitHeartFill &&
             <div className="star-wrapper">
