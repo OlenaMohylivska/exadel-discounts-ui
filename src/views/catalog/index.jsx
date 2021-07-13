@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useMemo, useContext } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import ProductCard from "components/product-card"
 import { Form, Container, Spinner } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import "./styles.scss"
-import { Context } from "store/context"
+// import { Context } from "store/context"
 import FetchError from "components/fetch-error"
 import Pagination from "components/pagination"
 import axiosInstance from "../../components/api"
 
 const Catalog = () => {
-  const { cardImages } = useContext(Context)
+  // const { cardImages } = useContext(Context)
   const [discounts, setDiscounts] = useState(null)
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
@@ -19,7 +19,6 @@ const Catalog = () => {
   const [fetchError, setFetchError] = useState(null)
   const [itemsPerPage, setItemsPerPage] = useState(8)
   const [loading, setLoading] = useState(false)
-  console.log(cardImages)
 
   const fetchData = async () => {
     setLoading(true)
