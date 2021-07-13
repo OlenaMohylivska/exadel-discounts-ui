@@ -5,7 +5,6 @@ import "./styles.scss"
 import { Context } from "store/context"
 import FetchError from "components/fetch-error"
 
-
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const HistoryPage = () => {
@@ -14,12 +13,13 @@ const HistoryPage = () => {
   const images = useContext(Context)
 
   useEffect(() => {
-    axiosInstance.get(`${baseUrl}/api/discounts`)
+    axiosInstance.get(`${baseUrl}/api/orders`)
       .then(resp => {
-        const allDiscounts = resp.data.map((el, index) => (
+        const userDiscounts = resp.data.filter(el => el.employee.login === localStorage.getItem("username"))
+        const extendedUserDiscounts = userDiscounts.map((el, index) => (
           { ...el, isFavourite: false, image: images.productImages[index] }
         ))
-        setDiscounts(allDiscounts)
+        setDiscounts(extendedUserDiscounts)
       }).catch(err => setFetchError(err.message))
   }, [])
 
