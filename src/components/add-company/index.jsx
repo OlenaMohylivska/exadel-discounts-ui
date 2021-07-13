@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom"
 
 const AddCompany = (props) => {
   const [allLocationList, setAllLocationList] = useState([])
+  const [fileId, setFileId] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [cities, setCities] = useState([])
   const [countries, setCountries] = useState("")
@@ -81,7 +82,7 @@ const AddCompany = (props) => {
   async function saveCompanyInfo() {
     try {
       axiosInstance.post(
-        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/`,
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company`,
         {
           countries: [
             {
@@ -90,19 +91,18 @@ const AddCompany = (props) => {
                   addresses: [
                     {
                       address: address,
-                      id: 0,
+                      id: 3,
                     },
                   ],
-                  id: 0,
-                  name: cities,
+                  id: 2,
+                  name: cities[0].label,
                 },
               ],
-              id: 0,
-              name: countries,
+              id: 1,
+              name: countries.name,
             },
           ],
-          id: 0,
-          imageId: 0,
+          imageId: fileId,
           name: companyName,
         }
       )
@@ -126,19 +126,26 @@ const AddCompany = (props) => {
       axiosInstance.put(
         `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`,
         {
-          cities: [
+          countries: [
             {
-              addresses: [
+              cities: [
                 {
-                  address: address,
-                  id: props.company.id,
+                  addresses: [
+                    {
+                      address: address,
+                      id: 0,
+                    },
+                  ],
+                  id: 0,
+                  name: cities[0].label,
                 },
               ],
-              id: props.company.id,
-              name: cities,
+              id: 0,
+              name: countries.name,
             },
           ],
-          id: props.company.id,
+          id: 0,
+          imageId: fileId,
           name: companyName,
         }
       )
@@ -169,7 +176,7 @@ const AddCompany = (props) => {
       <div className="container d-flex flex-row-reverse align-items-start pt-5">
         <div className="col">
           <div className="company-logo">
-            <FileUploadPage />
+            <FileUploadPage setFileId={setFileId} />
           </div>
         </div>
         <div className="col">

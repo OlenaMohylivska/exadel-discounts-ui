@@ -28,6 +28,7 @@ const EditCompaniesAll = () => {
     fetchData("/api/company", setCompanies)
   }, [])
 
+
   const addNewCompanyHandler = () => {
     setNewCompany(!newCompany)
   }
@@ -35,19 +36,21 @@ const EditCompaniesAll = () => {
   return (
     <div className="container">
       <div className="row mt-5">
-        <div className="search">
-          <label className="col-lg-5 col-md-8 col-sm-12 search-container position-relative">
-            <div className="search-icon position-absolute end-0">
-              <Loupe />
-            </div>
-            <Form className="search-input ">
-              <Form.Group controlId="control-input">
-                <Form.Control type="text" placeholder="Enter your search" />
-              </Form.Group>
-            </Form>
-          </label>
+        <div className=" filter-panel column ">
+          <div className="width-100">
+            <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
+              <div className="search-icon">
+                <Loupe />
+              </div>
+              <Form className="search-input">
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Control type="text" placeholder="Enter your search" />
+                </Form.Group>
+              </Form>
+            </label>
+          </div>
         </div>
-        <div className="btn-wrapper d-flex justify-content-end">
+        <div className="btn-wrapper d-flex justify-content-center">
           <Button
             variant="primary"
             className="h-100 px-4 align-self-center"
@@ -56,6 +59,7 @@ const EditCompaniesAll = () => {
             Add new company
           </Button>
         </div>
+
         {newCompany ? <Redirect to="/admin/add-company" /> : ""}
         {companies ? (
           <div className="companies-wrapper">
