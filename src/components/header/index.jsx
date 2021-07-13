@@ -14,7 +14,7 @@ function Header() {
     setIsAuthorized(false)
   }
   return (
-    <Navbar collapseOnSelect expand="md" className="navbar" sticky="top" w-100>
+    <Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
       <Container className="nav-wrapper">
         <NavbarBrand>
           <div className="logo">
@@ -26,7 +26,7 @@ function Header() {
 
         <NavbarToggle aria-controls="responsive-nav" />
         <NavbarCollapse id="responsive-nav" className="burger">
-          <Nav className="w-100 d-flex ms-5 text-right header-menu">
+          <Nav className="w-100 d-flex lg-ms-5 text-right header-menu">
             {localStorage.getItem("jwt") && (
               <>
                 <NavLink

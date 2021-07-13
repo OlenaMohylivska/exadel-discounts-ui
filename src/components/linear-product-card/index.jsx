@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, Button } from 'react-bootstrap'
 import propTypes from 'prop-types'
 import { SuitHeartFill } from 'react-bootstrap-icons'
-// import StarRatings from 'react-star-ratings'
+import StarRatings from 'react-star-ratings'
 import './styles.css'
 import { Link } from 'react-router-dom'
 import moment from "moment"
@@ -37,14 +37,13 @@ const LinearProductCard = ({ discount, buttonText, discounts, setDiscounts }) =>
                   {discount.discount ? discount.discount.description : discount.description}
                 </Card.Subtitle>
               </div>
-
-              {/* <div className="d-flex justify-content-center">
-                <StarRatings starDimension="27px" starSpacing="5px" rating={discount.rate} starRatedColor="gold" />
-              </div> */}
+              <div className="d-flex justify-content-center">
+                <StarRatings starDimension="27px" starSpacing="5px" rating={discount.rate ?? 0} starRatedColor="gold" />
+              </div>
             </Card.Body>
-            { buttonText && <div className="d-flex justify-content-center">
+            {buttonText && <div className="d-flex justify-content-center">
               <Button variant="primary" className="h-100 px-4">{buttonText}</Button>
-            </div> }
+            </div>}
           </Link>
           {SuitHeartFill &&
             <div className="star-wrapper">

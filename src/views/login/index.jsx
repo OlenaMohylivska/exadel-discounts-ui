@@ -48,7 +48,6 @@ function Login() {
           <Form>
             <Form.Group className="form-item" controlId="formBasicEmail">
               <Form.Label>Enter your login</Form.Label>
-
               <Form.Control
                 type="text"
                 placeholder="Login"
@@ -56,20 +55,20 @@ function Login() {
                 onChange={(event) => handleChange(event)}
               />
             </Form.Group>
-
             <Form.Group className="form-item" controlId="formBasicPassword">
               <Form.Label>Enter your password</Form.Label>
-
-              <Form.Control
-                type={passwordVisible ? "text" : "password"}
-                placeholder="Password"
-                name="password"
-                onChange={(event) => handleChange(event)}
-              />
-              <EyeFill
-                className="password-show-icon"
-                onClick={onPasswordShow}
-              />
+              <div className="password-input">
+                <Form.Control
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Password"
+                  name="password"
+                  onChange={(event) => handleChange(event)}
+                />
+                <EyeFill
+                  className="password-show-icon"
+                  onClick={onPasswordShow}
+                />
+              </div>
               <Form.Text className="text-muted form-text">
                 Must be 8-20 characters long.
               </Form.Text>
