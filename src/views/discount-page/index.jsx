@@ -1,4 +1,3 @@
-/*eslint-disable */
 import React, { useState, useEffect, useContext } from "react"
 import { useParams } from "react-router"
 import { Button, Col, Container, Row, ProgressBar } from "react-bootstrap"
@@ -28,7 +27,6 @@ const DiscountPage = () => {
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allRating, setAllRating] = useState({})
-
   const images = useContext(Context)
 
   const fetchData = async () => {
@@ -57,16 +55,17 @@ const DiscountPage = () => {
           setAllRating({
             rating: Object.keys(response.data).reverse(),
             ratingCount: Object.values(response.data).reverse(),
-            maximalCount: Math.max.apply(null, Object.values(response.data).map(item => Number(item)))
+            maximalCount: Math.max.apply(null, Object.values(response.data).map(item => Number(item))),
           })
           setLoading(false)
-        })}
-      catch (e) {
+        })
+    }
+    catch (e) {
       setErrorMessage(e.message)
     } finally {
       setLoading(false)
     }
-  }, [allRating])
+  }, [rating, review])
 
   useEffect(() => {
     setReview({
@@ -83,6 +82,16 @@ const DiscountPage = () => {
     })
   }, [rating])
 
+
+  const countAverage = () => {
+    let sum = 0
+    let reviewsCount = 0
+    for (let i = 0; i < allRating.rating.length; i++) {
+      sum += allRating.rating[i] * allRating.ratingCount[i]
+      reviewsCount += allRating.ratingCount[i]
+    }
+    return +(sum / reviewsCount).toFixed(2)
+  }
   const handleRating = (value) => {
     setRating(value)
   }
@@ -145,40 +154,51 @@ const DiscountPage = () => {
                 <span className="discount-info">{discount.description}</span>
               </span>
               <div>
-                {allRating ? (
-                  <div>
-                    <span className="discount-subtitle">Reviews:</span>
-                    <div className="rating-container">
-                      <div>
-                        {allRating.rating.map(rating => {
-                          return (
-                            <div className="rating-count-item">{rating}</div>
-                          )
-                        })}
-
-
-                      </div>
-                      <div >
-                        {allRating.ratingCount.map((ratingCount ) => {
-                          return (
-                            
-                            <div className="progress-bar-container">
-                              <ProgressBar  max={allRating.maximalCount} now={ratingCount} variant="success" striped animated/>
-                            </div>
-                            
-                          
-                          )
-                        })
-                        }
-                      </div>
+                <span className="discount-subtitle">Reviews:</span>
+                <Row className="reviews-container">
+                  <Col className="stars-container">
+                    <div className="average-rating">
+                      {countAverage() ? countAverage() : 0}
                     </div>
-                  </div>
-                ) : (
-                  <p className="discount-no-reviews">
-                    No reviews available yet. Please, check back later!
-                  </p>
-                )}
+
+                    <div>
+                      <StarRatings
+                        starDimension="20px"
+                        starSpacing="4px"
+                        rating={countAverage() ? countAverage() : 0}
+                        starRatedColor="#FFD700"
+                      />
+                    </div>
+                  </Col >
+                  <Col className="bars-container">
+
+                    <div className="rating-numbers">
+                      {allRating.rating.map((rating, index) => {
+                        return (
+                          <div key={index} className="rating-numbers-item">{rating}</div>
+                        )
+                      })}
+                    </div>
+
+                    <div>
+                      {allRating.ratingCount.map((ratingCount, index) => {
+                        return (
+                          <div key={index} className="progress-bar-container">
+                            <ProgressBar
+                              title={ratingCount}
+                              max={allRating.maximalCount}
+                              now={ratingCount}
+                              variant="success"
+                              animated />
+                          </div>
+                        )
+                      })
+                      }
+                    </div>
+                  </Col>
+                </Row>
               </div>
+
             </Col>
             <Col lg={6}>
               <div className="img-container">
