@@ -66,13 +66,20 @@ p,
 }
 
 
-.review {
-  width: 70%;
+.rating-container {
   margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  .user-image {
-    width: 30px;
-    height: 30px;
+  .rating-count-item{
+    font-weight: 700;
+    font-size: 24px;
+  }
+
+  .progress-bar-container{
+    width: 500px;
+    margin: 20px 0;
   }
 
   .comment {
@@ -84,6 +91,9 @@ p,
 
 }
 
+.border{
+  border: 2px solid red;
+}
 .feedback-area {
   display: flex;
   flex-direction: column;

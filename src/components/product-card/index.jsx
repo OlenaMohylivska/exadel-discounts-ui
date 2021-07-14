@@ -2,22 +2,11 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 
-// import StarRatings from "react-star-ratings"
+import StarRatings from "react-star-ratings"
 import "./styles.css"
 import { Link } from "react-router-dom"
-
+import moment from "moment"
 function ProductCard({ elem }) {
-  const formattedData = new Date(elem.periodEnd)
-    .toISOString()
-    .split(":")
-    .splice(0, 1)
-    .join("")
-    .split("")
-    .splice(0, 10)
-    .join("")
-    .split("-")
-    .reverse()
-    .join("-")
 
   // useEffect(() => {
   //   elem.imageId &&
@@ -38,7 +27,7 @@ function ProductCard({ elem }) {
         }}
       >
         <Card.Subtitle className="product-actuality text-muted">
-          expires in {formattedData}
+          expires in {moment(elem && elem.periodEnd).format("MMM Do YYYY")}
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
 
@@ -56,13 +45,13 @@ function ProductCard({ elem }) {
         </div>
 
         <div className="product-footer">
-          {/* <StarRatings
-            starDimension="27px"
-            starSpacing="5px"
-            rating={elem.rate}
+          <StarRatings
+            starDimension="24px"
+            starSpacing="4px"
+            rating={elem.rate ?? 0}
             starRatedColor="#FFD700"
-          /> */}
-          <Button variant="dark">Order</Button>
+          />
+          <Link to={`/discount/${elem.id}`}><Button className="ms-3" variant="dark">Order</Button></Link>
         </div>
       </Card.Body>
     </Card>

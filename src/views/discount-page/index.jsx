@@ -1,7 +1,7 @@
-
+/*eslint-disable */
 import React, { useState, useEffect, useContext } from "react"
 import { useParams } from "react-router"
-import { Button, Col, Container, Row } from "react-bootstrap"
+import { Button, Col, Container, Row, ProgressBar } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import axiosInstance from "components/api"
 import FetchError from "../../components/fetch-error"
@@ -27,7 +27,8 @@ const DiscountPage = () => {
   const { id } = useParams()
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
-  const [allReviews, setAllReviews] = useState([])
+  const [allRating, setAllRating] = useState({})
+
   const images = useContext(Context)
 
   const fetchData = async () => {
@@ -52,16 +53,20 @@ const DiscountPage = () => {
     try {
       axiosInstance
         .get(`${baseUrl}/api/discounts/${id}/reviews`)
-        .then((response) => {
-          setAllReviews(response.data)
-        })
-      setLoading(false)
-    } catch (e) {
+        .then(response => {
+          setAllRating({
+            rating: Object.keys(response.data).reverse(),
+            ratingCount: Object.values(response.data).reverse(),
+            maximalCount: Math.max.apply(null, Object.values(response.data).map(item => Number(item)))
+          })
+          setLoading(false)
+        })}
+      catch (e) {
       setErrorMessage(e.message)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [allRating])
 
   useEffect(() => {
     setReview({
@@ -140,37 +145,33 @@ const DiscountPage = () => {
                 <span className="discount-info">{discount.description}</span>
               </span>
               <div>
-                {allReviews.length ? (
+                {allRating ? (
                   <div>
                     <span className="discount-subtitle">Reviews:</span>
-                    {allReviews.map((review) => {
-                      return (
-                        <div key={review.id} className="review">
-                          <div className="d-flex justify-content-between">
-                            <div className="m-2">
-                              <img
-                                className="user-image"
-                                src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
-                                alt="user-image"
-                              />
-                              <p className="d-inline ms-3">
-                                {review.employee.login}
-                              </p>
-                            </div>
+                    <div className="rating-container">
+                      <div>
+                        {allRating.rating.map(rating => {
+                          return (
+                            <div className="rating-count-item">{rating}</div>
+                          )
+                        })}
 
-                            {review.employee.location ?? ""}
-                            <div className="align-self-center">
-                              <StarRatings
-                                starDimension="24px"
-                                starSpacing="4px"
-                                rating={review.rate ?? 0}
-                                starRatedColor="#FFD700"
-                              />
+
+                      </div>
+                      <div >
+                        {allRating.ratingCount.map((ratingCount ) => {
+                          return (
+                            
+                            <div className="progress-bar-container">
+                              <ProgressBar  max={allRating.maximalCount} now={ratingCount} variant="success" striped animated/>
                             </div>
-                          </div>
-                        </div>
-                      )
-                    })}
+                            
+                          
+                          )
+                        })
+                        }
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <p className="discount-no-reviews">
@@ -181,7 +182,7 @@ const DiscountPage = () => {
             </Col>
             <Col lg={6}>
               <div className="img-container">
-                <img src={images.productImages[discount.id -1] ?? "https://i.stack.imgur.com/y9DpT.jpg"} className="discount-image" alt="discount-img" />
+                <img src={images.productImages[discount.id - 1] ?? "https://i.stack.imgur.com/y9DpT.jpg"} className="discount-image" alt="discount-img" />
               </div>
               <div>
                 <div className="action">
