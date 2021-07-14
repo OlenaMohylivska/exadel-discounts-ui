@@ -2,11 +2,10 @@ import React, { useState } from "react"
 import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import "./styles.scss"
-import PropTypes from "prop-types"
-import axiosInstance from "components/api"
+
+
 
 function FileUploadPage({setFileId }) {
-  const [selectedFile, setSelectedFile] = useState({})
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
 
@@ -18,7 +17,6 @@ function FileUploadPage({setFileId }) {
       .post("api/images", formData)
       .then((res) => setFileId(res.data))
     setIsSelected(true)
-    setSelectedFile(event.target.files[0])
     setFileView(URL.createObjectURL(event.target.files[0]))
   }
 
