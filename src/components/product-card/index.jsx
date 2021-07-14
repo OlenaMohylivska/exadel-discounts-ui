@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 
@@ -7,6 +8,7 @@ import "./styles.css"
 import { Link } from "react-router-dom"
 
 function ProductCard({ elem }) {
+  const [img, setImg] = useState(null)
   const formattedData = new Date(elem.periodEnd)
     .toISOString()
     .split(":")
@@ -19,12 +21,14 @@ function ProductCard({ elem }) {
     .reverse()
     .join("-")
 
-  // useEffect(() => {
-  //   elem.imageId &&
-  //     axiosInstance
-  //       .get(`/api/images/${elem.imageId}`)
-  //       .then((response) => setImg(response.data))
-  // }, [elem])
+  useEffect(() => {
+    elem.imageId &&
+      axiosInstance
+        .get(`/api/images/${elem.imageId}`)
+        .then((response) => setImg(response.data))
+  }, [elem])
+  let blob = new Blob([img], { type: "image/jpeg" })
+  const url = blob && URL.createObjectURL(blob)
 
   return (
     <Card className=" shadow product-card">
@@ -42,13 +46,7 @@ function ProductCard({ elem }) {
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
 
-        {
-          <Card.Img
-            variant="top"
-            className="product-image"
-            src={`https://sandbox-team5.herokuapp.com/api/images/${elem.imageId}`}
-          />
-        }
+        {url && <Card.Img variant="top" className="product-image" src={url} />}
       </Link>
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">
