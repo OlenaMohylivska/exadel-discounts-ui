@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { useParams } from "react-router"
-import { Button, Col, Container, Row, ProgressBar } from "react-bootstrap"
+import { Button, Col, Container, Row, Spinner, ProgressBar } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import axiosInstance from "components/api"
 import FetchError from "../../components/fetch-error"
@@ -47,7 +47,6 @@ const DiscountPage = () => {
   }, [])
 
   useEffect(() => {
-    setLoading(true)
     try {
       axiosInstance
         .get(`${baseUrl}/api/discounts/${id}/reviews`)
@@ -59,11 +58,8 @@ const DiscountPage = () => {
           })
           setLoading(false)
         })
-    }
-    catch (e) {
+    } catch (e) {
       setErrorMessage(e.message)
-    } finally {
-      setLoading(false)
     }
   }, [rating, review])
 
@@ -103,9 +99,12 @@ const DiscountPage = () => {
 
   return (
     <>
-      {loading ? <div>Loading</div> : ""}
-      {discount ? (
-
+      {loading && (
+        <div className="spin-container">
+          <Spinner className="spin-loader" animation="border" />
+        </div>
+      )}
+      {discount && (
         <Container>
           <Row className="discount-page-container">
             <Col lg={6}>
@@ -113,7 +112,6 @@ const DiscountPage = () => {
                 <Shop className="discount-icon" />
                 Discount Name:&nbsp;
                 <span className="discount-info">{discount.name}</span>
-
               </div>
               <div className="discount-subtitle">
                 <People className="discount-icon" />
@@ -202,7 +200,14 @@ const DiscountPage = () => {
             </Col>
             <Col lg={6}>
               <div className="img-container">
-                <img src={images.productImages[discount.id - 1] ?? "https://i.stack.imgur.com/y9DpT.jpg"} className="discount-image" alt="discount-img" />
+                <img
+                  src={
+                    images.productImages[discount.id - 1] ??
+                    "https://i.stack.imgur.com/y9DpT.jpg"
+                  }
+                  className="discount-image"
+                  alt="discount-img"
+                />
               </div>
               <div>
                 <div className="action">
@@ -242,12 +247,10 @@ const DiscountPage = () => {
                 </div>
               </div>
             </Col>
-
           </Row>
         </Container>
-      ) : (
-        <FetchError error={errorMessage ? errorMessage : ""} />
       )}
+      {errorMessage && <FetchError error={errorMessage} />}
     </>
   )
 }
