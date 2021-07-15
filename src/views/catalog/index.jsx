@@ -22,7 +22,7 @@ const Catalog = () => {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState({
     // companies: [""],
-    itemsPerPage: 10,
+    itemsPerPage: 100,
     // orders: [
     //   {
     //     direction: "ASC",
@@ -34,6 +34,7 @@ const Catalog = () => {
     // searchText: "",
     // tags: [],
   })
+  console.log(search)
 
   const [searching, setSearching] = useState(false)
   console.log(searchLocation)
@@ -46,15 +47,14 @@ const Catalog = () => {
 
   const handleSearchCompanies = (e) => {
     setSearch({ ...search, companies: [e.label] })
-    setSearching(true)
-    setLoading(true)
+    setTimeout(funcHelperForSearching, 2000)
   }
   const handleSearchTags = (e) => {
     const arr = e.map((e) => e.value)
     setSearch({ ...search, tags: arr })
-    setSearching(true)
-    setLoading(true)
+    setTimeout(funcHelperForSearching, 2000)
   }
+  console.log(discounts)
   const handleSortingOption = (e) => {
     const orders = {
       orders: [
@@ -64,8 +64,7 @@ const Catalog = () => {
       ],
     }
     setSearch({ ...search, orders: orders.orders })
-    setSearching(true)
-    setLoading(true)
+    setTimeout(funcHelperForSearching, 2000)
   }
   const handleSearchText = (e) => {
     setSearch({ ...search, searchText: e.target.value })

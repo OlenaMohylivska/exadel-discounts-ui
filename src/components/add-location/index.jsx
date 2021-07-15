@@ -8,9 +8,10 @@ const AddLocation = ({
   countryLocation,
   citiesLocation,
   setCitiesLocation,
+  addressesList,
+  setAddressesList,
 }) => {
   const [locationObj, setLocationObj] = useState({ name: "", addresses: [] })
-  const [addressesList, setAddressesList] = useState([])
 
   ////city
   const citiesOptions =
@@ -85,4 +86,6 @@ AddLocation.propTypes = {
   countryLocation: PropTypes.array,
   citiesLocation: PropTypes.array,
   setCitiesLocation: PropTypes.func,
+  addressesList: PropTypes.array,
+  setAddressesList: PropTypes.func,
 }

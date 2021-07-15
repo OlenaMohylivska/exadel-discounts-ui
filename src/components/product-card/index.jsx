@@ -25,10 +25,9 @@ function ProductCard({ elem }) {
     elem.imageId &&
       axiosInstance
         .get(`/api/images/${elem.imageId}`)
-        .then((response) => setImg(response.data))
+        .then((response) => setImg(response.config.url))
   }, [elem])
-  let blob = new Blob([img], { type: "image/jpeg" })
-  const url = blob && URL.createObjectURL(blob)
+  console.log(img)
 
   return (
     <Card className=" shadow product-card">
@@ -46,7 +45,13 @@ function ProductCard({ elem }) {
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
 
-        {url && <Card.Img variant="top" className="product-image" src={url} />}
+        {img && (
+          <Card.Img
+            variant="top"
+            className="product-image"
+            src={`https://sandbox-team5.herokuapp.com${img}`}
+          />
+        )}
       </Link>
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">

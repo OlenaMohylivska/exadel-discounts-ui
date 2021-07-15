@@ -29,6 +29,7 @@ const AddItem = (props) => {
     error: null,
     show: false,
   })
+  const [addressesList, setAddressesList] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
   const [category, setCategory] = useState({})
@@ -40,11 +41,11 @@ const AddItem = (props) => {
   const [citiesLocation, setCitiesLocation] = useState([])
   const [countryLocation, setCountryLocation] = useState(null)
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-  const [fileId, setFileId] = useState({ file: null })
+  const [fileId, setFileId] = useState("")
   /////// end states
 
   ////consoles put here if it needs
-
+  console.log(data)
   ////// end consoles
 
   ////// selector options
@@ -210,6 +211,22 @@ const AddItem = (props) => {
       quantity: null,
       company: null,
     })
+    setFileId("")
+    setChooseLocation([])
+    setActualLocation({
+      country: "",
+      cities: [],
+    })
+    setCitiesLocation([])
+    setCountryLocation(null)
+    setNewLocationsArr([{ id: 0 }])
+    setTags([])
+    setCategory({})
+    setDiscountPostError({
+      error: null,
+      show: false,
+    })
+    setAddressesList([])
   }
 
   const addNewLocation = () => {
@@ -235,6 +252,8 @@ const AddItem = (props) => {
           countryLocation={countryLocation}
           citiesLocation={citiesLocation}
           setCitiesLocation={setCitiesLocation}
+          addressesList={addressesList}
+          setAddressesList={setAddressesList}
         />
       ))}
       <Button onClick={() => addNewLocation()}>add location</Button>
