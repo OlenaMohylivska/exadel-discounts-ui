@@ -143,18 +143,6 @@ const DiscountPage = () => {
                 </span>
               </div>
               <div className="discount-subtitle">
-                <Globe className="discount-icon" />
-                Location:&nbsp;
-                {fullAddressLocations ?
-                  <div className="discount-info">
-                    {fullAddressLocations.map((location) => (
-                      <div className="mx-4" key={location}>{location}</div>
-                    ))
-                    }
-                  </div> : <span className="discount-info">No information</span>
-                }
-              </div>
-              <div className="discount-subtitle">
                 <BackspaceReverse className="discount-icon" />
                 Expire at:&nbsp;
                 <span className="discount-info">
@@ -166,64 +154,33 @@ const DiscountPage = () => {
                 Description:&nbsp;
                 <span className="discount-info">{discount.description}</span>
               </span>
-              <div>
-                <span className="discount-subtitle">Reviews:</span>
-                <Row className="reviews-container">
-                  <Col className="stars-container">
-                    <div className="average-rating">
-                      {countAverage() ? countAverage() : 0}
-                    </div>
-
-                    <div>
-                      <StarRatings
-                        starDimension="20px"
-                        starSpacing="4px"
-                        rating={countAverage() ? countAverage() : 0}
-                        starRatedColor="#FFD700"
-                      />
-                    </div>
-                  </Col >
-                  <Col className="bars-container">
-
-                    <div className="rating-numbers">
-                      {allRating.rating.map((rating, index) => {
-                        return (
-                          <div key={index} className="rating-numbers-item">{rating}</div>
-                        )
-                      })}
-                    </div>
-
-                    <div>
-                      {allRating.ratingCount.map((ratingCount, index) => {
-                        return (
-                          <div key={index} className="progress-bar-container">
-                            <ProgressBar
-                              title={ratingCount}
-                              max={allRating.maximalCount}
-                              now={ratingCount}
-                              variant="success"
-                              animated />
-                          </div>
-                        )
-                      })
-                      }
-                    </div>
-                    {addressCountry &&
-                      <div className="google-map-icon-container" onClick={toggleModal}>
-                        <GoogleMap onClick={toggleModal}></GoogleMap>
-                        <div className="superimposed-block"><h2 className="superimposed-block-text">Tap here to open map</h2></div>
-                      </div>
+              <div className="discount-subtitle">
+                <Globe className="discount-icon" />
+                Location:&nbsp;
+                {fullAddressLocations ?
+                  <div className="discount-info">
+                    {fullAddressLocations.map((location) => (
+                      <div className="mx-4 my-2" key={location}>{location}</div>
+                    ))
                     }
+                  </div> : <span className="discount-info">No information</span>
+                }
+              </div>
+              <div>
+                {addressCountry &&
+                  <div className="google-map-icon-container" onClick={toggleModal}>
+                    <GoogleMap onClick={toggleModal}></GoogleMap>
+                    <div className="superimposed-block"><h2 className="superimposed-block-text">Tap here to open map</h2></div>
+                  </div>
+                }
 
-                    {show && <CustomModalWindow
-                      show={show}
-                      handleClose={toggleModal}
-                      modalText=""
-                      locations={fullAddressLocations}
-                    />}
+                {show && <CustomModalWindow
+                  show={show}
+                  handleClose={toggleModal}
+                  modalText=""
+                  locations={fullAddressLocations}
+                />}
 
-                  </Col>
-                </Row>
               </div>
             </Col>
             <Col lg={6}>
@@ -237,6 +194,48 @@ const DiscountPage = () => {
                   alt="discount-img"
                 />
               </div>
+              <Row className="reviews-container">
+                <Col className="stars-container">
+                  <div className="average-rating">
+                    {countAverage() ? countAverage() : 0}
+                  </div>
+
+                  <div>
+                    <StarRatings
+                      starDimension="20px"
+                      starSpacing="4px"
+                      rating={countAverage() ? countAverage() : 0}
+                      starRatedColor="#FFD700"
+                    />
+                  </div>
+                </Col >
+                <Col className="bars-container">
+
+                  <div className="rating-numbers">
+                    {allRating.rating.map((rating, index) => {
+                      return (
+                        <div key={index} className="rating-numbers-item">{rating}</div>
+                      )
+                    })}
+                  </div>
+
+                  <div>
+                    {allRating.ratingCount.map((ratingCount, index) => {
+                      return (
+                        <div key={index} className="progress-bar-container">
+                          <ProgressBar
+                            title={ratingCount}
+                            max={allRating.maximalCount}
+                            now={ratingCount}
+                            variant="success"
+                            animated />
+                        </div>
+                      )
+                    })
+                    }
+                  </div>
+                </Col>
+              </Row>
               <div>
                 <div className="action">
                   <Button
