@@ -56,7 +56,6 @@ const AddCompany = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const locationHandleChange = (e) => {
-    console.log(e)
     setCountryLocation(e.cities)
     setActualLocation([{ name: e.value, id: e.id }])
   }
@@ -70,18 +69,12 @@ const AddCompany = (props) => {
     })
   }, [])
 
-  // useEffect(() => {
-  //   if (props.isEdit) {
-  //     setCompanyName(props.company.name)
-  //     setCities(
-  //       props.company.countries.map((location) => ({
-  //         ...location,
-  //         value: location.cities.name,
-  //         label: location.cities.name,
-  //       }))
-  //     )
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (props.isEdit) {
+      console.log(props.company)
+      setData(props.company)
+    }
+  }, [])
   useEffect(() => {
     setActualLocation([{ ...actualLocation[0], cities: citiesLocation }])
   }, [citiesLocation])
@@ -119,39 +112,15 @@ const AddCompany = (props) => {
       setCompanyPostError({ error: e.message, show: true })
     }
   }
-
-  // async function updateCompanyInfo() {
-  //   try {
-  //     axiosInstance.put(
-  //       `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`,
-  //       {
-  //         countries: [
-  //           {
-  //             cities: [
-  //               {
-  //                 addresses: [
-  //                   {
-  //                     address: address,
-  //                     id: 0,
-  //                   },
-  //                 ],
-  //                 id: 0,
-  //                 name: cities[0].label,
-  //               },
-  //             ],
-  //             id: 0,
-  //             name: countries.name,
-  //           },
-  //         ],
-  //         id: 0,
-  //         imageId: fileId,
-  //         name: companyName,
-  //       }
-  //     )
-  //   } catch (e) {
-  //     setCompanyPostError({ error: e.message, show: true })
-  //   }
-  // }
+  console.log(data)
+  async function updateCompanyInfo() {
+    try {
+      axiosInstance.put(
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`, data)
+    } catch (e) {
+      setCompanyPostError({ error: e.message, show: true })
+    }
+  }
 
   const getLocation = (
     <>
@@ -219,7 +188,7 @@ const AddCompany = (props) => {
               <Button
                 variant="primary"
                 className="btn company-info-btn"
-              // onClick={updateCompanyInfo}
+                onClick={updateCompanyInfo}
               >
                 Update company info
               </Button>
