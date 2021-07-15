@@ -47,14 +47,6 @@ function Header() {
                 </NavLink>
 
                 <NavLink
-                  to="/map"
-                  className="menu-link"
-                  activeClassName="menu-link-active"
-                >
-                  Map
-                </NavLink>
-
-                <NavLink
                   to="/admin"
                   className="menu-link"
                   activeClassName="menu-link-active"

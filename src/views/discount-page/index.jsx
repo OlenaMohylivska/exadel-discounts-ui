@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react"
-import { useParams, useLocation } from "react-router"
-import { Button } from "react-bootstrap"
+
+import React, { useState, useEffect, useContext } from "react"
+import { useParams } from "react-router"
+import { Button, Col, Container, Row } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import axiosInstance from "components/api"
 import FetchError from "../../components/fetch-error"
@@ -12,23 +13,36 @@ import {
   Globe,
   BackspaceReverse,
   EmojiLaughing,
-  Map,
 } from "react-bootstrap-icons"
 import moment from "moment"
+import { Context } from "store/context"
+import CustomModalWindow from "components/custom-modal-window"
+import GoogleMapComponent from "components/google-map/googleMap"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
-  const [show, setShow] = useState(false)
+  const [showBtn, setShowBtn] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
-  const location = useLocation()
-  const { image } = location.state ? location.state : ""
   const { id } = useParams()
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allReviews, setAllReviews] = useState([])
+  const images = useContext(Context)
+  const [show, setShow] = useState(false)
+
+  const toggleModal = () => {
+    setShow(!show)}
+
+  const addressCountry = discount && discount.country && discount.country.name
+  const fullAddressLocations = addressCountry && discount.country.cities.map(city => {
+    return city.addresses.map(el => {
+      return el.address ? `${addressCountry} ${city.name} ${el.address}`
+        : el.addresses.map(el => `${addressCountry} ${el.address}`)
+    })
+  }).flat()
 
   const fetchData = async () => {
     setLoading(true)
@@ -91,136 +105,154 @@ const DiscountPage = () => {
     <>
       {loading ? <div>Loading</div> : ""}
       {discount ? (
-        <div className="container discount-container flex-wrap">
-          <div className="col-lg-6 col-md-12">
-            <div className="img-container">
-              <img src={image} className="discount-image" alt="discount-img" />
-            </div>
 
-            <div>
-              <div className="action">
-                <Button
-                  className="w-25 d-flex align-self-end justify-content-center"
-                  onClick={() => setShow(!show)}
-                  variant="primary"
-                >
-                  Order
-                </Button>
-                <div className="feedback-area">
-                  <div>
-                    <StarRatings
-                      starDimension="27px"
-                      starSpacing="5px"
-                      rating={rating}
-                      changeRating={handleRating}
-                      starRatedColor="#FFD700"
-                    />
-                  </div>
-                  <Button
-                    className="d-flex align-self-center mt-3"
-                    disabled={rating === 0}
-                    variant="dark"
-                    onClick={() => {
-                      addReview()
-                    }}
-                  >
-                    Leave feedback
-                  </Button>
-                </div>
+        <Container>
+          <Row className="discount-page-container">
+            <Col lg={6}>
+              <div className="discount-subtitle">
+                <Shop className="discount-icon" />
+                Discount Name:&nbsp;
+                <span className="discount-info">{discount.name}</span>
+
               </div>
-              <div className="d-flex justify-content-end">
-                <p className={`${!show ? "hide" : "display"}`}>
-                  {discount.promoCode}
-                </p>
+              <div className="discount-subtitle">
+                <People className="discount-icon" />
+                Company:&nbsp;
+                <span className="discount-info">
+                  {discount.company ? discount.company.name : ""}
+                </span>
               </div>
-            </div>
-          </div>
-          <div className="col-lg-6 col-md-12">
-            <div className="discount-subtitle">
-              <Shop className="discount-icon" />
-              <Map className="discount-icon" />
-              Discount Name:&nbsp;
-              <span className="discount-info">{discount.name}</span>
-            </div>
-            <div className="discount-subtitle">
-              <People className="discount-icon" />
-              Company:&nbsp;
-              <span className="discount-info">
-                {discount.company ? discount.company.name : ""}
-              </span>
-            </div>
-            <div className="discount-subtitle">
-              <BookmarkHeartFill className="discount-icon" />
-              Tags:
-              <span className="discount-info">
-                {discount.tags.map((tag) => ` ${tag.name};`)}
-              </span>
-            </div>
-            <div className="discount-subtitle">
-              <Globe className="discount-icon" />
-              Location:&nbsp;
-              <div className="discount-info">
-                {discount.countries &&
-                  discount.countries.map((country) =>
-                    country.cities.map((city) => (
-                      <div key={city.id}>{city.name}</div>
+              <div className="discount-subtitle">
+                <BookmarkHeartFill className="discount-icon" />
+                Tags:
+                <span className="discount-info">
+                  {discount.tags.map((tag) => ` ${tag.name};`)}
+                </span>
+              </div>
+              <div className="discount-subtitle">
+                <Globe className="discount-icon" />
+                Location:&nbsp;
+                {fullAddressLocations ?
+                  <div className="discount-info">
+                    {fullAddressLocations.map((location) => (
+                      <div className="mx-4" key={location}>{location}</div>
                     ))
-                  )}
+                    }
+                  </div> : <span className="discount-info">No information</span>
+                }
               </div>
-            </div>
-            <div className="discount-subtitle">
-              <BackspaceReverse className="discount-icon" />
-              Expire at:&nbsp;
-              <span className="discount-info">
-                {moment(discount.periodEnd).format("MMM Do YYYY")}
+              <div className="discount-subtitle">
+                <BackspaceReverse className="discount-icon" />
+                Expire at:&nbsp;
+                <span className="discount-info">
+                  {moment(discount.periodEnd).format("MMM Do YYYY")}
+                </span>
+              </div>
+              <span className="discount-subtitle">
+                <EmojiLaughing className="discount-icon" />
+                Description:&nbsp;
+                <span className="discount-info">{discount.description}</span>
               </span>
-            </div>
-            <span className="discount-subtitle">
-              <EmojiLaughing className="discount-icon" />
-              Description:&nbsp;
-              <span className="discount-info">{discount.description}</span>
-            </span>
-            <div>
-              {allReviews.length ? (
-                <div>
-                  <span className="discount-subtitle">Reviews:</span>
-                  {allReviews.map((review) => {
-                    return (
-                      <div key={review.id} className="review">
-                        <div className="d-flex justify-content-between">
-                          <div className="m-2">
-                            <img
-                              className="user-image"
-                              src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
-                              alt="user-image"
-                            />
-                            <p className="d-inline mx-3">
-                              {review.employee.login}
-                            </p>
-                          </div>
+              <div>
+                {allReviews.length ? (
+                  <div>
+                    <span className="discount-subtitle">Reviews:</span>
+                    {allReviews.map((review) => {
+                      return (
+                        <div key={review.id} className="review">
+                          <div className="d-flex justify-content-between">
+                            <div className="m-2">
+                              <img
+                                className="user-image"
+                                src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
+                                alt="user-image"
+                              />
+                              <p className="d-inline ms-3">
+                                {review.employee.login}
+                              </p>
+                            </div>
 
-                          <p>{review.employee.location || ""}</p>
-                          <div className="align-self-center">
-                            <StarRatings
-                              starDimension="24px"
-                              starSpacing="4px"
-                              rating={review.rate}
-                              starRatedColor="#FFD700"
-                            />
+                            {review.employee.location ?? ""}
+                            <div className="align-self-center">
+                              <StarRatings
+                                starDimension="24px"
+                                starSpacing="4px"
+                                rating={review.rate ?? 0}
+                                starRatedColor="#FFD700"
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  })}
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <p className="discount-no-reviews">
+                    No reviews available yet. Please, check back later!
+                  </p>
+                )}
+              </div>
+
+              {addressCountry &&
+                <div className="google-map-icon-container" onClick={toggleModal}>
+                  <GoogleMapComponent onClick={toggleModal}></GoogleMapComponent>
+                  <div className="superimposed-block"><h2 className="superimposed-block-text">Tap here to open map</h2></div>
                 </div>
-              ) : (
-                <p className="discount-no-reviews">
-                  No reviews available yet. Please, check back later!
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+              }
+
+              {show && <CustomModalWindow
+                show={show}
+                handleClose={toggleModal}
+                modalText=""
+                locations={fullAddressLocations}
+              />}
+
+            </Col>
+            <Col lg={6}>
+              <div className="img-container">
+                <img src={images.productImages[discount.id - 1] ?? "https://i.stack.imgur.com/y9DpT.jpg"} className="discount-image" alt="discount-img" />
+              </div>
+              <div>
+                <div className="action">
+                  <Button
+                    className="w-25 d-flex align-self-end justify-content-center"
+                    onClick={() => setShowBtn(!showBtn)}
+                    variant="primary"
+                  >
+                    Order
+                  </Button>
+                  <div className="feedback-area">
+                    <div>
+                      <StarRatings
+                        starDimension="27px"
+                        starSpacing="5px"
+                        rating={rating ?? 0}
+                        changeRating={handleRating}
+                        starRatedColor="#FFD700"
+                      />
+                    </div>
+                    <Button
+                      className="d-flex align-self-center mt-3"
+                      disabled={rating === 0}
+                      variant="dark"
+                      onClick={() => {
+                        addReview()
+                      }}
+                    >
+                      Leave feedback
+                    </Button>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-end">
+                  <p className={`${!show ? "hide" : "display"}`}>
+                    {discount.promoCode}
+                  </p>
+                </div>
+              </div>
+            </Col>
+
+          </Row>
+        </Container>
       ) : (
         <FetchError error={errorMessage ? errorMessage : ""} />
       )}
