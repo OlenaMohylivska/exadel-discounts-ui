@@ -90,6 +90,16 @@
   width: 300px !important;
   height: 300px !important;
 }
+.location-column {
+  max-width: 20%;
+  min-width: 20%;
+  display: flex;
+  flex-direction: column;
+}
+.catalog-selects-width-100 {
+  width: 100%;
+  height: 40px;
+}
 
 @media (max-width: 720px) {
   .catalog-selects {
