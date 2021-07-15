@@ -12,7 +12,7 @@ function FileUploadPage({ setFileId }) {
     let formData = new FormData()
     formData.append("file", file)
     axiosInstance
-      .post("/api/images", formData)
+      .post("api/images", formData)
       .then((res) => setFileId(res.data))
     setIsSelected(true)
     setFileView(URL.createObjectURL(event.target.files[0]))

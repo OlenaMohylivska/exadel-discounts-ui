@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { useParams } from "react-router"
-import { Button, Col, Container, Row, Spinner } from "react-bootstrap"
+import { Button, Col, Container, Row, Spinner, ProgressBar } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import axiosInstance from "components/api"
 import FetchError from "../../components/fetch-error"
@@ -26,7 +26,7 @@ const DiscountPage = () => {
   const { id } = useParams()
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
-  const [allReviews, setAllReviews] = useState([])
+  const [allRating, setAllRating] = useState({})
   const images = useContext(Context)
 
   const fetchData = async () => {
@@ -50,13 +50,18 @@ const DiscountPage = () => {
     try {
       axiosInstance
         .get(`${baseUrl}/api/discounts/${id}/reviews`)
-        .then((response) => {
-          setAllReviews(response.data)
+        .then(response => {
+          setAllRating({
+            rating: Object.keys(response.data).reverse(),
+            ratingCount: Object.values(response.data).reverse(),
+            maximalCount: Math.max.apply(null, Object.values(response.data).map(item => Number(item))),
+          })
+          setLoading(false)
         })
     } catch (e) {
       setErrorMessage(e.message)
     }
-  }, [])
+  }, [rating, review])
 
   useEffect(() => {
     setReview({
@@ -73,6 +78,16 @@ const DiscountPage = () => {
     })
   }, [rating])
 
+
+  const countAverage = () => {
+    let sum = 0
+    let reviewsCount = 0
+    for (let i = 0; i < allRating.rating.length; i++) {
+      sum += allRating.rating[i] * allRating.ratingCount[i]
+      reviewsCount += allRating.ratingCount[i]
+    }
+    return +(sum / reviewsCount).toFixed(2)
+  }
   const handleRating = (value) => {
     setRating(value)
   }
@@ -137,44 +152,51 @@ const DiscountPage = () => {
                 <span className="discount-info">{discount.description}</span>
               </span>
               <div>
-                {allReviews.length ? (
-                  <div>
-                    <span className="discount-subtitle">Reviews:</span>
-                    {allReviews.map((review) => {
-                      return (
-                        <div key={review.id} className="review">
-                          <div className="d-flex justify-content-between">
-                            <div className="m-2">
-                              <img
-                                className="user-image"
-                                src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
-                                alt="user-image"
-                              />
-                              <p className="d-inline ms-3">
-                                {review.employee.login}
-                              </p>
-                            </div>
+                <span className="discount-subtitle">Reviews:</span>
+                <Row className="reviews-container">
+                  <Col className="stars-container">
+                    <div className="average-rating">
+                      {countAverage() ? countAverage() : 0}
+                    </div>
 
-                            {review.employee.location ?? ""}
-                            <div className="align-self-center">
-                              <StarRatings
-                                starDimension="24px"
-                                starSpacing="4px"
-                                rating={review.rate ?? 0}
-                                starRatedColor="#FFD700"
-                              />
-                            </div>
+                    <div>
+                      <StarRatings
+                        starDimension="20px"
+                        starSpacing="4px"
+                        rating={countAverage() ? countAverage() : 0}
+                        starRatedColor="#FFD700"
+                      />
+                    </div>
+                  </Col >
+                  <Col className="bars-container">
+
+                    <div className="rating-numbers">
+                      {allRating.rating.map((rating, index) => {
+                        return (
+                          <div key={index} className="rating-numbers-item">{rating}</div>
+                        )
+                      })}
+                    </div>
+
+                    <div>
+                      {allRating.ratingCount.map((ratingCount, index) => {
+                        return (
+                          <div key={index} className="progress-bar-container">
+                            <ProgressBar
+                              title={ratingCount}
+                              max={allRating.maximalCount}
+                              now={ratingCount}
+                              variant="success"
+                              animated />
                           </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                ) : (
-                  <p className="discount-no-reviews">
-                    No reviews available yet. Please, check back later!
-                  </p>
-                )}
+                        )
+                      })
+                      }
+                    </div>
+                  </Col>
+                </Row>
               </div>
+
             </Col>
             <Col lg={6}>
               <div className="img-container">

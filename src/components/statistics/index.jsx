@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react"
-import { Col, Container, Row } from "react-bootstrap"
+import { Col, Container, Row, Button } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
 import axiosInstance from "components/api"
 import FetchError from "components/fetch-error"
-
+import "./styles.scss"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
-
 const Statistics = () => {
   const [discountsByOrders, setDiscountsByOrders] = useState({})
   const [discountsByViews, setDiscountsByViews] = useState({})
@@ -17,7 +16,7 @@ const Statistics = () => {
   /*1 */
   useEffect(() => {
     axiosInstance
-      .get(baseUrl + "/api/discounts/statistic")
+      .get(baseUrl + "/api/discounts/statistic/orders")
       .then((response) => {
         setDiscountsByOrders({
           labels: Object.keys(response.data),
@@ -88,7 +87,7 @@ const Statistics = () => {
   /*3 */
   useEffect(() => {
     axiosInstance
-      .get(baseUrl + "/api/company/statistic")
+      .get(baseUrl + "/api/company/statistic/orders")
       .then((response) => {
         setCompaniesByOrders({
           labels: Object.keys(response.data),
@@ -126,7 +125,7 @@ const Statistics = () => {
   /*5 */
   useEffect(() => {
     axiosInstance
-      .get(baseUrl + "/api/tags/statistic")
+      .get(baseUrl + "/api/tags/statistic/orders")
       .then((response) => {
 
         setTagsByOrders({
@@ -147,6 +146,25 @@ const Statistics = () => {
     maintainAspectRatio: false,
   }
 
+
+  const downloadStatistics = (apiUrl, name) => {
+    axiosInstance
+      .get(apiUrl, {
+        responseType: "blob"
+      })
+      .then(response => {
+        const url = URL.createObjectURL(response.data)
+        const link = document.createElement("a")
+        link.href = url
+        link.setAttribute(
+          "download",
+          name
+        )
+        document.body.appendChild(link)
+        link.click()
+      }).catch((err) => setFetchError(err.message))
+  }
+
   return (
     <>
       {fetchError && <FetchError error={fetchError} />}
@@ -154,20 +172,37 @@ const Statistics = () => {
         <Container>
           <Row className="my-4">
             <Col>
-              <Bar
-                data={discountsByOrders}
-                height={300}
-                options={discountsByOrdersOptions}
-              />
+              <div>
+                <Bar
+                  data={discountsByOrders}
+                  height={300}
+                  options={discountsByOrdersOptions}
+                />
+              </div>
+
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatistics("/api/discounts/statistic/downloadXLSXOrdersByDiscounts", "OrdersByDiscounts.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/discounts/statistic/downloadCSVOrdersByDiscounts", "OrdersByDiscounts.csv") }}>Download CSV</Button>
+              </div>
             </Col>
+
             <Col>
-              <Line
-                data={discountsByViews}
-                height={300}
-                options={discountsByViewsOptions}
-              />
+              <div>
+                <Line
+                  data={discountsByViews}
+                  height={300}
+                  options={discountsByViewsOptions}
+                />
+              </div>
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatistics("/api/discounts/statistic/downloadXLSXViewsByDiscounts", "ViewsByDiscounts.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/discounts/statistic/downloadCSVViewsByDiscounts", "ViewsByDiscounts.csv") }}>Download CSV</Button>
+              </div>
             </Col>
           </Row>
+
           <Row>
             <Col>
               <p className="text-center mb-3 font-size-14">
@@ -179,6 +214,11 @@ const Statistics = () => {
                   height={250}
                   options={roundChartsOptions}
                 />
+              </div>
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatistics("/api/company/statistic/downloadXLSXOrdersByCompanies", "OrdersByCompanies.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/company/statistic/downloadCSVOrdersByCompanies", "OrdersByCompanies.csv") }}>Download CSV</Button>
               </div>
             </Col>
             <Col>
@@ -192,6 +232,10 @@ const Statistics = () => {
                   options={roundChartsOptions}
                 />
               </div>
+              <div className="statistics-btn-area">
+                <Button onClick={() => { downloadStatistics("/api/tags/statistic/downloadXLSXOrdersByCategories", "OrdersByCategories.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/tags/statistic/downloadCSVOrdersByCategories", "OrdersByCategories.csv") }}>Download CSV</Button>
+              </div>
             </Col>
             <Col>
               <p className="text-center mb-3 font-size-14">
@@ -204,10 +248,16 @@ const Statistics = () => {
                   options={roundChartsOptions}
                 />
               </div>
+              <div className="statistics-btn-area">
+                <Button
+                  onClick={() => { downloadStatistics("/api/tags/statistic/downloadXLSXOrdersByTag", "OrdersByTag.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/tags/statistic/downloadCSVOrdersByTag", "OrdersByTag.csv") }}>Download CSV</Button>
+              </div>
             </Col>
           </Row>
         </Container>
-      )}
+      )
+      }
     </>
   )
 }

@@ -27,7 +27,6 @@ function ProductCard({ elem }) {
         .get(`/api/images/${elem.imageId}`)
         .then((response) => setImg(response.config.url))
   }, [elem])
-  console.log(img)
 
   return (
     <Card className=" shadow product-card">
