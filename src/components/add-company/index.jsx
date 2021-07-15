@@ -112,7 +112,6 @@ const AddCompany = (props) => {
       setCompanyPostError({ error: e.message, show: true })
     }
   }
-  console.log(data)
   async function updateCompanyInfo() {
     try {
       axiosInstance.put(
