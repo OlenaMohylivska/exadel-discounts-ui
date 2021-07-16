@@ -15,8 +15,7 @@ import {
 } from "react-bootstrap-icons"
 import moment from "moment"
 import { Context } from "store/context"
-import CustomModalWindow from "components/custom-modal-window"
-import GoogleMap from "components/google-map/googleMap"
+import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -30,11 +29,6 @@ const DiscountPage = () => {
   const [review, setReview] = useState(null)
   const [allRating, setAllRating] = useState({})
   const images = useContext(Context)
-  const [show, setShow] = useState(false)
-
-  const toggleModal = () => {
-    setShow(!show)
-  }
 
   const addressCountry = discount && discount.country && discount.country.name
   const fullAddressLocations = addressCountry && discount.country.cities.map(city => {
@@ -170,22 +164,7 @@ const DiscountPage = () => {
                   </div> : <span className="discount-info">No information</span>
                 }
               </div>
-              <div>
-                {addressCountry &&
-                  <div className="google-map-icon-container" onClick={toggleModal}>
-                    <GoogleMap onClick={toggleModal}></GoogleMap>
-                    <div className="superimposed-block"><h2 className="superimposed-block-text">Tap here to open map</h2></div>
-                  </div>
-                }
-
-                {show && <CustomModalWindow
-                  show={show}
-                  handleClose={toggleModal}
-                  modalText=""
-                  locations={fullAddressLocations}
-                />}
-
-              </div>
+              {addressCountry && <PreviewGoogleMap allAddresses={fullAddressLocations} />}
             </Col>
             <Col lg={6}>
               <div className="img-container">
