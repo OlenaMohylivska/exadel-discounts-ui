@@ -71,7 +71,6 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     if (props.isEdit) {
-      console.log(props.company)
       setData(props.company)
     }
   }, [])
@@ -171,7 +170,7 @@ const AddCompany = (props) => {
                   <Toast.Body>{companyPostError.error}</Toast.Body>
                 </Toast>
                 <FormControl
-                  value={data.name ? data.name : ""}
+                  value={data.name ?? ""}
                   name="name"
                   id="name"
                   onChange={(e) => handleChange(e)}
