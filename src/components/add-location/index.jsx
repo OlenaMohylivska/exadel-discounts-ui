@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import Select from "react-select"
 import PropTypes from "prop-types"
 import { Button } from "react-bootstrap"
-import "./styles.scss"
 
 const AddLocation = ({
   countryLocation,
@@ -11,6 +10,7 @@ const AddLocation = ({
 }) => {
   const [locationObj, setLocationObj] = useState({ name: "", addresses: [] })
   const [addressesList, setAddressesList] = useState([])
+  const [isEntered, setIsEntered] = useState(true)
 
   ////city
   const citiesOptions =
@@ -19,11 +19,12 @@ const AddLocation = ({
       return {
         value: city.name,
         label: city.name,
+        id: city.id,
         addresses: city.addresses,
       }
     })
   const cityHandleChange = (e) => {
-    setLocationObj({ name: e.value })
+    setLocationObj({ name: e.value, id: e.id })
     setAddressesList(e.addresses)
   }
   ////address
@@ -31,16 +32,21 @@ const AddLocation = ({
     return {
       value: address.address,
       label: address.address,
-      address: address,
+      address: address.address,
+      id: address.id,
     }
   })
 
   const addressesHandleChange = (e) => {
-    const arr = e.map((e) => e.address)
+    const arr = e.map((e) => ({
+      address: e.address,
+      id: e.id
+    }))
     setLocationObj({ ...locationObj, addresses: arr })
   }
   const save = () => {
     setCitiesLocation([...citiesLocation, locationObj])
+    setIsEntered(false)
   }
 
   return (
@@ -51,7 +57,9 @@ const AddLocation = ({
           onChange={(e) => {
             cityHandleChange(e)
           }}
-          className="margin-10px-top"
+          className="mt-3"
+          placeholder="City"
+          isDisabled={!isEntered}
         />
       ) : (
         ""
@@ -63,13 +71,16 @@ const AddLocation = ({
             onChange={(e) => addressesHandleChange(e)}
             options={addressesOptions}
             isMulti
-            className="margin-10px-top"
+            className="mt-3"
+            placeholder="Address"
+            isDisabled={!isEntered}
           />
 
           <Button
             varian="primary"
-            className="margin-10px-top margin-10px-bottom"
+            className={isEntered ? "my-3 w-50 mx-auto" : "my-3 w-50 mx-auto d-none"}
             onClick={() => save()}
+
           >
             Save
           </Button>
