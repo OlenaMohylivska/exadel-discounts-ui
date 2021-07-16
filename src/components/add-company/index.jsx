@@ -3,146 +3,172 @@ import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
 import axiosInstance from "components/api"
-import CustomModalWindow from "components/custom-modal-window"
 import "./styles.scss"
 import FileUploadPage from "components/upload-file"
 import { useHistory } from "react-router-dom"
-import AddLocation from "../add-location"
 
 const AddCompany = (props) => {
-
-  const [data, setData] = useState({
-    name: "",
-    countries: [],
-    imageId: null
-  })
   const [allLocationList, setAllLocationList] = useState([])
-  const [actualLocation, setActualLocation] = useState([{
-    name: "",
-    cities: [],
-  }]
+  const [cities, setCities] = useState([])
+  const [countries, setCountries] = useState("")
+  const [addresses, setAddresses] = useState("")
 
-  )
-  const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-
-  const [countryLocation, setCountryLocation] = useState([])
-  const [citiesLocation, setCitiesLocation] = useState([])
-  const [fileId, setFileId] = useState(null)
-
-
-  const [show, setShow] = useState(false)
-  const toggleModal = () => setShow(!show)
+  const [companyName, setCompanyName] = useState("")
+  const [city, setCity] = useState({})
+  const [country, setCountry] = useState({})
+  const [address, setAddress] = useState([])
   const [companyPostError, setCompanyPostError] = useState({
     error: null,
     show: false,
   })
-
+  const [fileId, setFileId] = useState(null)
   const history = useHistory()
 
-  const locationOptions = useMemo(() => {
+  const countryOptions = useMemo(() => {
     return (
       allLocationList.length > 0 &&
-      allLocationList.map((country) => ({
-        label: country.name,
-        value: country.name,
-        id: country.id,
-        cities: country.cities
+      allLocationList.map((location) => ({
+        ...location,
+        label: location.name,
+        value: location.name,
       }))
     )
   }, [allLocationList])
 
+  const citiesOptions = useMemo(() => {
+    return (
+      cities.length > 0 &&
+      cities.map((city) => ({
+        ...city,
+        label: city.name,
+        value: city.name,
+      }))
+    )
+  }, [countries])
 
-  const handleChange = (e) => {
-    return setData({ ...data, [e.target.name]: e.target.value })
-  }
-  const locationHandleChange = (e) => {
-    setCountryLocation(e.cities)
-    setActualLocation([{ name: e.value, id: e.id }])
-  }
-  const addNewLocation = () => {
-    setNewLocationsArr([...newLocationsArr, { id: newLocationsArr.length + 1 }])
-  }
+  const addressOptions = useMemo(() => {
+    return (
+      addresses.length > 0 &&
+      addresses.map((address) => ({
+        ...address,
+        label: address.address,
+        value: address.address,
+      }))
+    )
+  }, [cities])
+
   useEffect(() => {
-    const apiUrl = `${process.env.REACT_APP_BASE_BACKEND_URL}/api/location`
-    axiosInstance.get(apiUrl).then((resp) => {
+    axiosInstance.get('/api/location').then((resp) => {
       setAllLocationList(resp.data)
     })
-  }, [])
+  }, [countries])
 
   useEffect(() => {
     if (props.isEdit) {
-      setData(props.company)
+      setCompanyName(props.company.name)
+      setCountry(props.company.countries[0])
+      setCity(props.company.countries[0].cities[0])
+      setAddress(props.company.countries[0].cities[0].addresses.map(address => ({
+        ...address,
+        label: address.address,
+        value: address.address
+      })
+      ))
+      setFileId(props.company.imageId || null)
     }
   }, [])
-  useEffect(() => {
-    setActualLocation([{ ...actualLocation[0], cities: citiesLocation }])
-  }, [citiesLocation])
-
-  useEffect(() => {
-    setData({ ...data, countries: actualLocation })
-  }, [actualLocation])
-
-  useEffect(() => {
-    setData({ ...data, imageId: fileId })
-  }, [fileId])
-
 
   function deleteCompany(id) {
-    axiosInstance.delete(
-      `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`
-    )
+    axiosInstance.delete(`/api/company/${id}`)
+      .then(() => reset())
+      .catch(e => setCompanyPostError({ error: e.message, show: true }))
+    history.goBack()
   }
 
-
   const reset = () => {
-    setData({
-      name: "",
-      countries: [],
-      imageId: null
-    })
+    setCompanyName("")
+    setCountries("")
+    setCities("")
+    setCity("")
+    setCountry("")
+    setAddresses("")
+    setAddress("")
+    setAllLocationList("")
+    setFileId(null)
   }
 
   async function saveCompanyInfo() {
     try {
-      axiosInstance.post(
-        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company`, data)
+      axiosInstance.post(`/api/company`, {
+        name: companyName,
+        imageId: fileId || null,
+        countries: [{
+          name: country.name,
+          id: country.id,
+          cities: [{
+            name: city.name,
+            id: city.id,
+            addresses: addresses.map(item => ({ address: item.address, id: item.id }))
+          }]
+        }]
+      }
+      )
       reset()
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
     }
   }
+
+
   async function updateCompanyInfo() {
     try {
       axiosInstance.put(
-        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`, data)
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`,
+        {
+          name: companyName,
+          imageId: fileId || null,
+          countries: [{
+            name: country.name,
+            id: country.id,
+            cities: [{
+              name: city.name,
+              id: city.id,
+              addresses: addresses.map(item => ({ address: item.address, id: item.id }))
+            }]
+          }]
+        }
+
+
+      )
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
     }
   }
 
-  const getLocation = (
-    <>
-      <div className="address-field">Location </div>
-      {locationOptions && locationOptions.length > 0 ? (
-        <Select
-          options={locationOptions}
-          onChange={(e) => locationHandleChange(e)}
-          placeholder="Country"
-        />
-      ) : (
-        ""
-      )}
-      {newLocationsArr.map((elem) => (
-        <AddLocation
-          key={elem.id}
-          countryLocation={countryLocation}
-          citiesLocation={citiesLocation}
-          setCitiesLocation={setCitiesLocation}
-        />
-      ))}
-      <Button className="my-3 w-75 mx-auto" onClick={() => addNewLocation()}>Add location</Button>
-    </>
-  )
+  const companyNameHandler = (e) => {
+    setCompanyName(e.target.value)
+  }
+
+  const companyAddressHandler = (e) => {
+    setAddresses(e)
+    setAddress(e)
+  }
+
+  const companyCityHandler = (e) => {
+    setCities(e)
+    setAddresses(e.addresses)
+    setCity({ name: e.name, id: e.id })
+    setAddress([])
+  }
+
+  const companyCountryHandler = (e) => {
+    setCountries(e)
+    setCities(e.cities)
+    setCountry({ name: e.name, id: e.id })
+    setCity({})
+    setAddress([])
+    setAddresses([])
+  }
 
   return (
     <Form>
@@ -158,7 +184,6 @@ const AddCompany = (props) => {
               <label className="company-info-subtitle" htmlFor="name">
                 Company Name
               </label>
-
               <InputGroup>
                 <Toast
                   show={companyPostError.show}
@@ -170,15 +195,46 @@ const AddCompany = (props) => {
                   <Toast.Body>{companyPostError.error}</Toast.Body>
                 </Toast>
                 <FormControl
-                  value={data.name ?? ""}
-                  name="name"
+                  value={companyName}
+                  name="company-name"
                   id="name"
-                  onChange={(e) => handleChange(e)}
+                  onChange={companyNameHandler}
                   className="form-field"
                 />
               </InputGroup>
             </div>
-            {getLocation}
+            <div className="company-address ">
+              <label className="company-info-subtitle" htmlFor="country">
+                Country
+              </label>
+              <Select
+                value={{ value: country.name, label: country.name }}
+                className="address-field"
+                onChange={companyCountryHandler}
+                options={countryOptions}
+                required
+              />
+              <label className="company-info-subtitle" htmlFor="city">
+                City
+              </label>
+              <Select
+                value={{ value: city.name, label: city.name }}
+                className="address-field"
+                onChange={companyCityHandler}
+                options={citiesOptions}
+              />
+              <label className="company-info-subtitle" htmlFor="address">
+                Address
+              </label>
+              <Select
+                value={address}
+                className="address-field"
+                onChange={companyAddressHandler}
+                options={addressOptions}
+                placeholder=""
+                isMulti
+              />
+            </div>
           </div>
 
           <div className="btn-field d-flex justify-content-between">
@@ -186,7 +242,7 @@ const AddCompany = (props) => {
               <Button
                 variant="primary"
                 className="btn company-info-btn"
-                onClick={updateCompanyInfo}
+                onClick={() => updateCompanyInfo()}
               >
                 Update company info
               </Button>
@@ -201,21 +257,9 @@ const AddCompany = (props) => {
             )}
             {props.isEdit ? (
               <Button
-                variant="secondary"
-                className="btn company-info-btn"
-                onClick={() => {
-                  history.goBack()
-                }}
-              >
-                Go back to admin panel
-              </Button>
-            ) : null}
-            {props.isEdit ? (
-              <Button
                 variant="danger"
                 className="btn company-info-btn mx-3"
                 onClick={() => {
-                  toggleModal()
                   deleteCompany(props.company.id)
                 }}
               >
@@ -225,13 +269,6 @@ const AddCompany = (props) => {
           </div>
         </div>
       </div>
-      {props.isEdit && (
-        <CustomModalWindow
-          show={show}
-          handleClose={toggleModal}
-          modalText="Company has been deleted"
-        />
-      )}
     </Form>
   )
 }

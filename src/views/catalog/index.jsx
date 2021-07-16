@@ -36,7 +36,6 @@ const Catalog = () => {
   })
 
   const [searching, setSearching] = useState(false)
-  console.log(searchLocation)
   const cityOptions = citiesLocation.map((city) => {
     return {
       value: city.name,
