@@ -15,12 +15,14 @@ import {
 } from "react-bootstrap-icons"
 import moment from "moment"
 import { Context } from "store/context"
+import CustomModalWindow from "components/custom-modal-window"
+import GoogleMap from "components/google-map/googleMap"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
-  const [show, setShow] = useState(false)
+  const [showBtn, setShowBtn] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const { id } = useParams()
@@ -28,6 +30,19 @@ const DiscountPage = () => {
   const [review, setReview] = useState(null)
   const [allRating, setAllRating] = useState({})
   const images = useContext(Context)
+  const [show, setShow] = useState(false)
+
+  const toggleModal = () => {
+    setShow(!show)
+  }
+
+  const addressCountry = discount && discount.country && discount.country.name
+  const fullAddressLocations = addressCountry && discount.country.cities.map(city => {
+    return city.addresses.map(el => {
+      return el.address ? `${addressCountry} ${city.name} ${el.address}`
+        : el.addresses.map(el => `${addressCountry} ${el.address}`)
+    })
+  }).flat()
 
   const fetchData = async () => {
     setLoading(true)
@@ -128,18 +143,6 @@ const DiscountPage = () => {
                 </span>
               </div>
               <div className="discount-subtitle">
-                <Globe className="discount-icon" />
-                Location:&nbsp;
-                <div className="discount-info">
-                  {discount.countries &&
-                    discount.countries.map((country) =>
-                      country.cities.map((city) => (
-                        <div key={city.id}>{city.name}</div>
-                      ))
-                    )}
-                </div>
-              </div>
-              <div className="discount-subtitle">
                 <BackspaceReverse className="discount-icon" />
                 Expire at:&nbsp;
                 <span className="discount-info">
@@ -151,52 +154,34 @@ const DiscountPage = () => {
                 Description:&nbsp;
                 <span className="discount-info">{discount.description}</span>
               </span>
-              <div>
-                <span className="discount-subtitle">Reviews:</span>
-                <Row className="reviews-container">
-                  <Col className="stars-container">
-                    <div className="average-rating">
-                      {countAverage() ? countAverage() : 0}
-                    </div>
-
-                    <div>
-                      <StarRatings
-                        starDimension="20px"
-                        starSpacing="4px"
-                        rating={countAverage() ? countAverage() : 0}
-                        starRatedColor="#FFD700"
-                      />
-                    </div>
-                  </Col >
-                  <Col className="bars-container">
-
-                    <div className="rating-numbers">
-                      {allRating.rating.map((rating, index) => {
-                        return (
-                          <div key={index} className="rating-numbers-item">{rating}</div>
-                        )
-                      })}
-                    </div>
-
-                    <div>
-                      {allRating.ratingCount.map((ratingCount, index) => {
-                        return (
-                          <div key={index} className="progress-bar-container">
-                            <ProgressBar
-                              title={ratingCount}
-                              max={allRating.maximalCount}
-                              now={ratingCount}
-                              variant="success"
-                              animated />
-                          </div>
-                        )
-                      })
-                      }
-                    </div>
-                  </Col>
-                </Row>
+              <div className="discount-subtitle">
+                <Globe className="discount-icon" />
+                Location:&nbsp;
+                {fullAddressLocations ?
+                  <div className="discount-info">
+                    {fullAddressLocations.map((location) => (
+                      <div className="mx-4 my-2" key={location}>{location}</div>
+                    ))
+                    }
+                  </div> : <span className="discount-info">No information</span>
+                }
               </div>
+              <div>
+                {addressCountry &&
+                  <div className="google-map-icon-container" onClick={toggleModal}>
+                    <GoogleMap onClick={toggleModal}></GoogleMap>
+                    <div className="superimposed-block"><h2 className="superimposed-block-text">Tap here to open map</h2></div>
+                  </div>
+                }
 
+                {show && <CustomModalWindow
+                  show={show}
+                  handleClose={toggleModal}
+                  modalText=""
+                  locations={fullAddressLocations}
+                />}
+
+              </div>
             </Col>
             <Col lg={6}>
               <div className="img-container">
@@ -209,11 +194,53 @@ const DiscountPage = () => {
                   alt="discount-img"
                 />
               </div>
+              <Row className="reviews-container">
+                <Col className="stars-container">
+                  <div className="average-rating">
+                    {countAverage() ? countAverage() : 0}
+                  </div>
+
+                  <div>
+                    <StarRatings
+                      starDimension="20px"
+                      starSpacing="4px"
+                      rating={countAverage() ? countAverage() : 0}
+                      starRatedColor="#FFD700"
+                    />
+                  </div>
+                </Col >
+                <Col className="bars-container">
+
+                  <div className="rating-numbers">
+                    {allRating.rating.map((rating, index) => {
+                      return (
+                        <div key={index} className="rating-numbers-item">{rating}</div>
+                      )
+                    })}
+                  </div>
+
+                  <div>
+                    {allRating.ratingCount.map((ratingCount, index) => {
+                      return (
+                        <div key={index} className="progress-bar-container">
+                          <ProgressBar
+                            title={ratingCount}
+                            max={allRating.maximalCount}
+                            now={ratingCount}
+                            variant="success"
+                            animated />
+                        </div>
+                      )
+                    })
+                    }
+                  </div>
+                </Col>
+              </Row>
               <div>
                 <div className="action">
                   <Button
                     className="w-25 d-flex align-self-end justify-content-center"
-                    onClick={() => setShow(!show)}
+                    onClick={() => setShowBtn(!showBtn)}
                     variant="primary"
                   >
                     Order
@@ -241,7 +268,7 @@ const DiscountPage = () => {
                   </div>
                 </div>
                 <div className="d-flex justify-content-end">
-                  <p className={`${!show ? "hide" : "display"}`}>
+                  <p className={`${!showBtn ? "hide" : "display"}`}>
                     {discount.promoCode}
                   </p>
                 </div>
