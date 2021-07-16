@@ -105,7 +105,7 @@ const Statistics = () => {
   /*4 */
   useEffect(() => {
     axiosInstance
-      .get(baseUrl + "/api/tags/statistic/categories")
+      .get(baseUrl + "/api/category/statistic/categories")
       .then((response) => {
 
         setCategoriesByOrders({
@@ -233,8 +233,8 @@ const Statistics = () => {
                 />
               </div>
               <div className="statistics-btn-area">
-                <Button onClick={() => { downloadStatistics("/api/tags/statistic/downloadXLSXOrdersByCategories", "OrdersByCategories.xlsx") }}>Download XLSX</Button>
-                <Button onClick={() => { downloadStatistics("/api/tags/statistic/downloadCSVOrdersByCategories", "OrdersByCategories.csv") }}>Download CSV</Button>
+                <Button onClick={() => { downloadStatistics("/api/category/statistic/downloadXLSXOrdersByCategories", "OrdersByCategories.xlsx") }}>Download XLSX</Button>
+                <Button onClick={() => { downloadStatistics("/api/category/statistic/downloadCSVOrdersByCategories", "OrdersByCategories.csv") }}>Download CSV</Button>
               </div>
             </Col>
             <Col>
