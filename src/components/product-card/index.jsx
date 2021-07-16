@@ -9,6 +9,7 @@ import moment from "moment"
 function ProductCard({ elem }) {
   const [img, setImg] = useState(null)
   const [order, setOrder] = useState(false)
+  const defaultImg = 'https://img.icons8.com/plasticine/2x/no-image.png'
 
   const orderToggle = () => {
     setOrder(true)
@@ -22,7 +23,7 @@ function ProductCard({ elem }) {
   let blob = new Blob([img], { type: "image/jpeg" })
   const url = blob && URL.createObjectURL(blob)
   return (
-    <Card className=" shadow product-card">
+    <Card className=" shadow product-card border-0">
       <Link
         key={elem.id}
         to={{
@@ -36,7 +37,7 @@ function ProductCard({ elem }) {
           expires in {moment(elem && elem.periodEnd).format("MMM Do YYYY")}
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
-        {url && <Card.Img variant="top" className="product-image" src={url} />}
+        {url && <Card.Img variant="top" className="product-image" src={defaultImg} />}
       </Link>
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">

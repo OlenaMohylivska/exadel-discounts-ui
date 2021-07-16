@@ -13,9 +13,6 @@ const discountDefaultImg = "https://img.icons8.com/plasticine/2x/no-image.png"
 const PromotionInfo = ({ elem }) => {
   const [imgName, setImgName] = useState(null)
   const [imgUrl, setImgUrl] = useState(null)
-  let blob = new Blob([imgName], { type: "image/jpeg" })
-  const url = blob && URL.createObjectURL(blob)
-
   const formattedData = moment(elem.periodEnd).format("MMM Do YYYY")
 
   const history = useHistory()
@@ -26,12 +23,14 @@ const PromotionInfo = ({ elem }) => {
       .get(`${baseUrl}/api/images`)
       .then((response) => setImgName(response.data.name))
   }, [elem])
-
   useEffect(async () => {
     await axiosInstance
       .get(`${baseUrl}/api/images/${imgName}`)
       .then((response) => setImgUrl(response.data))
   }, [elem])
+
+  let blob = new Blob([imgUrl], { type: "image/png" })
+  const url = blob && URL.createObjectURL(blob)
 
   const updateItemHandler = () => {
     history.push(`${path}/edit-item/${elem.id}`)
@@ -43,10 +42,7 @@ const PromotionInfo = ({ elem }) => {
         <Link
           key={elem.id}
           to={{
-            pathname: `/update-discount/${elem.id}`,
-            state: {
-              image: elem.img,
-            },
+            pathname: `${path}/edit-item/${elem.id}`,
           }}
         >
           <Card.Subtitle className="product-actuality text-muted">
@@ -56,7 +52,7 @@ const PromotionInfo = ({ elem }) => {
           <Card.Img
             variant="top"
             className="product-image"
-            src={imgUrl ? url : discountDefaultImg}
+            src={url ? url : discountDefaultImg}
           />
         </Link>
         <Card.Body className="p-0 d-flex flex-column justify-content-between">

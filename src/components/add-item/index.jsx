@@ -133,7 +133,7 @@ const AddItem = (props) => {
 
   //// send file to server
   // useEffect(() => {
-  //   axiosInstance.post("/api/images", file).then((res) => console.log(res))
+  //   axiosInstance.post("/api/images", file).then((res) => (res))
   // }, [file])
   /////
   ///// useEffects FOR FETCH DATA
