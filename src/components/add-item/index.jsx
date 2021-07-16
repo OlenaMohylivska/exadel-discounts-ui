@@ -8,6 +8,7 @@ import FileUploadPage from "components/upload-file"
 import { useHistory } from "react-router-dom"
 import PropTypes from "prop-types"
 import AddLocation from "../add-location"
+import ToastElement from "components/toast"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -41,13 +42,8 @@ const AddItem = (props) => {
   const [countryLocation, setCountryLocation] = useState(null)
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
   const [fileId, setFileId] = useState({ file: null })
-  /////// end states
+  const [successMessage, setSuccessMessage] = useState(false)
 
-  ////consoles put here if it needs
-
-  ////// end consoles
-
-  ////// selector options
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -184,6 +180,7 @@ const AddItem = (props) => {
         setDiscountPostError({ error: e.message, show: true })
       }
     }
+    setSuccessMessage(true)
   }
   const edit = async () => {
     const errorsObj = validate()
@@ -378,9 +375,9 @@ const AddItem = (props) => {
               value={data.promoCode ? data.promoCode : ""}
             />
           </InputGroup>
-
           {errors.promoCode ? <ValidationError error={errors.promoCode} /> : ""}
         </div>
+        {successMessage && <ToastElement />}
       </div>
     </Form>
   )
