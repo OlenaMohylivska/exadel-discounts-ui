@@ -10,17 +10,96 @@ import Pagination from "components/pagination"
 import axiosInstance from "../../components/api"
 
 const Catalog = () => {
-  const { cardImages } = useContext(Context)
+  const images = useContext(Context)
   const [discounts, setDiscounts] = useState(null)
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
+  const [citiesLocation, setCitiesLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
   const [fetchError, setFetchError] = useState(null)
   const [itemsPerPage, setItemsPerPage] = useState(8)
   const [loading, setLoading] = useState(false)
-  console.log(cardImages)
+  const [search, setSearch] = useState({
+    // companies: [""],
+    itemsPerPage: 10,
+    // orders: [
+    //   {
+    //     direction: "ASC",
+    //     sortBy: "",
+    //   },
+    // ],
+    // pageNum: 0,
+    // rate: 0,
+    // searchText: "",
+    // tags: [],
+  })
 
+  const [searching, setSearching] = useState(false)
+  const cityOptions = citiesLocation.map((city) => {
+    return {
+      value: city.name,
+      label: city.name,
+    }
+  })
+
+  const handleSearchCompanies = (e) => {
+    setSearch({ ...search, companies: [e.label] })
+    setSearching(true)
+    setLoading(true)
+  }
+  const handleSearchTags = (e) => {
+    const arr = e.map((e) => e.value)
+    setSearch({ ...search, tags: arr })
+    setSearching(true)
+    setLoading(true)
+  }
+  const handleSortingOption = (e) => {
+    const orders = {
+      orders: [
+        {
+          sortBy: e.value,
+        },
+      ],
+    }
+    setSearch({ ...search, orders: orders.orders })
+    setSearching(true)
+    setLoading(true)
+  }
+  const handleSearchText = (e) => {
+    setSearch({ ...search, searchText: e.target.value })
+    setTimeout(funcHelperForSearching, 2000)
+  }
+  const handleSearchLocation = (e) => {
+    setSearch({
+      ...search,
+      locationCriteria: { country: e.value, cities: null },
+    })
+    setCitiesLocation(e.country)
+    setSearching(true)
+    setLoading(true)
+  }
+  const handleSearchCity = (e) => {
+    setSearch({ ...search, locationCriteria: { cities: e.value } })
+    setSearching(true)
+    setLoading(true)
+  }
+  const funcHelperForSearching = () => {
+    setSearching(true)
+    setLoading(true)
+  }
+
+  useEffect(() => {
+    if (searching) {
+      axiosInstance
+        .post("/api/discounts/search", search)
+        .then((res) => setDiscounts(res.data.content))
+      setLoading(false)
+      setSearching(false)
+    } else {
+      return
+    }
+  }, [searching])
   const fetchData = async () => {
     setLoading(true)
     try {
@@ -28,8 +107,10 @@ const Catalog = () => {
         .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
         .then((response) =>
           setDiscounts(() =>
-            response.data.map((el) => ({
+            response.data.map((el, index) => ({
               ...el,
+
+              img: images.productImages[index],
             }))
           )
         )
@@ -77,18 +158,21 @@ const Catalog = () => {
   //   setDiscounts(topRated)
   // }
 
-  const sortingByRate = ["Top rated"]
+  const sortingByRate = [{ label: "Sort by rate", value: "rate" }]
   const companiesOptions = useMemo(() => {
     return searchCompanies.map((company) => ({
       label: company.name,
-      value: company.value,
+      value: company.name,
     }))
   })
 
-  const citiesOptions = searchLocation.map((location) => ({
-    label: location.name,
-    value: location.name,
-  }))
+  const countryOptions =
+    searchLocation &&
+    searchLocation.map((location) => ({
+      label: location.name,
+      value: location.name,
+      country: location.cities,
+    }))
 
   const categoriesOptions = filterTags.map((el) => {
     return {
@@ -99,18 +183,10 @@ const Catalog = () => {
 
   const sortingOptions = sortingByRate.map((el) => {
     return {
-      value: el,
-      label: el,
+      value: el.value,
+      label: el.label,
     }
   })
-
-  const handleSortingOption = (option) => {
-    if (option.value === "Top rated") {
-      const sortedArr = [...discounts]
-      sortedArr.sort((a, b) => (a.rate < b.rate ? 1 : -1))
-      setDiscounts(sortedArr)
-    }
-  }
 
   return (
     <>
@@ -126,33 +202,50 @@ const Catalog = () => {
                 </div>
                 <Form className="search-input">
                   <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Control type="text" placeholder="Enter your search" />
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => handleSearchText(e)}
+                      placeholder="Enter your search"
+                    />
                   </Form.Group>
                 </Form>
               </label>
             </div>
 
             <div className=" catalog-filters width-100">
-              <Select
-                className="catalog-selects"
-                options={citiesOptions}
-                placeholder="Location"
-              />
+              <div className="location-column">
+                <Select
+                  className="catalog-selects-width-100"
+                  options={countryOptions}
+                  placeholder="Location"
+                  onChange={(e) => handleSearchLocation(e)}
+                />
+                {cityOptions.length > 0 && (
+                  <Select
+                    className="catalog-selects-width-100"
+                    options={cityOptions}
+                    placeholder="City"
+                    onChange={(e) => handleSearchCity(e)}
+                  />
+                )}
+              </div>
               <Select
                 className="catalog-selects"
                 options={companiesOptions}
                 placeholder="Companies"
+                onChange={(e) => handleSearchCompanies(e)}
               />
               <Select
                 className="catalog-selects"
                 isMulti
                 options={categoriesOptions}
                 placeholder="Categories"
+                onChange={(e) => handleSearchTags(e)}
               />
               <Select
                 className="catalog-selects"
                 options={sortingOptions}
-                onChange={(option) => handleSortingOption(option)}
+                onChange={(e) => handleSortingOption(e)}
                 placeholder="Sorting by..."
               />
             </div>
@@ -160,7 +253,7 @@ const Catalog = () => {
 
           {loading && (
             <div className="spin-container">
-              <Spinner className="spin-loader" animation="border" />
+              <Spinner className="spin-loader" animation="border" variant="info" />
             </div>
           )}
           {discounts && (

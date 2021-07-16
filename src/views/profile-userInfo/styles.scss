@@ -5,7 +5,6 @@
   justify-content: space-between;
   margin-top: 3rem;
 
-
   .profile-img {
     max-width: 25%;
     margin-bottom: 1.5rem;
@@ -17,7 +16,7 @@
     padding-left: 2rem;
     flex: 1;
 
-    .filled-in{
+    .filled-in {
       font-weight: bold;
     }
 
@@ -47,11 +46,5 @@
     .subscriptions-btn {
       margin-top: 2rem;
     }
-    .subsription-buttons {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
   }
 }

@@ -5,10 +5,9 @@ import { SuitHeartFill } from 'react-bootstrap-icons'
 import StarRatings from 'react-star-ratings'
 import './styles.css'
 import { Link } from 'react-router-dom'
-import { formattedData } from 'store/utils'
+import moment from "moment"
 
 const LinearProductCard = ({ discount, buttonText, discounts, setDiscounts }) => {
-
   const toggleFavourite = id => {
     setDiscounts(
       discounts.map(el => {
@@ -27,21 +26,24 @@ const LinearProductCard = ({ discount, buttonText, discounts, setDiscounts }) =>
           <Link to={`/discount/${discount.id}`} key={discount.id}>
             <Card.Body>
               <div className="d-flex flex-row">
-                <Card.Subtitle className="text-secondary">Expires in: {formattedData(discount.periodEnd)} </Card.Subtitle>
+                <Card.Subtitle className="text-secondary">
+                  Expires in: {moment(discount.discount ? discount.discount.periodEnd : discount.periodEnd).format("MMM Do YYYY")}
+                </Card.Subtitle>
               </div>
               <div>
-                <Card.Title className="my-4 text-center">{discount.name}</Card.Title>
+                <Card.Title className="my-4 text-center">{discount.discount ? discount.discount.name : discount.name}</Card.Title>
                 <Card.Img variant="top" className="prod-image" src={discount.image} />
-                <Card.Subtitle className="my-3 text-muted discount-description">{discount.description}</Card.Subtitle>
+                <Card.Subtitle className="my-3 text-muted discount-description">
+                  {discount.discount ? discount.discount.description : discount.description}
+                </Card.Subtitle>
               </div>
-
               <div className="d-flex justify-content-center">
-                <StarRatings starDimension="27px" starSpacing="5px" rating={discount.rate} starRatedColor="gold" />
+                <StarRatings starDimension="27px" starSpacing="5px" rating={discount.rate ?? 0} starRatedColor="gold" />
               </div>
             </Card.Body>
-            { buttonText && <div className="d-flex justify-content-center">
+            {buttonText && <div className="d-flex justify-content-center">
               <Button variant="primary" className="h-100 px-4">{buttonText}</Button>
-            </div> }
+            </div>}
           </Link>
           {SuitHeartFill &&
             <div className="star-wrapper">

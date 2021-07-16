@@ -9,19 +9,17 @@
 }
 .company-additional-info {
   display: flex;
-  flex-direction: col;
+  flex-direction: column;
 }
 .company-info-subtitle {
-  margin-top: 1rem;
+  margin: 1rem 0 .3rem;
 }
 
-.company-info-btn {
+.company-info-btn, .address-field {
   margin-top: 1rem;
 }
 
 .company-info-textarea {
   resize: none;
 }
-.address-field {
-  margin-bottom: 1rem;
-}
+

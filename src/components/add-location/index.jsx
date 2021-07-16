@@ -3,102 +3,89 @@ import Select from "react-select"
 import PropTypes from "prop-types"
 import { Button } from "react-bootstrap"
 
-const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
-  const [locationBuilder, setLocationBuilder] = useState({
-    country: { name: "", cities: [] },
-  })
-  const [cityLocation, setCityLocation] = useState([])
-  const [countryTargetLocation, setCountryTargetLocation] = useState("")
-  const [cityTargetLocation, setCityTargetLocation] = useState("")
-  const [addressLocation, setAddressLocation] = useState([])
-  const [check, setCheck] = useState(false)
-  const countryOptions = chooseLocation.map((country) => {
-    return {
-      value: country.name,
-      label: country.name,
-      cities: country.cities,
-    }
-  })
+const AddLocation = ({
+  countryLocation,
+  citiesLocation,
+  setCitiesLocation,
+}) => {
+  const [locationObj, setLocationObj] = useState({ name: "", addresses: [] })
+  const [addressesList, setAddressesList] = useState([])
+  const [isEntered, setIsEntered] = useState(true)
 
-  const countryHandleChange = (e) => {
-    setCityLocation(e.cities)
-    setCountryTargetLocation(e.value)
-  }
-  const cityOptions = cityLocation.map((city) => {
-    return {
-      value: city.name,
-      label: city.name,
-      addresses: city.addresses,
-    }
-  })
+  ////city
+  const citiesOptions =
+    countryLocation &&
+    countryLocation.map((city) => {
+      return {
+        value: city.name,
+        label: city.name,
+        id: city.id,
+        addresses: city.addresses,
+      }
+    })
   const cityHandleChange = (e) => {
-    setAddressLocation(e.addresses)
-    setCityTargetLocation(e.value)
+    setLocationObj({ name: e.value, id: e.id })
+    setAddressesList(e.addresses)
   }
-
-  const addressOptions = addressLocation.map((address) => {
+  ////address
+  const addressesOptions = addressesList.map((address) => {
     return {
       value: address.address,
       label: address.address,
-      address: { address: address.address },
+      address: address.address,
+      id: address.id,
     }
   })
-  const addressHandleChange = (e) => {
-    const arr = e.map((elem) => elem.address)
-    setLocationBuilder({
-      country: countryTargetLocation,
-      cities: [{ name: cityTargetLocation, addresses: arr }],
-    })
-  }
 
-  const addToActualLocation = () => {
-    if (check) {
-      setActualLocation([...actualLocation, locationBuilder])
-      setCheck(false)
-    } else {
-      return
-    }
+  const addressesHandleChange = (e) => {
+    const arr = e.map((e) => ({
+      address: e.address,
+      id: e.id
+    }))
+    setLocationObj({ ...locationObj, addresses: arr })
   }
-  addToActualLocation()
-  const selectCountry = (
-    <Select
-      options={countryOptions}
-      onChange={(e) => {
-        countryHandleChange(e)
-      }}
-      placeholder="country"
-    />
-  )
-  const selectCity = (
-    <Select
-      options={cityOptions}
-      onChange={(e) => cityHandleChange(e)}
-      placeholder="city"
-    />
-  )
-  const selectAdress = (
-    <Select
-      onChange={(e) => {
-        addressHandleChange(e)
-      }}
-      options={addressOptions}
-      placeholder="street"
-      isMulti
-    />
-  )
+  const save = () => {
+    setCitiesLocation([...citiesLocation, locationObj])
+    setIsEntered(false)
+  }
 
   return (
     <>
-      {chooseLocation.length !== 0 && selectCountry}
-      {cityLocation.length !== 0 && selectCity}
-      {addressLocation.length !== 0 && selectAdress}
+      {citiesOptions && citiesOptions.length > 0 ? (
+        <Select
+          options={citiesOptions}
+          onChange={(e) => {
+            cityHandleChange(e)
+          }}
+          className="mt-3"
+          placeholder="City"
+          isDisabled={!isEntered}
+        />
+      ) : (
+        ""
+      )}
 
-      <Button
-        onClick={() => setActualLocation([...actualLocation, locationBuilder])}
-        variant="primary"
-      >
-        save
-      </Button>
+      {addressesOptions && addressesOptions.length > 0 && (
+        <>
+          <Select
+            onChange={(e) => addressesHandleChange(e)}
+            options={addressesOptions}
+            isMulti
+            className="mt-3"
+            placeholder="Address"
+            isDisabled={!isEntered}
+          />
+
+          <Button
+            varian="primary"
+            className={isEntered ? "my-3 w-50 mx-auto" : "my-3 w-50 mx-auto d-none"}
+            onClick={() => save()}
+
+          >
+            Save
+          </Button>
+        </>
+      )}
     </>
   )
 }
@@ -106,7 +93,7 @@ const AddLocation = ({ chooseLocation, actualLocation, setActualLocation }) => {
 export default AddLocation
 
 AddLocation.propTypes = {
-  chooseLocation: PropTypes.array,
-  actualLocation: PropTypes.array,
-  setActualLocation: PropTypes.func,
+  countryLocation: PropTypes.array,
+  citiesLocation: PropTypes.array,
+  setCitiesLocation: PropTypes.func,
 }

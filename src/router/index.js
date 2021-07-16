@@ -16,7 +16,9 @@ import EditSlider from "components/edit-slider"
 import Statistics from "components/statistics"
 import Companies from "components/companies"
 import Promotions from "components/promotions"
+import ProfileUserInfo from "views/profile-userInfo"
 import "./styles.scss"
+import OrderConfirm from "views/order-confirmation"
 
 function AppRouter() {
   return (
@@ -33,14 +35,21 @@ function AppRouter() {
       <Route path="/profile">
         {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Profile />}
       </Route>
-      <Route path="/history-page">
+      <Route path="/profile/info">
+        {!localStorage.getItem("jwt") ? (
+          <Redirect to="/login" />
+        ) : (
+          <ProfileUserInfo />
+        )}
+      </Route>
+      <Route path="/profile/history">
         {!localStorage.getItem("jwt") ? (
           <Redirect to="/login" />
         ) : (
           <HistoryPage />
         )}
       </Route>
-      <Route path="/favourite">
+      <Route path="/profile/favourite">
         {!localStorage.getItem("jwt") ? (
           <Redirect to="/login" />
         ) : (
@@ -113,6 +122,9 @@ function AppRouter() {
 
       <Route path="/admin/all-promotions" exact>
         <Promotions />
+      </Route>
+      <Route path="/order-confirmation/:id">
+        <OrderConfirm />
       </Route>
     </>
   )

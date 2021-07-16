@@ -1,11 +1,10 @@
 import React, { useState } from "react"
 import "./styles.scss"
-import { Button, FormControl, InputGroup } from "react-bootstrap"
+import { Button } from "react-bootstrap"
 import Select from "react-select"
 
 function ProfileUserInfo() {
   const [category, setCategory] = useState([])
-  const [expirationDate, setExpirationDate] = useState([])
 
   const categoryOptions = [
     { value: "Food", label: "Food" },
@@ -15,9 +14,6 @@ function ProfileUserInfo() {
 
   const handleChangeCategory = (e) => {
     setCategory(e)
-  }
-  const handleExpirationFilter = (e) => {
-    setExpirationDate(e.target.value)
   }
 
   return (
@@ -51,20 +47,9 @@ function ProfileUserInfo() {
           onChange={(e) => handleChangeCategory(e)}
           value={category}
           placeholder="Select..."
+          isMulti
         />
-        <h5 className="subscriptions-title">Choose by expiration date</h5>
-        <InputGroup>
-          <FormControl
-            type="date"
-            name="periodEnd"
-            value={expirationDate ? expirationDate : ""}
-            onChange={handleExpirationFilter}
-          />
-        </InputGroup>
-        <div className="subsription-buttons">
-          <Button className="subscriptions-btn">Sort by criteria</Button>
-          <Button className="subscriptions-btn">View all</Button>
-        </div>
+        <Button className="subscriptions-btn">Subscribe to updates</Button>
       </div>
     </div>
   )
