@@ -8,6 +8,7 @@ import moment from "moment"
 import axiosInstance from "components/api"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+const discountDefaultImg = "https://img.icons8.com/plasticine/2x/no-image.png"
 
 const PromotionInfo = ({ elem }) => {
   const [imgName, setImgName] = useState(null)
@@ -52,15 +53,11 @@ const PromotionInfo = ({ elem }) => {
             expires in {formattedData}
           </Card.Subtitle>
           <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
-          {imgUrl ? (
-            <Card.Img variant="top" className="product-image" src={url} />
-          ) : (
-            <Card.Img
-              variant="top"
-              className="product-image"
-              src="https://img.icons8.com/plasticine/2x/no-image.png"
-            />
-          )}
+          <Card.Img
+            variant="top"
+            className="product-image"
+            src={imgUrl ? url : discountDefaultImg}
+          />
         </Link>
         <Card.Body className="p-0 d-flex flex-column justify-content-between">
           <div>

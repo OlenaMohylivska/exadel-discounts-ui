@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Container, Form, Button, Spinner } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import axiosInstance from "components/api"
-import { Redirect } from "react-router-dom"
+import { useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
 import PromotionInfo from "components/promotionInfo"
 
@@ -11,8 +11,11 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const Promotions = () => {
   const [discounts, setDiscounts] = useState([])
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
-  const [newDiscount, setNewDiscount] = useState(false)
   const [loading, setLoading] = useState(false)
+  const history = useHistory()
+  const { path } = useRouteMatch('/admin')
+  console.log(history)
+
 
   useEffect(async () => {
     try {
@@ -27,7 +30,7 @@ const Promotions = () => {
   }, [])
 
   const newDiscountHandler = () => {
-    setNewDiscount(!newDiscount)
+    history.push(`${path}/add-item`)
   }
 
   return (
@@ -55,7 +58,6 @@ const Promotions = () => {
           Add new discount
         </Button>
       </div>
-      {newDiscount ? <Redirect to="/admin/add-item" /> : ""}
       {loading && (
         <div className="spin-container">
           <Spinner className="spin-loader" animation="border" variant="info" />
