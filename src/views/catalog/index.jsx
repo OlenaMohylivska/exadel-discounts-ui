@@ -36,7 +36,6 @@ const Catalog = () => {
   })
 
   const [searching, setSearching] = useState(false)
-  console.log(searchLocation)
   const cityOptions = citiesLocation.map((city) => {
     return {
       value: city.name,
@@ -254,7 +253,7 @@ const Catalog = () => {
 
           {loading && (
             <div className="spin-container">
-              <Spinner className="spin-loader" animation="border" />
+              <Spinner className="spin-loader" animation="border" variant="info" />
             </div>
           )}
           {discounts && (

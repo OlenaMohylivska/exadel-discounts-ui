@@ -20,7 +20,6 @@ const CompanyInfo = ({ name, id }) => {
       .get(baseUrl + url)
       .then((response) => setFunc(response.data))
   }
-  console.log(logo)
 
   useEffect(() => {
     fetchData(`/api/images/${id}`, setLogo)
