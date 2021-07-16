@@ -16,6 +16,8 @@ function ProfileUserInfo() {
     setCategory(e)
   }
 
+  const subscriptionHandler = () => {}
+
   return (
     <div className="profile">
       <div className="profile-info">
@@ -49,7 +51,9 @@ function ProfileUserInfo() {
           placeholder="Select..."
           isMulti
         />
-        <Button className="subscriptions-btn">Subscribe to updates</Button>
+        <Button className="subscriptions-btn" onClick={subscriptionHandler}>
+          Subscribe to updates
+        </Button>
       </div>
     </div>
   )

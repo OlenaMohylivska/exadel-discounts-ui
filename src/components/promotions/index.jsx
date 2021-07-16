@@ -13,8 +13,7 @@ const Promotions = () => {
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [loading, setLoading] = useState(false)
   const history = useHistory()
-  const { path } = useRouteMatch('/admin')
-
+  const { path } = useRouteMatch("/admin")
 
   useEffect(async () => {
     try {
@@ -27,7 +26,6 @@ const Promotions = () => {
       setDiscountsFetchError(e.message)
     }
   }, [])
-
   const newDiscountHandler = () => {
     history.push(`${path}/add-item`)
   }

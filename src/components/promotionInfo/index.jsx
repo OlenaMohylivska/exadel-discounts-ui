@@ -12,7 +12,6 @@ const discountDefaultImg = "https://img.icons8.com/plasticine/2x/no-image.png"
 
 const PromotionInfo = ({ elem }) => {
   const [imgName, setImgName] = useState(null)
-  const [imgUrl, setImgUrl] = useState(null)
   const formattedData = moment(elem.periodEnd).format("MMM Do YYYY")
 
   const history = useHistory()
@@ -20,22 +19,16 @@ const PromotionInfo = ({ elem }) => {
 
   useEffect(async () => {
     await axiosInstance
-      .get(`${baseUrl}/api/images`)
-      .then((response) => setImgName(response.data.name))
-  }, [elem])
-  useEffect(async () => {
-    await axiosInstance
-      .get(`${baseUrl}/api/images/${imgName}`)
-      .then((response) => setImgUrl(response.data))
+      .get(`${baseUrl}/api/images/${elem.imageName}`)
+      .then((response) => setImgName(response.data))
   }, [elem])
 
-  let blob = new Blob([imgUrl], { type: "image/png" })
+  let blob = new Blob([imgName], { type: "image/png" })
   const url = blob && URL.createObjectURL(blob)
 
   const updateItemHandler = () => {
     history.push(`${path}/edit-item/${elem.id}`)
   }
-
   return (
     <Container className="discount-wrapper">
       <Card className=" shadow product-card border-0">
@@ -84,7 +77,7 @@ export default PromotionInfo
 PromotionInfo.propTypes = {
   elem: PropTypes.shape({
     id: PropTypes.number,
-    imageId: PropTypes.number,
+    imageName: PropTypes.string,
     periodEnd: PropTypes.number,
     name: PropTypes.string,
     description: PropTypes.string,
