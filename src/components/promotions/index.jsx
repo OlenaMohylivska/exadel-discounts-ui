@@ -14,7 +14,6 @@ const Promotions = () => {
   const [loading, setLoading] = useState(false)
   const history = useHistory()
   const { path } = useRouteMatch('/admin')
-  console.log(history)
 
 
   useEffect(async () => {
