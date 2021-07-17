@@ -51,18 +51,12 @@ const DiscountPage = () => {
       setLoading(false)
     }
   }
-  useEffect(() => {
-    fetchData()
-  }, [])
 
-  useEffect(() => {
-    axiosInstance.put(`api/discounts/${id}/views`)
-  }, [])
-  useEffect(() => {
+  const getReviews = () => {
     setLoading(true)
     try {
       axiosInstance
-        .get(`${baseUrl}/api/discounts/${id}/reviews`)
+        .get(`/api/discounts/${id}/reviews`)
         .then(response => {
           setAllRating({
             rating: Object.keys(response.data).reverse(),
@@ -74,6 +68,19 @@ const DiscountPage = () => {
     } catch (e) {
       setErrorMessage(e.message)
     }
+  }
+
+  useEffect(() => {
+    fetchData()
+    getReviews()
+  }, [])
+
+  useEffect(() => {
+    axiosInstance.put(`api/discounts/${id}/views`)
+  }, [])
+
+  useEffect(() => {
+    getReviews()
   }, [rating, review])
 
   useEffect(() => {
@@ -91,16 +98,18 @@ const DiscountPage = () => {
     })
   }, [rating])
 
-
   const countAverage = () => {
-    let sum = 0
-    let reviewsCount = 0
-    for (let i = 0; i < allRating.rating.length; i++) {
-      sum += allRating.rating[i] * allRating.ratingCount[i]
-      reviewsCount += allRating.ratingCount[i]
+    if (allRating) {
+      let sum = 0
+      let reviewsCount = 0
+      for (let i = 0; i < allRating.rating.length; i++) {
+        sum += allRating.rating[i] * allRating.ratingCount[i]
+        reviewsCount += allRating.ratingCount[i]
+      }
+      return +(sum / reviewsCount).toFixed(2)
     }
-    return +(sum / reviewsCount).toFixed(2)
   }
+
   const handleRating = (value) => {
     setRating(value)
   }
@@ -210,8 +219,7 @@ const DiscountPage = () => {
                             title={ratingCount}
                             max={allRating.maximalCount}
                             now={ratingCount}
-                            variant="success"
-                            animated />
+                            variant="success" />
                         </div>
                       )
                     })
