@@ -21,7 +21,8 @@ const AddCompany = (props) => {
     error: null,
     show: false,
   })
-  const [fileId, setFileId] = useState(null)
+  const [imageName, setImageName] = useState(null)
+  const [requestIsDone, setRequestIsDone] = useState(false)
   const history = useHistory()
 
   const countryOptions = useMemo(() => {
@@ -63,6 +64,7 @@ const AddCompany = (props) => {
     })
   }, [countries])
 
+
   useEffect(() => {
     if (props.isEdit) {
       setCompanyName(props.company.name)
@@ -74,7 +76,7 @@ const AddCompany = (props) => {
         value: address.address
       })
       ))
-      setFileId(props.company.imageId || null)
+      setImageName(props.company.nameImage || null)
     }
   }, [])
 
@@ -94,14 +96,16 @@ const AddCompany = (props) => {
     setAddresses("")
     setAddress("")
     setAllLocationList("")
-    setFileId(null)
+    setImageName(null)
+    setRequestIsDone(false)
   }
 
   async function saveCompanyInfo() {
+    debugger
     try {
       axiosInstance.post(`/api/company`, {
         name: companyName,
-        imageId: fileId || null,
+        nameImage: imageName,
         countries: [{
           name: country.name,
           id: country.id,
@@ -112,7 +116,7 @@ const AddCompany = (props) => {
           }]
         }]
       }
-      )
+      ).then(() => setRequestIsDone(true))
       reset()
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
@@ -121,12 +125,14 @@ const AddCompany = (props) => {
 
 
   async function updateCompanyInfo() {
+    console.log(imageName)
     try {
+      console.log(imageName)
       axiosInstance.put(
         `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`,
         {
           name: companyName,
-          imageId: fileId || null,
+          nameImage: imageName || "",
           countries: [{
             name: country.name,
             id: country.id,
@@ -137,9 +143,8 @@ const AddCompany = (props) => {
             }]
           }]
         }
-
-
-      )
+      ).then(() => setRequestIsDone(true))
+      reset()
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
     }
@@ -175,7 +180,7 @@ const AddCompany = (props) => {
       <div className="container d-flex flex-row-reverse align-items-start pt-5">
         <div className="col">
           <div className="company-logo">
-            <FileUploadPage setFileId={setFileId} />
+            <FileUploadPage imageName={imageName} isEdit={props.isEdit} setRequestIsDone={setRequestIsDone} requestIsDone={requestIsDone} setImageName={setImageName} />
           </div>
         </div>
         <div className="col">

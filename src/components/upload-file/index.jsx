@@ -1,11 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import "./styles.scss"
 
 
-
-function FileUploadPage({setFileId }) {
+function FileUploadPage({ imageName, setImageName, requestIsDone, setRequestIsDone, isEdit }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
 
@@ -15,16 +14,35 @@ function FileUploadPage({setFileId }) {
     formData.append("file", file)
     axiosInstance
       .post("api/images", formData)
-      .then((res) => setFileId(res.data))
+      .then((res) => {
+        setImageName(res.data)
+      })
+    setRequestIsDone(false)
     setIsSelected(true)
     setFileView(URL.createObjectURL(event.target.files[0]))
+    console.log(event.target.files[0])
+    console.log(fileView)
   }
 
+  useEffect(() => {
+    if (isEdit) {
+      console.log(imageName)
+      axiosInstance
+        .get(`api/images/${imageName}`)
+        .then((res) => {
+          console.log(res.data)
+          setFileView((res.data))
+        })
+    }
+
+  }, [imageName])
+
+  console.log(fileView)
   return (
     <div className="upload-container">
       {isSelected ? (
         <div>
-          <img className="file-view" src={fileView} />
+          <img className="file-view" src={requestIsDone ? null : fileView} />
         </div>
       ) : (
         <img
@@ -50,6 +68,10 @@ function FileUploadPage({setFileId }) {
 export default FileUploadPage
 
 FileUploadPage.propTypes = {
-  setFileId: PropTypes.func,
+  setImageName: PropTypes.func,
+  requestIsDone: PropTypes.bool,
+  setRequestIsDone: PropTypes.func,
+  isEdit: PropTypes.bool,
+  imageName: PropTypes.bool
 }
 
