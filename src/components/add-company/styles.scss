@@ -2,20 +2,24 @@
   width: 90px;
   height: 90px;
 }
+
 .company-logo {
   display: flex;
   flex-direction: column;
-  padding-top: 1rem;
+  padding: 1rem 0;
 }
+
 .company-additional-info {
   display: flex;
   flex-direction: column;
 }
+
 .company-info-subtitle {
   margin: 1rem 0 .3rem;
 }
 
-.company-info-btn, .address-field {
+.company-info-btn,
+.address-field {
   margin-top: 1rem;
 }
 
@@ -23,3 +27,33 @@
   resize: none;
 }
 
+.add-company-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .add-company-container {
+    flex-direction: column
+  }
+
+  .company-additional-info {
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+  }
+
+  .company-address, .form-field {
+    margin: 0 auto;
+    width: 300px;
+  }
+  .company-info-btn{
+    margin: 20px auto;
+  }
+  .btn-field{
+    margin: 0 auto;
+    width: 80%
+  }
+}

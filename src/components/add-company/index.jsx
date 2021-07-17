@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react"
-import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
+import { Button, Col, Form, FormControl, InputGroup, Toast, Container } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
 import axiosInstance from "components/api"
@@ -74,8 +74,7 @@ const AddCompany = (props) => {
         ...address,
         label: address.address,
         value: address.address
-      })
-      ))
+      })))
       setImageName(props.company.nameImage || null)
     }
   }, [])
@@ -101,7 +100,6 @@ const AddCompany = (props) => {
   }
 
   async function saveCompanyInfo() {
-    debugger
     try {
       axiosInstance.post(`/api/company`, {
         name: companyName,
@@ -112,7 +110,7 @@ const AddCompany = (props) => {
           cities: [{
             name: city.name,
             id: city.id,
-            addresses: addresses.map(item => ({ address: item.address, id: item.id }))
+            addresses: address.map(item => ({ address: item.address, id: item.id }))
           }]
         }]
       }
@@ -128,6 +126,7 @@ const AddCompany = (props) => {
     console.log(imageName)
     try {
       console.log(imageName)
+      console.log(addresses)
       axiosInstance.put(
         `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`,
         {
@@ -139,7 +138,7 @@ const AddCompany = (props) => {
             cities: [{
               name: city.name,
               id: city.id,
-              addresses: addresses.map(item => ({ address: item.address, id: item.id }))
+              addresses: address.map(item => ({ address: item.address, id: item.id }))
             }]
           }]
         }
@@ -155,7 +154,6 @@ const AddCompany = (props) => {
   }
 
   const companyAddressHandler = (e) => {
-    setAddresses(e)
     setAddress(e)
   }
 
@@ -177,13 +175,13 @@ const AddCompany = (props) => {
 
   return (
     <Form>
-      <div className="container d-flex flex-row-reverse align-items-start pt-5">
-        <div className="col">
+      <Container className="add-company-container pt-5">
+        <Col md={6} sm={12} xs={12}>
           <div className="company-logo">
-            <FileUploadPage imageName={imageName} isEdit={props.isEdit} setRequestIsDone={setRequestIsDone} requestIsDone={requestIsDone} setImageName={setImageName} />
+            <FileUploadPage setRequestIsDone={setRequestIsDone} requestIsDone={requestIsDone} setImageName={setImageName} />
           </div>
-        </div>
-        <div className="col">
+        </Col>
+        <Col md={6} sm={12} xs={12}>
           <div className="company-additional-info">
             <div className="company-name">
               <label className="company-info-subtitle" htmlFor="name">
@@ -272,8 +270,8 @@ const AddCompany = (props) => {
               </Button>
             ) : null}
           </div>
-        </div>
-      </div>
+        </Col>
+      </Container>
     </Form>
   )
 }

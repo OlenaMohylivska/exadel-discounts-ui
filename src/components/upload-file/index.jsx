@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import "./styles.scss"
 
-
-function FileUploadPage({ imageName, setImageName, requestIsDone, setRequestIsDone, isEdit }) {
+function FileUploadPage({ setImageName, requestIsDone, setRequestIsDone }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
-
   const changeHandler = (event) => {
     let file = event.target.files[0]
     let formData = new FormData()
@@ -20,24 +18,8 @@ function FileUploadPage({ imageName, setImageName, requestIsDone, setRequestIsDo
     setRequestIsDone(false)
     setIsSelected(true)
     setFileView(URL.createObjectURL(event.target.files[0]))
-    console.log(event.target.files[0])
-    console.log(fileView)
   }
 
-  useEffect(() => {
-    if (isEdit) {
-      console.log(imageName)
-      axiosInstance
-        .get(`api/images/${imageName}`)
-        .then((res) => {
-          console.log(res.data)
-          setFileView((res.data))
-        })
-    }
-
-  }, [imageName])
-
-  console.log(fileView)
   return (
     <div className="upload-container">
       {isSelected ? (
@@ -71,7 +53,5 @@ FileUploadPage.propTypes = {
   setImageName: PropTypes.func,
   requestIsDone: PropTypes.bool,
   setRequestIsDone: PropTypes.func,
-  isEdit: PropTypes.bool,
-  imageName: PropTypes.bool
 }
 
