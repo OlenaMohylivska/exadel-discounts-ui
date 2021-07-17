@@ -5,17 +5,17 @@ import "./styles.scss"
 
 
 
-function FileUploadPage({setFileId }) {
+function FileUploadPage({setNameImage }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
 
   const changeHandler = (event) => {
     let file = event.target.files[0]
     let formData = new FormData()
-    formData.append("file", file)
+    formData.append("nameImage", file)
     axiosInstance
       .post("api/images", formData)
-      .then((res) => setFileId(res.data))
+      .then((res) => setNameImage(res.data))
     setIsSelected(true)
     setFileView(URL.createObjectURL(event.target.files[0]))
   }
@@ -50,6 +50,6 @@ function FileUploadPage({setFileId }) {
 export default FileUploadPage
 
 FileUploadPage.propTypes = {
-  setFileId: PropTypes.func,
+  setNameImage: PropTypes.func,
 }
 

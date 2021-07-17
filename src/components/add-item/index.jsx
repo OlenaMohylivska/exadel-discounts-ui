@@ -21,7 +21,7 @@ const AddItem = (props) => {
     quantity: null,
     company: null,
     periodStart: null,
-    imageId: 0,
+    nameImage: null,
     tags: [],
   })
   const [errors, setErrors] = useState({})
@@ -40,7 +40,7 @@ const AddItem = (props) => {
   const [citiesLocation, setCitiesLocation] = useState([])
   const [countryLocation, setCountryLocation] = useState(null)
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-  const [fileId, setFileId] = useState({ file: null })
+  const [nameImage, setNameImage] = useState({ nameImage: null })
   /////// end states
 
   ////consoles put here if it needs
@@ -127,15 +127,10 @@ const AddItem = (props) => {
     setData({ ...data, country: actualLocation })
   }, [actualLocation])
   useEffect(() => {
-    setData({ ...data, imageId: fileId })
-  }, [fileId])
+    setData({ ...data, nameImage: nameImage })
+  }, [nameImage])
   ////
 
-  //// send file to server
-  // useEffect(() => {
-  //   axiosInstance.post("/api/images", file).then((res) => (res))
-  // }, [file])
-  /////
   ///// useEffects FOR FETCH DATA
 
   useEffect(() => {
@@ -209,6 +204,7 @@ const AddItem = (props) => {
       category: { name: "", tags: [] },
       quantity: null,
       company: null,
+      nameImage: null
     })
   }
 
@@ -256,7 +252,7 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
-            <FileUploadPage setFileId={setFileId} />
+            <FileUploadPage setNameImage={setNameImage} />
           </div>
           <div className="description">
             <span className="headers">Description:</span>
