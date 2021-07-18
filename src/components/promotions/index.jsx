@@ -1,58 +1,71 @@
-import React, { useState, useEffect, useContext } from "react"
-import { Container, Form } from "react-bootstrap"
+import React, { useState, useEffect } from "react"
+import { Container, Form, Button, Spinner } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
-import * as axios from "axios"
-import { Context } from "store/context"
+import axiosInstance from "components/api"
+import { useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
 import PromotionInfo from "components/promotionInfo"
 
+const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+
 const Promotions = () => {
-  const cardImages = useContext(Context)
   const [discounts, setDiscounts] = useState([])
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const history = useHistory()
+  const { path } = useRouteMatch('/admin')
 
-  const fetchData = async () => {
-    await axios
-      .get(process.env.REACT_APP_BASE_BACKEND_URL + "/api/discounts")
-      .then((response) =>
-        setDiscounts(() =>
-          response.data.map((el, index) => ({
-            ...el,
-            img: cardImages[index]
-          }))
-        )
-      )
-      .catch((e) => setDiscountsFetchError(e.message))
-  }
 
-  useEffect(() => {
-    fetchData()
+  useEffect(async () => {
+    try {
+      setLoading(true)
+      await axiosInstance
+        .get(`${baseUrl}/api/discounts`)
+        .then((response) => setDiscounts(response.data))
+      setLoading(false)
+    } catch (e) {
+      setDiscountsFetchError(e.message)
+    }
   }, [])
+
+  const newDiscountHandler = () => {
+    history.push(`${path}/add-item`)
+  }
 
   return (
     <Container className="catalog-wrapper">
       <div className=" filter-panel column ">
         <div className="width-100">
-          <div className="search">
-            <label className="col-lg-5 col-md-8 col-sm-12 search-container position-relative">
-              <div className="search-icon position-absolute end-0">
-                <Loupe />
-              </div>
-              <Form className="search-input ">
-                <Form.Group controlId="control-input">
-                  <Form.Control type="text" placeholder="Enter your search" />
-                </Form.Group>
-              </Form>
-            </label>
-          </div>
+          <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
+            <div className="search-icon">
+              <Loupe />
+            </div>
+            <Form className="search-input">
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Control type="text" placeholder="Enter your search" />
+              </Form.Group>
+            </Form>
+          </label>
         </div>
       </div>
+      <div className="btn-wrapper d-flex justify-content-center">
+        <Button
+          variant="primary"
+          className="h-100 px-4 align-self-center"
+          onClick={newDiscountHandler}
+        >
+          Add new discount
+        </Button>
+      </div>
+      {loading && (
+        <div className="spin-container">
+          <Spinner className="spin-loader" animation="border" variant="info" />
+        </div>
+      )}
       {discounts ? (
         <div className="discounts-wrapper">
           {discounts.map((elem) => {
-            return (
-              <PromotionInfo elem={elem} key={elem.id} />
-            )
+            return <PromotionInfo elem={elem} key={elem.id} />
           })}
         </div>
       ) : (
@@ -65,8 +78,3 @@ const Promotions = () => {
 }
 
 export default Promotions
-
-// CompanyInfo.propTypes = {
-//   name: PropTypes.string,
-//   id: PropTypes.number,
-// }

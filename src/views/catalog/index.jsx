@@ -252,7 +252,11 @@ const Catalog = () => {
 
           {loading && (
             <div className="spin-container">
-              <Spinner className="spin-loader" animation="border" />
+              <Spinner
+                className="spin-loader"
+                animation="border"
+                variant="info"
+              />
             </div>
           )}
           {discounts && (
