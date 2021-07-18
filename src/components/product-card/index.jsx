@@ -2,24 +2,13 @@ import React, { useState, useEffect } from "react"
 import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
-
+import moment from "moment"
 // import StarRatings from "react-star-ratings"
 import "./styles.css"
 import { Link } from "react-router-dom"
 
 function ProductCard({ elem }) {
   const [img, setImg] = useState(null)
-  const formattedData = new Date(elem.periodEnd)
-    .toISOString()
-    .split(":")
-    .splice(0, 1)
-    .join("")
-    .split("")
-    .splice(0, 10)
-    .join("")
-    .split("-")
-    .reverse()
-    .join("-")
 
   useEffect(() => {
     elem.imageId &&
@@ -40,7 +29,7 @@ function ProductCard({ elem }) {
         }}
       >
         <Card.Subtitle className="product-actuality text-muted">
-          expires in {formattedData}
+          expires in {moment(elem.periodEnd).format("MMM Do YYYY")}
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
 
@@ -64,7 +53,7 @@ function ProductCard({ elem }) {
             rating={elem.rate}
             starRatedColor="#FFD700"
           /> */}
-          <Button variant="dark">Order</Button>
+          <Button variant="primary">Order</Button>
         </div>
       </Card.Body>
     </Card>

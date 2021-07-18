@@ -34,10 +34,9 @@ const Catalog = () => {
     // searchText: "",
     // tags: [],
   })
-  console.log(search)
 
   const [searching, setSearching] = useState(false)
-  console.log(searchLocation)
+
   const cityOptions = citiesLocation.map((city) => {
     return {
       value: city.name,
@@ -54,7 +53,7 @@ const Catalog = () => {
     setSearch({ ...search, tags: arr })
     setTimeout(funcHelperForSearching, 2000)
   }
-  console.log(discounts)
+
   const handleSortingOption = (e) => {
     const orders = {
       orders: [

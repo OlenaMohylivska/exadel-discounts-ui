@@ -45,7 +45,7 @@ const AddItem = (props) => {
   /////// end states
 
   ////consoles put here if it needs
-  console.log(data)
+
   ////// end consoles
 
   ////// selector options
