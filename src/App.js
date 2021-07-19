@@ -11,8 +11,8 @@ import "./App.scss"
 import Breadcrumbs from "components/breadcrumbs"
 
 function App() {
-  const [isAuthorized, setIsAuthorized] = useState(false)
   const token = localStorage.getItem("jwt")
+  const [isAuthorized, setIsAuthorized] = useState(token ? true : false)
   useEffect(() => {
     axiosInstance.interceptors.request.use((config) => {
       token ? (config.headers.Authorization = token) : config
