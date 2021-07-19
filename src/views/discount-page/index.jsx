@@ -15,8 +15,7 @@ import {
 } from "react-bootstrap-icons"
 import moment from "moment"
 import { Context } from "store/context"
-import CustomModalWindow from "components/custom-modal-window"
-import GoogleMap from "components/google-map/googleMap"
+import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -30,11 +29,6 @@ const DiscountPage = () => {
   const [review, setReview] = useState(null)
   const [allRating, setAllRating] = useState({})
   const images = useContext(Context)
-  const [show, setShow] = useState(false)
-
-  const toggleModal = () => {
-    setShow(!show)
-  }
 
   const addressCountry = discount && discount.country && discount.country.name
   const fullAddressLocations = addressCountry && discount.country.cities.map(city => {
@@ -57,14 +51,12 @@ const DiscountPage = () => {
       setLoading(false)
     }
   }
-  useEffect(() => {
-    fetchData()
-  }, [])
 
-  useEffect(() => {
+  const getReviews = () => {
+    setLoading(true)
     try {
       axiosInstance
-        .get(`${baseUrl}/api/discounts/${id}/reviews`)
+        .get(`/api/discounts/${id}/reviews`)
         .then(response => {
           setAllRating({
             rating: Object.keys(response.data).reverse(),
@@ -76,6 +68,19 @@ const DiscountPage = () => {
     } catch (e) {
       setErrorMessage(e.message)
     }
+  }
+
+  useEffect(() => {
+    fetchData()
+    getReviews()
+  }, [])
+
+  useEffect(() => {
+    axiosInstance.put(`api/discounts/${id}/views`)
+  }, [])
+
+  useEffect(() => {
+    getReviews()
   }, [rating, review])
 
   useEffect(() => {
@@ -93,16 +98,18 @@ const DiscountPage = () => {
     })
   }, [rating])
 
-
   const countAverage = () => {
-    let sum = 0
-    let reviewsCount = 0
-    for (let i = 0; i < allRating.rating.length; i++) {
-      sum += allRating.rating[i] * allRating.ratingCount[i]
-      reviewsCount += allRating.ratingCount[i]
+    if (allRating) {
+      let sum = 0
+      let reviewsCount = 0
+      for (let i = 0; i < allRating.rating.length; i++) {
+        sum += allRating.rating[i] * allRating.ratingCount[i]
+        reviewsCount += allRating.ratingCount[i]
+      }
+      return +(sum / reviewsCount).toFixed(2)
     }
-    return +(sum / reviewsCount).toFixed(2)
   }
+
   const handleRating = (value) => {
     setRating(value)
   }
@@ -166,22 +173,7 @@ const DiscountPage = () => {
                   </div> : <span className="discount-info">No information</span>
                 }
               </div>
-              <div>
-                {addressCountry &&
-                  <div className="google-map-icon-container" onClick={toggleModal}>
-                    <GoogleMap onClick={toggleModal}></GoogleMap>
-                    <div className="superimposed-block"><h2 className="superimposed-block-text">Tap here to open map</h2></div>
-                  </div>
-                }
-
-                {show && <CustomModalWindow
-                  show={show}
-                  handleClose={toggleModal}
-                  modalText=""
-                  locations={fullAddressLocations}
-                />}
-
-              </div>
+              {addressCountry && <PreviewGoogleMap allAddresses={fullAddressLocations} />}
             </Col>
             <Col lg={6}>
               <div className="img-container">
@@ -227,8 +219,7 @@ const DiscountPage = () => {
                             title={ratingCount}
                             max={allRating.maximalCount}
                             now={ratingCount}
-                            variant="success"
-                            animated />
+                            variant="success" />
                         </div>
                       )
                     })

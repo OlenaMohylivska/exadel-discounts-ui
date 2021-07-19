@@ -7,6 +7,7 @@ import QRCode from "qrcode.react"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import PdfDocument from "views/pdf-promocode"
 import { Base64 } from "js-base64"
+import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -15,11 +16,20 @@ const OrderConfirm = () => {
   const [promocodeFetchError, setPromocodeFetchError] = useState([])
   const [expirationDate, setExpirationDate] = useState("")
   const [discountName, setDiscountName] = useState("")
-
+  const [discountLocations, setDiscountLocations] = useState(null)
   const history = useHistory()
   const promocodeRef = useRef()
 
   const discountId = history.location.pathname.split("/").pop()
+
+  const fullAddressLocations = discountLocations && discountLocations.map(country => {
+    return country.cities.map(city => {
+      return city.addresses.map(el => {
+        return el.address ? `${country.name} ${city.name} ${el.address}`
+          : el.addresses.map(el => `${country.name} ${el.address}`)
+      })
+    })
+  }).flat(3)
 
   const fetchData = async (url) => {
     try {
@@ -27,6 +37,7 @@ const OrderConfirm = () => {
         setPromocode(response.data.employeePromocode)
         setExpirationDate(response.data.promoCodePeriodEnd)
         setDiscountName(response.data.discount.name)
+        setDiscountLocations(response.data.discount.company.countries)
       })
     } catch (e) {
       setPromocodeFetchError(e.message)
@@ -84,7 +95,11 @@ const OrderConfirm = () => {
         </div>
 
         <p>Expiration date: {moment(expirationDate).format("MMM Do YYYY")} </p>
-        <p>Address: Ukraine, Lviv, Chornovola Str 25 (google map) </p>
+        <p>Addresses:</p>
+        {fullAddressLocations && fullAddressLocations.map((address, index) => <div key={index}>{address}</div>)}
+      </div>
+      <div className="p-2">
+        {fullAddressLocations && <PreviewGoogleMap allAddresses={fullAddressLocations} />}
       </div>
     </div>
   )

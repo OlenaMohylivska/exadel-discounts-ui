@@ -2,9 +2,11 @@ import React, { useState } from "react"
 import "./styles.scss"
 import { Button } from "react-bootstrap"
 import Select from "react-select"
+import ToastElement from "components/toast"
 
 function ProfileUserInfo() {
   const [category, setCategory] = useState([])
+  const [successMessage, setSuccessMessage] = useState(false)
 
   const categoryOptions = [
     { value: "Food", label: "Food" },
@@ -16,7 +18,10 @@ function ProfileUserInfo() {
     setCategory(e)
   }
 
-  const subscriptionHandler = () => {}
+  const subscriptionClickHandler = () => {
+    setSuccessMessage(true)
+  }
+
 
   return (
     <div className="profile">
@@ -51,9 +56,13 @@ function ProfileUserInfo() {
           placeholder="Select..."
           isMulti
         />
-        <Button className="subscriptions-btn" onClick={subscriptionHandler}>
+        <Button
+          className="subscriptions-btn"
+          onClick={subscriptionClickHandler}
+        >
           Subscribe to updates
         </Button>
+        {successMessage && <ToastElement className="toast-subs-position" />}
       </div>
     </div>
   )
