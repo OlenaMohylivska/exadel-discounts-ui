@@ -11,6 +11,10 @@ const HistoryPage = () => {
   const [discounts, setDiscounts] = useState([])
   const [fetchError, setFetchError] = useState(null)
   const images = useContext(Context)
+  const { bindToken } = useContext(Context)
+  useEffect(() => {
+    bindToken()
+  }, [])
 
   useEffect(() => {
     axiosInstance

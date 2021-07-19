@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
 import "./styles.scss"
 import axiosInstance from "components/api"
 import { useHistory } from "react-router-dom"
@@ -8,6 +8,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer"
 import PdfDocument from "views/pdf-promocode"
 import { Base64 } from "js-base64"
 import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
+import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -19,17 +20,22 @@ const OrderConfirm = () => {
   const [discountLocations, setDiscountLocations] = useState(null)
   const history = useHistory()
   const promocodeRef = useRef()
-
+  const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
 
-  const fullAddressLocations = discountLocations && discountLocations.map(country => {
-    return country.cities.map(city => {
-      return city.addresses.map(el => {
-        return el.address ? `${country.name} ${city.name} ${el.address}`
-          : el.addresses.map(el => `${country.name} ${el.address}`)
+  const fullAddressLocations =
+    discountLocations &&
+    discountLocations
+      .map((country) => {
+        return country.cities.map((city) => {
+          return city.addresses.map((el) => {
+            return el.address
+              ? `${country.name} ${city.name} ${el.address}`
+              : el.addresses.map((el) => `${country.name} ${el.address}`)
+          })
+        })
       })
-    })
-  }).flat(3)
+      .flat(3)
 
   const fetchData = async (url) => {
     try {
@@ -46,6 +52,9 @@ const OrderConfirm = () => {
 
   useEffect(() => {
     fetchData(`/api/orders/${discountId}`)
+  }, [])
+  useEffect(() => {
+    bindToken()
   }, [])
 
   const promocodeUrl = Base64.encode(promocode)
@@ -96,10 +105,15 @@ const OrderConfirm = () => {
 
         <p>Expiration date: {moment(expirationDate).format("MMM Do YYYY")} </p>
         <p>Addresses:</p>
-        {fullAddressLocations && fullAddressLocations.map((address, index) => <div key={index}>{address}</div>)}
+        {fullAddressLocations &&
+          fullAddressLocations.map((address, index) => (
+            <div key={index}>{address}</div>
+          ))}
       </div>
       <div className="p-2">
-        {fullAddressLocations && <PreviewGoogleMap allAddresses={fullAddressLocations} />}
+        {fullAddressLocations && (
+          <PreviewGoogleMap allAddresses={fullAddressLocations} />
+        )}
       </div>
     </div>
   )

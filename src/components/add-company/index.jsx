@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useEffect, useState, useMemo, useContext } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
@@ -8,6 +8,7 @@ import "./styles.scss"
 import FileUploadPage from "components/upload-file"
 import { useHistory } from "react-router-dom"
 import AddLocation from "../add-location"
+import { Context } from "store/context"
 
 const AddCompany = (props) => {
   const [data, setData] = useState({
@@ -23,7 +24,7 @@ const AddCompany = (props) => {
     },
   ])
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-
+  const { bindToken } = useContext(Context)
   const [countryLocation, setCountryLocation] = useState([])
   const [citiesLocation, setCitiesLocation] = useState([])
   const [fileId, setFileId] = useState(null)
@@ -36,6 +37,9 @@ const AddCompany = (props) => {
   })
 
   const history = useHistory()
+  useEffect(() => {
+    bindToken()
+  }, [])
 
   const locationOptions = useMemo(() => {
     return (

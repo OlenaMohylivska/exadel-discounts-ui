@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import ValidationError from "../validation-error"
 import "./styles.scss"
@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom"
 import PropTypes from "prop-types"
 import AddLocation from "../add-location"
 import ToastElement from "components/toast"
+import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -43,7 +44,10 @@ const AddItem = (props) => {
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
   const [fileId, setFileId] = useState({ file: null })
   const [successMessage, setSuccessMessage] = useState(false)
-
+  const { bindToken } = useContext(Context)
+  useEffect(() => {
+    bindToken()
+  }, [])
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -80,6 +84,7 @@ const AddItem = (props) => {
   const handleChangeCategory = (e) => {
     setCategory({ name: e.value })
   }
+
   const handleChangeCompanies = (e) => {
     setData({
       ...data,

@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from "react"
 import { Button, Modal } from "react-bootstrap"
 import { NavLink } from "react-router-dom"
 import PropTypes from "prop-types"
@@ -15,8 +15,13 @@ const CustomModalWindow = (props) => {
   }
   return (
     <>
-      <Modal show={props.show} onHide={props.handleClose} animation={false} size="xl">
-        {props.locations ?
+      <Modal
+        show={props.show}
+        onHide={props.handleClose}
+        animation={false}
+        size="xl"
+      >
+        {props.locations ? (
           <Modal.Header className="d-flex flex-column-reverse flex-xl-row flex-lg-row flex-md-column-reverse">
             <Modal.Title style={{ width: "100%", height: "87vh" }}>
               <GoogleMap location={choosedLocation} />
@@ -24,12 +29,24 @@ const CustomModalWindow = (props) => {
             <Modal.Title className="address-block">
               <h2 className="mb-4 text-center">List of addresses</h2>
               <ol>
-                {props.locations.map((el, index) => <li className={`mb-4 location-string text-start ${isActive === el && "active"}`} isActive={isActive} onClick={changeMarkerHandler} key={index}>{el}</li>)}
+                {props.locations.map((el, index) => (
+                  <li
+                    className={`mb-4 location-string text-start ${
+                      isActive === el && "active"
+                    }`}
+                    isActive={isActive}
+                    onClick={changeMarkerHandler}
+                    key={index}
+                  >
+                    {el}
+                  </li>
+                ))}
               </ol>
             </Modal.Title>
           </Modal.Header>
-          :
-          <Modal.Body className="text-center">{props.modalText}
+        ) : (
+          <Modal.Body className="text-center">
+            {props.modalText}
             <Modal.Footer>
               <NavLink exact to="/admin" className="nav-item">
                 <Button variant="secondary" onClick={props.handleClose}>
@@ -38,7 +55,7 @@ const CustomModalWindow = (props) => {
               </NavLink>
             </Modal.Footer>
           </Modal.Body>
-        }
+        )}
       </Modal>
     </>
   )

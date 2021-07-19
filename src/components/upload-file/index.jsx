@@ -1,13 +1,16 @@
-import React, { useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import "./styles.scss"
+import { Context } from "store/context"
 
-
-
-function FileUploadPage({setFileId }) {
+function FileUploadPage({ setFileId }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
+  const { bindToken } = useContext(Context)
+  useEffect(() => {
+    bindToken()
+  }, [])
 
   const changeHandler = (event) => {
     let file = event.target.files[0]
@@ -52,4 +55,3 @@ export default FileUploadPage
 FileUploadPage.propTypes = {
   setFileId: PropTypes.func,
 }
-
