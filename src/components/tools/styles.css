@@ -1,19 +1,54 @@
-.tags {
-  margin: 0 45px;
-  text-align: start;
+.all-tags-container {
+  margin: 0 50px;
 }
 
 .tag-container {
-  margin-left: 50px;
-}
-
-.tag-wrapper {
   margin: 10px 0;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 }
-.fetch-tags-error {
-  font-size: 24px;
-  padding-left: 10px;
+.form-fields-container{
+  margin: 1.5em 0.5em 0;
+}
+
+.category-form-field{
+  padding: 20px 5px;
+}
+.delete-category-form-field{
+  display: flex;
+  justify-content: space-between;
+}
+.delete-category-btn{
+  width: 60%;
+  margin-left: 1em;
+  align-self: flex-end;
+}
+
+.submit-btn{
+  width: 50%;
+  margin: .5em 0;
+}
+
+@media (max-width: 992px) {
+  .form-fields-container{
+    text-align: center;
+  }
+  
+}
+@media (max-width: 576px) {
+  .delete-category-form-field{
+    flex-direction: column;
+    align-items: center;
+  }
+  .delete-category-btn{
+    width: 80%;
+    align-self: center;
+    margin: 1em 0;
+  }
+  .submit-btn{
+    width: 80%;
+  }
+  .all-tags-container{
+    margin: 0 10px;
+  }
 }
