@@ -13,6 +13,7 @@ function Header() {
     localStorage.clear()
     setIsAuthorized(false)
   }
+
   return (
     <Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
       <Container className="nav-wrapper">

@@ -13,33 +13,42 @@ const HistoryPage = () => {
   const images = useContext(Context)
 
   useEffect(() => {
-    axiosInstance.get(`${baseUrl}/api/orders`)
-      .then(resp => {
-        const userDiscounts = resp.data.filter(el => el.employee.login === localStorage.getItem("username"))
-        const extendedUserDiscounts = userDiscounts.map((el, index) => (
-          { ...el, isFavourite: false, image: images.productImages[index] }
-        ))
+    axiosInstance
+      .get(`${baseUrl}/api/orders`)
+      .then((resp) => {
+        const userDiscounts = resp.data.filter(
+          (el) => el.employee.login === localStorage.getItem("username")
+        )
+        const extendedUserDiscounts = userDiscounts.map((el, index) => ({
+          ...el,
+          isFavourite: false,
+          image: images.productImages[index],
+        }))
         setDiscounts(extendedUserDiscounts)
-      }).catch(err => setFetchError(err.message))
+      })
+      .catch((err) => setFetchError(err.message))
   }, [])
 
   return (
     <>
       {fetchError && <FetchError error={fetchError} />}
-      {!fetchError && <div className="container">
-        <div className="history-card-wrapper">
-          {discounts.map(el => {
-            return <LinearProductCard
-              buttonText=""
-              discount={el}
-              discounts={discounts}
-              setDiscounts={setDiscounts}
-              key={el.id}
-            />
-          })}
+      {!fetchError && (
+        <div className="container">
+          <div className="history-card-wrapper">
+            {discounts.map((el) => {
+              return (
+                <LinearProductCard
+                  buttonText=""
+                  discount={el}
+                  discounts={discounts}
+                  setDiscounts={setDiscounts}
+                  key={el.id}
+                />
+              )
+            })}
+          </div>
         </div>
-      </div>
-      }
+      )}
     </>
   )
 }

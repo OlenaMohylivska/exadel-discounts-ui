@@ -28,10 +28,16 @@ const EditCompaniesAll = () => {
     fetchData("/api/company", setCompanies)
   }, [])
 
-
   const addNewCompanyHandler = () => {
     setNewCompany(!newCompany)
   }
+  const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
+  useEffect(() => {
+    axiosInstance.interceptors.request.use((config) => {
+      token ? (config.headers.Authorization = token) : config
+      return config
+    })
+  }, [])
 
   return (
     <div className="container">

@@ -13,33 +13,39 @@ const FavouritePage = () => {
   const images = useContext(Context)
 
   useEffect(() => {
-    axiosInstance.get(`${baseUrl}/api/discounts`)
-      .then(resp => {
-        const allDiscounts = resp.data.map((el, index) => (
-          { ...el, isFavourite: true, image: images.productImages[index] }
-        ))
+    axiosInstance
+      .get(`${baseUrl}/api/discounts`)
+      .then((resp) => {
+        const allDiscounts = resp.data.map((el, index) => ({
+          ...el,
+          isFavourite: true,
+          image: images.productImages[index],
+        }))
         setDiscounts(allDiscounts)
-      }).catch(err => setFetchError(err.message))
+      })
+      .catch((err) => setFetchError(err.message))
   }, [])
 
   return (
     <>
       {fetchError && <FetchError error={fetchError} />}
-      {!fetchError && <div className="container">
-        <div className="favourite-card-wrapper">
-          {discounts.map(el => {
-            return <LinearProductCard
-              buttonText="Order"
-              discount={el}
-              discounts={discounts}
-              setDiscounts={setDiscounts}
-              key={el.id}
-            />
-          })}
+      {!fetchError && (
+        <div className="container">
+          <div className="favourite-card-wrapper">
+            {discounts.map((el) => {
+              return (
+                <LinearProductCard
+                  buttonText="Order"
+                  discount={el}
+                  discounts={discounts}
+                  setDiscounts={setDiscounts}
+                  key={el.id}
+                />
+              )
+            })}
+          </div>
         </div>
-      </div>
-      }
-
+      )}
     </>
   )
 }

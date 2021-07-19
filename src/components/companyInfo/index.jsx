@@ -20,6 +20,13 @@ const CompanyInfo = ({ name, id }) => {
       .get(baseUrl + url)
       .then((response) => setFunc(response.data))
   }
+  const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
+  useEffect(() => {
+    axiosInstance.interceptors.request.use((config) => {
+      token ? (config.headers.Authorization = token) : config
+      return config
+    })
+  }, [])
 
   useEffect(() => {
     fetchData(`/api/images/${id}`, setLogo)

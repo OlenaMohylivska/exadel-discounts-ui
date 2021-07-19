@@ -100,6 +100,13 @@ const Catalog = () => {
       return
     }
   }, [searching])
+  const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
+  useEffect(() => {
+    axiosInstance.interceptors.request.use((config) => {
+      token ? (config.headers.Authorization = token) : config
+      return config
+    })
+  }, [])
   const fetchData = async () => {
     setLoading(true)
     try {
@@ -253,7 +260,11 @@ const Catalog = () => {
 
           {loading && (
             <div className="spin-container">
-              <Spinner className="spin-loader" animation="border" variant="info" />
+              <Spinner
+                className="spin-loader"
+                animation="border"
+                variant="info"
+              />
             </div>
           )}
           {discounts && (

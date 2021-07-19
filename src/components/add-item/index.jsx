@@ -115,6 +115,13 @@ const AddItem = (props) => {
     }))
     setCategory({ ...category, tags: arr })
   }
+  const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
+  useEffect(() => {
+    axiosInstance.interceptors.request.use((config) => {
+      token ? (config.headers.Authorization = token) : config
+      return config
+    })
+  }, [])
 
   useEffect(() => {
     setActualLocation({ ...actualLocation, cities: citiesLocation })
