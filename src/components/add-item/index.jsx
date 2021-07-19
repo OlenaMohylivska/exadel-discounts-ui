@@ -42,7 +42,7 @@ const AddItem = (props) => {
   const [citiesLocation, setCitiesLocation] = useState([])
   const [countryLocation, setCountryLocation] = useState(null)
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-
+  const [categoryArr, setCategoryArr] = useState([])
   const [fileId, setFileId] = useState("")
   const [successMessage, setSuccessMessage] = useState(false)
 
@@ -61,11 +61,13 @@ const AddItem = (props) => {
       id: tag.id,
     }
   })
-  const categoryOptions = [
-    { value: "Food", label: "Food" },
-    { value: "Sport", label: "Sport" },
-    { value: "Education", label: "Education" },
-  ]
+  const categoryOptions = categoryArr.map((category) => {
+    return {
+      value: category.name,
+      label: category.name,
+      tags: category.tags,
+    }
+  })
   const locationOptions = chooseLocation.map((country) => {
     return {
       value: country.name,
@@ -80,6 +82,7 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
+    setTags(e.tags)
     setCategory({ name: e.value })
   }
   const handleChangeCompanies = (e) => {
@@ -139,9 +142,11 @@ const AddItem = (props) => {
   useEffect(() => {
     fetchData("/api/company", setDiscountProviders)
   }, [])
+
   useEffect(() => {
-    fetchData("/api/tags", setTags)
+    fetchData("/api/category", setCategoryArr)
   }, [])
+
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
@@ -225,6 +230,7 @@ const AddItem = (props) => {
       show: false,
     })
     setAddressesList([])
+    setTags([])
   }
 
   const addNewLocation = () => {
@@ -232,6 +238,7 @@ const AddItem = (props) => {
   }
   //////// END HELPING FUNCTIONS
   ///// SHORTCUT VARIABLES
+
   const getLocation = (
     <>
       <span className="discount-subtitle">Location </span>
