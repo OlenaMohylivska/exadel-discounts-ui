@@ -3,9 +3,7 @@ import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import "./styles.scss"
 
-
-
-function FileUploadPage({setFileId }) {
+function FileUploadPage({ setFileId }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
 
@@ -52,4 +50,3 @@ export default FileUploadPage
 FileUploadPage.propTypes = {
   setFileId: PropTypes.func,
 }
-
