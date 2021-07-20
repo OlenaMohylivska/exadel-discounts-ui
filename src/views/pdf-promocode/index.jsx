@@ -11,7 +11,7 @@ import {
 // import QRCode from "qrcode.react"
 import PropTypes from "prop-types"
 import moment from "moment"
-// import { Base64 } from "js-base64"
+import promocode from "../../assets/promocode.jpg"
 
 const styles = StyleSheet.create({
   page: {
@@ -27,18 +27,18 @@ const styles = StyleSheet.create({
     margin: 10,
     maxWidth: 500,
   },
-  image: {
-    width: 10,
-    height: 10,
-  },
   locationItem: {
     marginTop: 5,
     fontSize: 14,
     alignItems: "center",
   },
+  image: {
+    width: "50%",
+    padding: 10
+  },
 })
 
-const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
+const PdfDocument = ({ expirationDate, discountName }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -47,8 +47,8 @@ const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
             Congrats on your choice! Your discount name is {discountName}
           </Text>
         </View>
-        <View style={styles.image}>
-          <Image src={QrCode} />
+        <View style={styles.section}>
+          <Image style={styles.image} src={promocode} />
         </View>
         <View style={styles.section}>
           <Text>
@@ -59,7 +59,7 @@ const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
         <View style={styles.section}>
           <Text>Check address down below:</Text>
         </View>
-        {locations && locations.length > 0 ? (
+        {/* {locations && locations.length > 0 ? (
           <View style={styles.section}>
             (<Text style={styles.locationItem}>{locations[0]}</Text>
             <Text style={styles.locationItem}>
@@ -74,7 +74,7 @@ const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
           </View>
         ) : (
           "Please check the address at discount provider website"
-        )}
+        )} */}
       </Page>
     </Document>
   )
@@ -84,7 +84,5 @@ export default PdfDocument
 
 PdfDocument.propTypes = {
   expirationDate: PropTypes.string,
-  QrCode: PropTypes.string,
   discountName: PropTypes.string,
-  locations: PropTypes.array,
 }

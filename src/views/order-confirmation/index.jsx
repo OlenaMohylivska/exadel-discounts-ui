@@ -18,6 +18,8 @@ const OrderConfirm = () => {
   const [expirationDate, setExpirationDate] = useState("")
   const [discountName, setDiscountName] = useState("")
   const [discountLocations, setDiscountLocations] = useState(null)
+  const [loading, setLoading] = useState(true)
+
   const history = useHistory()
 
   const { bindToken } = useContext(Context)
@@ -53,17 +55,23 @@ const OrderConfirm = () => {
     fetchData(`/api/orders/${discountId}`)
   }, [])
 
-
-
   const fetchQrCode = async (url) => {
     try {
       await axiosInstance.post(url).then((response) => {
         setQrCode(response.data)
+        setLoading(
+          setTimeout(() => {
+            setLoading(false)
+          }, 1000)
+        )
       })
     } catch (e) {
       setPromocodeFetchError(e.message)
     }
   }
+
+  // const blob = new Blob([QrCode], { type: "image/png" })
+  // const url = URL.createObjectURL(blob)
 
   useEffect(() => {
     fetchQrCode(`/api/orders/create/${discountId}`)
@@ -82,28 +90,27 @@ const OrderConfirm = () => {
       <div className="promocode-info">
         <div className="promocode">
           {QrCode ? (
-            <img src={`data:image/png;base64,${QrCode}`} />
+            <img alt="QR Code" src={QrCode} />
           ) : (
             <div className="fetch-error-info">
               Loading discount info... {promocodeFetchError}
             </div>
           )}
-          {QrCode && (
-            <div>
-              <PDFDownloadLink
-                document={
-                  <PdfDocument
-                    discountName={discountName}
-                    expirationDate={expirationDate}
-                    QrCode={QrCode}
-                    locations={fullAddressLocations}
-                  />
-                }
-                fileName={`Promocode for ${discountName}.pdf`}
-              >
-                Download now! {QrCode}
-              </PDFDownloadLink>
-            </div>
+
+          {loading ? (
+            <p>Loading info...</p>
+          ) : (
+            <PDFDownloadLink
+              document={
+                <PdfDocument
+                  expirationDate={expirationDate}
+                  discountName={discountName}
+                />
+              }
+              fileName={`Promocode for ${discountName}.pdf`}
+            >
+              Download now!
+            </PDFDownloadLink>
           )}
         </div>
 
