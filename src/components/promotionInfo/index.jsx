@@ -1,42 +1,25 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useEffect, useContext } from "react"
 import { Container, Card, Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import PropTypes from "prop-types"
 import { Link, useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
 import moment from "moment"
-import axiosInstance from "components/api"
 import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const discountDefaultImg = "https://img.icons8.com/plasticine/2x/no-image.png"
 
 const PromotionInfo = ({ elem }) => {
-  const [imgName, setImgName] = useState(null)
-  const [imgUrl, setImgUrl] = useState(null)
   const { bindToken } = useContext(Context)
   useEffect(() => {
     bindToken()
   }, [])
-  let blob = new Blob([imgName], { type: "image/jpeg" })
-  const url = blob && URL.createObjectURL(blob)
 
   const formattedData = moment(elem.periodEnd).format("MMM Do YYYY")
 
   const history = useHistory()
   const { path } = useRouteMatch()
-
-  useEffect(async () => {
-    await axiosInstance
-      .get(`${baseUrl}/api/images`)
-      .then((response) => setImgName(response.data.name))
-  }, [elem])
-
-  useEffect(async () => {
-    await axiosInstance
-      .get(`${baseUrl}/api/images/${imgName}`)
-      .then((response) => setImgUrl(response.data))
-  }, [elem])
 
   const updateItemHandler = () => {
     history.push(`${path}/edit-item/${elem.id}`)
@@ -49,9 +32,6 @@ const PromotionInfo = ({ elem }) => {
           key={elem.id}
           to={{
             pathname: `/update-discount/${elem.id}`,
-            state: {
-              image: elem.img,
-            },
           }}
         >
           <Card.Subtitle className="product-actuality text-muted">
@@ -61,7 +41,11 @@ const PromotionInfo = ({ elem }) => {
           <Card.Img
             variant="top"
             className="product-image"
-            src={imgUrl ? url : discountDefaultImg}
+            src={
+              elem.nameImage
+                ? `${baseUrl}/api/images/${elem.nameImage}`
+                : discountDefaultImg
+            }
           />
         </Link>
         <Card.Body className="p-0 d-flex flex-column justify-content-between">
@@ -78,7 +62,11 @@ const PromotionInfo = ({ elem }) => {
               rating={elem.rate}
               starRatedColor="#FFD700"
             />
-            <Button variant="dark" onClick={updateItemHandler}>
+            <Button
+              variant="success"
+              className="discount-btn"
+              onClick={updateItemHandler}
+            >
               Update
             </Button>
           </div>
@@ -93,7 +81,7 @@ export default PromotionInfo
 PromotionInfo.propTypes = {
   elem: PropTypes.shape({
     id: PropTypes.number,
-    imageId: PropTypes.number,
+    nameImage: PropTypes.string,
     periodEnd: PropTypes.number,
     name: PropTypes.string,
     description: PropTypes.string,
