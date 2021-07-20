@@ -54,7 +54,7 @@ const Promotions = () => {
       </div>
       <div className="btn-wrapper d-flex justify-content-center">
         <Button
-          variant="primary"
+          variant="success"
           className="h-100 px-4 align-self-center"
           onClick={newDiscountHandler}
         >
