@@ -38,14 +38,12 @@ const DiscountPage = () => {
   const images = useContext(Context)
   const { bindToken } = useContext(Context)
 
-  const discountAddresses = discount && discount.addresses.map(el => {
+  const addresssMapper = (el) => {
     return `${el.address} ${el.city.name} ${el.city.country.name}`
-  })
+  }
 
-  const discountCompanyAddresses = discount && discount.company.addresses.map(el => {
-    return `${el.address} ${el.city.name} ${el.city.country.name}`
-  })
-
+  const discountAddresses = discount && discount.addresses.map(addresssMapper)
+  const discountCompanyAddresses = discount && discount.company.addresses.map(addresssMapper)
   const fullAddressLocations = discount && discountAddresses.length ? discountAddresses : discountCompanyAddresses
 
   const fetchData = async () => {

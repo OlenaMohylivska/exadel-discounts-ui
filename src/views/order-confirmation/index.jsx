@@ -25,16 +25,11 @@ const OrderConfirm = () => {
   const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
 
-  const discountAddresses =
-  discountLocations && discountLocations.addresses.map(el => {
+  const addresssMapper = (el) => {
     return `${el.address} ${el.city.name} ${el.city.country.name}`
-  })
-
-  const discountCompanyAddresses =
-  discountLocations && discountLocations.company.addresses.map(el => {
-    return `${el.address} ${el.city.name} ${el.city.country.name}`
-  })
-
+  }
+  const discountAddresses = discountLocations && discountLocations.addresses.map(addresssMapper)
+  const discountCompanyAddresses = discountLocations && discountLocations.company.addresses.map(addresssMapper)
   const fullAddressLocations = discountLocations && discountAddresses.length ? discountAddresses : discountCompanyAddresses
 
   const fetchData = async (url) => {
