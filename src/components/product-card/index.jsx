@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 import moment from "moment"
 import StarRatings from "react-star-ratings"
 import "./styles.css"
-import { Link } from "react-router-dom"
-
+import { Link, Redirect } from "react-router-dom"
+import { Context } from "store/context"
 function ProductCard({ elem }) {
   const [img, setImg] = useState(null)
-
+  const [order, setOrder] = useState(false)
+  const { bindToken } = useContext(Context)
+  useEffect(() => {
+    bindToken()
+  }, [])
+  const orderToggle = () => {
+    setOrder(true)
+  }
   useEffect(() => {
     elem.imageId &&
       axiosInstance

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useEffect, useState, useMemo, useContext } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import Select from "react-select"
 import PropTypes from "prop-types"
@@ -8,27 +8,26 @@ import "./styles.scss"
 import FileUploadPage from "components/upload-file"
 import { useHistory } from "react-router-dom"
 import AddLocation from "../add-location"
+import { Context } from "store/context"
 
 const AddCompany = (props) => {
-
   const [data, setData] = useState({
     name: "",
     countries: [],
-    imageId: null
+    imageId: null,
   })
   const [allLocationList, setAllLocationList] = useState([])
-  const [actualLocation, setActualLocation] = useState([{
-    name: "",
-    cities: [],
-  }]
-
-  )
+  const [actualLocation, setActualLocation] = useState([
+    {
+      name: "",
+      cities: [],
+    },
+  ])
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-
+  const { bindToken } = useContext(Context)
   const [countryLocation, setCountryLocation] = useState([])
   const [citiesLocation, setCitiesLocation] = useState([])
   const [fileId, setFileId] = useState(null)
-
 
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
@@ -38,6 +37,9 @@ const AddCompany = (props) => {
   })
 
   const history = useHistory()
+  useEffect(() => {
+    bindToken()
+  }, [])
 
   const locationOptions = useMemo(() => {
     return (
@@ -46,11 +48,10 @@ const AddCompany = (props) => {
         label: country.name,
         value: country.name,
         id: country.id,
-        cities: country.cities
+        cities: country.cities,
       }))
     )
   }, [allLocationList])
-
 
   const handleChange = (e) => {
     return setData({ ...data, [e.target.name]: e.target.value })
@@ -85,7 +86,13 @@ const AddCompany = (props) => {
   useEffect(() => {
     setData({ ...data, imageId: fileId })
   }, [fileId])
-
+  const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
+  useEffect(() => {
+    axiosInstance.interceptors.request.use((config) => {
+      token ? (config.headers.Authorization = token) : config
+      return config
+    })
+  }, [])
 
   function deleteCompany(id) {
     axiosInstance.delete(
@@ -93,19 +100,20 @@ const AddCompany = (props) => {
     )
   }
 
-
   const reset = () => {
     setData({
       name: "",
       countries: [],
-      imageId: null
+      imageId: null,
     })
   }
 
   async function saveCompanyInfo() {
     try {
       axiosInstance.post(
-        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company`, data)
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company`,
+        data
+      )
       reset()
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
@@ -114,7 +122,9 @@ const AddCompany = (props) => {
   async function updateCompanyInfo() {
     try {
       axiosInstance.put(
-        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`, data)
+        `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`,
+        data
+      )
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
     }
@@ -140,7 +150,9 @@ const AddCompany = (props) => {
           setCitiesLocation={setCitiesLocation}
         />
       ))}
-      <Button className="my-3 w-75 mx-auto" onClick={() => addNewLocation()}>Add location</Button>
+      <Button className="my-3 w-75 mx-auto" onClick={() => addNewLocation()}>
+        Add location
+      </Button>
     </>
   )
 

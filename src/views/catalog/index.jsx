@@ -11,6 +11,7 @@ import axiosInstance from "../../components/api"
 
 const Catalog = () => {
   const images = useContext(Context)
+  const { bindToken } = useContext(Context)
   const [discounts, setDiscounts] = useState(null)
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
@@ -99,6 +100,10 @@ const Catalog = () => {
       return
     }
   }, [searching])
+  useEffect(() => {
+    bindToken()
+  }, [])
+
   const fetchData = async () => {
     setLoading(true)
     try {

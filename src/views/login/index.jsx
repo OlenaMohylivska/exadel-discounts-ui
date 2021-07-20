@@ -20,13 +20,14 @@ function Login() {
   const onPasswordShow = () => {
     setpasswordVisible(!passwordVisible)
   }
-  const bindFunc = (token) => {
+  const bindFunc = (token, role) => {
     axiosInstance.interceptors.request.use((config) => {
       token ? (config.headers.Authorization = token) : config
       return config
     })
     localStorage.setItem("username", loginData.username)
     localStorage.setItem("jwt", token)
+    localStorage.setItem("role", role)
     setIsAuthorized(true)
   }
 
@@ -34,7 +35,7 @@ function Login() {
     try {
       await axiosInstance
         .post("/api/login", loginData)
-        .then((res) => bindFunc(res.data.jwt))
+        .then((res) => bindFunc(res.data.jwt, res.data.role[0].authority))
     } catch (e) {
       setError(e.message)
     }
