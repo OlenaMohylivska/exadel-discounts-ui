@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import axiosInstance from "components/api"
 import Loupe from "components/icons/Loupe"
 import { Form, Button } from "react-bootstrap"
@@ -6,6 +6,7 @@ import CompanyInfo from "components/companyInfo"
 import "./styles.scss"
 // import AddCompany from "components/add-company"
 import { Redirect } from "react-router-dom"
+import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -13,7 +14,10 @@ const EditCompaniesAll = () => {
   const [companies, setCompanies] = useState(null)
   const [newCompany, setNewCompany] = useState(false)
   const [companiesFetchError, setCompaniesFetchError] = useState(null)
-
+  const { bindToken } = useContext(Context)
+  useEffect(() => {
+    bindToken()
+  }, [])
   const fetchData = async (url, setFunc) => {
     try {
       await axiosInstance

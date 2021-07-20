@@ -35,7 +35,10 @@ function Login() {
     try {
       await axiosInstance
         .post("/api/login", loginData)
-        .then((res) => bindFunc(res.data.jwt, res.data.role[0].authority))
+        .then((res) => {
+          localStorage.setItem("role", res.data.role[0].authority)
+          bindFunc(res.data.jwt, res.data.role[0].authority)
+        })
     } catch (e) {
       setError(e.message)
     }

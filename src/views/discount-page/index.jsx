@@ -36,7 +36,7 @@ const DiscountPage = () => {
   const [review, setReview] = useState(null)
   const [allRating, setAllRating] = useState({})
   const images = useContext(Context)
-
+  const { bindToken } = useContext(Context)
   const addressCountry = discount && discount.country && discount.country.name
   const fullAddressLocations =
     addressCountry &&
@@ -90,6 +90,9 @@ const DiscountPage = () => {
 
   useEffect(() => {
     axiosInstance.put(`api/discounts/${id}/views`)
+  }, [])
+  useEffect(() => {
+    bindToken()
   }, [])
 
   useEffect(() => {

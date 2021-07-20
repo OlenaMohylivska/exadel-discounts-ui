@@ -11,6 +11,7 @@ import axiosInstance from "../../components/api"
 
 const Catalog = () => {
   const images = useContext(Context)
+  const { bindToken } = useContext(Context)
   const [discounts, setDiscounts] = useState(null)
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [searchLocation, setSearchLocation] = useState([])
@@ -99,13 +100,10 @@ const Catalog = () => {
       return
     }
   }, [searching])
-  const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
   useEffect(() => {
-    axiosInstance.interceptors.request.use((config) => {
-      token ? (config.headers.Authorization = token) : config
-      return config
-    })
+    bindToken()
   }, [])
+
   const fetchData = async () => {
     setLoading(true)
     try {

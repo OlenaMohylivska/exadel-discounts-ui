@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import "./styles.scss"
 import axiosInstance from "components/api"
 import { useHistory } from "react-router-dom"
@@ -7,6 +7,9 @@ import moment from "moment"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import PdfDocument from "views/pdf-promocode"
 import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
+
+import { Context } from "store/context"
+
 // import { Base64 } from "js-base64"
 
 // const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
@@ -19,6 +22,7 @@ const OrderConfirm = () => {
   const [discountLocations, setDiscountLocations] = useState(null)
   const history = useHistory()
 
+  const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
 
   const fullAddressLocations =
@@ -59,6 +63,9 @@ const OrderConfirm = () => {
 
   useEffect(() => {
     fetchData(`/api/orders/${discountId}`)
+  }, [])
+  useEffect(() => {
+    bindToken()
   }, [])
 
   useEffect(() => {

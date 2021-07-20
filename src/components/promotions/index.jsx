@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Container, Form, Button, Spinner } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import axiosInstance from "components/api"
 import { useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
 import PromotionInfo from "components/promotionInfo"
+import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -13,8 +14,11 @@ const Promotions = () => {
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
   const [loading, setLoading] = useState(false)
   const history = useHistory()
-  const { path } = useRouteMatch('/admin')
-
+  const { path } = useRouteMatch("/admin")
+  const { bindToken } = useContext(Context)
+  useEffect(() => {
+    bindToken()
+  }, [])
 
   useEffect(async () => {
     try {
