@@ -33,7 +33,6 @@ function ToolsModal({ show, setShow, text, deleteCategory }) {
 }
 
 
-
 export default ToolsModal
 
 ToolsModal.propTypes = {

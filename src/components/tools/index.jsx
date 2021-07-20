@@ -59,8 +59,6 @@ const Tools = () => {
     setCategory({ ...category, tags: category.tags.filter(tag => tag.id !== id) })
   }
 
-
-
   const categoriesOptions = useMemo(() => {
     return (
       categories.length > 0 &&
@@ -71,7 +69,6 @@ const Tools = () => {
       }))
     )
   }, [categories])
-
 
   const categoryHandleChange = (e) => {
     setCategory({ name: e.name, id: e.id, tags: e.tags })
@@ -86,7 +83,7 @@ const Tools = () => {
   }
 
   const tagsByNewCategoryHandleChange = (e) => {
-    setNewCategory({ ...newCategory, tags: e.target.value.split(";").map(tag => ({ name: tag })) })
+    setNewCategory({ ...newCategory, tags: e.target.value.split(",").map(tag => ({ name: tag })) })
   }
 
   return (
@@ -108,10 +105,10 @@ const Tools = () => {
                   />
                 </Form.Group>
                 <Form.Group className="category-form-field">
-                  <Form.Label>Enter tags, related to this category(split with ;)</Form.Label>
+                  <Form.Label>Enter tags, related to this category(split with ,)</Form.Label>
                   <Form.Control
                     placeholder="New tags"
-                    value={newCategory.tags.map(tag => tag.name).join(";") || ""}
+                    value={newCategory.tags.map(tag => tag.name).join(",") || ""}
                     onChange={tagsByNewCategoryHandleChange}
                     type="text"
                     className="tag-input"
