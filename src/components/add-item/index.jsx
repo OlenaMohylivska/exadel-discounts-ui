@@ -401,7 +401,7 @@ const AddItem = (props) => {
           </InputGroup>
           {errors.promoCode ? <ValidationError error={errors.promoCode} /> : ""}
         </div>
-        {successMessage && <ToastElement />}
+        {successMessage && <ToastElement setSuccessMessage={setSuccessMessage} />}
       </div>
     </Form>
   )

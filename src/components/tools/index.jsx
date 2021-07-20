@@ -6,6 +6,7 @@ import "./styles.css"
 import FetchError from 'components/fetch-error'
 import Select from "react-select"
 import ToolsModal from "components/tools-modal"
+import ToastElement from "components/toast"
 
 const Tools = () => {
   const { bindToken } = useContext(Context)
@@ -24,6 +25,7 @@ const Tools = () => {
 
   //modal
   const [show, setShow] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(false)
 
   useEffect(() => {
     bindToken()
@@ -43,6 +45,7 @@ const Tools = () => {
   const postCategory = () => {
     axiosInstance.post("/api/category", newCategory)
       .then(() => setNewCategory({ name: "", tags: [] }))
+      .then(() => setSuccessMessage(true))
       .then(() => fetchData("/api/category", setCategories))
   }
 
@@ -53,6 +56,7 @@ const Tools = () => {
         setCategory({ ...category, tags: [...category.tags, ...response.data.tags] })
         setTag([])
       })
+      .then(() => setSuccessMessage(true))
       .then(() => fetchData("/api/category", setCategories))
   }
 
@@ -60,6 +64,7 @@ const Tools = () => {
   const deleteCategory = () => {
     axiosInstance.delete(`/api/category/${category.id}`)
       .then(() => setCategory({ name: "", tags: [] }))
+      .then(() => setSuccessMessage(true))
       .then(() => fetchData("/api/category", setCategories))
   }
 
@@ -181,6 +186,7 @@ const Tools = () => {
                 </Button>
               </div>
             </div>
+            {successMessage && <ToastElement setSuccessMessage={setSuccessMessage}/>}
           </Col>
         </Row>
       </Container>
@@ -188,5 +194,4 @@ const Tools = () => {
     </>
   )
 }
-
 export default Tools
