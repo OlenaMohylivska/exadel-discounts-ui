@@ -13,7 +13,7 @@ import Breadcrumbs from "components/breadcrumbs"
 function App() {
   const token = localStorage.getItem("jwt")
   const [isAuthorized, setIsAuthorized] = useState(!!token)
-  useEffect(() => {
+
   const bindToken = () => {
     const token = !!localStorage.getItem("jwt")
     axiosInstance.interceptors.request.use((config) => {
