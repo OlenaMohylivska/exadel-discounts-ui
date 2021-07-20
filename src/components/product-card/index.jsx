@@ -1,26 +1,12 @@
-import React, { useState } from "react"
-//import axiosInstance from "components/api"
+import React from "react"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
+import moment from "moment"
 import StarRatings from "react-star-ratings"
 import "./styles.css"
-import { Link, Redirect } from "react-router-dom"
-import moment from "moment"
+import { Link } from "react-router-dom"
 
 function ProductCard({ elem }) {
-  // const [img, setImg] = useState(null)
-  const [order, setOrder] = useState(false)
-
-  const orderToggle = () => {
-    setOrder(true)
-  }
-
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get(`/api/images/${elem.nameImage}`)
-  //     .then((response) => setImg(response.data))
-  // }, [elem])
-
   return (
     <Card className=" shadow product-card">
       <Link
@@ -33,9 +19,10 @@ function ProductCard({ elem }) {
         }}
       >
         <Card.Subtitle className="product-actuality text-muted">
-          expires in {moment(elem && elem.periodEnd).format("MMM Do YYYY")}
+          expires in {moment(elem.periodEnd).format("MMM Do YYYY")}
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
+
         <Card.Img
           variant="top"
           className="product-image"
@@ -46,17 +33,15 @@ function ProductCard({ elem }) {
         <div className="product-description">
           <Card.Text className="product-feedback">{elem.description}</Card.Text>
         </div>
+
         <div className="product-footer">
           <StarRatings
-            starDimension="24px"
-            starSpacing="4px"
-            rating={elem.rate ?? 0}
+            starDimension="27px"
+            starSpacing="5px"
+            rating={elem.rate}
             starRatedColor="#FFD700"
           />
-          <Button variant="dark" onClick={orderToggle}>
-            Order
-          </Button>
-          {order ? <Redirect to={`/order-confirmation/${elem.id}`} /> : ""}
+          <Button variant="primary">Order</Button>
         </div>
       </Card.Body>
     </Card>
@@ -74,5 +59,6 @@ ProductCard.propTypes = {
     id: PropTypes.number,
     img: PropTypes.string,
     rate: PropTypes.number,
+    imageId: PropTypes.number,
   }),
 }

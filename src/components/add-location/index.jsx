@@ -7,9 +7,11 @@ const AddLocation = ({
   countryLocation,
   citiesLocation,
   setCitiesLocation,
+  addressesList,
+  setAddressesList,
 }) => {
   const [locationObj, setLocationObj] = useState({ name: "", addresses: [] })
-  const [addressesList, setAddressesList] = useState([])
+
   const [isEntered, setIsEntered] = useState(true)
 
   ////city
@@ -40,7 +42,7 @@ const AddLocation = ({
   const addressesHandleChange = (e) => {
     const arr = e.map((e) => ({
       address: e.address,
-      id: e.id
+      id: e.id,
     }))
     setLocationObj({ ...locationObj, addresses: arr })
   }
@@ -78,9 +80,10 @@ const AddLocation = ({
 
           <Button
             varian="primary"
-            className={isEntered ? "my-3 w-50 mx-auto" : "my-3 w-50 mx-auto d-none"}
+            className={
+              isEntered ? "my-3 w-50 mx-auto" : "my-3 w-50 mx-auto d-none"
+            }
             onClick={() => save()}
-
           >
             Save
           </Button>
@@ -96,4 +99,6 @@ AddLocation.propTypes = {
   countryLocation: PropTypes.array,
   citiesLocation: PropTypes.array,
   setCitiesLocation: PropTypes.func,
+  addressesList: PropTypes.array,
+  setAddressesList: PropTypes.func,
 }

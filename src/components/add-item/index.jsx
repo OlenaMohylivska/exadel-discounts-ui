@@ -30,6 +30,7 @@ const AddItem = (props) => {
     error: null,
     show: false,
   })
+  const [addressesList, setAddressesList] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
 
@@ -44,7 +45,6 @@ const AddItem = (props) => {
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
   const [nameImage, setNameImage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(false)
-
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -146,6 +146,7 @@ const AddItem = (props) => {
   useEffect(() => {
     fetchData("/api/category", setCategories)
   }, [])
+
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
@@ -213,6 +214,21 @@ const AddItem = (props) => {
       quantity: null,
       company: null,
     })
+    setChooseLocation([])
+    setActualLocation({
+      country: "",
+      cities: [],
+    })
+    setCitiesLocation([])
+    setCountryLocation(null)
+    setNewLocationsArr([{ id: 0 }])
+    setTags([])
+    setDiscountPostError({
+      error: null,
+      show: false,
+    })
+    setAddressesList([])
+    setTags([])
   }
 
   const addNewLocation = () => {
@@ -220,6 +236,7 @@ const AddItem = (props) => {
   }
   //////// END HELPING FUNCTIONS
   ///// SHORTCUT VARIABLES
+
   const getLocation = (
     <>
       <span className="discount-subtitle">Location </span>
@@ -230,6 +247,8 @@ const AddItem = (props) => {
           countryLocation={countryLocation}
           citiesLocation={citiesLocation}
           setCitiesLocation={setCitiesLocation}
+          addressesList={addressesList}
+          setAddressesList={setAddressesList}
         />
       ))}
       <Button onClick={() => addNewLocation()}>add location</Button>
