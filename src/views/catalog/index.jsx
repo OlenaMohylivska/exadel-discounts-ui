@@ -46,12 +46,12 @@ const Catalog = () => {
 
   const handleSearchCompanies = (e) => {
     setSearch({ ...search, companies: [e.label] })
-    setTimeout(funcHelperForSearching, 2000)
+    setTimeout(funcDebouncer, 2000)
   }
   const handleSearchTags = (e) => {
     const arr = e.map((e) => e.value)
     setSearch({ ...search, tags: arr })
-    setTimeout(funcHelperForSearching, 2000)
+    setTimeout(funcDebouncer, 2000)
   }
 
   const handleSortingOption = (e) => {
@@ -63,11 +63,11 @@ const Catalog = () => {
       ],
     }
     setSearch({ ...search, orders: orders.orders })
-    setTimeout(funcHelperForSearching, 2000)
+    setTimeout(funcDebouncer, 2000)
   }
   const handleSearchText = (e) => {
     setSearch({ ...search, searchText: e.target.value })
-    setTimeout(funcHelperForSearching, 2000)
+    setTimeout(funcDebouncer, 2000)
   }
   const handleSearchLocation = (e) => {
     setSearch({
@@ -83,7 +83,7 @@ const Catalog = () => {
     setSearching(true)
     setLoading(true)
   }
-  const funcHelperForSearching = () => {
+  const funcDebouncer = () => {
     setSearching(true)
     setLoading(true)
   }
