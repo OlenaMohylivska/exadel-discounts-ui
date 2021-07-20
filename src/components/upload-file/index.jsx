@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import "./styles.scss"
 import { Context } from "store/context"
 
-function FileUploadPage({ setFileId }) {
+function FileUploadPage({ setNameImage }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
   const { bindToken } = useContext(Context)
@@ -18,7 +18,7 @@ function FileUploadPage({ setFileId }) {
     formData.append("file", file)
     axiosInstance
       .post("api/images", formData)
-      .then((res) => setFileId(res.data))
+      .then((res) => setNameImage(res.data))
     setIsSelected(true)
     setFileView(URL.createObjectURL(event.target.files[0]))
   }
@@ -53,5 +53,5 @@ function FileUploadPage({ setFileId }) {
 export default FileUploadPage
 
 FileUploadPage.propTypes = {
-  setFileId: PropTypes.func,
+  setNameImage: PropTypes.func,
 }

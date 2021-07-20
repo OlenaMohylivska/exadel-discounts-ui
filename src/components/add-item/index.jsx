@@ -19,12 +19,12 @@ const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: null,
     country: null,
-    category: { name: "", tags: [] },
+    category: null,
     quantity: null,
     company: null,
     periodStart: null,
     imageId: 0,
-    tags: [],
+    tags: null,
   })
   const [errors, setErrors] = useState({})
   const [discountPostError, setDiscountPostError] = useState({
@@ -34,22 +34,24 @@ const AddItem = (props) => {
   const [addressesList, setAddressesList] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
-  const [category, setCategory] = useState({})
+
   const [chooseLocation, setChooseLocation] = useState([])
   const [actualLocation, setActualLocation] = useState({
     country: "",
     cities: [],
   })
+  const [categories, setCategories] = useState([])
   const [citiesLocation, setCitiesLocation] = useState([])
   const [countryLocation, setCountryLocation] = useState(null)
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-  const [categoryArr, setCategoryArr] = useState([])
-  const [fileId, setFileId] = useState("")
+  const [nameImage, setNameImage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(false)
+
   const { bindToken } = useContext(Context)
   useEffect(() => {
     bindToken()
   }, [])
+
   const companyOptions = discountProviders.map((company) => {
     return {
       value: company.name,
@@ -65,20 +67,7 @@ const AddItem = (props) => {
       id: tag.id,
     }
   })
-  const categoryOptions = categoryArr.map((category) => {
-    return {
-      value: category.name,
-      label: category.name,
-      tags: category.tags,
-    }
-  })
-  const locationOptions = chooseLocation.map((country) => {
-    return {
-      value: country.name,
-      label: country.name,
-      cities: country.cities,
-    }
-  })
+
   ////////// end selector category options
 
   ////// handleChanges
@@ -86,8 +75,8 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
+    setData({ ...data, category: { name: e.value } })
     setTags(e.tags)
-    setCategory({ name: e.value })
   }
 
   const handleChangeCompanies = (e) => {
@@ -95,43 +84,49 @@ const AddItem = (props) => {
       ...data,
       company: { id: e.id },
     })
-    fetchDataLocation(`/api/company/${e.id}`, setChooseLocation)
+    fetchDataLocation(`/api/company/${e.id}/location`, setChooseLocation)
   }
-  const locationHandleChange = (e) => {
-    setActualLocation({ name: e.value })
-    setCountryLocation(e.cities)
+
+  const locationHandleChange = () => {
+    setActualLocation({ name: chooseLocation.name })
+    setCountryLocation(chooseLocation.cities)
   }
+  useEffect(() => {
+    if (chooseLocation) {
+      return locationHandleChange()
+    }
+  }, [chooseLocation])
   ///// end handleChanges
   //// fetch functions
   const fetchData = async (url, setFunc) => {
     axiosInstance.get(baseUrl + url).then((response) => setFunc(response.data))
   }
   const fetchDataLocation = async (url, setFunc) => {
-    axiosInstance
-      .get(baseUrl + url)
-      .then((response) => setFunc(response.data.countries))
+    axiosInstance.get(baseUrl + url).then((response) => setFunc(response.data))
   }
   //// end fetch functions
 
   //// useEffects FOR CHANGE DATA
 
-  useEffect(() => {
-    setData({ ...data, category: category, tags: category.tags })
-  }, [category])
+  // useEffect(() => {
+  //   setData({ ...data, category: category })
+  // }, [category])
+
   const handleChangeTags = (e) => {
     const arr = e.map((elem) => ({
       name: elem.value,
       id: elem.id,
     }))
-    setCategory({ ...category, tags: arr })
+    setData({ ...data, tags: arr })
   }
-  const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
-  useEffect(() => {
-    axiosInstance.interceptors.request.use((config) => {
-      token ? (config.headers.Authorization = token) : config
-      return config
-    })
-  }, [])
+
+  const categoryOptions = categories.map((category) => {
+    return {
+      value: category.name,
+      label: category.name,
+      tags: category.tags,
+    }
+  })
 
   useEffect(() => {
     setActualLocation({ ...actualLocation, cities: citiesLocation })
@@ -140,8 +135,8 @@ const AddItem = (props) => {
     setData({ ...data, country: actualLocation })
   }, [actualLocation])
   useEffect(() => {
-    setData({ ...data, imageId: fileId })
-  }, [fileId])
+    setData({ ...data, nameImage: nameImage })
+  }, [nameImage])
   ////
 
   //// send file to server
@@ -156,7 +151,7 @@ const AddItem = (props) => {
   }, [])
 
   useEffect(() => {
-    fetchData("/api/category", setCategoryArr)
+    fetchData("/api/category", setCategories)
   }, [])
 
   useEffect(() => {
@@ -226,7 +221,6 @@ const AddItem = (props) => {
       quantity: null,
       company: null,
     })
-    setFileId("")
     setChooseLocation([])
     setActualLocation({
       country: "",
@@ -236,7 +230,6 @@ const AddItem = (props) => {
     setCountryLocation(null)
     setNewLocationsArr([{ id: 0 }])
     setTags([])
-    setCategory({})
     setDiscountPostError({
       error: null,
       show: false,
@@ -254,15 +247,7 @@ const AddItem = (props) => {
   const getLocation = (
     <>
       <span className="discount-subtitle">Location </span>
-      {locationOptions && locationOptions.length > 0 ? (
-        <Select
-          options={locationOptions}
-          onChange={(e) => locationHandleChange(e)}
-          placeholder="country"
-        />
-      ) : (
-        ""
-      )}
+
       {newLocationsArr.map((elem) => (
         <AddLocation
           key={elem.id}
@@ -292,7 +277,7 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
-            <FileUploadPage setFileId={setFileId} />
+            <FileUploadPage setNameImage={setNameImage} />
           </div>
           <div className="description">
             <span className="headers">Description:</span>

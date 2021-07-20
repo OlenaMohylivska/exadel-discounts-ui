@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useContext } from "react"
-import axiosInstance from "components/api"
+
+import React from "react"
+
+
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 import moment from "moment"
@@ -8,21 +10,6 @@ import "./styles.css"
 import { Link, Redirect } from "react-router-dom"
 import { Context } from "store/context"
 function ProductCard({ elem }) {
-  const [img, setImg] = useState(null)
-  const [order, setOrder] = useState(false)
-  const { bindToken } = useContext(Context)
-  useEffect(() => {
-    bindToken()
-  }, [])
-  const orderToggle = () => {
-    setOrder(true)
-  }
-  useEffect(() => {
-    elem.imageId &&
-      axiosInstance
-        .get(`/api/images/${elem.imageId}`)
-        .then((response) => setImg(response.config.url))
-  }, [elem])
 
   return (
     <Card className=" shadow product-card">
@@ -40,13 +27,11 @@ function ProductCard({ elem }) {
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
 
-        {img && (
-          <Card.Img
-            variant="top"
-            className="product-image"
-            src={`https://sandbox-team5.herokuapp.com${img}`}
-          />
-        )}
+        <Card.Img
+          variant="top"
+          className="product-image"
+          src={`https://sandbox-team5.herokuapp.com/api/images/${elem.nameImage}`}
+        />
       </Link>
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">
@@ -71,6 +56,7 @@ export default ProductCard
 
 ProductCard.propTypes = {
   elem: PropTypes.shape({
+    nameImage: PropTypes.string,
     periodEnd: PropTypes.number,
     name: PropTypes.string,
     description: PropTypes.string,
