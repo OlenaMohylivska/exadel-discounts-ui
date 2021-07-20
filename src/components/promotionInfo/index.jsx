@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Container, Card, Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import PropTypes from "prop-types"
@@ -6,6 +6,7 @@ import { Link, useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
 import moment from "moment"
 import axiosInstance from "components/api"
+import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 const discountDefaultImg = "https://img.icons8.com/plasticine/2x/no-image.png"
@@ -13,6 +14,10 @@ const discountDefaultImg = "https://img.icons8.com/plasticine/2x/no-image.png"
 const PromotionInfo = ({ elem }) => {
   const [imgName, setImgName] = useState(null)
   const [imgUrl, setImgUrl] = useState(null)
+  const { bindToken } = useContext(Context)
+  useEffect(() => {
+    bindToken()
+  }, [])
   let blob = new Blob([imgName], { type: "image/jpeg" })
   const url = blob && URL.createObjectURL(blob)
 

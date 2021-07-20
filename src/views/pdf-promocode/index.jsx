@@ -8,21 +8,22 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer"
-import QRCode from "qrcode.react"
+// import QRCode from "qrcode.react"
 import PropTypes from "prop-types"
 import moment from "moment"
-import { Base64 } from "js-base64"
+// import { Base64 } from "js-base64"
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     backgroundColor: "#fefefe",
+    alignItems: "center",
     fontSize: 18,
     padding: 10,
   },
   section: {
     padding: 10,
-    textAlign: "center",
+    alignItems: "center",
     margin: 10,
     maxWidth: 500,
   },
@@ -30,32 +31,24 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
   },
+  locationItem: {
+    marginTop: 5,
+    fontSize: 14,
+    alignItems: "center",
+  },
 })
 
-const PdfDocument = ({ expirationDate, promocode }) => {
-  const QRConverted = Base64.encode(
-    <QRCode
-      value={promocode}
-      renderAs="svg"
-      size={128}
-      level={"H"}
-      fgColor="#333"
-      bgColor="#fff"
-      src="/promocode"
-    />
-  )
+const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text>
-            Congrats on your choice! Your promocode name is {promocode}
+            Congrats on your choice! Your discount name is {discountName}
           </Text>
         </View>
         <View style={styles.image}>
-          <Image
-            src={`data:image/png;base64,${QRConverted}`}
-          />
+          <Image src={QrCode} />
         </View>
         <View style={styles.section}>
           <Text>
@@ -64,8 +57,24 @@ const PdfDocument = ({ expirationDate, promocode }) => {
           </Text>
         </View>
         <View style={styles.section}>
-          <Text>Address: Ukraine, Lviv, Chornovola Str 25 </Text>
+          <Text>
+            Check address down below:
+          </Text>
         </View>
+        {locations && locations.length > 0 ? (
+          <View style={styles.section}>
+            (<Text style={styles.locationItem}>{locations[0]}</Text>
+            <Text style={styles.locationItem}>
+              {locations[1] && locations[1]}
+            </Text>
+            <Text style={styles.locationItem}>
+              {locations[2] && locations[2]}
+            </Text>
+            <Text style={styles.locationItem}>
+              {locations[3] && locations[3]}{" "}
+            </Text>
+          </View>
+        ) : "Please check the address at discount provider website"}
       </Page>
     </Document>
   )
@@ -75,6 +84,7 @@ export default PdfDocument
 
 PdfDocument.propTypes = {
   expirationDate: PropTypes.string,
-  promocode: PropTypes.string,
-  promocodeUrl: PropTypes.string,
+  QrCode: PropTypes.string,
+  discountName: PropTypes.string,
+  locations: PropTypes.array,
 }
