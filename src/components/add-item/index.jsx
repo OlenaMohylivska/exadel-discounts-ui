@@ -31,6 +31,7 @@ const AddItem = (props) => {
     error: null,
     show: false,
   })
+  const [addressesList, setAddressesList] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
   const [category, setCategory] = useState({})
@@ -42,7 +43,8 @@ const AddItem = (props) => {
   const [citiesLocation, setCitiesLocation] = useState([])
   const [countryLocation, setCountryLocation] = useState(null)
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-  const [fileId, setFileId] = useState({ file: null })
+  const [categoryArr, setCategoryArr] = useState([])
+  const [fileId, setFileId] = useState("")
   const [successMessage, setSuccessMessage] = useState(false)
   const { bindToken } = useContext(Context)
   useEffect(() => {
@@ -63,11 +65,13 @@ const AddItem = (props) => {
       id: tag.id,
     }
   })
-  const categoryOptions = [
-    { value: "Food", label: "Food" },
-    { value: "Sport", label: "Sport" },
-    { value: "Education", label: "Education" },
-  ]
+  const categoryOptions = categoryArr.map((category) => {
+    return {
+      value: category.name,
+      label: category.name,
+      tags: category.tags,
+    }
+  })
   const locationOptions = chooseLocation.map((country) => {
     return {
       value: country.name,
@@ -82,6 +86,7 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
+    setTags(e.tags)
     setCategory({ name: e.value })
   }
 
@@ -149,9 +154,11 @@ const AddItem = (props) => {
   useEffect(() => {
     fetchData("/api/company", setDiscountProviders)
   }, [])
+
   useEffect(() => {
-    fetchData("/api/tags", setTags)
+    fetchData("/api/category", setCategoryArr)
   }, [])
+
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
@@ -219,6 +226,23 @@ const AddItem = (props) => {
       quantity: null,
       company: null,
     })
+    setFileId("")
+    setChooseLocation([])
+    setActualLocation({
+      country: "",
+      cities: [],
+    })
+    setCitiesLocation([])
+    setCountryLocation(null)
+    setNewLocationsArr([{ id: 0 }])
+    setTags([])
+    setCategory({})
+    setDiscountPostError({
+      error: null,
+      show: false,
+    })
+    setAddressesList([])
+    setTags([])
   }
 
   const addNewLocation = () => {
@@ -226,6 +250,7 @@ const AddItem = (props) => {
   }
   //////// END HELPING FUNCTIONS
   ///// SHORTCUT VARIABLES
+
   const getLocation = (
     <>
       <span className="discount-subtitle">Location </span>
@@ -244,6 +269,8 @@ const AddItem = (props) => {
           countryLocation={countryLocation}
           citiesLocation={citiesLocation}
           setCitiesLocation={setCitiesLocation}
+          addressesList={addressesList}
+          setAddressesList={setAddressesList}
         />
       ))}
       <Button onClick={() => addNewLocation()}>add location</Button>

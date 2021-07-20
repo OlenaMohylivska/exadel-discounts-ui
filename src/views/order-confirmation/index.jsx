@@ -1,25 +1,27 @@
-import React, { useState, useEffect, useRef, useContext } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import "./styles.scss"
 import axiosInstance from "components/api"
 import { useHistory } from "react-router-dom"
 import moment from "moment"
-import QRCode from "qrcode.react"
+// import QRCode from "qrcode.react"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import PdfDocument from "views/pdf-promocode"
-import { Base64 } from "js-base64"
 import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
+
 import { Context } from "store/context"
 
-const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+// import { Base64 } from "js-base64"
+
+// const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const OrderConfirm = () => {
-  const [promocode, setPromocode] = useState(null)
+  const [QrCode, setQrCode] = useState([])
   const [promocodeFetchError, setPromocodeFetchError] = useState([])
   const [expirationDate, setExpirationDate] = useState("")
   const [discountName, setDiscountName] = useState("")
   const [discountLocations, setDiscountLocations] = useState(null)
   const history = useHistory()
-  const promocodeRef = useRef()
+
   const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
 
@@ -39,11 +41,20 @@ const OrderConfirm = () => {
 
   const fetchData = async (url) => {
     try {
-      await axiosInstance.get(baseUrl + url).then((response) => {
-        setPromocode(response.data.employeePromocode)
+      await axiosInstance.get(url).then((response) => {
         setExpirationDate(response.data.promoCodePeriodEnd)
         setDiscountName(response.data.discount.name)
         setDiscountLocations(response.data.discount.company.countries)
+      })
+    } catch (e) {
+      setPromocodeFetchError(e.message)
+    }
+  }
+
+  const fetchQRCode = async (url) => {
+    try {
+      await axiosInstance.post(url).then((response) => {
+        setQrCode(response.data)
       })
     } catch (e) {
       setPromocodeFetchError(e.message)
@@ -57,7 +68,12 @@ const OrderConfirm = () => {
     bindToken()
   }, [])
 
-  const promocodeUrl = Base64.encode(promocode)
+  useEffect(() => {
+    fetchQRCode(`/api/orders/create/${discountId}`)
+  }, [])
+
+  let blob = new Blob([QrCode], { type: "image/png" })
+  const url = URL.createObjectURL(blob)
 
   return (
     <div className="order-wrapper">
@@ -67,32 +83,22 @@ const OrderConfirm = () => {
       </h4>
       <div className="promocode-info">
         <div className="promocode">
-          {promocode ? (
-            <QRCode
-              value={promocode}
-              renderAs="svg"
-              size={128}
-              level={"H"}
-              fgColor="#333"
-              bgColor="#fff"
-              src="/promocode"
-              ref={promocodeRef}
-            />
+          {QrCode ? (
+            <img src={url} />
           ) : (
             <div className="fetch-error-info">
               Loading discount info... {promocodeFetchError}
             </div>
           )}
-          {promocode && (
+          {QrCode && (
             <div>
               <PDFDownloadLink
                 document={
                   <PdfDocument
                     discountName={discountName}
                     expirationDate={expirationDate}
-                    promocode={promocode}
-                    setPromocode={setPromocode}
-                    promocodeUrl={promocodeUrl}
+                    QrCode={QrCode}
+                    locations={fullAddressLocations}
                   />
                 }
                 fileName={`Promocode for ${discountName}.pdf`}
@@ -103,7 +109,12 @@ const OrderConfirm = () => {
           )}
         </div>
 
-        <p>Expiration date: {moment(expirationDate).format("MMM Do YYYY")} </p>
+        <p>
+          {expirationDate &&
+            `Expiration date: ${moment(expirationDate).format(
+              "MMM Do YYYY"
+            )}`}{" "}
+        </p>
         <p>Addresses:</p>
         {fullAddressLocations &&
           fullAddressLocations.map((address, index) => (
@@ -120,3 +131,18 @@ const OrderConfirm = () => {
 }
 
 export default OrderConfirm
+
+{
+  /* <img src={`data:image/png;${base64Url}`} /> */
+}
+
+{
+  /* <QRCode
+  value={base64Url}
+  renderAs="svg"
+  size={148}
+  level={"H"}
+  fgColor="#333"
+  bgColor="#fff"
+/> */
+}

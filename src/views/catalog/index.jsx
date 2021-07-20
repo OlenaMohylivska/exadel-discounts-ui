@@ -23,7 +23,7 @@ const Catalog = () => {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState({
     // companies: [""],
-    itemsPerPage: 10,
+    itemsPerPage: 100,
     // orders: [
     //   {
     //     direction: "ASC",
@@ -37,6 +37,7 @@ const Catalog = () => {
   })
 
   const [searching, setSearching] = useState(false)
+
   const cityOptions = citiesLocation.map((city) => {
     return {
       value: city.name,
@@ -46,15 +47,14 @@ const Catalog = () => {
 
   const handleSearchCompanies = (e) => {
     setSearch({ ...search, companies: [e.label] })
-    setSearching(true)
-    setLoading(true)
+    setTimeout(funcDebouncer, 2000)
   }
   const handleSearchTags = (e) => {
     const arr = e.map((e) => e.value)
     setSearch({ ...search, tags: arr })
-    setSearching(true)
-    setLoading(true)
+    setTimeout(funcDebouncer, 2000)
   }
+
   const handleSortingOption = (e) => {
     const orders = {
       orders: [
@@ -64,12 +64,11 @@ const Catalog = () => {
       ],
     }
     setSearch({ ...search, orders: orders.orders })
-    setSearching(true)
-    setLoading(true)
+    setTimeout(funcDebouncer, 2000)
   }
   const handleSearchText = (e) => {
     setSearch({ ...search, searchText: e.target.value })
-    setTimeout(funcHelperForSearching, 2000)
+    setTimeout(funcDebouncer, 2000)
   }
   const handleSearchLocation = (e) => {
     setSearch({
@@ -85,7 +84,7 @@ const Catalog = () => {
     setSearching(true)
     setLoading(true)
   }
-  const funcHelperForSearching = () => {
+  const funcDebouncer = () => {
     setSearching(true)
     setLoading(true)
   }
