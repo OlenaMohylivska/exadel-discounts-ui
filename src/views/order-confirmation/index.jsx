@@ -25,26 +25,19 @@ const OrderConfirm = () => {
   const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
 
-  const fullAddressLocations =
-    discountLocations &&
-    discountLocations
-      .map((country) => {
-        return country.cities.map((city) => {
-          return city.addresses.map((el) => {
-            return el.address
-              ? `${country.name} ${city.name} ${el.address}`
-              : el.addresses.map((el) => `${country.name} ${el.address}`)
-          })
-        })
-      })
-      .flat(3)
+  const addresssMapper = (el) => {
+    return `${el.address} ${el.city.name} ${el.city.country.name}`
+  }
+  const discountAddresses = discountLocations && discountLocations.addresses.map(addresssMapper)
+  const discountCompanyAddresses = discountLocations && discountLocations.company.addresses.map(addresssMapper)
+  const fullAddressLocations = discountLocations && discountAddresses.length ? discountAddresses : discountCompanyAddresses
 
   const fetchData = async (url) => {
     try {
       await axiosInstance.get(url).then((response) => {
         setExpirationDate(response.data.promoCodePeriodEnd)
         setDiscountName(response.data.discount.name)
-        setDiscountLocations(response.data.discount.company.countries)
+        setDiscountLocations(response.data.discount)
       })
     } catch (e) {
       setPromocodeFetchError(e.message)
