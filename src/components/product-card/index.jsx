@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react"
-import axiosInstance from "components/api"
+import React, { useState } from "react"
+//import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import "./styles.css"
 import { Link, Redirect } from "react-router-dom"
 import moment from "moment"
+
 function ProductCard({ elem }) {
-  const [img, setImg] = useState(null)
+  // const [img, setImg] = useState(null)
   const [order, setOrder] = useState(false)
 
   const orderToggle = () => {
     setOrder(true)
   }
 
-  useEffect(() => {
-    axiosInstance
-      .get(`/api/images/${elem.imageId}`)
-      .then((response) => setImg(response.data))
-  }, [elem])
-  let blob = new Blob([img], { type: "image/jpeg" })
-  const url = blob && URL.createObjectURL(blob)
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get(`/api/images/${elem.nameImage}`)
+  //     .then((response) => setImg(response.data))
+  // }, [elem])
+
   return (
     <Card className=" shadow product-card">
       <Link
@@ -36,7 +36,11 @@ function ProductCard({ elem }) {
           expires in {moment(elem && elem.periodEnd).format("MMM Do YYYY")}
         </Card.Subtitle>
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
-        {url && <Card.Img variant="top" className="product-image" src={url} />}
+        <Card.Img
+          variant="top"
+          className="product-image"
+          src={`https://sandbox-team5.herokuapp.com/api/images/${elem.nameImage}`}
+        />
       </Link>
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">
@@ -63,7 +67,7 @@ export default ProductCard
 
 ProductCard.propTypes = {
   elem: PropTypes.shape({
-    imageId: PropTypes.number,
+    nameImage: PropTypes.string,
     periodEnd: PropTypes.number,
     name: PropTypes.string,
     description: PropTypes.string,
