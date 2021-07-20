@@ -5,7 +5,8 @@ import moment from "moment"
 import StarRatings from "react-star-ratings"
 import "./styles.scss"
 import { Link, Redirect } from "react-router-dom"
-// import OrderConfirm from "views/order-confirmation"
+import { SuitHeart } from "react-bootstrap-icons"
+
 
 function ProductCard({ elem }) {
   const [order, setOrder] = useState(false)
@@ -36,6 +37,7 @@ function ProductCard({ elem }) {
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">
           <Card.Text className="product-feedback">{elem.description}</Card.Text>
+          <SuitHeart className="fav-icon"/>
         </div>
 
         <div className="product-footer">

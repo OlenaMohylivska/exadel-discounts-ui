@@ -1,10 +1,8 @@
 .product-card {
   margin: 20px 0;
-  padding: 15px;
-  max-width: 400px;
-  min-width: 300px;
+  padding: 10px;
+  width: 320px;
   min-height: 300px;
-  border: 1px solid #000;
 }
 
 .card-title {
@@ -15,7 +13,7 @@ a {
 }
 
 .product-image {
-  height: 350px;
+  height: 150px;
   object-fit: cover;
 }
 
@@ -55,3 +53,19 @@ a {
   justify-content: space-between;
   align-items: center;
 }
+
+@media (max-width: 720px) {
+  .product-card {
+    width: 100%;
+  }
+}
+
+.fav-icon{
+      position: absolute;
+      top: 35px;
+      right: 15px;
+      width: 40px;
+      color: #FF0000;
+      cursor: pointer;   
+}
+
