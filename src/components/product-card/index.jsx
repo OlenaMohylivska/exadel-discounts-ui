@@ -1,14 +1,11 @@
-
 import React from "react"
-
-
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 import moment from "moment"
 import StarRatings from "react-star-ratings"
 import "./styles.css"
-import { Link, Redirect } from "react-router-dom"
-import { Context } from "store/context"
+import { Link } from "react-router-dom"
+
 function ProductCard({ elem }) {
 
   return (
