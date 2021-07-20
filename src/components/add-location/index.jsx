@@ -30,7 +30,7 @@ const AddLocation = ({
     setAddressesList(e.addresses)
   }
   ////address
-  const addressesOptions = addressesList.map((address) => {
+  const addressesOptions = addressesList && addressesList.map((address) => {
     return {
       value: address.address,
       label: address.address,
