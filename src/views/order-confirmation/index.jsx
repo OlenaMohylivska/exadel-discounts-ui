@@ -7,9 +7,7 @@ import moment from "moment"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import PdfDocument from "views/pdf-promocode"
 import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
-
 import { Context } from "store/context"
-
 // import { Base64 } from "js-base64"
 
 // const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
@@ -51,7 +49,13 @@ const OrderConfirm = () => {
     }
   }
 
-  const fetchQRCode = async (url) => {
+  useEffect(() => {
+    fetchData(`/api/orders/${discountId}`)
+  }, [])
+
+
+
+  const fetchQrCode = async (url) => {
     try {
       await axiosInstance.post(url).then((response) => {
         setQrCode(response.data)
@@ -62,18 +66,12 @@ const OrderConfirm = () => {
   }
 
   useEffect(() => {
-    fetchData(`/api/orders/${discountId}`)
+    fetchQrCode(`/api/orders/create/${discountId}`)
   }, [])
+
   useEffect(() => {
     bindToken()
   }, [])
-
-  useEffect(() => {
-    fetchQRCode(`/api/orders/create/${discountId}`)
-  }, [])
-
-  let blob = new Blob([QrCode], { type: "image/png" })
-  const url = URL.createObjectURL(blob)
 
   return (
     <div className="order-wrapper">
@@ -84,7 +82,7 @@ const OrderConfirm = () => {
       <div className="promocode-info">
         <div className="promocode">
           {QrCode ? (
-            <img src={url} />
+            <img src={`data:image/png;base64,${QrCode}`} />
           ) : (
             <div className="fetch-error-info">
               Loading discount info... {promocodeFetchError}
@@ -103,7 +101,7 @@ const OrderConfirm = () => {
                 }
                 fileName={`Promocode for ${discountName}.pdf`}
               >
-                Download now!
+                Download now! {QrCode}
               </PDFDownloadLink>
             </div>
           )}
@@ -131,18 +129,3 @@ const OrderConfirm = () => {
 }
 
 export default OrderConfirm
-
-{
-  /* <img src={`data:image/png;${base64Url}`} /> */
-}
-
-{
-  /* <QRCode
-  value={base64Url}
-  renderAs="svg"
-  size={148}
-  level={"H"}
-  fgColor="#333"
-  bgColor="#fff"
-/> */
-}

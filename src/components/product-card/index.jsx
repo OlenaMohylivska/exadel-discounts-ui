@@ -1,12 +1,18 @@
-import React from "react"
+import React, {useState} from "react"
 import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 import moment from "moment"
 import StarRatings from "react-star-ratings"
-import "./styles.css"
-import { Link } from "react-router-dom"
+import "./styles.scss"
+import { Link, Redirect } from "react-router-dom"
+// import OrderConfirm from "views/order-confirmation"
 
 function ProductCard({ elem }) {
+  const [order, setOrder] = useState(false)
+
+  const orderToggle = () => {
+    setOrder(true)
+  }
 
   return (
     <Card className=" shadow product-card">
@@ -14,9 +20,6 @@ function ProductCard({ elem }) {
         key={elem.id}
         to={{
           pathname: `/discount/${elem.id}`,
-          state: {
-            image: elem.img,
-          },
         }}
       >
         <Card.Subtitle className="product-actuality text-muted">
@@ -42,7 +45,10 @@ function ProductCard({ elem }) {
             rating={elem.rate}
             starRatedColor="#FFD700"
           />
-          <Button variant="primary">Order</Button>
+          <Button variant="primary" onClick={orderToggle}>
+            Order
+          </Button>
+          {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
         </div>
       </Card.Body>
     </Card>

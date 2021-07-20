@@ -57,9 +57,7 @@ const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
           </Text>
         </View>
         <View style={styles.section}>
-          <Text>
-            Check address down below:
-          </Text>
+          <Text>Check address down below:</Text>
         </View>
         {locations && locations.length > 0 ? (
           <View style={styles.section}>
@@ -74,7 +72,9 @@ const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
               {locations[3] && locations[3]}{" "}
             </Text>
           </View>
-        ) : "Please check the address at discount provider website"}
+        ) : (
+          "Please check the address at discount provider website"
+        )}
       </Page>
     </Document>
   )
