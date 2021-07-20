@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect, useMemo, useContext } from "react"
 import { Button, Col, Form, Row, Container } from "react-bootstrap"
+import { Context } from "store/context"
 import axiosInstance from "components/api"
 import "./styles.css"
 import FetchError from 'components/fetch-error'
@@ -7,6 +8,7 @@ import Select from "react-select"
 import ToolsModal from "components/tools-modal"
 
 const Tools = () => {
+  const { bindToken } = useContext(Context)
   //get
   const [categories, setCategories] = useState([])
 
@@ -23,9 +25,15 @@ const Tools = () => {
   //modal
   const [show, setShow] = useState(false)
 
+  useEffect(() => {
+    bindToken()
+  }, [])
+
   const fetchData = async (url, setter) => {
-    axiosInstance.get(url).then((res) => setter(res.data))
-      .catch(err => setFetchError(err.message))
+    axiosInstance
+      .get(url)
+      .then((res) => setter(res.data))
+      .catch((err) => setFetchError(err.message))
   }
 
   useEffect(() => {

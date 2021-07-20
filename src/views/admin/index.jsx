@@ -4,7 +4,6 @@ import { useRouteMatch, useHistory } from "react-router-dom"
 
 const Admin = () => {
   const adminTabs = [
-    { eventKey: "statistics", title: "Statistics" },
     { eventKey: "add-company", title: "✚ Add company" },
     { eventKey: "add-item", title: "✚ Add promotion" },
     { eventKey: "all-companies", title: "All companies" },
@@ -18,7 +17,7 @@ const Admin = () => {
 
   useEffect(() => {
     if (history.location.pathname === "/admin") {
-      history.push(`${path}/statistics`)
+      history.push(`${path}/add-company`)
     }
   }, [])
 
@@ -26,7 +25,7 @@ const Admin = () => {
     <div className="container">
       <Tabs
         onSelect={onTabSelected}
-        defaultActiveKey="statistics"
+        defaultActiveKey="add-company"
         transition={false}
       >
         {adminTabs.map((tab) => (

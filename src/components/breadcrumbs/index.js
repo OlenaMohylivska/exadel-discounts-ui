@@ -14,7 +14,12 @@ const Breadcrumbs = (props) => {
     <div className="breadcrumbs-wrapper">
       <Breadcrumb>
         {pathnames.length > 0 ? (
-          <Breadcrumb.Item href="/" onClick={() => history.push("/")}>
+          <Breadcrumb.Item
+            href="/"
+            onClick={(event) => {
+              event.preventDefault()
+              history.push("/")
+            }}>
             Home
           </Breadcrumb.Item>
         ) : ""}
@@ -26,7 +31,9 @@ const Breadcrumbs = (props) => {
               active
               key={name}
               href="/"
-              onClick={() => history.push(routeTo)}
+              onClick={(event) => {
+                event.preventDefault()
+                history.push(routeTo)}}
             >
               {name}
             </Breadcrumb.Item>
@@ -34,7 +41,10 @@ const Breadcrumbs = (props) => {
             <Breadcrumb.Item
               key={name}
               href="/"
-              onClick={() => history.push(routeTo)}
+              onClick={(event) => {
+                event.preventDefault()
+                history.push(routeTo)
+              }}
             >
               {name}
             </Breadcrumb.Item>

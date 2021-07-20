@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Button, Form, FormControl, InputGroup, Toast } from "react-bootstrap"
 import ValidationError from "../validation-error"
 import "./styles.scss"
@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom"
 import PropTypes from "prop-types"
 import AddLocation from "../add-location"
 import ToastElement from "components/toast"
+import { Context } from "store/context"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -18,31 +19,38 @@ const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: null,
     country: null,
-    category: { name: "", tags: [] },
+    category: null,
     quantity: null,
     company: null,
     periodStart: null,
     imageId: 0,
-    tags: [],
+    tags: null,
   })
   const [errors, setErrors] = useState({})
   const [discountPostError, setDiscountPostError] = useState({
     error: null,
     show: false,
   })
+  const [addressesList, setAddressesList] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
-  const [category, setCategory] = useState({})
+
   const [chooseLocation, setChooseLocation] = useState([])
   const [actualLocation, setActualLocation] = useState({
     country: "",
     cities: [],
   })
+  const [categories, setCategories] = useState([])
   const [citiesLocation, setCitiesLocation] = useState([])
   const [countryLocation, setCountryLocation] = useState(null)
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
-  const [fileId, setFileId] = useState({ file: null })
+  const [nameImage, setNameImage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(false)
+
+  const { bindToken } = useContext(Context)
+  useEffect(() => {
+    bindToken()
+  }, [])
 
   const companyOptions = discountProviders.map((company) => {
     return {
@@ -59,18 +67,7 @@ const AddItem = (props) => {
       id: tag.id,
     }
   })
-  const categoryOptions = [
-    { value: "Food", label: "Food" },
-    { value: "Sport", label: "Sport" },
-    { value: "Education", label: "Education" },
-  ]
-  const locationOptions = chooseLocation.map((country) => {
-    return {
-      value: country.name,
-      label: country.name,
-      cities: country.cities,
-    }
-  })
+
   ////////// end selector category options
 
   ////// handleChanges
@@ -78,43 +75,58 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
-    setCategory({ name: e.value })
+    setData({ ...data, category: { name: e.value } })
+    setTags(e.tags)
   }
+
   const handleChangeCompanies = (e) => {
     setData({
       ...data,
       company: { id: e.id },
     })
-    fetchDataLocation(`/api/company/${e.id}`, setChooseLocation)
+    fetchDataLocation(`/api/company/${e.id}/location`, setChooseLocation)
   }
-  const locationHandleChange = (e) => {
-    setActualLocation({ name: e.value })
-    setCountryLocation(e.cities)
+
+  const locationHandleChange = () => {
+    setActualLocation({ name: chooseLocation.name })
+    setCountryLocation(chooseLocation.cities)
   }
+  useEffect(() => {
+    if (chooseLocation) {
+      return locationHandleChange()
+    }
+  }, [chooseLocation])
   ///// end handleChanges
   //// fetch functions
   const fetchData = async (url, setFunc) => {
     axiosInstance.get(baseUrl + url).then((response) => setFunc(response.data))
   }
   const fetchDataLocation = async (url, setFunc) => {
-    axiosInstance
-      .get(baseUrl + url)
-      .then((response) => setFunc(response.data.countries))
+    axiosInstance.get(baseUrl + url).then((response) => setFunc(response.data))
   }
   //// end fetch functions
 
   //// useEffects FOR CHANGE DATA
 
-  useEffect(() => {
-    setData({ ...data, category: category, tags: category.tags })
-  }, [category])
+  // useEffect(() => {
+  //   setData({ ...data, category: category })
+  // }, [category])
+
   const handleChangeTags = (e) => {
     const arr = e.map((elem) => ({
       name: elem.value,
       id: elem.id,
     }))
-    setCategory({ ...category, tags: arr })
+    setData({ ...data, tags: arr })
   }
+
+  const categoryOptions = categories.map((category) => {
+    return {
+      value: category.name,
+      label: category.name,
+      tags: category.tags,
+    }
+  })
 
   useEffect(() => {
     setActualLocation({ ...actualLocation, cities: citiesLocation })
@@ -123,8 +135,8 @@ const AddItem = (props) => {
     setData({ ...data, country: actualLocation })
   }, [actualLocation])
   useEffect(() => {
-    setData({ ...data, imageId: fileId })
-  }, [fileId])
+    setData({ ...data, nameImage: nameImage })
+  }, [nameImage])
   ////
 
   //// send file to server
@@ -137,9 +149,11 @@ const AddItem = (props) => {
   useEffect(() => {
     fetchData("/api/company", setDiscountProviders)
   }, [])
+
   useEffect(() => {
-    fetchData("/api/tags", setTags)
+    fetchData("/api/category", setCategories)
   }, [])
+
   useEffect(() => {
     if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
@@ -207,6 +221,21 @@ const AddItem = (props) => {
       quantity: null,
       company: null,
     })
+    setChooseLocation([])
+    setActualLocation({
+      country: "",
+      cities: [],
+    })
+    setCitiesLocation([])
+    setCountryLocation(null)
+    setNewLocationsArr([{ id: 0 }])
+    setTags([])
+    setDiscountPostError({
+      error: null,
+      show: false,
+    })
+    setAddressesList([])
+    setTags([])
   }
 
   const addNewLocation = () => {
@@ -214,24 +243,19 @@ const AddItem = (props) => {
   }
   //////// END HELPING FUNCTIONS
   ///// SHORTCUT VARIABLES
+
   const getLocation = (
     <>
       <span className="discount-subtitle">Location </span>
-      {locationOptions && locationOptions.length > 0 ? (
-        <Select
-          options={locationOptions}
-          onChange={(e) => locationHandleChange(e)}
-          placeholder="country"
-        />
-      ) : (
-        ""
-      )}
+
       {newLocationsArr.map((elem) => (
         <AddLocation
           key={elem.id}
           countryLocation={countryLocation}
           citiesLocation={citiesLocation}
           setCitiesLocation={setCitiesLocation}
+          addressesList={addressesList}
+          setAddressesList={setAddressesList}
         />
       ))}
       <Button onClick={() => addNewLocation()}>add location</Button>
@@ -253,7 +277,7 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
-            <FileUploadPage setFileId={setFileId} />
+            <FileUploadPage setNameImage={setNameImage} />
           </div>
           <div className="description">
             <span className="headers">Description:</span>

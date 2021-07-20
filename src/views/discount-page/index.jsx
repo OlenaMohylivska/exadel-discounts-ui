@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useContext } from "react"
 import { useParams } from "react-router"
-import { Button, Col, Container, Row, Spinner, ProgressBar } from "react-bootstrap"
+import {
+  Button,
+  Col,
+  Container,
+  Row,
+  Spinner,
+  ProgressBar,
+} from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import axiosInstance from "components/api"
 import FetchError from "../../components/fetch-error"
@@ -29,14 +36,19 @@ const DiscountPage = () => {
   const [review, setReview] = useState(null)
   const [allRating, setAllRating] = useState({})
   const images = useContext(Context)
-
+  const { bindToken } = useContext(Context)
   const addressCountry = discount && discount.country && discount.country.name
-  const fullAddressLocations = addressCountry && discount.country.cities.map(city => {
-    return city.addresses.map(el => {
-      return el.address ? `${addressCountry} ${city.name} ${el.address}`
-        : el.addresses.map(el => `${addressCountry} ${el.address}`)
-    })
-  }).flat()
+  const fullAddressLocations =
+    addressCountry &&
+    discount.country.cities
+      .map((city) => {
+        return city.addresses.map((el) => {
+          return el.address
+            ? `${addressCountry} ${city.name} ${el.address}`
+            : el.addresses.map((el) => `${addressCountry} ${el.address}`)
+        })
+      })
+      .flat()
 
   const fetchData = async () => {
     setLoading(true)
@@ -55,16 +67,17 @@ const DiscountPage = () => {
   const getReviews = () => {
     setLoading(true)
     try {
-      axiosInstance
-        .get(`/api/discounts/${id}/reviews`)
-        .then(response => {
-          setAllRating({
-            rating: Object.keys(response.data).reverse(),
-            ratingCount: Object.values(response.data).reverse(),
-            maximalCount: Math.max.apply(null, Object.values(response.data).map(item => Number(item))),
-          })
-          setLoading(false)
+      axiosInstance.get(`/api/discounts/${id}/reviews`).then((response) => {
+        setAllRating({
+          rating: Object.keys(response.data).reverse(),
+          ratingCount: Object.values(response.data).reverse(),
+          maximalCount: Math.max.apply(
+            null,
+            Object.values(response.data).map((item) => Number(item))
+          ),
         })
+        setLoading(false)
+      })
     } catch (e) {
       setErrorMessage(e.message)
     }
@@ -77,6 +90,9 @@ const DiscountPage = () => {
 
   useEffect(() => {
     axiosInstance.put(`api/discounts/${id}/views`)
+  }, [])
+  useEffect(() => {
+    bindToken()
   }, [])
 
   useEffect(() => {
@@ -164,16 +180,21 @@ const DiscountPage = () => {
               <div className="discount-subtitle">
                 <Globe className="discount-icon" />
                 Location:&nbsp;
-                {fullAddressLocations ?
+                {fullAddressLocations ? (
                   <div className="discount-info">
                     {fullAddressLocations.map((location) => (
-                      <div className="mx-4 my-2" key={location}>{location}</div>
-                    ))
-                    }
-                  </div> : <span className="discount-info">No information</span>
-                }
+                      <div className="mx-4 my-2" key={location}>
+                        {location}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="discount-info">No information</span>
+                )}
               </div>
-              {addressCountry && <PreviewGoogleMap allAddresses={fullAddressLocations} />}
+              {addressCountry && (
+                <PreviewGoogleMap allAddresses={fullAddressLocations} />
+              )}
             </Col>
             <Col lg={6}>
               <div className="img-container">
@@ -200,13 +221,14 @@ const DiscountPage = () => {
                       starRatedColor="#FFD700"
                     />
                   </div>
-                </Col >
+                </Col>
                 <Col className="bars-container">
-
                   <div className="rating-numbers">
                     {allRating.rating.map((rating, index) => {
                       return (
-                        <div key={index} className="rating-numbers-item">{rating}</div>
+                        <div key={index} className="rating-numbers-item">
+                          {rating}
+                        </div>
                       )
                     })}
                   </div>
@@ -219,11 +241,11 @@ const DiscountPage = () => {
                             title={ratingCount}
                             max={allRating.maximalCount}
                             now={ratingCount}
-                            variant="success" />
+                            variant="success"
+                          />
                         </div>
                       )
-                    })
-                    }
+                    })}
                   </div>
                 </Col>
               </Row>

@@ -12,120 +12,64 @@ import AddItem from "components/add-item"
 import EditCompany from "components/edit-company"
 import EditItem from "components/edit-item"
 import Tools from "components/tools"
-import EditSlider from "components/edit-slider"
 import Statistics from "components/statistics"
 import Companies from "components/companies"
 import Promotions from "components/promotions"
 import ProfileUserInfo from "views/profile-userInfo"
 import "./styles.scss"
 import OrderConfirm from "views/order-confirmation"
+import NonExistentPage from "components/non-existent-page"
+
+const userRouts = [
+  { path: "/profile", component: <Profile /> },
+  { path: "/profile/info", component: <ProfileUserInfo /> },
+  { path: "/profile/history", component: <HistoryPage /> },
+  { path: "/profile/favourite", component: <FavouritePage /> },
+  { path: "/order-confirmation/:id", component: <OrderConfirm /> },
+  { path: "/discount/:id", component: <DiscountPage /> }
+]
+
+const adminRouts = [
+  { path: "/admin", component: <Admin /> },
+  { path: "/admin/add-company", component: <AddCompany /> },
+  { path: "/admin/all-companies/edit-company/:id", component: <EditCompany /> },
+  { path: "/admin/add-item", component: <AddItem /> },
+  { path: "/admin/all-promotions/edit-item/:id", component: <EditItem /> },
+  { path: "/admin/tools", component: <Tools /> },
+  { path: "/admin/statistics", component: <Statistics /> },
+  { path: "/admin/all-companies", component: <Companies /> },
+  { path: "/admin/all-promotions", component: <Promotions /> }
+]
 
 function AppRouter() {
   return (
     <>
-      <Route path="/">
-        {!localStorage.getItem("jwt") && <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/">
-        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Home />}
-      </Route>
       <Route path="/login">
         <Login />
       </Route>
-      <Route path="/profile">
-        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Profile />}
-      </Route>
-      <Route path="/profile/info">
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <ProfileUserInfo />
-        )}
-      </Route>
-      <Route path="/profile/history">
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <HistoryPage />
-        )}
-      </Route>
-      <Route path="/profile/favourite">
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <FavouritePage />
-        )}
+
+      <Route path="/">
+        {!localStorage.getItem("jwt") && <Redirect to="/login" />}
       </Route>
 
-      <Route path="/admin">
-        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Admin />}
+      <Route exact path="/">
+        {localStorage.getItem('role') === "USER" ? <Home /> : <Statistics />}
+      </Route>
+      <Route path="/404">
+        <NonExistentPage />
       </Route>
 
-      <Route path="/admin/add-company">
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <AddCompany />
-        )}
-      </Route>
+      {localStorage.getItem('role') === "USER" ?
+        userRouts.map((route, index) => (
+          <Route path={route.path} key={index}>{route.component}</Route>
+        )) :
+        adminRouts.map((route, index) => (
+          <Route path={route.path} key={index}>{route.component}</Route>
+        ))
+      }
 
-      <Route path="/admin/all-companies/edit-company/:id">
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <EditCompany />
-        )}
-      </Route>
+      <Redirect from="*" to="/404" />
 
-      <Route path="/admin/add-item">
-        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <AddItem />}
-      </Route>
-      <Route path="/admin/all-promotions/edit-item/:id">
-        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <EditItem />}
-      </Route>
-
-      <Route path="/discount/:id">
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <DiscountPage />
-        )}
-      </Route>
-
-      <Route path="/admin/tools">
-        {!localStorage.getItem("jwt") ? <Redirect to="/login" /> : <Tools />}
-      </Route>
-
-      <Route path="/edit-slider/">
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <EditSlider />
-        )}
-      </Route>
-
-      <Route path="/admin/statistics">
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <Statistics />
-        )}
-      </Route>
-
-      <Route path="/admin/all-companies" exact>
-        {!localStorage.getItem("jwt") ? (
-          <Redirect to="/login" />
-        ) : (
-          <Companies />
-        )}
-      </Route>
-
-      <Route path="/admin/all-promotions" exact>
-        <Promotions />
-      </Route>
-      <Route path="/order-confirmation/:id">
-        <OrderConfirm />
-      </Route>
     </>
   )
 }

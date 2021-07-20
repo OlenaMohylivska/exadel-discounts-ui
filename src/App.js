@@ -12,15 +12,21 @@ import Breadcrumbs from "components/breadcrumbs"
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const token = localStorage.getItem("jwt")
-  useEffect(() => {
+
+  const bindToken = () => {
+    const token = !!localStorage.getItem("jwt") && localStorage.getItem("jwt")
     axiosInstance.interceptors.request.use((config) => {
       token ? (config.headers.Authorization = token) : config
       return config
     })
-  })
+  }
+  useEffect(() => {
+    bindToken()
+  }, [])
   return (
-    <Context.Provider value={{ productImages, isAuthorized, setIsAuthorized }}>
+    <Context.Provider
+      value={{ productImages, isAuthorized, setIsAuthorized, bindToken }}
+    >
       <BrowserRouter>
         <Header />
         <div className="app-wrapper">
