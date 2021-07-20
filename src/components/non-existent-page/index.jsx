@@ -1,10 +1,12 @@
 import React from "react"
+import { Image } from "react-bootstrap"
+import NotFoundImg from "../../assets/not-found-page.jpg"
 
 const NonExistentPage = () => {
   return (
     <div className="text-center">
       <h2>Page not found</h2>
-      <img className="w-50" src="https://st2.depositphotos.com/1007989/9405/i/600/depositphotos_94050766-stock-photo-error-404-notice-for-websites.jpg"/>
+      <Image src={NotFoundImg} className="w-50" />
     </div>
   )
 }
