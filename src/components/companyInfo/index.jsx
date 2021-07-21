@@ -4,9 +4,8 @@ import PropTypes from "prop-types"
 import { Link, useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
 import { Context } from "store/context"
-
+import companyDefaultImg from "../../assets/companyDefaultImg.png"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
-const discountDefaultImg = "https://zo.ua/uploads/no-logo.png"
 
 const CompanyInfo = ({ elem }) => {
 
@@ -40,7 +39,7 @@ const CompanyInfo = ({ elem }) => {
             src={
               elem.nameImage
                 ? `${baseUrl}/api/images/${elem.nameImage}`
-                : discountDefaultImg
+                : companyDefaultImg
             }
           />
         </Link>
