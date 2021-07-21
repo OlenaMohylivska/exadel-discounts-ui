@@ -7,6 +7,7 @@ import "./styles.scss"
 import { Link, Redirect } from "react-router-dom"
 import { SuitHeart } from "react-bootstrap-icons"
 
+
 function ProductCard({ elem }) {
   const [order, setOrder] = useState(false)
 
@@ -15,7 +16,7 @@ function ProductCard({ elem }) {
   }
 
   return (
-    <Card className=" shadow product-card col-sm-12">
+    <Card className=" shadow product-card">
       <Link
         key={elem.id}
         to={{
