@@ -134,13 +134,17 @@ const AddCompany = (props) => {
 
   const getLocation = (
     <>
-      <div className="address-field">Location </div>
+      <div className="address-field company-info-subtitle">Location </div>
       {locationOptions && locationOptions.length > 0 ? (
-        <Select
-          options={locationOptions}
-          onChange={(e) => locationHandleChange(e)}
-          placeholder="Country"
-        />
+        <div className="d-flex flex-row">
+          <Select
+            options={locationOptions}
+            onChange={(e) => locationHandleChange(e)}
+            placeholder="Country"
+            className="w-100"
+          />
+          <Button className="add-location-btn" onClick={() => addNewLocation()}>✚</Button>
+        </div>
       ) : (
         ""
       )}
@@ -152,21 +156,18 @@ const AddCompany = (props) => {
           setCitiesLocation={setCitiesLocation}
         />
       ))}
-      <Button className="my-3 w-75 mx-auto" onClick={() => addNewLocation()}>
-        Add location
-      </Button>
     </>
   )
 
   return (
     <Form>
-      <div className="container d-flex flex-row-reverse align-items-start pt-5">
+      <div className="container my-4 company-container">
         <div className="col">
           <div className="company-logo">
             <FileUploadPage setFileId={setFileId} />
           </div>
         </div>
-        <div className="col">
+        <div className="col company-info-wrapper">
           <div className="company-additional-info">
             <div className="company-name">
               <label className="company-info-subtitle" htmlFor="name">
@@ -195,7 +196,7 @@ const AddCompany = (props) => {
             {getLocation}
           </div>
 
-          <div className="btn-field d-flex justify-content-between">
+          <div className="btn-field">
             {props.isEdit ? (
               <Button
                 variant="primary"
@@ -221,13 +222,13 @@ const AddCompany = (props) => {
                   history.goBack()
                 }}
               >
-                Go back to admin panel
+                To admin panel
               </Button>
             ) : null}
             {props.isEdit ? (
               <Button
                 variant="danger"
-                className="btn company-info-btn mx-3"
+                className="btn company-info-btn"
                 onClick={() => {
                   toggleModal()
                   deleteCompany(props.company.id)
