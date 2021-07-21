@@ -21,6 +21,7 @@ const Catalog = () => {
   const [fetchError, setFetchError] = useState(null)
   const [itemsPerPage, setItemsPerPage] = useState(8)
   const [loading, setLoading] = useState(false)
+  const [filterCategory,setFilterCategory] = useState(null)
   const [search, setSearch] = useState({
     // companies: [""],
     itemsPerPage: 100,
@@ -49,6 +50,11 @@ const Catalog = () => {
     setSearch({ ...search, companies: [e.label] })
     setTimeout(funcDebouncer, 2000)
   }
+  const handleSearchCategory = (e) =>{
+    setFilterTags(e.tags)
+    setSearch({...search, category: [e.value]})
+    setTimeout(funcDebouncer,2000)
+  }
   const handleSearchTags = (e) => {
     const arr = e.map((e) => e.value)
     setSearch({ ...search, tags: arr })
@@ -60,6 +66,7 @@ const Catalog = () => {
       orders: [
         {
           sortBy: e.value,
+          direction: "ASC"
         },
       ],
     }
@@ -127,6 +134,9 @@ const Catalog = () => {
   useEffect(() => {
     fetchData()
   }, [])
+  useEffect(()=>{
+    axiosInstance.get('/api/category').then(res=>setFilterCategory(res.data))
+  },[])
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
@@ -134,16 +144,6 @@ const Catalog = () => {
       .get(apiUrl)
       .then((resp) => {
         setSearchLocation(resp.data)
-      })
-      .catch((err) => setFetchError(err.message))
-  }, [])
-
-  useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/tags"
-    axiosInstance
-      .get(apiUrl)
-      .then((res) => {
-        setFilterTags(res.data)
       })
       .catch((err) => setFetchError(err.message))
   }, [])
@@ -178,13 +178,19 @@ const Catalog = () => {
       country: location.cities,
     }))
 
-  const categoriesOptions = filterTags.map((el) => {
+  const categoriesOptions = filterCategory && filterCategory.map((el) => {
     return {
       value: el.name,
       label: el.name,
+      tags: el.tags,
     }
   })
-
+  const tagsOptions = filterTags && filterTags.map((el)=>{
+    return{
+      value:el.name,
+      label:el.name
+    }
+  })
   const sortingOptions = sortingByRate.map((el) => {
     return {
       value: el.value,
@@ -238,11 +244,11 @@ const Catalog = () => {
             />
             <Select
               className="catalog-selects"
-              isMulti
               options={categoriesOptions}
               placeholder="Categories"
-              onChange={(e) => handleSearchTags(e)}
+              onChange={(e) => handleSearchCategory(e)}
             />
+            {tagsOptions.length > 0 && <Select options={tagsOptions} className="catalog-selects"  isMulti placeholder="Tags" onChange={(e)=>handleSearchTags(e)}/>}
             <Select
               className="catalog-selects"
               options={sortingOptions}
