@@ -4,9 +4,8 @@ import { Card, Button } from "react-bootstrap"
 import moment from "moment"
 import StarRatings from "react-star-ratings"
 import "./styles.scss"
-<<<<<<< HEAD
 import { Link, Redirect } from "react-router-dom"
-// import OrderConfirm from "views/order-confirmation"
+import { SuitHeart } from "react-bootstrap-icons"
 
 function ProductCard({ elem }) {
   const [order, setOrder] = useState(false)
@@ -15,12 +14,6 @@ function ProductCard({ elem }) {
     setOrder(true)
   }
 
-=======
-import { Link } from "react-router-dom"
-import { SuitHeart } from "react-bootstrap-icons"
-
-function ProductCard({ elem }) {
->>>>>>> 2a1f8638b99f52a45ab3317439d128ea393a4788
   return (
     <Card className=" shadow product-card col-sm-12">
       <Link
@@ -53,17 +46,10 @@ function ProductCard({ elem }) {
             rating={elem.rate}
             starRatedColor="#FFD700"
           />
-<<<<<<< HEAD
-          <Button variant="primary" onClick={orderToggle}>
+          <Button className="w-100 mt-3" variant="primary" onClick={orderToggle}>
             Order
           </Button>
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
-=======
-
-          <Button className="w-100 mt-3" variant="primary">
-            Order
-          </Button>
->>>>>>> 2a1f8638b99f52a45ab3317439d128ea393a4788
         </div>
       </Card.Body>
     </Card>

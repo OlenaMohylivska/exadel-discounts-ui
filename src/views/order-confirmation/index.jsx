@@ -3,12 +3,10 @@ import "./styles.scss"
 import axiosInstance from "components/api"
 import { useHistory } from "react-router-dom"
 import moment from "moment"
-// import QRCode from "qrcode.react"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import PdfDocument from "views/pdf-promocode"
-// import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
+import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
 import { Context } from "store/context"
-// import { Base64 } from "js-base64"
 
 // const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -18,12 +16,24 @@ const OrderConfirm = () => {
   const [expirationDate, setExpirationDate] = useState("")
   const [discountName, setDiscountName] = useState("")
   const [loading, setLoading] = useState(true)
-  const [addresses, setAddresses] = useState(null)
+  const [discountLocations, setDiscountLocations] = useState(null)
 
   const history = useHistory()
 
   const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
+
+  const addresssMapper = (el) => {
+    return `${el.address} ${el.city.name} ${el.city.country.name}`
+  }
+  const discountAddresses =
+    discountLocations && discountLocations.addresses.map(addresssMapper)
+  const discountCompanyAddresses =
+    discountLocations && discountLocations.company.addresses.map(addresssMapper)
+  const fullAddressLocations =
+    discountLocations && discountAddresses.length
+      ? discountAddresses
+      : discountCompanyAddresses
 
   const fetchData = async (url) => {
     try {
@@ -88,7 +98,6 @@ const OrderConfirm = () => {
                 <PdfDocument
                   expirationDate={expirationDate}
                   discountName={discountName}
-                  addresses={addresses}
                 />
               }
               fileName={`Promocode for ${discountName}.pdf`}
@@ -102,9 +111,16 @@ const OrderConfirm = () => {
           {expirationDate &&
             `Expiration date: ${moment(expirationDate).format("MMM Do YYYY")}`}
         </p>
-
-        <p className="address-title">Addresses: </p>
-        <div>{addresses && addresses}</div>
+        <p>Addresses:</p>
+        {fullAddressLocations &&
+          fullAddressLocations.map((address, index) => (
+            <div key={index}>{address}</div>
+          ))}
+      </div>
+      <div className="p-2">
+        {fullAddressLocations && (
+          <PreviewGoogleMap allAddresses={fullAddressLocations} />
+        )}
       </div>
     </div>
   )
