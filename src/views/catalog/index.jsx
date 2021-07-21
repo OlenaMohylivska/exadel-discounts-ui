@@ -194,95 +194,92 @@ const Catalog = () => {
 
   return (
     <>
-      {fetchError ? (
-        <FetchError error={fetchError} />
-      ) : (
-        <Container className="catalog-wrapper">
-          <div className=" filter-panel column ">
-            <div className="width-100">
-              <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
-                <div className="search-icon">
-                  <Loupe />
-                </div>
-                <Form className="search-input">
-                  <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => handleSearchText(e)}
-                      placeholder="Enter your search"
-                    />
-                  </Form.Group>
-                </Form>
-              </label>
-            </div>
-
-            <div className=" catalog-filters width-100">
-              <div className="location-column">
-                <Select
-                  className="catalog-selects-width-100"
-                  options={countryOptions}
-                  placeholder="Location"
-                  onChange={(e) => handleSearchLocation(e)}
-                />
-                {cityOptions.length > 0 && (
-                  <Select
-                    className="catalog-selects-width-100"
-                    options={cityOptions}
-                    placeholder="City"
-                    onChange={(e) => handleSearchCity(e)}
-                  />
-                )}
+      <Container className="catalog-wrapper">
+        <div className=" filter-panel column ">
+          <div className="width-100">
+            <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
+              <div className="search-icon">
+                <Loupe />
               </div>
-              <Select
-                className="catalog-selects"
-                options={companiesOptions}
-                placeholder="Companies"
-                onChange={(e) => handleSearchCompanies(e)}
-              />
-              <Select
-                className="catalog-selects"
-                isMulti
-                options={categoriesOptions}
-                placeholder="Categories"
-                onChange={(e) => handleSearchTags(e)}
-              />
-              <Select
-                className="catalog-selects"
-                options={sortingOptions}
-                onChange={(e) => handleSortingOption(e)}
-                placeholder="Sorting by..."
-              />
-            </div>
+              <Form className="search-input">
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Control
+                    type="text"
+                    onChange={(e) => handleSearchText(e)}
+                    placeholder="Enter your search"
+                  />
+                </Form.Group>
+              </Form>
+            </label>
           </div>
 
-          {loading && (
-            <div className="spin-container">
-              <Spinner
-                className="spin-loader"
-                animation="border"
-                variant="info"
+          <div className=" catalog-filters width-100">
+            <div className="location-column">
+              <Select
+                className="catalog-selects-width-100"
+                options={countryOptions}
+                placeholder="Location"
+                onChange={(e) => handleSearchLocation(e)}
               />
+              {cityOptions.length > 0 && (
+                <Select
+                  className="catalog-selects-width-100"
+                  options={cityOptions}
+                  placeholder="City"
+                  onChange={(e) => handleSearchCity(e)}
+                />
+              )}
             </div>
-          )}
-          {discounts && (
-            <div className="discounts-wrapper">
-              {discounts.slice(0, itemsPerPage).map((el) => {
-                return <ProductCard elem={el} key={el.id} />
-              })}
-            </div>
-          )}
-          {discountsFetchError && (
-            <div className="spinner">Sorry no info, {discountsFetchError}</div>
-          )}
-          {discounts && (
-            <Pagination
-              discounts={discounts}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
+            <Select
+              className="catalog-selects"
+              options={companiesOptions}
+              placeholder="Companies"
+              onChange={(e) => handleSearchCompanies(e)}
             />
-          )}
-        </Container>
-      )}
+            <Select
+              className="catalog-selects"
+              isMulti
+              options={categoriesOptions}
+              placeholder="Categories"
+              onChange={(e) => handleSearchTags(e)}
+            />
+            <Select
+              className="catalog-selects"
+              options={sortingOptions}
+              onChange={(e) => handleSortingOption(e)}
+              placeholder="Sorting by..."
+            />
+          </div>
+        </div>
+
+        {loading && (
+          <div className="spin-container">
+            <Spinner
+              className="spin-loader"
+              animation="border"
+              variant="info"
+            />
+          </div>
+        )}
+        {discounts && (
+          <div className="discounts-wrapper">
+            {discounts.slice(0, itemsPerPage).map((el) => {
+              return <ProductCard elem={el} key={el.id} />
+            })}
+          </div>
+        )}
+        {discountsFetchError && (
+          <div className="spinner">Sorry no info, {discountsFetchError}</div>
+        )}
+        {discounts && (
+          <Pagination
+            discounts={discounts}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+          />
+        )}
+      </Container>
+      {fetchError && <FetchError error={fetchError} />}
     </>
   )
 }
