@@ -6,10 +6,8 @@ import moment from "moment"
 // import QRCode from "qrcode.react"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import PdfDocument from "views/pdf-promocode"
-import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
-
+// import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
 import { Context } from "store/context"
-
 // import { Base64 } from "js-base64"
 
 // const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
@@ -19,11 +17,14 @@ const OrderConfirm = () => {
   const [promocodeFetchError, setPromocodeFetchError] = useState([])
   const [expirationDate, setExpirationDate] = useState("")
   const [discountName, setDiscountName] = useState("")
-  const [discountLocations, setDiscountLocations] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [addresses, setAddresses] = useState(null)
+
   const history = useHistory()
 
   const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
+
 
   const addresssMapper = (el) => {
     return `${el.address} ${el.city.name} ${el.city.country.name}`
@@ -44,10 +45,19 @@ const OrderConfirm = () => {
     }
   }
 
-  const fetchQRCode = async (url) => {
+  useEffect(() => {
+    fetchData(`/api/orders/${discountId}`)
+  }, [])
+
+  const fetchQrCode = async (url) => {
     try {
       await axiosInstance.post(url).then((response) => {
         setQrCode(response.data)
+        setLoading(
+          setTimeout(() => {
+            setLoading(false)
+          }, 1000)
+        )
       })
     } catch (e) {
       setPromocodeFetchError(e.message)
@@ -55,18 +65,12 @@ const OrderConfirm = () => {
   }
 
   useEffect(() => {
-    fetchData(`/api/orders/${discountId}`)
+    fetchQrCode(`/api/orders/create/${discountId}`)
   }, [])
+
   useEffect(() => {
     bindToken()
   }, [])
-
-  useEffect(() => {
-    fetchQRCode(`/api/orders/create/${discountId}`)
-  }, [])
-
-  let blob = new Blob([QrCode], { type: "image/png" })
-  const url = URL.createObjectURL(blob)
 
   return (
     <div className="order-wrapper">
@@ -77,65 +81,40 @@ const OrderConfirm = () => {
       <div className="promocode-info">
         <div className="promocode">
           {QrCode ? (
-            <img src={url} />
+            <img alt="QR Code" src={QrCode} />
           ) : (
             <div className="fetch-error-info">
               Loading discount info... {promocodeFetchError}
             </div>
           )}
-          {QrCode && (
-            <div>
-              <PDFDownloadLink
-                document={
-                  <PdfDocument
-                    discountName={discountName}
-                    expirationDate={expirationDate}
-                    QrCode={QrCode}
-                    locations={fullAddressLocations}
-                  />
-                }
-                fileName={`Promocode for ${discountName}.pdf`}
-              >
-                Download now!
-              </PDFDownloadLink>
-            </div>
+
+          {loading ? (
+            <p>Loading info...</p>
+          ) : (
+            <PDFDownloadLink
+              document={
+                <PdfDocument
+                  expirationDate={expirationDate}
+                  discountName={discountName}
+                  addresses={addresses}
+                />
+              }
+              fileName={`Promocode for ${discountName}.pdf`}
+            >
+              Download now!
+            </PDFDownloadLink>
           )}
         </div>
 
         <p>
           {expirationDate &&
-            `Expiration date: ${moment(expirationDate).format(
-              "MMM Do YYYY"
-            )}`}{" "}
+            `Expiration date: ${moment(expirationDate).format("MMM Do YYYY")}`}
         </p>
-        <p>Addresses:</p>
-        {fullAddressLocations &&
-          fullAddressLocations.map((address, index) => (
-            <div key={index}>{address}</div>
-          ))}
-      </div>
-      <div className="p-2">
-        {fullAddressLocations && (
-          <PreviewGoogleMap allAddresses={fullAddressLocations} />
-        )}
+
+        <p className="address-title">Addresses: </p>
       </div>
     </div>
   )
 }
 
 export default OrderConfirm
-
-{
-  /* <img src={`data:image/png;${base64Url}`} /> */
-}
-
-{
-  /* <QRCode
-  value={base64Url}
-  renderAs="svg"
-  size={148}
-  level={"H"}
-  fgColor="#333"
-  bgColor="#fff"
-/> */
-}
