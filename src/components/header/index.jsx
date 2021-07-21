@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { Container, Nav, Navbar, NavbarBrand } from "react-bootstrap"
 import { NavLink, Link } from "react-router-dom"
 import Logo from "../icons/logo.png"
@@ -9,6 +9,11 @@ import { Context } from "store/context"
 
 function Header() {
   const { isAuthorized ,setIsAuthorized } = useContext(Context)
+  useEffect(()=>{
+    if(!!localStorage.getItem('jwt') && isAuthorized === false){
+      return setIsAuthorized(true)
+    }
+  },[])
   const logout = () => {
     localStorage.clear()
     setIsAuthorized(false)

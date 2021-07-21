@@ -1,10 +1,16 @@
 .product-card {
   margin: 20px 0;
+<<<<<<< HEAD:src/components/product-card/styles.scss
   padding: 15px;
   max-width: 400px;
   min-width: 300px;
   min-height: 300px;
   border: 1px solid #000;
+=======
+  padding: 10px;
+  width: 320px;
+  min-height: 300px;
+>>>>>>> 2a1f8638b99f52a45ab3317439d128ea393a4788:src/components/product-card/styles.css
 }
 
 .card-title {
@@ -15,7 +21,7 @@ a {
 }
 
 .product-image {
-  height: 350px;
+  height: 150px;
   object-fit: cover;
 }
 
@@ -54,4 +60,21 @@ a {
   padding: 0;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 720px) {
+  .product-card {
+    width: 100%;
+  }
+
+}
+
+.fav-icon{
+      position: absolute;
+      top: 35px;
+      right: 15px;
+      width: 40px;
+      color: #FF0000;
+      cursor: pointer;
+    
 }

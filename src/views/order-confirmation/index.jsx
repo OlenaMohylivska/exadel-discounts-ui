@@ -30,13 +30,7 @@ const OrderConfirm = () => {
       await axiosInstance.get(url).then((response) => {
         setExpirationDate(response.data.promoCodePeriodEnd)
         setDiscountName(response.data.discount.name)
-        setAddresses(
-          response.data.discount.company.addresses.map((address) => (
-            <p
-              key={address.id}
-            >{`${address.address}, ${address.city.name}, ${address.city.country.name}`}</p>
-          ))
-        )
+        setDiscountLocations(response.data.discount)
       })
     } catch (e) {
       setPromocodeFetchError(e.message)
