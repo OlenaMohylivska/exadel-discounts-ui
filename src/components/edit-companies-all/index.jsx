@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import axiosInstance from "components/api"
 import Loupe from "components/icons/Loupe"
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, Spinner } from "react-bootstrap"
 import CompanyInfo from "components/companyInfo"
 import "./styles.scss"
 // import AddCompany from "components/add-company"
@@ -11,6 +11,7 @@ import { Context } from "store/context"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const EditCompaniesAll = () => {
+  const [loading, setLoading] = useState(false)
   const [companies, setCompanies] = useState(null)
   const [newCompany, setNewCompany] = useState(false)
   const [companiesFetchError, setCompaniesFetchError] = useState(null)
@@ -18,11 +19,14 @@ const EditCompaniesAll = () => {
   useEffect(() => {
     bindToken()
   }, [])
+
   const fetchData = async (url, setFunc) => {
     try {
+      setLoading(true)
       await axiosInstance
         .get(baseUrl + url)
         .then((response) => setFunc(response.data))
+      setLoading(false)
     } catch (e) {
       setCompaniesFetchError(e.message)
     }
@@ -35,13 +39,6 @@ const EditCompaniesAll = () => {
   const addNewCompanyHandler = () => {
     setNewCompany(!newCompany)
   }
-  const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
-  useEffect(() => {
-    axiosInstance.interceptors.request.use((config) => {
-      token ? (config.headers.Authorization = token) : config
-      return config
-    })
-  }, [])
 
   return (
     <div className="container">
@@ -62,7 +59,7 @@ const EditCompaniesAll = () => {
         </div>
         <div className="btn-wrapper d-flex justify-content-center">
           <Button
-            variant="primary"
+            variant="success"
             className="h-100 px-4 align-self-center"
             onClick={addNewCompanyHandler}
           >
@@ -70,15 +67,20 @@ const EditCompaniesAll = () => {
           </Button>
         </div>
 
+        {loading && (
+          <div className="spin-container">
+            <Spinner className="spin-loader" animation="border" variant="info" />
+          </div>
+        )}
+
         {newCompany ? <Redirect to="/admin/add-company" /> : ""}
         {companies ? (
           <div className="companies-wrapper">
-            {companies.map((company) => {
+            {companies.map((elem) => {
               return (
                 <CompanyInfo
-                  key={company.id}
-                  name={company.name}
-                  id={company.id}
+                  key={elem.id}
+                  elem={elem}
                 />
               )
             })}

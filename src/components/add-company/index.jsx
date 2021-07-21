@@ -9,6 +9,7 @@ import FileUploadPage from "components/upload-file"
 import { useHistory } from "react-router-dom"
 import AddLocation from "../add-location"
 import { Context } from "store/context"
+import ToastElement from "components/toast"
 
 const AddCompany = (props) => {
   const [data, setData] = useState({
@@ -35,6 +36,7 @@ const AddCompany = (props) => {
     error: null,
     show: false,
   })
+  const [successMessage, setSuccessMessage] = useState(false)
 
   const history = useHistory()
   useEffect(() => {
@@ -97,7 +99,7 @@ const AddCompany = (props) => {
   function deleteCompany(id) {
     axiosInstance.delete(
       `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${id}`
-    )
+    ).then(() => setSuccessMessage(true))
   }
 
   const reset = () => {
@@ -113,7 +115,7 @@ const AddCompany = (props) => {
       axiosInstance.post(
         `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company`,
         data
-      )
+      ).then(() => setSuccessMessage(true))
       reset()
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
@@ -124,7 +126,7 @@ const AddCompany = (props) => {
       axiosInstance.put(
         `${process.env.REACT_APP_BASE_BACKEND_URL}/api/company/${props.company.id}`,
         data
-      )
+      ).then(() => setSuccessMessage(true))
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
     }
@@ -236,6 +238,7 @@ const AddCompany = (props) => {
             ) : null}
           </div>
         </div>
+        {successMessage && <ToastElement setSuccessMessage={setSuccessMessage} />}
       </div>
       {props.isEdit && (
         <CustomModalWindow

@@ -1,15 +1,19 @@
 import React, { useState } from "react"
 import { Toast, Row, Col } from "react-bootstrap"
 import { BrightnessHighFill } from "react-bootstrap-icons"
+import PropTypes from "prop-types"
 import "./styles.scss"
-const ToastElement = () => {
+const ToastElement = ({setSuccessMessage}) => {
   const [show, setShow] = useState(true)
+
   return (
     <Row className="toast-wrapper">
       <Col>
         <Toast
           className="toast-styling"
-          onClose={() => setShow(false)}
+          onClose={() => {
+            setShow(false)
+            setSuccessMessage(false)} }
           show={show}
           delay={4000}
           autohide
@@ -31,3 +35,7 @@ const ToastElement = () => {
   )
 }
 export default ToastElement
+
+ToastElement.propTypes = {
+  setSuccessMessage: PropTypes.func
+}

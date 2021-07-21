@@ -67,9 +67,6 @@ function AppRouter() {
           <Route path={route.path} key={index}>{route.component}</Route>
         ))
       }
-
-      <Redirect from="*" to="/404" />
-
     </>
   )
 }

@@ -6,7 +6,6 @@ import AppRouter from "./router"
 import Header from "./components/header"
 import Footer from "./components/footer"
 import { productImages } from "store/constants"
-
 import "./App.scss"
 import Breadcrumbs from "components/breadcrumbs"
 
@@ -14,7 +13,8 @@ function App() {
   const [isAuthorized, setIsAuthorized] = useState(!!localStorage.getItem("jwt"))
 
   const bindToken = () => {
-    const token = !!localStorage.getItem("jwt") && localStorage.getItem("jwt")
+    const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
+
     axiosInstance.interceptors.request.use((config) => {
       token ? (config.headers.Authorization = token) : config
       return config
