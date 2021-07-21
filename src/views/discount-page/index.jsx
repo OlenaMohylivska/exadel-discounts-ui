@@ -80,15 +80,16 @@ const DiscountPage = () => {
   }
 
   useEffect(() => {
+    bindToken()
+  }, [])
+
+  useEffect(() => {
     fetchData()
     getReviews()
   }, [])
 
   useEffect(() => {
     axiosInstance.put(`api/discounts/${id}/views`)
-  }, [])
-  useEffect(() => {
-    bindToken()
   }, [])
 
   useEffect(() => {

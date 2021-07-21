@@ -30,7 +30,9 @@ function App() {
       <BrowserRouter>
         <Header />
         <div className="app-wrapper">
-          <Breadcrumbs />
+          <div className={isAuthorized ? "" : "invisible"}>
+            <Breadcrumbs />
+          </div>
           <Switch>
             <AppRouter />
           </Switch>
