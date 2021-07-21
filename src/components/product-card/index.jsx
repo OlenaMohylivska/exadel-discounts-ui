@@ -3,13 +3,13 @@ import PropTypes from "prop-types"
 import { Card, Button } from "react-bootstrap"
 import moment from "moment"
 import StarRatings from "react-star-ratings"
-import "./styles.css"
+import "./styles.scss"
 import { Link } from "react-router-dom"
-
+import { SuitHeart } from "react-bootstrap-icons"
 
 function ProductCard({ elem }) {
   return (
-    <Card className=" shadow product-card">
+    <Card className=" shadow product-card col-sm-12">
       <Link
         key={elem.id}
         to={{
@@ -33,6 +33,7 @@ function ProductCard({ elem }) {
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">
           <Card.Text className="product-feedback">{elem.description}</Card.Text>
+          <SuitHeart className="fav-icon"/>
         </div>
 
         <div className="product-footer">
@@ -42,7 +43,10 @@ function ProductCard({ elem }) {
             rating={elem.rate}
             starRatedColor="#FFD700"
           />
-          <Button variant="primary">Order</Button>
+
+          <Button className="w-100 mt-3" variant="primary">
+            Order
+          </Button>
         </div>
       </Card.Body>
     </Card>

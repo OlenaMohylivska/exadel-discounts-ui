@@ -37,18 +37,14 @@ const DiscountPage = () => {
   const [allRating, setAllRating] = useState({})
   const images = useContext(Context)
   const { bindToken } = useContext(Context)
-  const addressCountry = discount && discount.country && discount.country.name
-  const fullAddressLocations =
-    addressCountry &&
-    discount.country.cities
-      .map((city) => {
-        return city.addresses.map((el) => {
-          return el.address
-            ? `${addressCountry} ${city.name} ${el.address}`
-            : el.addresses.map((el) => `${addressCountry} ${el.address}`)
-        })
-      })
-      .flat()
+
+  const addresssMapper = (el) => {
+    return `${el.address} ${el.city.name} ${el.city.country.name}`
+  }
+
+  const discountAddresses = discount && discount.addresses.map(addresssMapper)
+  const discountCompanyAddresses = discount && discount.company.addresses.map(addresssMapper)
+  const fullAddressLocations = discount && discountAddresses.length ? discountAddresses : discountCompanyAddresses
 
   const fetchData = async () => {
     setLoading(true)
@@ -192,7 +188,7 @@ const DiscountPage = () => {
                   <span className="discount-info">No information</span>
                 )}
               </div>
-              {addressCountry && (
+              {fullAddressLocations && (
                 <PreviewGoogleMap allAddresses={fullAddressLocations} />
               )}
             </Col>

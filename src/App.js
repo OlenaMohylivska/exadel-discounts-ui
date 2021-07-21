@@ -10,7 +10,7 @@ import "./App.scss"
 import Breadcrumbs from "components/breadcrumbs"
 
 function App() {
-  const [isAuthorized, setIsAuthorized] = useState(false)
+  const [isAuthorized, setIsAuthorized] = useState(!!localStorage.getItem("jwt"))
 
   const bindToken = () => {
     const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
