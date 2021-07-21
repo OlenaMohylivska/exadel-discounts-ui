@@ -23,7 +23,6 @@ const OrderConfirm = () => {
   const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
 
-
   const addresssMapper = (el) => {
     return `${el.address} ${el.city.name} ${el.city.country.name}`
   }
@@ -112,8 +111,16 @@ const OrderConfirm = () => {
           {expirationDate &&
             `Expiration date: ${moment(expirationDate).format("MMM Do YYYY")}`}
         </p>
-
-        <p className="address-title">Addresses: </p>
+        <p>Addresses:</p>
+        {fullAddressLocations &&
+          fullAddressLocations.map((address, index) => (
+            <div key={index}>{address}</div>
+          ))}
+      </div>
+      <div className="p-2">
+        {fullAddressLocations && (
+          <PreviewGoogleMap allAddresses={fullAddressLocations} />
+        )}
       </div>
     </div>
   )
