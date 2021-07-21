@@ -35,7 +35,6 @@ const DiscountPage = () => {
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState(null)
   const [allRating, setAllRating] = useState({})
-  const images = useContext(Context)
   const { bindToken } = useContext(Context)
 
   const addresssMapper = (el) => {
@@ -195,10 +194,7 @@ const DiscountPage = () => {
             <Col lg={6}>
               <div className="img-container">
                 <img
-                  src={
-                    images.productImages[discount.id - 1] ??
-                    "https://i.stack.imgur.com/y9DpT.jpg"
-                  }
+                  src={`https://sandbox-team5.herokuapp.com/api/images/${discount.nameImage}`}
                   className="discount-image"
                   alt="discount-img"
                 />
