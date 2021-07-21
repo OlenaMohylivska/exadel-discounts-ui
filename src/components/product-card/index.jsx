@@ -47,7 +47,7 @@ function ProductCard({ elem }) {
             rating={elem.rate}
             starRatedColor="#FFD700"
           />
-          <Button variant="primary" onClick={orderToggle}>
+          <Button className="w-100 mt-3" variant="primary" onClick={orderToggle}>
             Order
           </Button>
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
