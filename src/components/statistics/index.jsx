@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useState, useEffect, useContext } from "react"
 import { Col, Container, Row, Button } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"
@@ -52,11 +53,11 @@ const Statistics = () => {
       .get(baseUrl + "/api/discounts/statistic/views")
       .then((response) => {
         setDiscountsByViews({
-          labels: Object.keys(response.data),
+          labels: Object.keys(response.data).slice(0,8),
           datasets: [
             {
               label: " How many views each proposition has (by discounts)",
-              data: Object.values(response.data),
+              data: Object.values(response.data).slice(0,8),
               backgroundColor: "#1fbeff",
               borderColor: "#c728f6",
             },
@@ -95,7 +96,7 @@ const Statistics = () => {
           datasets: [
             {
               data: Object.values(response.data),
-              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
+              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#ff0fa7", "#d349e2" ],
             },
           ],
         })
@@ -113,7 +114,7 @@ const Statistics = () => {
           datasets: [
             {
               data: Object.values(response.data),
-              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
+              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff0fa7"],
             },
           ],
         })
@@ -131,7 +132,7 @@ const Statistics = () => {
           datasets: [
             {
               data: Object.values(response.data),
-              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2"],
+              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff0fa7"],
             },
           ],
         })
