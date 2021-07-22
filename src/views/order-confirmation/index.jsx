@@ -83,7 +83,7 @@ const OrderConfirm = () => {
       <div className="promocode-info">
         <div className="promocode">
           {QrCode ? (
-            <img alt="QR Code" src={QrCode} />
+            <img src={QrCode} />
           ) : (
             <div className="fetch-error-info">
               Loading discount info... {promocodeFetchError}
@@ -91,13 +91,15 @@ const OrderConfirm = () => {
           )}
 
           {loading ? (
-            <p>Loading info...</p>
+            <p className>Loading info...</p>
           ) : (
             <PDFDownloadLink
               document={
                 <PdfDocument
                   expirationDate={expirationDate}
                   discountName={discountName}
+                  fullAddressLocations={fullAddressLocations}
+                  QrCode={QrCode}
                 />
               }
               fileName={`Promocode for ${discountName}.pdf`}
@@ -127,3 +129,5 @@ const OrderConfirm = () => {
 }
 
 export default OrderConfirm
+
+// src={`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6AQAAAACgl2eQAAACQElEQVR4Xu2YQW6DQAxFHbGYJUeYm4SLIYGUi8FN5ggsWSDc/+22YmibLVaFF4SZvEjYsb/NiL63Sc47J7sBtxtwuwG3/wQILKddGpVu6fP60I1bQyggqW7cfqk8WyxnLFWXYMAkfdZ5EdG9fSm9yPIICegicGVpijyxjAmsjLJOf3txNcB8YKizdKoFrphTsQCvrBnb35ffSu9awCxN7Zjtjq58WRzAsnSVFlHmswNF5KtQBwCSL5ahQE17MTTtzOFAgHJbpB0Fat/wu/GUDwEAevGlTFwzaXW2n8YBVnZLCpUgFbRAqDZZnwcvIgCo90b52IXNXbA7QBKOCRMAWDsd4YAgFXBRSn5BjgyhAC6YqhuzABd0UIFnsQAkbc+bl5V/xqw0iqlVJMAaObO0IAu2THkqCD8tDmABtlDj2RtIPqmj2kcAMHIgH1heFnSUF6a6LhiglHdrSdB4TEjUqFRX1vWAv1p0akUvnN+VHZ5fxQGSTe3UUBPSRCE9l//1wE4N5WhsfZNLDqHBgMnyQTFwfgppXydtBEA8HxBl1Jh436RQxQI4IUE54QCS1t/ZLCkiASZPK5WJK6rBRn+CASx6uDK47gvjXc9RAQAz7tgY4vlqJzKRAD4zTzf4ydGYlSVVZQUATJ54ToTmiaVN7fEAnsMkAj58TPTmGOowgPAwi8pU0EbHXA2cYQA4gOY+24sl7n6G+mqA+ZD4/gNXEHSMSVkqLwIA/PsdsDGOfZOzSCzgjd2A2w243YDbDbhNHxwYHFHbCA3eAAAAAElFTkSuQmCC`}

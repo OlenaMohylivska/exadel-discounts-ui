@@ -10,7 +10,9 @@ import "./App.scss"
 import Breadcrumbs from "components/breadcrumbs"
 
 function App() {
-  const [isAuthorized, setIsAuthorized] = useState(!!localStorage.getItem("jwt"))
+  const [isAuthorized, setIsAuthorized] = useState(
+    !!localStorage.getItem("jwt")
+  )
 
   const bindToken = () => {
     const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
@@ -28,8 +30,8 @@ function App() {
       value={{ productImages, isAuthorized, setIsAuthorized, bindToken }}
     >
       <BrowserRouter>
-        <Header />
         <div className="app-wrapper">
+          <Header />
           <Breadcrumbs />
           <Switch>
             <AppRouter />

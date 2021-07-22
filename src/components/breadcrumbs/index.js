@@ -11,8 +11,8 @@ const Breadcrumbs = (props) => {
   } = props
   const pathnames = pathname.split("/").filter((x) => x)
   return (
-    <div className="breadcrumbs-wrapper">
-      <Breadcrumb>
+    <div className="container">
+      <Breadcrumb className="breadcrumb-row">
         {pathnames.length > 0 ? (
           <Breadcrumb.Item
             href="/"
