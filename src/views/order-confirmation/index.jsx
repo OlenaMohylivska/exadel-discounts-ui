@@ -3,14 +3,10 @@ import "./styles.scss"
 import axiosInstance from "components/api"
 import { useHistory } from "react-router-dom"
 import moment from "moment"
-// import QRCode from "qrcode.react"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import PdfDocument from "views/pdf-promocode"
 import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
-
 import { Context } from "store/context"
-
-// import { Base64 } from "js-base64"
 
 // const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -19,7 +15,9 @@ const OrderConfirm = () => {
   const [promocodeFetchError, setPromocodeFetchError] = useState([])
   const [expirationDate, setExpirationDate] = useState("")
   const [discountName, setDiscountName] = useState("")
+  const [loading, setLoading] = useState(true)
   const [discountLocations, setDiscountLocations] = useState(null)
+
   const history = useHistory()
 
   const { bindToken } = useContext(Context)
@@ -28,9 +26,14 @@ const OrderConfirm = () => {
   const addresssMapper = (el) => {
     return `${el.address} ${el.city.name} ${el.city.country.name}`
   }
-  const discountAddresses = discountLocations && discountLocations.addresses.map(addresssMapper)
-  const discountCompanyAddresses = discountLocations && discountLocations.company.addresses.map(addresssMapper)
-  const fullAddressLocations = discountLocations && discountAddresses.length ? discountAddresses : discountCompanyAddresses
+  const discountAddresses =
+    discountLocations && discountLocations.addresses.map(addresssMapper)
+  const discountCompanyAddresses =
+    discountLocations && discountLocations.company.addresses.map(addresssMapper)
+  const fullAddressLocations =
+    discountLocations && discountAddresses.length
+      ? discountAddresses
+      : discountCompanyAddresses
 
   const fetchData = async (url) => {
     try {
@@ -44,10 +47,19 @@ const OrderConfirm = () => {
     }
   }
 
-  const fetchQRCode = async (url) => {
+  useEffect(() => {
+    fetchData(`/api/orders/${discountId}`)
+  }, [])
+
+  const fetchQrCode = async (url) => {
     try {
       await axiosInstance.post(url).then((response) => {
         setQrCode(response.data)
+        setLoading(
+          setTimeout(() => {
+            setLoading(false)
+          }, 1000)
+        )
       })
     } catch (e) {
       setPromocodeFetchError(e.message)
@@ -55,18 +67,12 @@ const OrderConfirm = () => {
   }
 
   useEffect(() => {
-    fetchData(`/api/orders/${discountId}`)
+    fetchQrCode(`/api/orders/create/${discountId}`)
   }, [])
+
   useEffect(() => {
     bindToken()
   }, [])
-
-  useEffect(() => {
-    fetchQRCode(`/api/orders/create/${discountId}`)
-  }, [])
-
-  let blob = new Blob([QrCode], { type: "image/png" })
-  const url = URL.createObjectURL(blob)
 
   return (
     <div className="order-wrapper">
@@ -77,36 +83,35 @@ const OrderConfirm = () => {
       <div className="promocode-info">
         <div className="promocode">
           {QrCode ? (
-            <img src={url} />
+            <img src={QrCode} />
           ) : (
             <div className="fetch-error-info">
               Loading discount info... {promocodeFetchError}
             </div>
           )}
-          {QrCode && (
-            <div>
-              <PDFDownloadLink
-                document={
-                  <PdfDocument
-                    discountName={discountName}
-                    expirationDate={expirationDate}
-                    QrCode={QrCode}
-                    locations={fullAddressLocations}
-                  />
-                }
-                fileName={`Promocode for ${discountName}.pdf`}
-              >
-                Download now!
-              </PDFDownloadLink>
-            </div>
+
+          {loading ? (
+            <p className>Loading info...</p>
+          ) : (
+            <PDFDownloadLink
+              document={
+                <PdfDocument
+                  expirationDate={expirationDate}
+                  discountName={discountName}
+                  fullAddressLocations={fullAddressLocations}
+                  QrCode={QrCode}
+                />
+              }
+              fileName={`Promocode for ${discountName}.pdf`}
+            >
+              Download now!
+            </PDFDownloadLink>
           )}
         </div>
 
         <p>
           {expirationDate &&
-            `Expiration date: ${moment(expirationDate).format(
-              "MMM Do YYYY"
-            )}`}{" "}
+            `Expiration date: ${moment(expirationDate).format("MMM Do YYYY")}`}
         </p>
         <p>Addresses:</p>
         {fullAddressLocations &&
@@ -125,17 +130,4 @@ const OrderConfirm = () => {
 
 export default OrderConfirm
 
-{
-  /* <img src={`data:image/png;${base64Url}`} /> */
-}
-
-{
-  /* <QRCode
-  value={base64Url}
-  renderAs="svg"
-  size={148}
-  level={"H"}
-  fgColor="#333"
-  bgColor="#fff"
-/> */
-}
+// src={`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6AQAAAACgl2eQAAACQElEQVR4Xu2YQW6DQAxFHbGYJUeYm4SLIYGUi8FN5ggsWSDc/+22YmibLVaFF4SZvEjYsb/NiL63Sc47J7sBtxtwuwG3/wQILKddGpVu6fP60I1bQyggqW7cfqk8WyxnLFWXYMAkfdZ5EdG9fSm9yPIICegicGVpijyxjAmsjLJOf3txNcB8YKizdKoFrphTsQCvrBnb35ffSu9awCxN7Zjtjq58WRzAsnSVFlHmswNF5KtQBwCSL5ahQE17MTTtzOFAgHJbpB0Fat/wu/GUDwEAevGlTFwzaXW2n8YBVnZLCpUgFbRAqDZZnwcvIgCo90b52IXNXbA7QBKOCRMAWDsd4YAgFXBRSn5BjgyhAC6YqhuzABd0UIFnsQAkbc+bl5V/xqw0iqlVJMAaObO0IAu2THkqCD8tDmABtlDj2RtIPqmj2kcAMHIgH1heFnSUF6a6LhiglHdrSdB4TEjUqFRX1vWAv1p0akUvnN+VHZ5fxQGSTe3UUBPSRCE9l//1wE4N5WhsfZNLDqHBgMnyQTFwfgppXydtBEA8HxBl1Jh436RQxQI4IUE54QCS1t/ZLCkiASZPK5WJK6rBRn+CASx6uDK47gvjXc9RAQAz7tgY4vlqJzKRAD4zTzf4ydGYlSVVZQUATJ54ToTmiaVN7fEAnsMkAj58TPTmGOowgPAwi8pU0EbHXA2cYQA4gOY+24sl7n6G+mqA+ZD4/gNXEHSMSVkqLwIA/PsdsDGOfZOzSCzgjd2A2w243YDbDbhNHxwYHFHbCA3eAAAAAElFTkSuQmCC`}

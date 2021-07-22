@@ -8,10 +8,10 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer"
-// import QRCode from "qrcode.react"
 import PropTypes from "prop-types"
 import moment from "moment"
-// import { Base64 } from "js-base64"
+import promocode from "../../assets/promocode.jpg"
+import exadelLogo from "../../assets/exadelLogo.png"
 
 const styles = StyleSheet.create({
   page: {
@@ -24,31 +24,50 @@ const styles = StyleSheet.create({
   section: {
     padding: 10,
     alignItems: "center",
-    margin: 10,
+    margin: 5,
     maxWidth: 500,
   },
-  image: {
-    width: 10,
-    height: 10,
-  },
-  locationItem: {
+  location: {
     marginTop: 5,
     fontSize: 14,
     alignItems: "center",
+    color: "#2061A5"
   },
+  image: {
+    width: "40%",
+    padding: 10,
+  },
+  logo: {
+    position: "fixed",
+    bottom: 0,
+    right: 0,
+    width: "20%",
+  },
+  address: {
+    marginBottom: 3
+
+  }
 })
 
-const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
+const PdfDocument = ({
+  expirationDate,
+  discountName,
+  fullAddressLocations,
+  QrCode,
+}) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Image style={styles.image} src={promocode} />
+        </View>
         <View style={styles.section}>
           <Text>
             Congrats on your choice! Your discount name is {discountName}
           </Text>
         </View>
-        <View style={styles.image}>
-          <Image src={QrCode} />
+        <View style={styles.section}>
+          <Image style={styles.image} src={QrCode} />
         </View>
         <View style={styles.section}>
           <Text>
@@ -57,24 +76,17 @@ const PdfDocument = ({ expirationDate, QrCode, discountName, locations }) => {
           </Text>
         </View>
         <View style={styles.section}>
-          <Text>
-            Check address down below:
-          </Text>
+          <Text>Check address down below:</Text>
         </View>
-        {locations && locations.length > 0 ? (
-          <View style={styles.section}>
-            (<Text style={styles.locationItem}>{locations[0]}</Text>
-            <Text style={styles.locationItem}>
-              {locations[1] && locations[1]}
-            </Text>
-            <Text style={styles.locationItem}>
-              {locations[2] && locations[2]}
-            </Text>
-            <Text style={styles.locationItem}>
-              {locations[3] && locations[3]}{" "}
-            </Text>
-          </View>
-        ) : "Please check the address at discount provider website"}
+        <View style={styles.location}>
+          {fullAddressLocations &&
+            fullAddressLocations.map((address, index) => (
+              <Text style={styles.address} key={index}>{address}</Text>
+            ))}
+        </View>
+        <View style={styles.section}>
+          <Image style={styles.logo} src={exadelLogo} />
+        </View>
       </Page>
     </Document>
   )
@@ -84,7 +96,7 @@ export default PdfDocument
 
 PdfDocument.propTypes = {
   expirationDate: PropTypes.string,
-  QrCode: PropTypes.string,
   discountName: PropTypes.string,
-  locations: PropTypes.array,
+  fullAddressLocations: PropTypes.string,
+  QrCode: PropTypes.string,
 }

@@ -17,13 +17,13 @@ const AddItem = (props) => {
   const history = useHistory()
   const [data, setData] = useState({
     periodEnd: null,
-    country: null,
+    addresses: null,
     category: null,
     quantity: null,
     company: null,
     periodStart: null,
-    imageId: 0,
     tags: null,
+    id:0
   })
   const [errors, setErrors] = useState({})
   const [discountPostError, setDiscountPostError] = useState({
@@ -35,12 +35,9 @@ const AddItem = (props) => {
   const [tags, setTags] = useState([])
 
   const [chooseLocation, setChooseLocation] = useState([])
-  const [actualLocation, setActualLocation] = useState({
-    country: "",
-    cities: [],
-  })
+  const [actualLocation, setActualLocation] = useState([])
   const [categories, setCategories] = useState([])
-  const [citiesLocation, setCitiesLocation] = useState([])
+  const [saveLocation, setSaveLocation] = useState([])
   const [countryLocation, setCountryLocation] = useState(null)
   const [newLocationsArr, setNewLocationsArr] = useState([{ id: 0 }])
   const [nameImage, setNameImage] = useState(null)
@@ -68,7 +65,7 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
-    setData({ ...data, category: { name: e.value } })
+    setData({ ...data, category: { id: e.id} })
     setTags(e.tags)
   }
 
@@ -118,15 +115,16 @@ const AddItem = (props) => {
       value: category.name,
       label: category.name,
       tags: category.tags,
+      id:category.id
     }
   })
 
+  // useEffect(() => {
+  //   setActualLocation([...actualLocation, actualLocation])
+  // }, [citiesLocation])
   useEffect(() => {
-    setActualLocation({ ...actualLocation, cities: citiesLocation })
-  }, [citiesLocation])
-  useEffect(() => {
-    setData({ ...data, country: actualLocation })
-  }, [actualLocation])
+    setData({ ...data, addresses: saveLocation })
+  }, [saveLocation])
   useEffect(() => {
     setData({ ...data, nameImage: nameImage })
   }, [nameImage])
@@ -181,7 +179,7 @@ const AddItem = (props) => {
     }
     if (Object.keys(errorsObj).length == 0) {
       try {
-        axiosInstance.post(baseUrl + "/api/discounts", data)
+        await axiosInstance.post(baseUrl + "/api/discounts", data)
         reset()
       } catch (e) {
         setDiscountPostError({ error: e.message, show: true })
@@ -213,13 +211,14 @@ const AddItem = (props) => {
       category: { name: "", tags: [] },
       quantity: null,
       company: null,
+      id:null
     })
     setChooseLocation([])
     setActualLocation({
       country: "",
       cities: [],
     })
-    setCitiesLocation([])
+    setSaveLocation([])
     setCountryLocation(null)
     setNewLocationsArr([{ id: 0 }])
     setTags([])
@@ -245,8 +244,10 @@ const AddItem = (props) => {
         <AddLocation
           key={elem.id}
           countryLocation={countryLocation}
-          citiesLocation={citiesLocation}
-          setCitiesLocation={setCitiesLocation}
+          saveLocation={saveLocation}
+          setSaveLocation={setSaveLocation}
+          setActualLocation={setActualLocation}
+          actualLocation={actualLocation}
           addressesList={addressesList}
           setAddressesList={setAddressesList}
         />
