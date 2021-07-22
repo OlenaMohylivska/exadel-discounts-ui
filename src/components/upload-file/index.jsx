@@ -3,7 +3,8 @@ import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import "./styles.scss"
 import { Context } from "store/context"
-
+import { Download } from "react-bootstrap-icons"
+import Image from "../../assets/no-image.png"
 function FileUploadPage({ setNameImage }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
@@ -32,18 +33,19 @@ function FileUploadPage({ setNameImage }) {
       ) : (
         <img
           className="default-img"
-          src="http://damadex.com.ng/wp-content/uploads/2020/05/default-placeholder.png"
+          src={Image}
         />
       )}
-      <div className="img-loader">
+      <div>
         <input
           id="loader-for-img"
           type="file"
           name="file"
           onChange={(e) => changeHandler(e)}
         />
-        <label className="label-for-img-loader" htmlFor="loader-for-img">
-          Load img
+        <label htmlFor="loader-for-img" className="input-button">
+          <span className="icon-wrapper">{<Download />}</span>
+          <span className="button-text">Choose image</span>
         </label>
       </div>
     </div>

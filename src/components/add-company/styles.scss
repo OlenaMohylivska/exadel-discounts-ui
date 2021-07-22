@@ -12,7 +12,8 @@
   flex-direction: column;
 }
 .company-info-subtitle {
-  margin: 1rem 0 .3rem;
+  font-size: 1.1rem;
+  padding-bottom: 10px;
 }
 
 .company-info-btn, .address-field {
@@ -23,3 +24,38 @@
   resize: none;
 }
 
+.company-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  width: 100%;
+}
+
+.company-info-wrapper {
+  width: 50%;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-location-btn {
+  margin-left: 15px;
+}
+
+.company-info-btn {
+  width: 30%;
+}
+
+@media (max-width: 720px) {
+  .company-container{
+    flex-direction: column-reverse;
+  }
+  .company-info-wrapper {
+    width: 100%;
+    padding: 0;
+    margin-top: 15px;
+  }
+  .company-info-btn {
+    width: 100%;
+  }
+}

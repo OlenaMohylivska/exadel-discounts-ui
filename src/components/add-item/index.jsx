@@ -238,9 +238,7 @@ const AddItem = (props) => {
 
   const getLocation = (
     <>
-      <span className="discount-subtitle">Location </span>
-
-      {newLocationsArr.map((elem) => (
+      {newLocationsArr.map((elem, index) => (
         <AddLocation
           key={elem.id}
           countryLocation={countryLocation}
@@ -250,16 +248,17 @@ const AddItem = (props) => {
           actualLocation={actualLocation}
           addressesList={addressesList}
           setAddressesList={setAddressesList}
+          addNewLocation={addNewLocation}
+          buttonIndex={index}
         />
       ))}
-      <Button onClick={() => addNewLocation()}>add location</Button>
     </>
   )
   ////// END SHORTCUT VARIABLES
 
   return (
     <Form>
-      <div className="discount-container">
+      <div className="container my-4 discount-container">
         <Toast
           show={discountPostError.show}
           autohide
@@ -274,7 +273,7 @@ const AddItem = (props) => {
             <FileUploadPage setNameImage={setNameImage} />
           </div>
           <div className="description">
-            <span className="headers">Description:</span>
+            <span className="headers discount-subtitle">Description:</span>
             <InputGroup>
               <FormControl
                 as="textarea"
@@ -292,10 +291,10 @@ const AddItem = (props) => {
             )}
           </div>
 
-          <div className="btn-field">
+          <div className="btn-field mt-3">
             <Button
               variant="primary"
-              className="btn"
+              className="btn w-25"
               onClick={props.isEditable ? () => edit() : () => submit()}
             >
               Save
@@ -303,22 +302,22 @@ const AddItem = (props) => {
             {props.isEditable ? (
               <Button
                 variant="dark"
-                className="btn"
+                className="btn w-25"
                 onClick={() => {
                   history.goBack()
                 }}
               >
-                Go back to promotions
+                To promotions
               </Button>
             ) : null}
-            <Button variant="danger" onClick={() => reset()} className="btn">
+            <Button variant="danger" className="btn w-25" onClick={() => reset()}>
               Reset
             </Button>
           </div>
         </div>
         <div className="col input-fields ">
           <div className="discount-provider-name">
-            <span className="discount-subtitle">Select Company Name:</span>
+            <span className="discount-subtitle pt-0">Select Company Name:</span>
             <Select
               options={companyOptions}
               onChange={(e) => {
@@ -348,8 +347,7 @@ const AddItem = (props) => {
           <span className="discount-subtitle headers">Name of discount:</span>
           <InputGroup>
             <FormControl
-              size="sm"
-              placeholder="Fill the name of discount,first letter must be uppercase"
+              placeholder="Fill the name of discount. First letter must be uppercase"
               name="name"
               value={data.name ? data.name : ""}
               onChange={(e) => handleChange(e)}

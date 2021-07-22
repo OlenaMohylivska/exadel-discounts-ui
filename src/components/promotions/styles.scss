@@ -14,3 +14,18 @@
 .btn-wrapper{
   margin: .5rem 0;
 }
+
+.search-container-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 720px) {
+  .search-container-wrapper {
+    flex-direction: column;
+  }
+  .add-discount-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

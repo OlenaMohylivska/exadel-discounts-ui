@@ -37,29 +37,31 @@ const Promotions = () => {
   }
 
   return (
-    <Container className="catalog-wrapper">
-      <div className=" filter-panel column ">
-        <div className="width-100">
-          <label className="col-lg-5 col-md-12 search-container padding-right-12px ">
-            <div className="search-icon">
-              <Loupe />
-            </div>
-            <Form className="search-input">
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Control type="text" placeholder="Enter your search" />
-              </Form.Group>
-            </Form>
-          </label>
+    <Container className="my-4">
+      <div className="col-lg-12 col-md-12 mb-4 search-container-wrapper">
+        <div className="col-lg-10 col-md-9">
+          <div className="position-relative w-100">
+            <label className="w-100">
+              <div className="search-icon">
+                <Loupe />
+              </div>
+              <Form>
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Control type="text" placeholder="Enter your search" />
+                </Form.Group>
+              </Form>
+            </label>
+          </div>
         </div>
-      </div>
-      <div className="btn-wrapper d-flex justify-content-center">
-        <Button
-          variant="success"
-          className="h-100 px-4 align-self-center"
-          onClick={newDiscountHandler}
-        >
-          Add new discount
-        </Button>
+        <div className="col-lg-2 col-md-3 text-end">
+          <Button
+            variant="primary"
+            className="add-discount-btn"
+            onClick={newDiscountHandler}
+          >
+            Add new discount
+          </Button>
+        </div>
       </div>
       {loading && (
         <div className="spin-container">
