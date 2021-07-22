@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import "./styles.scss"
 import { Context } from "store/context"
 import { Download } from "react-bootstrap-icons"
-// import Image from "../../assets/exadel.jpg"
+import Image from "../../assets/no-image.png"
 function FileUploadPage({ setNameImage }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
@@ -33,7 +33,7 @@ function FileUploadPage({ setNameImage }) {
       ) : (
         <img
           className="default-img"
-          src="	https://img.icons8.com/plasticine/2x/no-image.png"
+          src={Image}
         />
       )}
       <div>
