@@ -18,12 +18,12 @@ const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: null,
     addresses: null,
-    category: null,
+    category: {name:''},
     quantity: null,
     company: null,
     periodStart: null,
     tags: null,
-    id:0
+    id: 0,
   })
   const [errors, setErrors] = useState({})
   const [discountPostError, setDiscountPostError] = useState({
@@ -33,7 +33,6 @@ const AddItem = (props) => {
   const [addressesList, setAddressesList] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
-
   const [chooseLocation, setChooseLocation] = useState([])
   const [actualLocation, setActualLocation] = useState([])
   const [categories, setCategories] = useState([])
@@ -65,7 +64,7 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
-    setData({ ...data, category: { id: e.id} })
+    setData({ ...data, category: { id: e.id } })
     setTags(e.tags)
   }
 
@@ -115,26 +114,16 @@ const AddItem = (props) => {
       value: category.name,
       label: category.name,
       tags: category.tags,
-      id:category.id
+      id: category.id,
     }
   })
-
-  // useEffect(() => {
-  //   setActualLocation([...actualLocation, actualLocation])
-  // }, [citiesLocation])
   useEffect(() => {
     setData({ ...data, addresses: saveLocation })
   }, [saveLocation])
   useEffect(() => {
     setData({ ...data, nameImage: nameImage })
   }, [nameImage])
-  ////
 
-  //// send file to server
-  // useEffect(() => {
-  //   axiosInstance.post("/api/images", file).then((res) => console.log(res))
-  // }, [file])
-  /////
   ///// useEffects FOR FETCH DATA
 
   useEffect(() => {
@@ -145,8 +134,8 @@ const AddItem = (props) => {
     fetchData("/api/category", setCategories)
   }, [])
 
-  useEffect(() => {
-    if (props.isEditable) fetchData(`/api/discounts/${props.id}`, setData)
+  useEffect(async () => {
+    if (props.isEditable) await fetchData(`/api/discounts/${props.id}`, setData)
   }, [])
   //////
 
@@ -208,10 +197,10 @@ const AddItem = (props) => {
       periodStart: null,
       periodEnd: null,
       name: null,
-      category: { name: "", tags: [] },
+      category: {},
       quantity: null,
       company: null,
-      id:null
+      id: null,
     })
     setChooseLocation([])
     setActualLocation({
@@ -229,7 +218,6 @@ const AddItem = (props) => {
     setAddressesList([])
     setTags([])
   }
-
   const addNewLocation = () => {
     setNewLocationsArr([...newLocationsArr, { id: newLocationsArr.length + 1 }])
   }
@@ -270,7 +258,7 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
-            <FileUploadPage setNameImage={setNameImage} />
+            <FileUploadPage setNameImage={setNameImage} isEditable={props.isEditable}image={data.nameImage} />
           </div>
           <div className="description">
             <span className="headers discount-subtitle">Description:</span>
@@ -310,7 +298,11 @@ const AddItem = (props) => {
                 To promotions
               </Button>
             ) : null}
-            <Button variant="danger" className="btn w-25" onClick={() => reset()}>
+            <Button
+              variant="danger"
+              className="btn w-25"
+              onClick={() => reset()}
+            >
               Reset
             </Button>
           </div>
@@ -393,7 +385,9 @@ const AddItem = (props) => {
           </InputGroup>
           {errors.promoCode ? <ValidationError error={errors.promoCode} /> : ""}
         </div>
-        {successMessage && <ToastElement setSuccessMessage={setSuccessMessage} />}
+        {successMessage && (
+          <ToastElement setSuccessMessage={setSuccessMessage} />
+        )}
       </div>
     </Form>
   )

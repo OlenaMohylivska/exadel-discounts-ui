@@ -252,7 +252,7 @@ const DiscountPage = () => {
                 </Col>
               </Row>
               <div>
-                <div className="action">
+                {localStorage.getItem('role') === "USER" && <div className="action">
                   <Button
                     className="w-25 d-flex align-self-end justify-content-center"
                     onClick={orderToggle}
@@ -282,7 +282,7 @@ const DiscountPage = () => {
                       Leave feedback
                     </Button>
                   </div>
-                </div>
+                </div>}
               </div>
             </Col>
           </Row>

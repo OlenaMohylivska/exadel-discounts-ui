@@ -5,7 +5,7 @@ import "./styles.scss"
 import { Context } from "store/context"
 import { Download } from "react-bootstrap-icons"
 import Image from "../../assets/no-image.png"
-function FileUploadPage({ setNameImage }) {
+function FileUploadPage({ setNameImage, image, isEditable }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
   const { bindToken } = useContext(Context)
@@ -21,21 +21,24 @@ function FileUploadPage({ setNameImage }) {
       .post("api/images", formData)
       .then((res) => setNameImage(res.data))
     setIsSelected(true)
+    fileView
     setFileView(URL.createObjectURL(event.target.files[0]))
   }
 
   return (
     <div className="upload-container">
-      {isSelected ? (
+      {image && (
         <div>
-          <img className="file-view" src={fileView} />
+          <img
+            className="file-view"
+            src={`https://sandbox-team5.herokuapp.com/api/images/${image}`}
+          />
         </div>
-      ) : (
-        <img
-          className="default-img"
-          src={Image}
-        />
       )}
+      { !image && !isSelected && isEditable &&  (
+        <img className="default-img" src={Image} />
+      )}
+
       <div>
         <input
           id="loader-for-img"
@@ -56,4 +59,6 @@ export default FileUploadPage
 
 FileUploadPage.propTypes = {
   setNameImage: PropTypes.func,
+  image:PropTypes.string,
+  isEditable: PropTypes.bool
 }
