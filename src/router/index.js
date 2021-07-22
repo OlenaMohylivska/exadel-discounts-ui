@@ -52,7 +52,7 @@ function AppRouter() {
       </Route>
 
       <Route exact path="/">
-        {localStorage.getItem('role') === "USER" ? <Home /> : <Statistics />}
+        {localStorage.getItem('role') === "USER" ? <Home /> : <Redirect push to="admin/all-promotions" />}
       </Route>
       <Route path="/404">
         <NonExistentPage />

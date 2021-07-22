@@ -8,12 +8,12 @@ import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse"
 import { Context } from "store/context"
 
 function Header() {
-  const { isAuthorized ,setIsAuthorized } = useContext(Context)
-  useEffect(()=>{
-    if(!!localStorage.getItem('jwt') && isAuthorized === false){
+  const { isAuthorized, setIsAuthorized } = useContext(Context)
+  useEffect(() => {
+    if (!!localStorage.getItem('jwt') && isAuthorized === false) {
       return setIsAuthorized(true)
     }
-  },[])
+  }, [])
   const logout = () => {
     localStorage.clear()
     setIsAuthorized(false)
@@ -35,15 +35,15 @@ function Header() {
           <Nav className="w-100 d-flex lg-ms-5 text-right header-menu">
             {isAuthorized ? (
               <>
-                <NavLink
-                  exact to="/"
-                  className="menu-link"
-                  activeClassName="menu-link-active"
-                >
-                  Home
-                </NavLink>
                 {localStorage.getItem("role") === "USER" ? (
                   <>
+                    <NavLink
+                      exact to="/"
+                      className="menu-link"
+                      activeClassName="menu-link-active"
+                    >
+                      Home
+                    </NavLink>
                     <NavLink
                       to="/profile"
                       className="menu-link"
