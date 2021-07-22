@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react"
 import { Container, Card, Button } from "react-bootstrap"
 import StarRatings from "react-star-ratings"
 import PropTypes from "prop-types"
-import { Link, useHistory, useRouteMatch } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import "./styles.scss"
 import moment from "moment"
 import { Context } from "store/context"
@@ -15,14 +15,11 @@ const PromotionInfo = ({ elem }) => {
   useEffect(() => {
     bindToken()
   }, [])
-
   const formattedData = moment(elem.periodEnd).format("MMM Do YYYY")
-
   const history = useHistory()
-  const { path } = useRouteMatch()
 
   const updateItemHandler = () => {
-    history.push(`${path}/edit-item/${elem.id}`)
+    history.push(`edit-item/${elem.id}`)
   }
 
   return (
@@ -31,7 +28,7 @@ const PromotionInfo = ({ elem }) => {
         <Link
           key={elem.id}
           to={{
-            pathname: `/update-discount/${elem.id}`,
+            pathname: `/discount/${elem.id}`,
           }}
         >
           <Card.Subtitle className="product-actuality text-muted">

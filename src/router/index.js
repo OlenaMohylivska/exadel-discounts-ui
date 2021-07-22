@@ -33,11 +33,12 @@ const adminRouts = [
   { path: "/admin/add-company", component: <AddCompany /> },
   { path: "/admin/all-companies/edit-company/:id", component: <EditCompany /> },
   { path: "/admin/add-item", component: <AddItem /> },
-  { path: "/admin/all-promotions/edit-item/:id", component: <EditItem /> },
+  { path: "/admin/edit-item/:id", component: <EditItem /> },
   { path: "/admin/tools", component: <Tools /> },
   { path: "/admin/statistics", component: <Statistics /> },
   { path: "/admin/all-companies", component: <Companies /> },
-  { path: "/admin/all-promotions", component: <Promotions /> }
+  { path: "/admin/all-promotions", component: <Promotions /> },
+  { path: "/discount/:id", component: <DiscountPage /> }
 ]
 
 function AppRouter() {

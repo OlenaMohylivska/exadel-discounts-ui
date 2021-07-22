@@ -243,7 +243,7 @@ const DiscountPage = () => {
                 </Col>
               </Row>
               <div>
-                <div className="action">
+                {localStorage.getItem('role') === "USER" && <div className="action">
                   <Button
                     className="w-25 d-flex align-self-end justify-content-center"
                     onClick={() => setShowBtn(!showBtn)}
@@ -272,7 +272,7 @@ const DiscountPage = () => {
                       Leave feedback
                     </Button>
                   </div>
-                </div>
+                </div>}
                 <div className="d-flex justify-content-end">
                   <p className={`${!showBtn ? "hide" : "display"}`}>
                     {discount.promoCode}
