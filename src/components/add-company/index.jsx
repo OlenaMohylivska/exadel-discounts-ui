@@ -208,7 +208,7 @@ const AddCompany = (props) => {
             ) : (
               <Button
                 variant="primary"
-                className="btn company-info-btn"
+                className="btn company-info-btn save-btn"
                 onClick={saveCompanyInfo}
               >
                 Save company info

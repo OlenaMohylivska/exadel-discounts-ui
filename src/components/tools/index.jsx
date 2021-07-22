@@ -102,13 +102,13 @@ const Tools = () => {
   return (
     <>
       {fetchError && <FetchError error={fetchError} />}
-      {!fetchError && <Container>
-        <Row className="m-4">
+      {!fetchError && <Container className="my-4">
+        <Row>
           <Col lg={6} md={12}>
             <div className="form-fields-container">
               <Form>
                 <Form.Group className="category-form-field">
-                  <Form.Label>Add new category</Form.Label>
+                  <Form.Label className="form-label-subtitle">Add new category</Form.Label>
                   <Form.Control
                     placeholder="New Category"
                     value={newCategory.name || ""}
@@ -140,7 +140,7 @@ const Tools = () => {
             <div className="form-fields-container">
               <Form.Group className="category-form-field delete-category-form-field">
                 <div className="w-100">
-                  <Form.Label>All current categories</Form.Label>
+                  <Form.Label className="form-label-subtitle">All current categories</Form.Label>
                   <Select
                     options={categoriesOptions}
                     onChange={categoryHandleChange}
@@ -150,7 +150,7 @@ const Tools = () => {
                 </div>
                 <Button
                   className="delete-category-btn"
-                  variant="outline-dark"
+                  variant="danger"
                   disabled={!category}
                   onClick={() => setShow(true)}>Delete category
                 </Button>
