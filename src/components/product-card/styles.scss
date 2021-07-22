@@ -29,29 +29,14 @@ a {
   color: black;
 }
 
-.product-description,
-.product-footer {
-  padding: 15px 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
 .product-feedback {
-  margin: 0;
-  padding: 8px;
-  width: 100%;
-}
-
-.product-discount {
-  width: 30%;
-  text-align: center;
+  margin-top: 10px;
+  width: 90%;
 }
 
 .product-footer {
-  padding: 0;
-  justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 720px) {
@@ -60,12 +45,24 @@ a {
   }
 }
 
-.fav-icon{
-      position: absolute;
-      top: 35px;
-      right: 15px;
-      width: 40px;
-      color: #FF0000;
-      cursor: pointer;   
+.fav-icon {
+  position: absolute;
+  top: 18px;
+  right: 5px;
+  width: 48px;
+  color: #ff0000;
+  cursor: pointer;
 }
 
+.image-block {
+  position: relative;
+}
+
+.expiration-badge {
+  background-color: rgba(255, 193, 7, 1);
+  color: #fff;
+  position: absolute;
+  top: 130px;
+  left: 118px;
+  width: 150px;
+}
