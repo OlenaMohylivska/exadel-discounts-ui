@@ -5,8 +5,8 @@ import { Button } from "react-bootstrap"
 
 const AddLocation = ({
   countryLocation,
-  citiesLocation,
-  setCitiesLocation,
+  setSaveLocation,
+  saveLocation,
   addressesList,
   setAddressesList,
 }) => {
@@ -41,13 +41,14 @@ const AddLocation = ({
 
   const addressesHandleChange = (e) => {
     const arr = e.map((e) => ({
-      address: e.address,
+
       id: e.id,
     }))
     setLocationObj({ ...locationObj, addresses: arr })
   }
   const save = () => {
-    setCitiesLocation([...citiesLocation, locationObj])
+    const arr = locationObj.addresses
+    setSaveLocation(saveLocation.concat(arr))
     setIsEntered(false)
   }
 
@@ -97,8 +98,8 @@ export default AddLocation
 
 AddLocation.propTypes = {
   countryLocation: PropTypes.array,
-  citiesLocation: PropTypes.array,
-  setCitiesLocation: PropTypes.func,
+  saveLocation: PropTypes.array,
+  setSaveLocation: PropTypes.func,
   addressesList: PropTypes.array,
   setAddressesList: PropTypes.func,
 }
