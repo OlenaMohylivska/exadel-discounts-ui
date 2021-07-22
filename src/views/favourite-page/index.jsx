@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react"
-import LinearProductCard from "components/linear-product-card"
 import axiosInstance from "components/api"
 import "./styles.scss"
 import { Context } from "store/context"
 import FetchError from "components/fetch-error"
 import { Spinner } from "react-bootstrap"
+import ProductCard from "components/product-card"
+import Pagination from "components/pagination"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -12,21 +13,24 @@ const FavouritePage = () => {
   const [discounts, setDiscounts] = useState([])
   const [fetchError, setFetchError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const images = useContext(Context)
   const { bindToken } = useContext(Context)
+  const [itemsPerFavoritePage, setItemsPerFavoritePage] = useState(9)
   useEffect(() => {
     bindToken()
   }, [])
   useEffect(() => {
     setLoading(true)
-    axiosInstance.get(`${baseUrl}/api/discounts`)
-      .then(resp => {
-        const allDiscounts = resp.data.map((el, index) => (
-          { ...el, isFavourite: true, image: images.productImages[index] }
-        ))
+    axiosInstance
+      .get(`${baseUrl}/api/discounts`)
+      .then((resp) => {
+        const allDiscounts = resp.data.map((el) => ({
+          ...el,
+          isFavourite: true,
+        }))
         setDiscounts(allDiscounts)
         setLoading(false)
-      }).catch(err => setFetchError(err.message))
+      })
+      .catch((err) => setFetchError(err.message))
   }, [])
 
   return (
@@ -37,21 +41,21 @@ const FavouritePage = () => {
         </div>
       )}
       {fetchError && <FetchError error={fetchError} />}
-      {!fetchError && (
+      {discounts && (
         <div className="container">
-          <div className="favourite-card-wrapper">
-            {discounts.map((el) => {
-              return (
-                <LinearProductCard
-                  buttonText="Order"
-                  discount={el}
-                  discounts={discounts}
-                  setDiscounts={setDiscounts}
-                  key={el.id}
-                />
-              )
+          <div className="discounts-wrapper">
+            {discounts.slice(0, itemsPerFavoritePage).map((el) => {
+              return <ProductCard elem={el} key={el.id} />
             })}
           </div>
+          {!loading && (
+            <Pagination
+              favorites={discounts}
+              itemsPerFavoritePage={itemsPerFavoritePage}
+              setItemsPerFavoritePage={setItemsPerFavoritePage}
+              isFavorite={true}
+            />
+          )}
         </div>
       )}
     </>
