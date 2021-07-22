@@ -2,21 +2,16 @@
   display: flex;
   justify-content: center;
   flex-direction: row-reverse;
-  padding: 50px 70px;
   width: 100%;
 }
+
 .discount-col {
   width: 50%;
-
-  padding: 0 30px;
+  padding-left: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
-.load-img {
-  text-align: end;
 
-}
 .date-headers {
   margin-left: 14px;
   padding-top: 5px;
@@ -37,8 +32,6 @@
   display: none;
 }
 .description {
-  margin-top: 100px;
-  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -52,7 +45,7 @@
 }
 .btn-field {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: space-between;
 }
 .input-fields {
@@ -64,8 +57,6 @@
   outline: none;
   border: 1px solid black;
   border-radius: 20px;
-  width: 400px;
-  height: 44px;
   padding-left: 10px;
 }
 .radio-box {
@@ -81,4 +72,15 @@
 .btn {
   border-radius: 20px;
   padding: 10px 40px;
+}
+
+@media (max-width: 720px) {
+  .discount-container{
+    flex-direction: column-reverse;
+  }
+  .discount-col {
+    width: 100%;
+    padding: 0;
+    margin-top: 15px;
+  }
 }

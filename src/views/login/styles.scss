@@ -29,6 +29,17 @@
   .form-text {
     font-size: 0.8rem;
   }
+
+  .auth-error{
+    color: #9b1919;
+    margin-top: 1.4em;
+    text-align: center;
+    .auth-error-message{
+      margin-top: .3em;
+      font-size: 15px;
+    }
+  }
+ 
 }
 
 @media screen and (max-width: 768px) {

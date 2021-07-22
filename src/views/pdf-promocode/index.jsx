@@ -11,6 +11,7 @@ import {
 import PropTypes from "prop-types"
 import moment from "moment"
 import promocode from "../../assets/promocode.jpg"
+import exadelLogo from "../../assets/exadelLogo.png"
 
 const styles = StyleSheet.create({
   page: {
@@ -23,31 +24,50 @@ const styles = StyleSheet.create({
   section: {
     padding: 10,
     alignItems: "center",
-    margin: 10,
+    margin: 5,
     maxWidth: 500,
   },
-  locationItem: {
+  location: {
     marginTop: 5,
     fontSize: 14,
     alignItems: "center",
+    color: "#2061A5"
   },
   image: {
-    width: "50%",
+    width: "40%",
     padding: 10,
   },
+  logo: {
+    position: "fixed",
+    bottom: 0,
+    right: 0,
+    width: "20%",
+  },
+  address: {
+    marginBottom: 3
+
+  }
 })
 
-const PdfDocument = ({ expirationDate, discountName, addresses }) => {
+const PdfDocument = ({
+  expirationDate,
+  discountName,
+  fullAddressLocations,
+  QrCode,
+}) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Image style={styles.image} src={promocode} />
+        </View>
         <View style={styles.section}>
           <Text>
             Congrats on your choice! Your discount name is {discountName}
           </Text>
         </View>
         <View style={styles.section}>
-          <Image style={styles.image} src={promocode} />
+          <Image style={styles.image} src={QrCode} />
         </View>
         <View style={styles.section}>
           <Text>
@@ -58,8 +78,14 @@ const PdfDocument = ({ expirationDate, discountName, addresses }) => {
         <View style={styles.section}>
           <Text>Check address down below:</Text>
         </View>
+        <View style={styles.location}>
+          {fullAddressLocations &&
+            fullAddressLocations.map((address, index) => (
+              <Text style={styles.address} key={index}>{address}</Text>
+            ))}
+        </View>
         <View style={styles.section}>
-          <Text>{addresses}</Text>
+          <Image style={styles.logo} src={exadelLogo} />
         </View>
       </Page>
     </Document>
@@ -71,5 +97,6 @@ export default PdfDocument
 PdfDocument.propTypes = {
   expirationDate: PropTypes.string,
   discountName: PropTypes.string,
-  addresses: PropTypes.string,
+  fullAddressLocations: PropTypes.string,
+  QrCode: PropTypes.string,
 }

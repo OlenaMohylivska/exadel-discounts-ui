@@ -5,10 +5,12 @@ import { Button } from "react-bootstrap"
 
 const AddLocation = ({
   countryLocation,
-  citiesLocation,
-  setCitiesLocation,
+  setSaveLocation,
+  saveLocation,
   addressesList,
   setAddressesList,
+  addNewLocation,
+  buttonIndex
 }) => {
   const [locationObj, setLocationObj] = useState({ name: "", addresses: [] })
 
@@ -41,28 +43,39 @@ const AddLocation = ({
 
   const addressesHandleChange = (e) => {
     const arr = e.map((e) => ({
-      address: e.address,
+
       id: e.id,
     }))
     setLocationObj({ ...locationObj, addresses: arr })
   }
   const save = () => {
-    setCitiesLocation([...citiesLocation, locationObj])
+    const arr = locationObj.addresses
+    setSaveLocation(saveLocation.concat(arr))
     setIsEntered(false)
   }
 
   return (
     <>
       {citiesOptions && citiesOptions.length > 0 ? (
-        <Select
-          options={citiesOptions}
-          onChange={(e) => {
-            cityHandleChange(e)
-          }}
-          className="mt-3"
-          placeholder="City"
-          isDisabled={!isEntered}
-        />
+        <>
+          {!buttonIndex && <span className="discount-subtitle">Location:</span>}
+          <div className="d-flex">
+            <Select
+              options={citiesOptions}
+              onChange={(e) => {
+                cityHandleChange(e)
+              }}
+              className="w-100"
+              placeholder="City"
+              isDisabled={!isEntered}
+            />
+            {!buttonIndex && <Button
+              className="add-location-btn"
+              onClick={() => addNewLocation()}>
+              ✚
+            </Button>}
+          </div>
+        </>
       ) : (
         ""
       )}
@@ -73,7 +86,7 @@ const AddLocation = ({
             onChange={(e) => addressesHandleChange(e)}
             options={addressesOptions}
             isMulti
-            className="mt-3"
+            className="my-3"
             placeholder="Address"
             isDisabled={!isEntered}
           />
@@ -81,7 +94,7 @@ const AddLocation = ({
           <Button
             varian="primary"
             className={
-              isEntered ? "my-3 w-50 mx-auto" : "my-3 w-50 mx-auto d-none"
+              isEntered ? "my-3 w-25 mx-auto" : "my-3 w-25 mx-auto d-none"
             }
             onClick={() => save()}
           >
@@ -97,8 +110,10 @@ export default AddLocation
 
 AddLocation.propTypes = {
   countryLocation: PropTypes.array,
-  citiesLocation: PropTypes.array,
-  setCitiesLocation: PropTypes.func,
+  saveLocation: PropTypes.array,
+  setSaveLocation: PropTypes.func,
   addressesList: PropTypes.array,
   setAddressesList: PropTypes.func,
+  addNewLocation: PropTypes.func,
+  buttonIndex: PropTypes.number,
 }

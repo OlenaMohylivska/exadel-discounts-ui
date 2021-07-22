@@ -6,8 +6,8 @@ import GoogleMap from "components/google-map/googleMap"
 import "./styles.scss"
 
 const CustomModalWindow = (props) => {
-  const [choosedLocation, setChoosedLocation] = useState(props.locations[0])
-  const [isActive, setIsActive] = useState(props.locations[0])
+  const [choosedLocation, setChoosedLocation] = useState(props.locations && props.locations[0])
+  const [isActive, setIsActive] = useState(props.locations && props.locations[0])
 
   const changeMarkerHandler = (event) => {
     setChoosedLocation(event.target.innerHTML)
