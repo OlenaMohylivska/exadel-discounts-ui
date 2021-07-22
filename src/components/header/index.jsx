@@ -24,7 +24,7 @@ function Header() {
       <Container className="nav-wrapper">
         <NavbarBrand>
           <div className="logo">
-            <Link to="/">
+            <Link to={isAuthorized ? "/" : "/login"}>
               <img src={Logo} alt="Exadel logotype" className="logo" />
             </Link>
           </div>

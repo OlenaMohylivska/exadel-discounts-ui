@@ -16,7 +16,6 @@ import Statistics from "components/statistics"
 import Companies from "components/companies"
 import Promotions from "components/promotions"
 import ProfileUserInfo from "views/profile-userInfo"
-import "./styles.scss"
 import OrderConfirm from "views/order-confirmation"
 import NonExistentPage from "components/non-existent-page"
 
@@ -49,7 +48,7 @@ function AppRouter() {
       </Route>
 
       <Route path="/">
-        {!localStorage.getItem("jwt") && <Redirect to="/login" />}
+        {!localStorage.getItem("jwt") && <Redirect push to="/login" />}
       </Route>
 
       <Route exact path="/">

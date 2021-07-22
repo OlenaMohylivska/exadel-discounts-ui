@@ -85,9 +85,6 @@ function Login() {
                   onClick={onPasswordShow}
                 />
               </div>
-              <Form.Text className="text-muted form-text">
-                Must be 8-20 characters long.
-              </Form.Text>
             </Form.Group>
 
             <div className="d-flex justify-content-center">
@@ -99,7 +96,13 @@ function Login() {
                 Log in
               </Button>
             </div>
-            {error && <div>{error}</div>}
+            {error &&
+              <div className="auth-error">
+                Wrong login or password, please try again
+                <div className="auth-error-message">
+                ({error})
+                </div>
+              </div>}
           </Form>
         </Col>
       </Container>

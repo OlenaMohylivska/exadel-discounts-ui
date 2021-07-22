@@ -30,9 +30,11 @@ function App() {
       value={{ productImages, isAuthorized, setIsAuthorized, bindToken }}
     >
       <BrowserRouter>
+        <Header />
         <div className="app-wrapper">
-          <Header />
-          <Breadcrumbs />
+          <div className={isAuthorized ? "" : "invisible"}>
+            <Breadcrumbs />
+          </div>
           <Switch>
             <AppRouter />
           </Switch>
