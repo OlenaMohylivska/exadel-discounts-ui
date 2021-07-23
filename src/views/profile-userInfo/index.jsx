@@ -6,6 +6,7 @@ import ToastElement from "components/toast"
 import axiosInstance from "components/api"
 import FetchError from "components/fetch-error"
 import { Context } from "store/context"
+import userProfileImg from "../../assets/userProfileImg.png"
 
 function ProfileUserInfo() {
   const [categories, setCategories] = useState([])
@@ -52,7 +53,7 @@ function ProfileUserInfo() {
             <h4 className="personal-info-title">Personal Info</h4>
             <img
               className="profile-img"
-              src="https://i.pinimg.com/originals/17/56/8f/17568fcd478e0699067ca7b9a34c702f.png"
+              src={userProfileImg}
               alt="user-image"
             />
 
