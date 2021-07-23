@@ -258,7 +258,7 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
-            <FileUploadPage setNameImage={setNameImage} isEditable={props.isEditable}image={data.nameImage} />
+            <FileUploadPage setNameImage={setNameImage} isEditable={props.isEditable} image={data.nameImage} />
           </div>
           <div className="description">
             <span className="headers discount-subtitle">Description:</span>
