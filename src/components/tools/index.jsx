@@ -128,8 +128,8 @@ const Tools = () => {
                   />
                 </Form.Group>
                 <div className="d-flex justify-content-center">
-                  <Button className="submit-btn" variant="primary" onClick={postCategory}>
-                    Submit changes
+                  <Button className="submit-btn" variant="primary" onClick={postCategory} disabled={!newCategory.name.trim()}>
+                    Save
                   </Button>
                 </div>
               </Form>
@@ -182,11 +182,11 @@ const Tools = () => {
               </Form.Group>
               <div className="d-flex justify-content-center">
                 <Button className="submit-btn" variant="primary" onClick={updateCategory}>
-                  Submit changes
+                  Update
                 </Button>
               </div>
             </div>
-            {successMessage && <ToastElement setSuccessMessage={setSuccessMessage}/>}
+            {successMessage && <ToastElement setSuccessMessage={setSuccessMessage} />}
           </Col>
         </Row>
       </Container>
