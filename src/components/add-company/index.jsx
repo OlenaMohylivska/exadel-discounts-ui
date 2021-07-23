@@ -28,7 +28,8 @@ const AddCompany = (props) => {
   const { bindToken } = useContext(Context)
   const [countryLocation, setCountryLocation] = useState([])
   const [citiesLocation, setCitiesLocation] = useState([])
-  const [fileId, setFileId] = useState(null)
+  // const [fileId, setFileId] = useState(null)
+  const [nameImage, setNameImage] = useState(null)
 
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
@@ -86,8 +87,8 @@ const AddCompany = (props) => {
   }, [actualLocation])
 
   useEffect(() => {
-    setData({ ...data, imageId: fileId })
-  }, [fileId])
+    setData({ ...data, nameImage: nameImage })
+  }, [nameImage])
   const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
   useEffect(() => {
     axiosInstance.interceptors.request.use((config) => {
@@ -106,7 +107,7 @@ const AddCompany = (props) => {
     setData({
       name: "",
       countries: [],
-      imageId: null,
+      nameImage: null,
     })
   }
 
@@ -154,6 +155,7 @@ const AddCompany = (props) => {
           countryLocation={countryLocation}
           citiesLocation={citiesLocation}
           setCitiesLocation={setCitiesLocation}
+          addNewLocation={addNewLocation}
         />
       ))}
     </>
@@ -164,7 +166,7 @@ const AddCompany = (props) => {
       <div className="container my-4 company-container">
         <div className="col">
           <div className="company-logo">
-            <FileUploadPage setFileId={setFileId} />
+            <FileUploadPage setNameImage={setNameImage} image={nameImage}/>
           </div>
         </div>
         <div className="col company-info-wrapper">

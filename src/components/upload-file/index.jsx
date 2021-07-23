@@ -5,7 +5,7 @@ import "./styles.scss"
 import { Context } from "store/context"
 import { Download } from "react-bootstrap-icons"
 import Image from "../../assets/no-image.png"
-function FileUploadPage({ setNameImage, image, isEditable }) {
+function FileUploadPage({ setNameImage, image }) {
   const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
   const { bindToken } = useContext(Context)
@@ -13,11 +13,12 @@ function FileUploadPage({ setNameImage, image, isEditable }) {
     bindToken()
   }, [])
 
-  const changeHandler = (event) => {
+  const changeHandler = async (event) => {
     let file = event.target.files[0]
     let formData = new FormData()
     formData.append("file", file)
-    axiosInstance
+
+    await axiosInstance
       .post("api/images", formData)
       .then((res) => setNameImage(res.data))
     setIsSelected(true)
@@ -35,7 +36,7 @@ function FileUploadPage({ setNameImage, image, isEditable }) {
           />
         </div>
       )}
-      { !image && !isSelected && isEditable &&  (
+      {!image && !isSelected && (
         <img className="default-img" src={Image} />
       )}
 
@@ -59,6 +60,6 @@ export default FileUploadPage
 
 FileUploadPage.propTypes = {
   setNameImage: PropTypes.func,
-  image:PropTypes.string,
-  isEditable: PropTypes.bool
+  image: PropTypes.string,
+  isEditable: PropTypes.bool,
 }

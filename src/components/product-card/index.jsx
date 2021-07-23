@@ -81,7 +81,7 @@ export default ProductCard
 ProductCard.propTypes = {
   elem: PropTypes.shape({
     nameImage: PropTypes.string,
-    periodEnd: PropTypes.number,
+    periodEnd: PropTypes.string,
     name: PropTypes.string,
     description: PropTypes.string,
     id: PropTypes.number,
