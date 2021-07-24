@@ -18,7 +18,7 @@ const AddItem = (props) => {
   const [data, setData] = useState({
     periodEnd: null,
     addresses: null,
-    category: {name:''},
+    category: { name: "" },
     quantity: null,
     company: null,
     periodStart: null,
@@ -30,6 +30,7 @@ const AddItem = (props) => {
     error: null,
     show: false,
   })
+
   const [addressesList, setAddressesList] = useState([])
   const [discountProviders, setDiscountProviders] = useState([])
   const [tags, setTags] = useState([])
@@ -258,7 +259,11 @@ const AddItem = (props) => {
         </Toast>
         <div className="discount-col ">
           <div className="load-img">
-            <FileUploadPage setNameImage={setNameImage} isEditable={props.isEditable}image={data.nameImage} />
+            <FileUploadPage
+              setNameImage={setNameImage}
+              isEditable={props.isEditable}
+              image={data.nameImage}
+            />
           </div>
           <div className="description">
             <span className="headers discount-subtitle">Description:</span>
@@ -290,7 +295,7 @@ const AddItem = (props) => {
             {props.isEditable ? (
               <Button
                 variant="dark"
-                className="btn w-25"
+                className="btn"
                 onClick={() => {
                   history.goBack()
                 }}
@@ -307,11 +312,10 @@ const AddItem = (props) => {
             </Button>
           </div>
         </div>
-        <div className="col input-fields ">
+        <div className="col input-fields discount-col ">
           <div className="discount-provider-name">
             <span className="discount-subtitle pt-0">Select Company Name:</span>
-            <Select
-              options={companyOptions}
+            <Select options={companyOptions}
               onChange={(e) => {
                 handleChangeCompanies(e)
               }}
@@ -331,6 +335,10 @@ const AddItem = (props) => {
           <span className="discount-subtitle headers">Discount Tags:</span>
 
           <Select
+            value={
+              data.tags &&
+              data.tags.map((elem) => ({ value: elem.name, label: elem.name }))
+            }
             isMulti
             options={tagsOptions}
             onChange={(e) => handleChangeTags(e)}

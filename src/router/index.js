@@ -31,7 +31,7 @@ const userRouts = [
 const adminRouts = [
   { path: "/admin", component: <Admin /> },
   { path: "/admin/add-company", component: <AddCompany /> },
-  { path: "/admin/all-companies/edit-company/:id", component: <EditCompany /> },
+  { path: "/admin/edit-company/:id", component: <EditCompany /> },
   { path: "/admin/add-item", component: <AddItem /> },
   { path: "/admin/edit-item/:id", component: <EditItem /> },
   { path: "/admin/tools", component: <Tools /> },

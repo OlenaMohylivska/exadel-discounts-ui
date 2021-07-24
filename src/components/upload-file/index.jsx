@@ -5,8 +5,7 @@ import "./styles.scss"
 import { Context } from "store/context"
 import { Download } from "react-bootstrap-icons"
 import Image from "../../assets/no-image.png"
-function FileUploadPage({ setNameImage, image, isEditable }) {
-  const [isSelected, setIsSelected] = useState(false)
+function FileUploadPage({ setNameImage, image }) {
   const [fileView, setFileView] = useState(null)
   const { bindToken } = useContext(Context)
   useEffect(() => {
@@ -20,22 +19,21 @@ function FileUploadPage({ setNameImage, image, isEditable }) {
     axiosInstance
       .post("api/images", formData)
       .then((res) => setNameImage(res.data))
-    setIsSelected(true)
+
     fileView
     setFileView(URL.createObjectURL(event.target.files[0]))
   }
 
   return (
     <div className="upload-container">
-      {image && (
+      {image ? (
         <div>
           <img
             className="file-view"
             src={`https://sandbox-team5.herokuapp.com/api/images/${image}`}
           />
         </div>
-      )}
-      { !image && !isSelected && isEditable &&  (
+      ) : (
         <img className="default-img" src={Image} />
       )}
 
@@ -59,6 +57,6 @@ export default FileUploadPage
 
 FileUploadPage.propTypes = {
   setNameImage: PropTypes.func,
-  image:PropTypes.string,
-  isEditable: PropTypes.bool
+  image: PropTypes.string,
+  isEditable: PropTypes.bool,
 }
