@@ -50,9 +50,9 @@ const HistoryPage = () => {
       {discounts && (
         <div className="container">
           <div className="history-card-wrapper">
-            {discounts.map((elem) => {
+            {discounts.map((elem, index) => {
               return (
-                <ProductCard elem={elem.discount} key={elem.id} isOrdered={true} />
+                <ProductCard elem={elem} key={index} isOrdered={true} />
               )
             })}
           </div>
