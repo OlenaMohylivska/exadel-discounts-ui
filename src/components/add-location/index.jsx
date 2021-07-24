@@ -5,12 +5,13 @@ import { Button } from "react-bootstrap"
 
 const AddLocation = ({
   countryLocation,
+
   setSaveLocation,
   saveLocation,
   addressesList,
   setAddressesList,
   addNewLocation,
-  buttonIndex
+  buttonIndex,
 }) => {
   const [locationObj, setLocationObj] = useState({ name: "", addresses: [] })
 
@@ -32,18 +33,19 @@ const AddLocation = ({
     setAddressesList(e.addresses)
   }
   ////address
-  const addressesOptions = addressesList && addressesList.map((address) => {
-    return {
-      value: address.address,
-      label: address.address,
-      address: address.address,
-      id: address.id,
-    }
-  })
+  const addressesOptions =
+    addressesList &&
+    addressesList.map((address) => {
+      return {
+        value: address.address,
+        label: address.address,
+        address: address.address,
+        id: address.id,
+      }
+    })
 
   const addressesHandleChange = (e) => {
     const arr = e.map((e) => ({
-
       id: e.id,
     }))
     setLocationObj({ ...locationObj, addresses: arr })
@@ -69,11 +71,14 @@ const AddLocation = ({
               placeholder="City"
               isDisabled={!isEntered}
             />
-            {!buttonIndex && <Button
-              className="add-location-btn"
-              onClick={() => addNewLocation()}>
-              ✚
-            </Button>}
+            {!buttonIndex && (
+              <Button
+                className="add-location-btn"
+                onClick={() => addNewLocation()}
+              >
+                ✚
+              </Button>
+            )}
           </div>
         </>
       ) : (
@@ -98,7 +103,7 @@ const AddLocation = ({
             }
             onClick={() => save()}
           >
-            Save
+            Apply
           </Button>
         </>
       )}
@@ -110,6 +115,8 @@ export default AddLocation
 
 AddLocation.propTypes = {
   countryLocation: PropTypes.array,
+  // citiesLocation: PropTypes.array,
+  // setCitiesLocation: PropTypes.func,
   saveLocation: PropTypes.array,
   setSaveLocation: PropTypes.func,
   addressesList: PropTypes.array,

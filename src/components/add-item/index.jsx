@@ -315,7 +315,8 @@ const AddItem = (props) => {
         <div className="col input-fields discount-col ">
           <div className="discount-provider-name">
             <span className="discount-subtitle pt-0">Select Company Name:</span>
-            <Select options={companyOptions}
+            <Select
+              options={companyOptions}
               onChange={(e) => {
                 handleChangeCompanies(e)
               }}

@@ -19,7 +19,6 @@ function FileUploadPage({ setNameImage, image }) {
     axiosInstance
       .post("api/images", formData)
       .then((res) => setNameImage(res.data))
-
     fileView
     setFileView(URL.createObjectURL(event.target.files[0]))
   }

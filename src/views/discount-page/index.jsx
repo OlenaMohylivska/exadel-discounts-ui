@@ -23,12 +23,12 @@ import {
 import moment from "moment"
 import { Context } from "store/context"
 import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
+import { Redirect } from "react-router-dom"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const DiscountPage = () => {
   const [discount, setDiscount] = useState(null)
-  const [showBtn, setShowBtn] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const { id } = useParams()
@@ -36,14 +36,19 @@ const DiscountPage = () => {
   const [review, setReview] = useState(null)
   const [allRating, setAllRating] = useState({})
   const { bindToken } = useContext(Context)
+  const [order, setOrder] = useState(false)
 
   const addresssMapper = (el) => {
     return `${el.address} ${el.city.name} ${el.city.country.name}`
   }
 
   const discountAddresses = discount && discount.addresses.map(addresssMapper)
-  const discountCompanyAddresses = discount && discount.company.addresses.map(addresssMapper)
-  const fullAddressLocations = discount && discountAddresses.length ? discountAddresses : discountCompanyAddresses
+  const discountCompanyAddresses =
+    discount && discount.company.addresses.map(addresssMapper)
+  const fullAddressLocations =
+    discount && discountAddresses.length
+      ? discountAddresses
+      : discountCompanyAddresses
 
   const fetchData = async () => {
     setLoading(true)
@@ -129,6 +134,10 @@ const DiscountPage = () => {
   const addReview = () => {
     axiosInstance.post(baseUrl + "/api/reviews", review)
     setRating(0)
+  }
+
+  const orderToggle = () => {
+    setOrder(true)
   }
 
   return (
@@ -246,11 +255,12 @@ const DiscountPage = () => {
                 {localStorage.getItem('role') === "USER" && <div className="action">
                   <Button
                     className="w-25 d-flex align-self-end justify-content-center"
-                    onClick={() => setShowBtn(!showBtn)}
+                    onClick={orderToggle}
                     variant="primary"
                   >
                     Order
                   </Button>
+                  {order && <Redirect to={`/order-confirmation/${id}`} />}
                   <div className="feedback-area">
                     <div>
                       <StarRatings
@@ -273,11 +283,6 @@ const DiscountPage = () => {
                     </Button>
                   </div>
                 </div>}
-                <div className="d-flex justify-content-end">
-                  <p className={`${!showBtn ? "hide" : "display"}`}>
-                    {discount.promoCode}
-                  </p>
-                </div>
               </div>
             </Col>
           </Row>

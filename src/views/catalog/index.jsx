@@ -14,8 +14,8 @@ const Catalog = () => {
   const { bindToken } = useContext(Context)
   const [discounts, setDiscounts] = useState(null)
   const [discountsFetchError, setDiscountsFetchError] = useState(null)
-  const [searchLocation, setSearchLocation] = useState([])
-  const [citiesLocation, setCitiesLocation] = useState([])
+  // const [searchLocation, setSearchLocation] = useState([])
+  // const [citiesLocation, setCitiesLocation] = useState([])
   const [filterTags, setFilterTags] = useState([])
   const [searchCompanies, setSearchCompanies] = useState([])
   const [fetchError, setFetchError] = useState(null)
@@ -39,12 +39,12 @@ const Catalog = () => {
 
   const [searching, setSearching] = useState(false)
 
-  const cityOptions = citiesLocation.map((city) => {
-    return {
-      value: city.name,
-      label: city.name,
-    }
-  })
+  // const cityOptions = citiesLocation.map((city) => {
+  //   return {
+  //     value: city.name,
+  //     label: city.name,
+  //   }
+  // })
 
   const handleSearchCompanies = (e) => {
     setSearch({ ...search, companies: [e.label] })
@@ -77,20 +77,20 @@ const Catalog = () => {
     setSearch({ ...search, searchText: e.target.value })
     setTimeout(funcDebouncer, 2000)
   }
-  const handleSearchLocation = (e) => {
-    setSearch({
-      ...search,
-      locationCriteria: { country: e.value, cities: null },
-    })
-    setCitiesLocation(e.country)
-    setSearching(true)
-    setLoading(true)
-  }
-  const handleSearchCity = (e) => {
-    setSearch({ ...search, locationCriteria: { cities: e.value } })
-    setSearching(true)
-    setLoading(true)
-  }
+  // const handleSearchLocation = (e) => {
+  //   setSearch({
+  //     ...search,
+  //     locationCriteria: { country: e.value, cities: null },
+  //   })
+  //   setCitiesLocation(e.country)
+  //   setSearching(true)
+  //   setLoading(true)
+  // }
+  // const handleSearchCity = (e) => {
+  //   setSearch({ ...search, locationCriteria: { cities: e.value } })
+  //   setSearching(true)
+  //   setLoading(true)
+  // }
   const funcDebouncer = () => {
     setSearching(true)
     setLoading(true)
@@ -138,15 +138,15 @@ const Catalog = () => {
     axiosInstance.get('/api/category').then(res=>setFilterCategory(res.data))
   },[])
 
-  useEffect(() => {
-    const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
-    axiosInstance
-      .get(apiUrl)
-      .then((resp) => {
-        setSearchLocation(resp.data)
-      })
-      .catch((err) => setFetchError(err.message))
-  }, [])
+  // useEffect(() => {
+  //   const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
+  //   axiosInstance
+  //     .get(apiUrl)
+  //     .then((resp) => {
+  //       setSearchLocation(resp.data)
+  //     })
+  //     .catch((err) => setFetchError(err.message))
+  // }, [])
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/company"
     axiosInstance
@@ -170,13 +170,13 @@ const Catalog = () => {
     }))
   })
 
-  const countryOptions =
-    searchLocation &&
-    searchLocation.map((location) => ({
-      label: location.name,
-      value: location.name,
-      country: location.cities,
-    }))
+  // const countryOptions =
+  //   searchLocation &&
+  //   searchLocation.map((location) => ({
+  //     label: location.name,
+  //     value: location.name,
+  //     country: location.cities,
+  //   }))
 
   const categoriesOptions = filterCategory && filterCategory.map((el) => {
     return {
@@ -220,7 +220,7 @@ const Catalog = () => {
           </div>
 
           <div className=" catalog-filters width-100">
-            <div className="location-column">
+            {/* <div className="location-column">
               <Select
                 className="catalog-selects-width-100"
                 options={countryOptions}
@@ -235,7 +235,7 @@ const Catalog = () => {
                   onChange={(e) => handleSearchCity(e)}
                 />
               )}
-            </div>
+            </div> */}
             <Select
               className="catalog-selects"
               options={companiesOptions}

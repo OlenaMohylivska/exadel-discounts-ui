@@ -19,12 +19,28 @@
   flex-direction: row;
 }
 
+@media (min-width: 721px) {
+  .add-discount-btn-wrapper {
+    text-align: end;
+  }
+}
+
 @media (max-width: 720px) {
   .search-container-wrapper {
     flex-direction: column;
   }
   .add-discount-btn {
-    width: 100%;
+    width: 50%;
     margin-top: 10px;
+  }
+
+  .add-discount-btn-wrapper {
+    text-align: center;
+  }
+}
+
+@media (max-width: 320px) {
+  .add-discount-btn {
+    width: 55%;
   }
 }

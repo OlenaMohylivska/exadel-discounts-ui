@@ -19,14 +19,16 @@ const AddCompany = (props) => {
   const [locationArr, setLocationArr] = useState([])
   const [country, setCountry] = useState(null)
   const { bindToken } = useContext(Context)
+
   const [nameImage, setNameImage] = useState(null)
+
   const [show, setShow] = useState(false)
   const toggleModal = () => setShow(!show)
   const [companyPostError, setCompanyPostError] = useState({
     error: null,
     show: false,
   })
-  const [addNewLocation, setAddNewLocation] = useState([{id:0}])
+  const [addNewLocation, setAddNewLocation] = useState([{ id: 0 }])
 
   const [successMessage, setSuccessMessage] = useState(false)
   const history = useHistory()
@@ -50,7 +52,7 @@ const AddCompany = (props) => {
     setData({
       name: "",
       countries: [],
-      imageId: null,
+      nameImage: null,
     })
   }
   useEffect(() => {
@@ -78,14 +80,27 @@ const AddCompany = (props) => {
       setCompanyPostError({ error: e.message, show: true })
     }
   }
-  useEffect(()=>{
-    if(props.company){setData(props.company)}
-  },[props.company])
-  const empty = ''
-  const checkCompanyName = () =>{
-    if(props.company && props.company.name && !data.name) {return props.company.name}
-    if(props.company && props.company.name && data.name) {return data.name}
-    if(props.company && props.company.name && data.name && data.name.length <= 0){return empty}
+  useEffect(() => {
+    if (props.company) {
+      setData(props.company)
+    }
+  }, [props.company])
+  const empty = ""
+  const checkCompanyName = () => {
+    if (props.company && props.company.name && !data.name) {
+      return props.company.name
+    }
+    if (props.company && props.company.name && data.name) {
+      return data.name
+    }
+    if (
+      props.company &&
+      props.company.name &&
+      data.name &&
+      data.name.length <= 0
+    ) {
+      return empty
+    }
   }
   const getLocation = (
     <>
@@ -95,20 +110,38 @@ const AddCompany = (props) => {
             Location
           </label>
           <ul>
-            {props.isEdit && props.company.addresses.length != 0 && props.company.addresses.map(elem=> <li key={elem.id}>{elem.address},{elem.city.name},{elem.city.country.name}</li>)}</ul>
+            {props.isEdit &&
+              props.company.addresses.length != 0 &&
+              props.company.addresses.map((elem) => (
+                <li key={elem.id}>
+                  {elem.address},{elem.city.name},{elem.city.country.name}
+                </li>
+              ))}
+          </ul>
           <FormControl
             className="form-field"
             onChange={(e) => setCountry(e.target.value)}
             id="country"
             placeholder="country"
           />
-          {addNewLocation.map(elem=><CreateLocation
-            key={elem.id}
-            locationArr={locationArr}
-            setLocationArr={setLocationArr}
-            country={country}
-          />)}
-          <Button onClick={()=>setAddNewLocation([...addNewLocation, {id:addNewLocation.length + 1}])}>Add new Location</Button>
+          {addNewLocation.map((elem) => (
+            <CreateLocation
+              key={elem.id}
+              locationArr={locationArr}
+              setLocationArr={setLocationArr}
+              country={country}
+            />
+          ))}
+          <Button
+            onClick={() =>
+              setAddNewLocation([
+                ...addNewLocation,
+                { id: addNewLocation.length + 1 },
+              ])
+            }
+          >
+            Add new Location
+          </Button>
         </div>
       </InputGroup>
     </>
@@ -167,7 +200,7 @@ const AddCompany = (props) => {
             ) : (
               <Button
                 variant="primary"
-                className="btn company-info-btn"
+                className="btn company-info-btn save-btn"
                 onClick={saveCompanyInfo}
               >
                 Save company info
@@ -184,7 +217,6 @@ const AddCompany = (props) => {
                 To admin panel
               </Button>
             ) : null}
-
           </div>
         </div>
         {successMessage && (
