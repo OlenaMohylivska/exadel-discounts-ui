@@ -24,6 +24,7 @@ import moment from "moment"
 import { Context } from "store/context"
 import PreviewGoogleMap from "components/preview-google-map/preview-google-map"
 import { Redirect } from "react-router-dom"
+import discountDefaultImg from "../../assets/no-image.png"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -204,8 +205,10 @@ const DiscountPage = () => {
             <Col lg={6}>
               <div className="img-container">
                 <img
-                  src={`https://sandbox-team5.herokuapp.com/api/images/${discount.nameImage}`}
-                  className="discount-image"
+                  src={discount.nameImage
+                    ? `https://sandbox-team5.herokuapp.com/api/images/${discount.nameImage}`
+                    : discountDefaultImg}
+                  className={discount.nameImage ? "discount-image" : "discount-no-image"}
                   alt="discount-img"
                 />
               </div>
