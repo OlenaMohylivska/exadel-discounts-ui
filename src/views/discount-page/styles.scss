@@ -92,7 +92,6 @@ p,
     }
   }
 
-
   .progress-bar-container {
     width: 23vw;
     margin: 17px 0;
@@ -103,6 +102,12 @@ p,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.discount-no-image{
+  display: block;
+  margin: 0 auto;
+  width: 40%;
 }
 
 @media (max-width: 992px) {

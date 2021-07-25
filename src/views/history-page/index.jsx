@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react"
-import LinearProductCard from "components/linear-product-card"
+import ProductCard from "components/product-card"
 import axiosInstance from "components/api"
 import "./styles.scss"
 import { Context } from "store/context"
 import FetchError from "components/fetch-error"
-import { Spinner } from "react-bootstrap"
+import { Spinner, Button } from "react-bootstrap"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -12,26 +12,32 @@ const HistoryPage = () => {
   const [discounts, setDiscounts] = useState([])
   const [fetchError, setFetchError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const images = useContext(Context)
+  const [pageNumber, setPageNumber] = useState(0)
+  const [isButtonShown, setIsButtonShown] = useState(false)
+
   const { bindToken } = useContext(Context)
   useEffect(() => {
     bindToken()
   }, [])
 
-  useEffect(() => {
+  const paginationParams = {
+    pageNum: pageNumber,
+    itemsPerPage: 8
+  }
 
+  useEffect(() => {
     setLoading(true)
-    axiosInstance.get(`${baseUrl}/api/orders`)
+    axiosInstance.post(`${baseUrl}/api/orders`, paginationParams)
       .then(resp => {
-        const userDiscounts = resp.data.filter(el => el.employee.login === localStorage.getItem("username"))
-        const extendedUserDiscounts = userDiscounts.map((el, index) => (
-          { ...el, isFavourite: false, image: images.productImages[index] }
+        const extendedUserDiscounts = resp.data.content.map((el) => (
+          { ...el, isFavourite: false }
         ))
-        setDiscounts(extendedUserDiscounts)
+        setDiscounts([...discounts, ...extendedUserDiscounts])
+        extendedUserDiscounts.length < paginationParams.itemsPerPage && setIsButtonShown(false)
         setLoading(false)
       }).catch(err => setFetchError(err.message))
 
-  }, [])
+  }, [pageNumber])
 
   return (
     <>
@@ -41,21 +47,25 @@ const HistoryPage = () => {
         </div>
       )}
       {fetchError && <FetchError error={fetchError} />}
-      {!fetchError && (
+      {discounts && (
         <div className="container">
           <div className="history-card-wrapper">
-            {discounts.map((el) => {
+            {discounts.map((elem, index) => {
               return (
-                <LinearProductCard
-                  buttonText=""
-                  discount={el}
-                  discounts={discounts}
-                  setDiscounts={setDiscounts}
-                  key={el.id}
-                />
+                <ProductCard elem={elem} key={index} isOrdered={true} />
               )
             })}
           </div>
+          {isButtonShown && <div className="d-flex justify-content-center">
+            <Button
+              variant="primary"
+              className="mt-3"
+              onClick={() => setPageNumber(pageNumber + 1)}
+            >
+              Load more
+            </Button>
+          </div>
+          }
         </div>
       )}
     </>
