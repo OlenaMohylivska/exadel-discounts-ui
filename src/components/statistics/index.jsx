@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import React, { useState, useEffect, useContext } from "react"
 import { Col, Container, Row, Button } from "react-bootstrap"
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2"

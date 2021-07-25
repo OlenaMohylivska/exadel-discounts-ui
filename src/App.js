@@ -15,9 +15,8 @@ function App() {
   )
 
   const bindToken = () => {
-    const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
-
     axiosInstance.interceptors.request.use((config) => {
+      const token = localStorage.getItem("jwt") && localStorage.getItem("jwt")
       token ? (config.headers.Authorization = token) : config
       return config
     })
