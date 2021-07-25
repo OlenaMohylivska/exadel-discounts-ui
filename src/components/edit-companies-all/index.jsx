@@ -4,7 +4,6 @@ import Loupe from "components/icons/Loupe"
 import { Form, Button, Spinner } from "react-bootstrap"
 import CompanyInfo from "components/companyInfo"
 import "./styles.scss"
-// import AddCompany from "components/add-company"
 import { Redirect } from "react-router-dom"
 import { Context } from "store/context"
 
@@ -12,10 +11,28 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const EditCompaniesAll = () => {
   const [loading, setLoading] = useState(false)
-  const [companies, setCompanies] = useState(null)
+  const [companies, setCompanies] = useState([])
   const [newCompany, setNewCompany] = useState(false)
   const [companiesFetchError, setCompaniesFetchError] = useState(null)
   const { bindToken } = useContext(Context)
+  const [search, setSearch] = useState({
+    pageNum: 0,
+    itemsPerPage: 10
+  })
+  const [isSearching, setIsSearching] = useState(false)
+
+  useEffect(() => {
+    if (isSearching) {
+      axiosInstance
+        .post("/api/company/search", search)
+        .then((res) => setCompanies(res.data.content))
+      setLoading(false)
+      setIsSearching(false)
+    } else {
+      return
+    }
+  }, [isSearching])
+
   useEffect(() => {
     bindToken()
   }, [])
@@ -40,6 +57,16 @@ const EditCompaniesAll = () => {
     setNewCompany(!newCompany)
   }
 
+  const handleSearchText = (event) => {
+    setSearch({...search, searchText: event.target.value})
+    setTimeout(funcDebouncer, 2000)
+  }
+
+  const funcDebouncer = () => {
+    setIsSearching(true)
+    setLoading(true)
+  }
+
   return (
     <div className="container">
       <div className="col-lg-12 col-md-12 my-4 search-container-wrapper justify-content-between">
@@ -51,7 +78,10 @@ const EditCompaniesAll = () => {
               </div>
               <Form>
                 <Form.Group controlId="exampleForm.ControlInput1">
-                  <Form.Control type="text" placeholder="Enter your search" />
+                  <Form.Control
+                    type="text"
+                    onChange={event => handleSearchText(event)}
+                    placeholder="Enter your search" />
                 </Form.Group>
               </Form>
             </label>

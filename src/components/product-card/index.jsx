@@ -7,11 +7,11 @@ import "./styles.scss"
 import { Link, Redirect } from "react-router-dom"
 import { Heart, HeartFill } from "react-bootstrap-icons"
 import axiosInstance from "components/api"
+import discountDefaultImg from "../../assets/no-image.png"
 
-const discountDefaultImg = "https://img.icons8.com/plasticine/2x/no-image.png"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
-function ProductCard({ elem }) {
+function ProductCard({ elem, isOrdered }) {
   const [order, setOrder] = useState(false)
   const [favorite, setFavorite] = useState(false)
 
@@ -74,16 +74,16 @@ function ProductCard({ elem }) {
           <StarRatings
             starDimension="20px"
             starSpacing="5px"
-            rating={elem.rate}
+            rating={elem.rate ?? 0}
             starRatedColor="#FFD700"
           />
-          <Button
+          {!isOrdered && <Button
             className="w-100 mt-3"
             variant="primary"
             onClick={orderToggle}
           >
             Order
-          </Button>
+          </Button>}
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
         </div>
       </Card.Body>
@@ -104,4 +104,5 @@ ProductCard.propTypes = {
     rate: PropTypes.number,
     imageId: PropTypes.number,
   }),
+  isOrdered: PropTypes.bool
 }
