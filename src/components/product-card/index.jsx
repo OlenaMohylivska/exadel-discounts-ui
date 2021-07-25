@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import { Card, Button, Badge } from "react-bootstrap"
 import moment from "moment"
@@ -6,6 +6,7 @@ import StarRatings from "react-star-ratings"
 import "./styles.scss"
 import { Link, Redirect } from "react-router-dom"
 import { Heart, HeartFill } from "react-bootstrap-icons"
+import axiosInstance from "components/api"
 
 const discountDefaultImg = "https://img.icons8.com/plasticine/2x/no-image.png"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
@@ -17,19 +18,38 @@ function ProductCard({ elem }) {
   const orderToggle = () => {
     setOrder(true)
   }
-  const favoriteToggler = () => {
-    setFavorite(!favorite)
+  const favoriteSetter = async () => {
+    await axiosInstance.post(`/api/employee/favorites/${elem.id}`)
+    setFavorite(true)
   }
 
+  const favoriteUnsetter = async () => {
+    await axiosInstance.put(`/api/employee/favorites/${elem.id}`)
+    setFavorite(false)
+  }
+
+  useEffect(() => {
+    axiosInstance.post(`/api/employee/favorites`, {}).then((response) => {
+      response.data.content.map((el) => el.id === elem.id && setFavorite(true))
+    })
+  }, [])
+  favorite
   return (
     <Card className=" shadow product-card">
+      <div className="card-title-items">
+        <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
+        {favorite ? (
+          <HeartFill className="fav-icon" onClick={favoriteUnsetter} />
+        ) : (
+          <Heart className="fav-icon" onClick={favoriteSetter} />
+        )}
+      </div>
       <Link
         key={elem.id}
         to={{
           pathname: `/discount/${elem.id}`,
         }}
       >
-        <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
         <div className="image-block">
           <Card.Img
             variant="top"
@@ -49,11 +69,6 @@ function ProductCard({ elem }) {
       <Card.Body className="p-0 d-flex flex-column justify-content-between">
         <div className="product-description">
           <Card.Text className="product-feedback">{elem.description}</Card.Text>
-          {favorite ? (
-            <HeartFill className="fav-icon" onClick={favoriteToggler} />
-          ) : (
-            <Heart className="fav-icon" onClick={favoriteToggler} />
-          )}
         </div>
         <div className="product-footer">
           <StarRatings

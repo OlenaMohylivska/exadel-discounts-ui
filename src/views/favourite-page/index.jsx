@@ -7,7 +7,7 @@ import { Spinner } from "react-bootstrap"
 import ProductCard from "components/product-card"
 import Pagination from "components/pagination"
 
-const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+// const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const FavouritePage = () => {
   const [discounts, setDiscounts] = useState([])
@@ -15,19 +15,16 @@ const FavouritePage = () => {
   const [loading, setLoading] = useState(false)
   const { bindToken } = useContext(Context)
   const [itemsPerFavoritePage, setItemsPerFavoritePage] = useState(9)
+  const [isFavorite, setIsFavorite] = useState(true)
   useEffect(() => {
     bindToken()
   }, [])
   useEffect(() => {
     setLoading(true)
     axiosInstance
-      .get(`${baseUrl}/api/discounts`)
-      .then((resp) => {
-        const allDiscounts = resp.data.map((el) => ({
-          ...el,
-          isFavourite: true,
-        }))
-        setDiscounts(allDiscounts)
+      .post(`/api/employee/favorites`, {})
+      .then((response) => {
+        setDiscounts(response.data.content)
         setLoading(false)
       })
       .catch((err) => setFetchError(err.message))
@@ -44,8 +41,8 @@ const FavouritePage = () => {
       {discounts && (
         <div className="container">
           <div className="discounts-wrapper">
-            {discounts.slice(0, itemsPerFavoritePage).map((el) => {
-              return <ProductCard elem={el} key={el.id} />
+            {discounts.map((el) => {
+              return <ProductCard elem={el} key={el.id} isFavorite={isFavorite} setIsFavorite={setIsFavorite} />
             })}
           </div>
           {!loading && (
