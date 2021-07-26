@@ -185,7 +185,7 @@ const AddCompany = (props) => {
                 />
               </InputGroup>
             </div>
-            {getLocation}
+            {props.isEdit && getLocation}
           </div>
 
           <div className="btn-field">
