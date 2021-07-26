@@ -23,11 +23,11 @@ const Statistics = () => {
       .get(baseUrl + "/api/discounts/statistic/orders")
       .then((response) => {
         setDiscountsByOrders({
-          labels: Object.keys(response.data),
+          labels: Object.keys(response.data).slice(0, 8),
           datasets: [
             {
               label: " How many orders were done (by discounts)",
-              data: Object.values(response.data),
+              data: Object.values(response.data).slice(0, 8),
               backgroundColor: "#1fbeff",
             },
           ],
@@ -41,7 +41,7 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => {},
+        onClick: () => { },
       },
     },
   }
@@ -52,11 +52,11 @@ const Statistics = () => {
       .get(baseUrl + "/api/discounts/statistic/views")
       .then((response) => {
         setDiscountsByViews({
-          labels: Object.keys(response.data).slice(0,8),
+          labels: Object.keys(response.data).slice(0, 8),
           datasets: [
             {
               label: " How many views each proposition has (by discounts)",
-              data: Object.values(response.data).slice(0,8),
+              data: Object.values(response.data).slice(0, 8),
               backgroundColor: "#1fbeff",
               borderColor: "#c728f6",
             },
@@ -71,7 +71,7 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => {},
+        onClick: () => { },
       },
     },
     scales: {
@@ -91,11 +91,11 @@ const Statistics = () => {
       .get(baseUrl + "/api/company/statistic/orders")
       .then((response) => {
         setCompaniesByOrders({
-          labels: Object.keys(response.data),
+          labels: Object.keys(response.data).slice(0, 5),
           datasets: [
             {
-              data: Object.values(response.data),
-              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#ff0fa7", "#d349e2" ],
+              data: Object.values(response.data).slice(0, 5),
+              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#ff0fa7", "#d349e2"],
             },
           ],
         })
@@ -109,10 +109,10 @@ const Statistics = () => {
       .get(baseUrl + "/api/category/statistic/categories")
       .then((response) => {
         setCategoriesByOrders({
-          labels: Object.keys(response.data),
+          labels: Object.keys(response.data).slice(0, 5),
           datasets: [
             {
-              data: Object.values(response.data),
+              data: Object.values(response.data).slice(0, 5),
               backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff0fa7"],
             },
           ],
@@ -127,10 +127,10 @@ const Statistics = () => {
       .get(baseUrl + "/api/tags/statistic/orders")
       .then((response) => {
         setTagsByOrders({
-          labels: Object.keys(response.data),
+          labels: Object.keys(response.data).slice(0, 5),
           datasets: [
             {
-              data: Object.values(response.data),
+              data: Object.values(response.data).slice(0, 5),
               backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff0fa7"],
             },
           ],
