@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext } from "react"
+import React, { useState, useEffect, useMemo, useContext, memo } from "react"
 import { Button, Col, Form, Row, Container } from "react-bootstrap"
 import { Context } from "store/context"
 import axiosInstance from "components/api"
@@ -194,4 +194,4 @@ const Tools = () => {
     </>
   )
 }
-export default Tools
+export default memo(Tools)

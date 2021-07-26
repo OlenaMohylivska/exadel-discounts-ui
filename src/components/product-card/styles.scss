@@ -7,9 +7,17 @@
 
 .card-title {
   color: rgb(61, 69, 77);
+  min-height: 48px;
 }
 a {
   text-decoration: none !important;
+}
+
+.card-title-items{
+  display: flex;
+  flex-wrap: no-wrap;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .product-image {
@@ -46,9 +54,7 @@ a {
 }
 
 .fav-icon {
-  position: absolute;
-  top: 18px;
-  right: 5px;
+  transform: translateY(5px);
   width: 48px;
   color: #ff0000;
   cursor: pointer;
@@ -66,3 +72,4 @@ a {
   left: 118px;
   width: 150px;
 }
+
