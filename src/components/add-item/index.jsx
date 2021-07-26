@@ -211,6 +211,7 @@ const AddItem = (props) => {
       quantity: null,
       company: null,
       id: null,
+      views:0,
     })
     setChooseLocation([])
     setActualLocation({
