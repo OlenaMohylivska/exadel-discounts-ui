@@ -22,6 +22,9 @@ const OrderConfirm = () => {
 
   const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
+  useEffect(() => {
+    bindToken()
+  }, [])
 
   const addresssMapper = (el) => {
     return `${el.address} ${el.city.name} ${el.city.country.name}`
@@ -48,7 +51,7 @@ const OrderConfirm = () => {
   }
 
   useEffect(() => {
-    fetchData(`/api/orders/${discountId}`)
+    fetchData(`/api/discounts/${discountId}`)
   }, [])
 
   const fetchQrCode = async (url) => {
@@ -68,10 +71,6 @@ const OrderConfirm = () => {
 
   useEffect(() => {
     fetchQrCode(`/api/orders/create/${discountId}`)
-  }, [])
-
-  useEffect(() => {
-    bindToken()
   }, [])
 
   return (

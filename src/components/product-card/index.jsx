@@ -11,7 +11,7 @@ import discountDefaultImg from "../../assets/no-image.png"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
-function ProductCard({ elem, isOrdered }) {
+function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
   const [order, setOrder] = useState(false)
   const [favorite, setFavorite] = useState(false)
 
@@ -26,6 +26,7 @@ function ProductCard({ elem, isOrdered }) {
   const favoriteUnsetter = async () => {
     await axiosInstance.put(`/api/employee/favorites/${elem.id}`)
     setFavorite(false)
+    setIsFavorite([...isFavorite, 1])
   }
 
   useEffect(() => {
@@ -104,5 +105,7 @@ ProductCard.propTypes = {
     rate: PropTypes.number,
     imageId: PropTypes.number,
   }),
-  isOrdered: PropTypes.bool
+  isOrdered: PropTypes.bool,
+  setIsFavorite:PropTypes.bool,
+  isFavorite:PropTypes.array,
 }

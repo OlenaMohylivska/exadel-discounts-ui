@@ -15,7 +15,7 @@ const FavouritePage = () => {
   const [loading, setLoading] = useState(false)
   const { bindToken } = useContext(Context)
   const [itemsPerFavoritePage, setItemsPerFavoritePage] = useState(9)
-  const [isFavorite, setIsFavorite] = useState(true)
+  const [isFavorite, setIsFavorite] = useState([])
   useEffect(() => {
     bindToken()
   }, [])
@@ -28,7 +28,7 @@ const FavouritePage = () => {
         setLoading(false)
       })
       .catch((err) => setFetchError(err.message))
-  }, [])
+  }, [isFavorite])
 
   return (
     <>
