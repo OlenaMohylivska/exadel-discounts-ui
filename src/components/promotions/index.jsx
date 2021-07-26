@@ -4,8 +4,8 @@ import Loupe from "components/icons/Loupe"
 import axiosInstance from "components/api"
 import { useHistory, useRouteMatch } from "react-router-dom"
 import "./styles.scss"
-import PromotionInfo from "components/promotionInfo"
 import { Context } from "store/context"
+import ProductCard from "components/product-card"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
@@ -104,7 +104,7 @@ const Promotions = () => {
       {discounts ? (
         <div className="discounts-wrapper">
           {discounts.map((elem) => {
-            return <PromotionInfo elem={elem} key={elem.id} />
+            return <ProductCard elem={elem} key={elem.id} />
           })}
         </div>
       ) : (
