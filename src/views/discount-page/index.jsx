@@ -98,10 +98,6 @@ const DiscountPage = () => {
   }, [])
 
   useEffect(() => {
-    getReviews()
-  }, [rating, review])
-
-  useEffect(() => {
     setReview({
       rate: rating,
       comment: "",
@@ -109,9 +105,7 @@ const DiscountPage = () => {
       discount: discount,
       employee: {
         id: 2,
-        login: "E00002",
-        location: null,
-        role: "USER",
+        login: localStorage.getItem('username'),
       },
     })
   }, [rating])
@@ -134,6 +128,7 @@ const DiscountPage = () => {
 
   const addReview = () => {
     axiosInstance.post(baseUrl + "/api/reviews", review)
+      .then(() => getReviews())
     setRating(0)
   }
 
