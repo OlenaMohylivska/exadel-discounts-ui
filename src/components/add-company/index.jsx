@@ -5,7 +5,7 @@ import axiosInstance from "components/api"
 import CustomModalWindow from "components/custom-modal-window"
 import "./styles.scss"
 import FileUploadPage from "components/upload-file"
-import { useHistory } from "react-router-dom"
+import { useHistory, useRouteMatch } from "react-router-dom"
 import { Context } from "store/context"
 import ToastElement from "components/toast"
 import CreateLocation from "../create-location"
@@ -32,6 +32,7 @@ const AddCompany = (props) => {
 
   const [successMessage, setSuccessMessage] = useState(false)
   const history = useHistory()
+  const { path } = useRouteMatch(`/admin`)
   useEffect(() => {
     bindToken()
   }, [])
@@ -62,7 +63,10 @@ const AddCompany = (props) => {
     try {
       axiosInstance
         .post(`${process.env.REACT_APP_BASE_BACKEND_URL}/api/company`, data)
-        .then(() => setSuccessMessage(true))
+        .then((response) => {
+          history.push(`${path}/edit-company/${response.data.id}`)
+        })
+      setSuccessMessage(true)
       reset()
     } catch (e) {
       setCompanyPostError({ error: e.message, show: true })
