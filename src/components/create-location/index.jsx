@@ -46,7 +46,7 @@ const CreateLocation = ({ country, setLocationArr, locationArr }) => {
           variant="primary"
           onClick={() => submit()}
         >
-          Save
+          Apply
         </Button>
       </div>
     </>
