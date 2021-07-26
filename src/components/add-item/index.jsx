@@ -197,7 +197,7 @@ const AddItem = (props) => {
     if (props.isEditable && checker && checker !== "") {
       return { label: checker, value: checker }
     }
-    return
+    return false
   }
 
   const reset = () => {
