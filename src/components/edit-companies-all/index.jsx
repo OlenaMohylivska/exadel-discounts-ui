@@ -33,6 +33,8 @@ const EditCompaniesAll = () => {
   //   }
   // }, [isSearching])
 
+
+
   useEffect(() => {
     bindToken()
   }, [])
