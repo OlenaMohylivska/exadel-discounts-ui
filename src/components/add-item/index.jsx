@@ -349,7 +349,7 @@ const AddItem = (props) => {
           <Select
             value={
               data.tags &&
-              data.tags.map((elem) => ({ value: elem.name, label: elem.name }))
+              data.tags.map((elem) => ({ value: elem.name, label: elem.name, id:elem.id }))
             }
             isMulti
             options={tagsOptions}
