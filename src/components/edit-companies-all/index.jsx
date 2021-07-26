@@ -57,10 +57,10 @@ const EditCompaniesAll = () => {
     setNewCompany(!newCompany)
   }
 
-  const handleSearchText = (event) => {
+  /* const handleSearchText = (event) => {
     setSearch({...search, searchText: event.target.value})
     setTimeout(funcDebouncer, 2000)
-  }
+  } */
 
   const funcDebouncer = () => {
     setIsSearching(true)
