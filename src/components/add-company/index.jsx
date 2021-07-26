@@ -119,7 +119,7 @@ const AddCompany = (props) => {
               ))}
           </ul>
           <FormControl
-            className="form-field"
+            className="form-field margin-bottom-5px"
             onChange={(e) => setCountry(e.target.value)}
             id="country"
             placeholder="country"
@@ -185,7 +185,7 @@ const AddCompany = (props) => {
                 />
               </InputGroup>
             </div>
-            {getLocation}
+            {props.isEdit && getLocation}
           </div>
 
           <div className="btn-field">

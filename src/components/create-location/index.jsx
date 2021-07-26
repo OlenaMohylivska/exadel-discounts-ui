@@ -19,7 +19,7 @@ const CreateLocation = ({ country, setLocationArr, locationArr }) => {
       <div className="display-flex-column">
         <FormControl
           placeholder="city"
-          className="form-field"
+          className="form-field margin-bottom-5px"
           id="city"
           name="city"
           onChange={(e) =>
@@ -33,7 +33,7 @@ const CreateLocation = ({ country, setLocationArr, locationArr }) => {
         />
         <FormControl
           placeholder="addresses"
-          className="form-field"
+          className="form-field margin-bottom-5px"
           id="addresses"
           name="addresses"
           value={newLocation.address ? newLocation.address : ""}
@@ -42,6 +42,7 @@ const CreateLocation = ({ country, setLocationArr, locationArr }) => {
           }
         />
         <Button
+          className="margin-bottom-5px"
           variant="primary"
           onClick={() => submit()}
         >

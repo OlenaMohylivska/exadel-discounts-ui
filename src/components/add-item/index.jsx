@@ -65,15 +65,16 @@ const AddItem = (props) => {
     return setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleChangeCategory = (e) => {
-    setData({ ...data, category: { id: e.id } })
+    setData({ ...data, category: { id: e.id, name: e.value } })
     setTags(e.tags)
   }
 
   const handleChangeCompanies = (e) => {
     setData({
       ...data,
-      company: { id: e.id },
+      company: { id: e.id, name: e.value },
     })
+
     fetchDataLocation(`/api/company/${e.id}/location`, setChooseLocation)
   }
 
@@ -192,6 +193,13 @@ const AddItem = (props) => {
     }
   }
 
+  const check = (checker) => {
+    if (props.isEditable && checker && checker !== "") {
+      return { label: checker, value: checker }
+    }
+    return false
+  }
+
   const reset = () => {
     setErrors({})
     setData({
@@ -257,6 +265,7 @@ const AddItem = (props) => {
         >
           <Toast.Body>{discountPostError.error}</Toast.Body>
         </Toast>
+
         <div className="discount-col ">
           <div className="load-img">
             <FileUploadPage
@@ -316,6 +325,7 @@ const AddItem = (props) => {
           <div className="discount-provider-name">
             <span className="discount-subtitle pt-0">Select Company Name:</span>
             <Select
+              value={check(data.company && data.company.name)}
               options={companyOptions}
               onChange={(e) => {
                 handleChangeCompanies(e)
@@ -328,6 +338,7 @@ const AddItem = (props) => {
 
           <span className="discount-subtitle headers">Category:</span>
           <Select
+            value={check(data.category.name)}
             options={categoryOptions}
             name="category"
             onChange={(e) => handleChangeCategory(e)}
