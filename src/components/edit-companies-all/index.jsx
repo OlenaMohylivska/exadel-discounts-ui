@@ -15,23 +15,25 @@ const EditCompaniesAll = () => {
   const [newCompany, setNewCompany] = useState(false)
   const [companiesFetchError, setCompaniesFetchError] = useState(null)
   const { bindToken } = useContext(Context)
-  const [search, setSearch] = useState({
-    pageNum: 0,
-    itemsPerPage: 10
-  })
-  const [isSearching, setIsSearching] = useState(false)
+  // const [search, setSearch] = useState({
+  //   pageNum: 0,
+  //   itemsPerPage: 10
+  // })
+  // const [isSearching, setIsSearching] = useState(false)
 
-  useEffect(() => {
-    if (isSearching) {
-      axiosInstance
-        .post("/api/company/search", search)
-        .then((res) => setCompanies(res.data.content))
-      setLoading(false)
-      setIsSearching(false)
-    } else {
-      return
-    }
-  }, [isSearching])
+  // useEffect(() => {
+  //   if (isSearching) {
+  //     axiosInstance
+  //       .post("/api/company/search", search)
+  //       .then((res) => setCompanies(res.data.content))
+  //     setLoading(false)
+  //     setIsSearching(false)
+  //   } else {
+  //     return
+  //   }
+  // }, [isSearching])
+
+
 
   useEffect(() => {
     bindToken()
@@ -62,10 +64,10 @@ const EditCompaniesAll = () => {
     setTimeout(funcDebouncer, 2000)
   } */
 
-  const funcDebouncer = () => {
-    setIsSearching(true)
-    setLoading(true)
-  }
+  // const funcDebouncer = () => {
+  //   setIsSearching(true)
+  //   setLoading(true)
+  // }
 
   return (
     <div className="container">
