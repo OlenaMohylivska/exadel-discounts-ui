@@ -347,10 +347,6 @@ const AddItem = (props) => {
           <span className="discount-subtitle headers">Discount Tags:</span>
 
           <Select
-            value={
-              data.tags &&
-              data.tags.map((elem) => ({ value: elem.name, label: elem.name, id:elem.id }))
-            }
             isMulti
             options={tagsOptions}
             onChange={(e) => handleChangeTags(e)}
