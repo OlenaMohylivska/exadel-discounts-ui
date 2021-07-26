@@ -4,7 +4,6 @@ import axiosInstance from "components/api"
 import { Button, Spinner } from "react-bootstrap"
 import CompanyInfo from "components/companyInfo"
 import "./styles.scss"
-// import AddCompany from "components/add-company"
 import { Redirect } from "react-router-dom"
 import { Context } from "store/context"
 
@@ -12,10 +11,28 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
 const EditCompaniesAll = () => {
   const [loading, setLoading] = useState(false)
-  const [companies, setCompanies] = useState(null)
+  const [companies, setCompanies] = useState([])
   const [newCompany, setNewCompany] = useState(false)
   const [companiesFetchError, setCompaniesFetchError] = useState(null)
   const { bindToken } = useContext(Context)
+  const [search, setSearch] = useState({
+    pageNum: 0,
+    itemsPerPage: 10
+  })
+  const [isSearching, setIsSearching] = useState(false)
+
+  useEffect(() => {
+    if (isSearching) {
+      axiosInstance
+        .post("/api/company/search", search)
+        .then((res) => setCompanies(res.data.content))
+      setLoading(false)
+      setIsSearching(false)
+    } else {
+      return
+    }
+  }, [isSearching])
+
   useEffect(() => {
     bindToken()
   }, [])
@@ -38,6 +55,16 @@ const EditCompaniesAll = () => {
 
   const addNewCompanyHandler = () => {
     setNewCompany(!newCompany)
+  }
+
+  const handleSearchText = (event) => {
+    setSearch({...search, searchText: event.target.value})
+    setTimeout(funcDebouncer, 2000)
+  }
+
+  const funcDebouncer = () => {
+    setIsSearching(true)
+    setLoading(true)
   }
 
   return (

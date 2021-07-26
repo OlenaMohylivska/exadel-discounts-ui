@@ -16,6 +16,26 @@ const Promotions = () => {
   const history = useHistory()
   const { path } = useRouteMatch("/admin")
   const { bindToken } = useContext(Context)
+  const [search, setSearch] = useState({
+    pageNum: 0,
+    itemsPerPage: 10
+  })
+  const [isSearching, setIsSearching] = useState(false)
+
+  useEffect(() => {
+    if (isSearching) {
+      axiosInstance
+        .post("/api/discounts/search", search)
+        .then((res) => {
+          setDiscounts(res.data.content)
+        })
+      setLoading(false)
+      setIsSearching(false)
+    } else {
+      return
+    }
+  }, [isSearching])
+
   useEffect(() => {
     bindToken()
   }, [])
@@ -36,6 +56,16 @@ const Promotions = () => {
     history.push(`${path}/add-item`)
   }
 
+  const handleSearchText = (event) => {
+    setSearch({ ...search, searchText: event.target.value})
+    setTimeout(funcDebouncer, 2000)
+  }
+
+  const funcDebouncer = () => {
+    setIsSearching(true)
+    setLoading(true)
+  }
+
   return (
     <Container className="my-4">
       <div className="col-lg-12 col-md-12 mb-4 search-container-wrapper">
@@ -47,7 +77,10 @@ const Promotions = () => {
               </div>
               <Form>
                 <Form.Group controlId="exampleForm.ControlInput1">
-                  <Form.Control type="text" placeholder="Enter your search" />
+                  <Form.Control
+                    type="text"
+                    onChange={event => handleSearchText(event)}
+                    placeholder="Enter your search" />
                 </Form.Group>
               </Form>
             </label>
