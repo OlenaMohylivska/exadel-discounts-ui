@@ -22,6 +22,9 @@ const OrderConfirm = () => {
 
   const { bindToken } = useContext(Context)
   const discountId = history.location.pathname.split("/").pop()
+  useEffect(() => {
+    bindToken()
+  }, [])
 
   useEffect(() => {
     bindToken()
@@ -73,7 +76,6 @@ const OrderConfirm = () => {
   useEffect(() => {
     fetchQrCode(`/api/orders/create/${discountId}`)
   }, [])
-
 
   return (
     <div className="order-wrapper">
