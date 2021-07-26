@@ -6,37 +6,33 @@ import { Context } from "store/context"
 import { Download } from "react-bootstrap-icons"
 import Image from "../../assets/no-image.png"
 function FileUploadPage({ setNameImage, image }) {
-  const [isSelected, setIsSelected] = useState(false)
   const [fileView, setFileView] = useState(null)
   const { bindToken } = useContext(Context)
   useEffect(() => {
     bindToken()
   }, [])
 
-  const changeHandler = async (event) => {
+  const changeHandler = (event) => {
     let file = event.target.files[0]
     let formData = new FormData()
     formData.append("file", file)
-
-    await axiosInstance
+    axiosInstance
       .post("api/images", formData)
       .then((res) => setNameImage(res.data))
-    setIsSelected(true)
     fileView
     setFileView(URL.createObjectURL(event.target.files[0]))
   }
 
   return (
     <div className="upload-container">
-      {image && (
+      {image ? (
         <div>
           <img
             className="file-view"
             src={`https://sandbox-team5.herokuapp.com/api/images/${image}`}
           />
         </div>
-      )}
-      {!image && !isSelected && (
+      ) : (
         <img className="default-img" src={Image} />
       )}
 

@@ -116,4 +116,4 @@ const Promotions = () => {
   )
 }
 
-export default Promotions
+export default React.memo(Promotions)
