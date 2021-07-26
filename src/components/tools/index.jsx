@@ -6,6 +6,7 @@ import "./styles.css"
 import FetchError from 'components/fetch-error'
 import Select from "react-select"
 import ToastElement from "components/toast"
+import ErrorToast from "components/error-toast"
 
 const Tools = () => {
   const { bindToken } = useContext(Context)
@@ -24,6 +25,9 @@ const Tools = () => {
 
   //modal
   const [successMessage, setSuccessMessage] = useState(false)
+  const [postError, setPostError] = useState(null)
+  const [isErrorShown, setIsErrorShown] = useState(false)
+
 
   useEffect(() => {
     bindToken()
@@ -44,7 +48,11 @@ const Tools = () => {
     axiosInstance.post("/api/category", newCategory)
       .then(() => setNewCategory({ name: "", tags: [] }))
       .then(() => setSuccessMessage(true))
-      .then(() => fetchData("/api/category", setCategories))
+      .catch((err) => {
+        setPostError(err.response.data.message)
+        setIsErrorShown(true)
+      })
+      .finally(() => fetchData("/api/category", setCategories))
   }
 
   const updateCategory = () => {
@@ -55,7 +63,11 @@ const Tools = () => {
         setTag([])
       })
       .then(() => setSuccessMessage(true))
-      .then(() => fetchData("/api/category", setCategories))
+      .catch((err) => {
+        setPostError(err.response.data.message)
+        setIsErrorShown(true)
+      })
+      .finally(() => fetchData("/api/category", setCategories))
   }
 
   const categoriesOptions = useMemo(() => {
@@ -171,6 +183,7 @@ const Tools = () => {
               </div>
             </div>
             {successMessage && <ToastElement setSuccessMessage={setSuccessMessage} />}
+            {isErrorShown && <ErrorToast setIsErrorShown={setIsErrorShown} errorMessage={postError} />}
           </Col>
         </Row>
       </Container>
