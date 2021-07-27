@@ -33,7 +33,7 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
   const favoriteUnsetter = async () => {
     await axiosInstance.put(`/api/employee/favorites/${elem.id}`)
     setFavorite(false)
-    setIsFavorite([...isFavorite, 1])
+    isFavorite && setIsFavorite(isFavorite.push(1))
   }
 
   useEffect(() => {
@@ -46,11 +46,14 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
     <Card className=" shadow product-card">
       <div className="card-title-items">
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
-        {favorite && localStorage.getItem("role") !== "MODERATOR" && (
-          <HeartFill className="fav-icon" onClick={favoriteUnsetter} />
-        )}
-        {localStorage.getItem("role") !== "MODERATOR" && (
-          <Heart className="fav-icon" onClick={favoriteSetter} />
+        {localStorage.getItem("role") === "USER" && (
+          <>
+            {favorite ? (
+              <HeartFill className="fav-icon" onClick={favoriteUnsetter} />
+            ) : (
+              <Heart className="fav-icon" onClick={favoriteSetter} />
+            )}
+          </>
         )}
       </div>
       <Link

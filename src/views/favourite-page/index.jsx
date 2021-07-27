@@ -15,7 +15,7 @@ const FavouritePage = () => {
   const [loading, setLoading] = useState(false)
   const { bindToken } = useContext(Context)
   const [itemsPerFavoritePage, setItemsPerFavoritePage] = useState(9)
-  const [isFavorite, setIsFavorite] = useState([])
+  const [isFavorite, setIsFavorite] = useState([1])
   useEffect(() => {
     bindToken()
   }, [])
@@ -37,7 +37,7 @@ const FavouritePage = () => {
           <Spinner className="spin-loader" animation="border" variant="info" />
         </div>
       )}
-      bla
+
       {fetchError && <FetchError error={fetchError} />}
       {discounts && !loading && (
         <div className="container">
