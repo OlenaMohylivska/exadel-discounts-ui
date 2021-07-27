@@ -9,10 +9,11 @@ const CreateLocation = ({ country, setLocationArr, locationArr }) => {
   useEffect(() => {
     setNewLocation({ city: newCity })
   }, [newCity])
-  const submit = () =>{
-    axiosInstance.post('/api/location', newLocation).then(res=> setLocationArr([...locationArr, res.data]))
+  const submit = () => {
+    axiosInstance
+      .post("/api/location", newLocation)
+      .then((res) => setLocationArr([...locationArr, res.data]))
   }
-
 
   return (
     <>

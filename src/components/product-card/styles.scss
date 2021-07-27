@@ -12,8 +12,13 @@
 a {
   text-decoration: none !important;
 }
+.justify-center {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
 
-.card-title-items{
+.card-title-items {
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
@@ -72,4 +77,3 @@ a {
   left: 118px;
   width: 150px;
 }
-
