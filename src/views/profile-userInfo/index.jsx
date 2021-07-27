@@ -13,7 +13,8 @@ function ProfileUserInfo() {
   const [selectedCategories, setSelectedCategories] = useState([])
   const [successMessage, setSuccessMessage] = useState(false)
   const [fetchError, setFetchError] = useState(null)
-  const [categoryToBeDeleted, setCategoryToBeDeleted] = useState(null)
+  const [categoriesToBeDeleted, setCategoriesToBeDeleted] = useState([])
+  const [selectedDeleteCategories, setSelectedDeleteCategories] = useState([])
 
   const { bindToken } = useContext(Context)
 
@@ -21,14 +22,18 @@ function ProfileUserInfo() {
     bindToken()
   }, [])
 
-  useEffect(() => {
-    axiosInstance
+  useEffect(async () => {
+    await axiosInstance
+      .get("/api/employee/subscriptions")
+      .then((response) => setCategoriesToBeDeleted(response.data))
+  }, [selectedCategories])
+
+  useEffect(async () => {
+    await axiosInstance
       .get("/api/category")
       .then((res) => setCategories(res.data))
       .catch((err) => setFetchError(err.message))
   }, [])
-
-  useEffect(() => {})
 
   const categoriesOptions =
     categories.length > 0 &&
@@ -41,18 +46,35 @@ function ProfileUserInfo() {
   const handleChangeCategory = (e) => {
     setSelectedCategories(e)
   }
+  const handleDeleteCategory = (e) => {
+    setSelectedDeleteCategories(e)
+  }
 
-  const subscriptionClickHandler = () => {
+  const subscriptionAddHandler = () => {
     axiosInstance.put(
       `/api/employee/subscriptions/add`,
       selectedCategories.map((category) => category.id)
     )
+    setSelectedCategories([])
     setSuccessMessage(true)
   }
 
-  const deleteSubscriptionHandler = (e) => {
-    setCategoryToBeDeleted(e)
+  const subscriptionRemoveHandler = () => {
+    axiosInstance.put(
+      `/api/employee/subscriptions/remove`,
+      categoriesToBeDeleted.map((category) => category.id)
+    )
+    setSelectedDeleteCategories([])
+    setSuccessMessage(true)
   }
+
+  const deleteCategories =
+    categoriesToBeDeleted.length > 0 &&
+    categoriesToBeDeleted.map((category) => ({
+      ...category,
+      label: category.name,
+      value: category.name,
+    }))
 
   return (
     <>
@@ -97,7 +119,7 @@ function ProfileUserInfo() {
                 />
                 <Button
                   className="subscriptions-btn"
-                  onClick={subscriptionClickHandler}
+                  onClick={subscriptionAddHandler}
                 >
                   Subscribe to updates
                 </Button>
@@ -109,16 +131,16 @@ function ProfileUserInfo() {
             <Select
               className="subscription-category"
               theme="primary75"
-              options={selectedCategories}
-              onChange={(e) => handleChangeCategory(e)}
-              value={categoryToBeDeleted}
+              options={deleteCategories}
+              onChange={(e) => handleDeleteCategory(e)}
               placeholder="Select..."
+              value={selectedDeleteCategories}
               isMulti
             />
             <Button
               className="subscriptions-btn"
               variant="danger"
-              onClick={deleteSubscriptionHandler}
+              onClick={subscriptionRemoveHandler}
             >
               Delete subscriptions
             </Button>
