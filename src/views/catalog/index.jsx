@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useContext } from "react"
 import ProductCard from "components/product-card"
-import { Form, Container, Spinner } from "react-bootstrap"
+import { Form, Container, Spinner, Button } from "react-bootstrap"
 import Loupe from "components/icons/Loupe"
 import Select from "react-select"
 import "./styles.scss"
@@ -8,6 +8,7 @@ import { Context } from "store/context"
 import FetchError from "components/fetch-error"
 import Pagination from "components/pagination"
 import axiosInstance from "../../components/api"
+import { XOctagon } from "react-bootstrap-icons"
 
 const Catalog = () => {
   const images = useContext(Context)
@@ -21,7 +22,7 @@ const Catalog = () => {
   const [fetchError, setFetchError] = useState(null)
   const [itemsPerPage, setItemsPerPage] = useState(8)
   const [loading, setLoading] = useState(false)
-  const [filterCategory,setFilterCategory] = useState(null)
+  const [filterCategory, setFilterCategory] = useState(null)
   const [search, setSearch] = useState({
     // companies: [""],
     itemsPerPage: 100,
@@ -50,10 +51,10 @@ const Catalog = () => {
     setSearch({ ...search, companies: [e.label] })
     setTimeout(funcDebouncer, 2000)
   }
-  const handleSearchCategory = (e) =>{
+  const handleSearchCategory = (e) => {
     setFilterTags(e.tags)
-    setSearch({...search, category: [e.value]})
-    setTimeout(funcDebouncer,2000)
+    setSearch({ ...search, category: [e.value] })
+    setTimeout(funcDebouncer, 2000)
   }
   const handleSearchTags = (e) => {
     const arr = e.map((e) => e.value)
@@ -66,7 +67,7 @@ const Catalog = () => {
       orders: [
         {
           sortBy: e.value,
-          direction: "ASC"
+          direction: "ASC",
         },
       ],
     }
@@ -94,6 +95,14 @@ const Catalog = () => {
   const funcDebouncer = () => {
     setSearching(true)
     setLoading(true)
+  }
+  const searchChecker = (checkItem, choose) => {
+    if (checkItem) {
+      return { value: checkItem, label: checkItem }
+    }
+    if (!checkItem) {
+      return { value: `Choose ${choose}`, label: `Choose ${choose}` }
+    }
   }
 
   useEffect(() => {
@@ -134,9 +143,11 @@ const Catalog = () => {
   useEffect(() => {
     fetchData()
   }, [])
-  useEffect(()=>{
-    axiosInstance.get('/api/category').then(res=>setFilterCategory(res.data))
-  },[])
+  useEffect(() => {
+    axiosInstance
+      .get("/api/category")
+      .then((res) => setFilterCategory(res.data))
+  }, [])
 
   // useEffect(() => {
   //   const apiUrl = process.env.REACT_APP_BASE_BACKEND_URL + "/api/location"
@@ -161,6 +172,10 @@ const Catalog = () => {
   //   const topRated = discounts.filter((el) => el.rate >= 4)
   //   setDiscounts(topRated)
   // }
+  const resetAll = () => {
+    setSearch({ itemsPerPage: 100 })
+    fetchData()
+  }
 
   const sortingByRate = [{ label: "Sort by rate", value: "rate" }]
   const companiesOptions = useMemo(() => {
@@ -178,19 +193,23 @@ const Catalog = () => {
   //     country: location.cities,
   //   }))
 
-  const categoriesOptions = filterCategory && filterCategory.map((el) => {
-    return {
-      value: el.name,
-      label: el.name,
-      tags: el.tags,
-    }
-  })
-  const tagsOptions = filterTags && filterTags.map((el)=>{
-    return{
-      value:el.name,
-      label:el.name
-    }
-  })
+  const categoriesOptions =
+    filterCategory &&
+    filterCategory.map((el) => {
+      return {
+        value: el.name,
+        label: el.name,
+        tags: el.tags,
+      }
+    })
+  const tagsOptions =
+    filterTags &&
+    filterTags.map((el) => {
+      return {
+        value: el.name,
+        label: el.name,
+      }
+    })
   const sortingOptions = sortingByRate.map((el) => {
     return {
       value: el.value,
@@ -210,6 +229,7 @@ const Catalog = () => {
               <Form className="search-input">
                 <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Control
+                    value={search.searchText ? search.searchText : ""}
                     type="text"
                     onChange={(e) => handleSearchText(e)}
                     placeholder="Enter your search"
@@ -237,24 +257,42 @@ const Catalog = () => {
               )}
             </div> */}
             <Select
+              value={searchChecker(search.companies, "company")}
               className="catalog-selects"
               options={companiesOptions}
               placeholder="Companies"
               onChange={(e) => handleSearchCompanies(e)}
             />
             <Select
+              value={searchChecker(search.category, "category")}
               className="catalog-selects"
               options={categoriesOptions}
               placeholder="Categories"
               onChange={(e) => handleSearchCategory(e)}
             />
-            {tagsOptions.length > 0 && <Select options={tagsOptions} className="catalog-selects"  isMulti placeholder="Tags" onChange={(e)=>handleSearchTags(e)}/>}
+            {tagsOptions.length > 0 && (
+              <Select
+                options={tagsOptions}
+                className="catalog-selects"
+                isMulti
+                placeholder="Tags"
+                onChange={(e) => handleSearchTags(e)}
+              />
+            )}
             <Select
+              value={
+                search.orders && searchChecker(search.orders[0].sortBy, "sort")
+              }
               className="catalog-selects"
               options={sortingOptions}
               onChange={(e) => handleSortingOption(e)}
               placeholder="Sorting by..."
             />
+            <Button onClick={() => resetAll()}>
+              {" "}
+              <XOctagon className="modify-octagon" />
+              Reset all
+            </Button>
           </div>
         </div>
 
@@ -267,7 +305,7 @@ const Catalog = () => {
             />
           </div>
         )}
-        {discounts && (
+        {discounts && !loading && (
           <div className="discounts-wrapper">
             {discounts.slice(0, itemsPerPage).map((el) => {
               return <ProductCard elem={el} key={el.id} />

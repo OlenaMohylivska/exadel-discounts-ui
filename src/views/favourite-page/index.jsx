@@ -15,7 +15,7 @@ const FavouritePage = () => {
   const [loading, setLoading] = useState(false)
   const { bindToken } = useContext(Context)
   const [itemsPerFavoritePage, setItemsPerFavoritePage] = useState(9)
-  const [isFavorite, setIsFavorite] = useState([])
+  const [isFavorite, setIsFavorite] = useState([1])
   useEffect(() => {
     bindToken()
   }, [])
@@ -37,12 +37,20 @@ const FavouritePage = () => {
           <Spinner className="spin-loader" animation="border" variant="info" />
         </div>
       )}
+
       {fetchError && <FetchError error={fetchError} />}
-      {discounts && (
+      {discounts && !loading && (
         <div className="container">
           <div className="discounts-wrapper">
             {discounts.map((el) => {
-              return <ProductCard elem={el} key={el.id} isFavorite={isFavorite} setIsFavorite={setIsFavorite} />
+              return (
+                <ProductCard
+                  elem={el}
+                  key={el.id}
+                  isFavorite={isFavorite}
+                  setIsFavorite={setIsFavorite}
+                />
+              )
             })}
           </div>
           {!loading && (

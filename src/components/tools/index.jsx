@@ -5,8 +5,8 @@ import axiosInstance from "components/api"
 import "./styles.css"
 import FetchError from 'components/fetch-error'
 import Select from "react-select"
-import ToolsModal from "components/tools-modal"
 import ToastElement from "components/toast"
+import ErrorToast from "components/error-toast"
 
 const Tools = () => {
   const { bindToken } = useContext(Context)
@@ -24,8 +24,10 @@ const Tools = () => {
   const [fetchError, setFetchError] = useState(null)
 
   //modal
-  const [show, setShow] = useState(false)
   const [successMessage, setSuccessMessage] = useState(false)
+  const [postError, setPostError] = useState(null)
+  const [isErrorShown, setIsErrorShown] = useState(false)
+
 
   useEffect(() => {
     bindToken()
@@ -46,7 +48,11 @@ const Tools = () => {
     axiosInstance.post("/api/category", newCategory)
       .then(() => setNewCategory({ name: "", tags: [] }))
       .then(() => setSuccessMessage(true))
-      .then(() => fetchData("/api/category", setCategories))
+      .catch((err) => {
+        setPostError(err.response.data.message)
+        setIsErrorShown(true)
+      })
+      .finally(() => fetchData("/api/category", setCategories))
   }
 
   const updateCategory = () => {
@@ -57,19 +63,11 @@ const Tools = () => {
         setTag([])
       })
       .then(() => setSuccessMessage(true))
-      .then(() => fetchData("/api/category", setCategories))
-  }
-
-
-  const deleteCategory = () => {
-    axiosInstance.delete(`/api/category/${category.id}`)
-      .then(() => setCategory({ name: "", tags: [] }))
-      .then(() => setSuccessMessage(true))
-      .then(() => fetchData("/api/category", setCategories))
-  }
-
-  const deleteTag = (id) => {
-    setCategory({ ...category, tags: category.tags.filter(tag => tag.id !== id) })
+      .catch((err) => {
+        setPostError(err.response.data.message)
+        setIsErrorShown(true)
+      })
+      .finally(() => fetchData("/api/category", setCategories))
   }
 
   const categoriesOptions = useMemo(() => {
@@ -128,7 +126,12 @@ const Tools = () => {
                   />
                 </Form.Group>
                 <div className="d-flex justify-content-center">
-                  <Button className="submit-btn" variant="primary" onClick={postCategory} disabled={!newCategory.name.trim()}>
+                  <Button
+                    className="submit-btn"
+                    variant="primary"
+                    onClick={postCategory}
+                    disabled={!newCategory.name.trim() || !newCategory.tags.map(tag => tag.name.trim()).join("")}
+                  >
                     Save
                   </Button>
                 </div>
@@ -148,25 +151,13 @@ const Tools = () => {
                     value={category && { label: category.name, value: category.name }}
                   />
                 </div>
-                <Button
-                  className="delete-category-btn"
-                  variant="danger"
-                  disabled={!category}
-                  onClick={() => setShow(true)}>Delete category
-                </Button>
-                <ToolsModal show={show} setShow={setShow} text={category && category.name} deleteCategory={deleteCategory} />
               </Form.Group>
 
               <div className="all-tags-container">
                 {category &&
-                  category.tags.map((tag) => (
+                  category.tags.filter(el => el.name.trim() !== "").map((tag) => (
                     <div className="tag-container" key={tag.id}>
-                      <div>{tag.name}</div>
-                      <Button
-                        variant="outline-dark"
-                        onClick={() => deleteTag(tag.id)}>Delete
-                      </Button>
-
+                      <div>{tag.name.trim()}</div>
                     </div>
                   ))}
               </div>
@@ -174,19 +165,25 @@ const Tools = () => {
                 <Form.Label>Enter tags, related to this category (one tag)</Form.Label>
                 <Form.Control
                   placeholder="New tags"
-                  value={tag.map(tag => tag.name) || " "}
+                  value={tag.map(tag => tag.name) || ""}
                   onChange={tagsByCategoryHandleChange}
                   type="text"
                   className="tag-input"
                 />
               </Form.Group>
               <div className="d-flex justify-content-center">
-                <Button className="submit-btn" variant="primary" onClick={updateCategory}>
+                <Button
+                  className="submit-btn"
+                  variant="primary"
+                  onClick={updateCategory}
+                  disabled={!tag.map(tag => tag.name.trim()).join("")}
+                >
                   Update
                 </Button>
               </div>
             </div>
             {successMessage && <ToastElement setSuccessMessage={setSuccessMessage} />}
+            {isErrorShown && <ErrorToast setIsErrorShown={setIsErrorShown} errorMessage={postError} />}
           </Col>
         </Row>
       </Container>

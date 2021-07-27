@@ -35,10 +35,10 @@ const CompanyInfo = ({ elem }) => {
           }
         />
         <Card.Body className="p-0 d-flex flex-column justify-content-between w-100 ">
-          <div className="product-footer">
+          <div className="product-footer text-center">
             <Button
               className="company-update-btn"
-              variant="success"
+              variant="primary"
               onClick={updateItemHandler}
             >
               Update
