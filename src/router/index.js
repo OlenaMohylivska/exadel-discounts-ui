@@ -47,9 +47,11 @@ function AppRouter() {
       <Route path="/login">
         <Login />
       </Route>
-
-      <Route path="/">
-        {!localStorage.getItem("jwt") && <Redirect push to="/login" />}
+      <Route path="/admin/all-promotions">
+        {!localStorage.getItem('jwt') && !localStorage.getItem('jwt') &&  <Redirect   push to="/login" />}
+      </Route>
+      <Route  path="/">
+        {!localStorage.getItem('jwt') && !localStorage.getItem('jwt') &&  <Redirect  to="/login" />}
       </Route>
 
       <Route exact path="/">
@@ -58,15 +60,9 @@ function AppRouter() {
       <Route path="/404">
         <NonExistentPage />
       </Route>
-
-      {localStorage.getItem('role') === "USER" ?
-        userRouts.map((route, index) => (
-          <Route path={route.path} key={index}>{route.component}</Route>
-        )) :
-        adminRouts.map((route, index) => (
-          <Route path={route.path} key={index}>{route.component}</Route>
-        ))
-      }
+      {localStorage.getItem('jwt') && localStorage.getItem('role') === "USER" && userRouts.map((route,index)=><Route path={route.path} key={index}>{route.component}</Route>)}
+      {localStorage.getItem('jwt') && localStorage.getItem('role') === "MODERATOR" && adminRouts.map((route,index)=><Route path={route.path} key={index}>{route.component}</Route>) }
+      {!localStorage.getItem('jwt') && !localStorage.getItem('role') && <Redirect to="/login"/>}
     </>
   )
 }
