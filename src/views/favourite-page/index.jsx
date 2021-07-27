@@ -37,12 +37,20 @@ const FavouritePage = () => {
           <Spinner className="spin-loader" animation="border" variant="info" />
         </div>
       )}
+      bla
       {fetchError && <FetchError error={fetchError} />}
-      {discounts && (
+      {discounts && !loading && (
         <div className="container">
           <div className="discounts-wrapper">
             {discounts.map((el) => {
-              return <ProductCard elem={el} key={el.id} isFavorite={isFavorite} setIsFavorite={setIsFavorite} />
+              return (
+                <ProductCard
+                  elem={el}
+                  key={el.id}
+                  isFavorite={isFavorite}
+                  setIsFavorite={setIsFavorite}
+                />
+              )
             })}
           </div>
           {!loading && (
