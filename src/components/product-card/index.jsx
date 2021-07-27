@@ -79,7 +79,7 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             rating={elem.rate ?? 0}
             starRatedColor="#FFD700"
           />
-          {!isOrdered && (
+          {!isOrdered && localStorage.getItem("role") !== "MODERATOR" && (
             <Button
               className="w-100 mt-3"
               variant="primary"
