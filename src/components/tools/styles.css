@@ -1,11 +1,16 @@
 .all-tags-container {
-  margin: 0 50px;
+  margin: 0 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .tag-container {
-  margin: 10px 0;
-  display: flex;
-  justify-content: space-between;
+  font-size: 16px;
+  padding: 4px;
+  margin: 10px 15px;
+  border: 4px solid #84d8ff;
+  border-radius: 8px;
 }
 
 .form-label{
@@ -21,11 +26,6 @@
   display: flex;
   justify-content: space-between;
 }
-.delete-category-btn{
-  width: 45%;
-  margin-left: 1em;
-  align-self: flex-end;
-}
 
 .submit-btn{
   width: 35%;
@@ -36,8 +36,8 @@
   .form-fields-container{
     text-align: center;
   }
-  .delete-category-btn{
-    width: 40%;
+  .all-tags-container{
+    justify-content: center;
   }
   
 }
@@ -46,24 +46,19 @@
     flex-direction: column;
     align-items: center;
   }
-  .delete-category-btn{
-    width: 35%;
-    align-self: center;
-    margin: 1em 0;
-  }
   .all-tags-container{
     margin: 0 10px;
   }
 }
 
 @media (max-width: 420px) {
-  .submit-btn, .delete-category-btn {
+  .submit-btn{
     width: 70%;
   }
 }
 
 @media (max-width: 280px) {
-  .submit-btn, .delete-category-btn {
+  .submit-btn {
     width: 95%;
   }
 }
