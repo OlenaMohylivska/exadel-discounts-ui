@@ -128,13 +128,15 @@ const Statistics = () => {
               <p className="text-center mb-3 font-size-14">
                 How many orders were done (by discounts)
               </p>
-              <FormControl
-                type="number"
-                min={1}
-                max={Object.keys(discountsByOrders || {}).length}
-                value={discountsByOrdersCounter}
-                onChange={e => setDiscountsByOrdersCounter(e.target.value)}
-              />
+              <div className="chart-input-counter">
+                <FormControl
+                  type="number"
+                  min={1}
+                  max={Object.keys(discountsByOrders || {}).length}
+                  value={discountsByOrdersCounter}
+                  onChange={e => setDiscountsByOrdersCounter(e.target.value)}
+                />
+              </div>
               <div>
                 <Bar
                   data={discountsOrdersChartData}
@@ -168,16 +170,18 @@ const Statistics = () => {
             </Col>
 
             <Col>
-              <p className="text-center mb-3 font-size-14">
+              <p className="text-center mb-3 ms-5 font-size-14">
                 How many views each proposition has (by discounts)
               </p>
-              <FormControl
-                type="number"
-                min={1}
-                max={Object.keys(discountsByViews || {}).length}
-                value={discountsByViewsCounter}
-                onChange={e => setDiscountsByViewsCounter(e.target.value)}
-              />
+              <div className="chart-input-counter">
+                <FormControl
+                  type="number"
+                  min={1}
+                  max={Object.keys(discountsByViews || {}).length}
+                  value={discountsByViewsCounter}
+                  onChange={e => setDiscountsByViewsCounter(e.target.value)}
+                />
+              </div>
               <div>
                 <Line
                   data={discountsViewsChartData}
@@ -185,7 +189,7 @@ const Statistics = () => {
                   options={discountsByViewsOptions}
                 />
               </div>
-              <div className="statistics-btn-area">
+              <div className="statistics-btn-area ms-5 ">
                 <Button
                   onClick={() => {
                     downloadStatistics(
@@ -215,13 +219,15 @@ const Statistics = () => {
               <p className="text-center mb-3 font-size-14">
                 How many orders were done(By companies)
               </p>
-              <FormControl
-                type="number"
-                min={1}
-                max={Object.keys(companiesByOrders || {}).length}
-                value={companiesByOrdersCounter}
-                onChange={e => setCompaniesByOrdersCounter(e.target.value)}
-              />
+              <div className="chart-input-counter">
+                <FormControl
+                  type="number"
+                  min={1}
+                  max={Object.keys(companiesByOrders || {}).length}
+                  value={companiesByOrdersCounter}
+                  onChange={e => setCompaniesByOrdersCounter(e.target.value)}
+                />
+              </div>
               <div>
                 <Doughnut
                   data={companiesPopularityChart}
@@ -256,13 +262,15 @@ const Statistics = () => {
               <p className="text-center mb-3 font-size-14">
                 How many orders were done(By categories)
               </p>
-              <FormControl
-                type="number"
-                min={1}
-                max={Object.keys(categoriesByOrders || {}).length}
-                value={categoriesByOrdersCounter}
-                onChange={e => setCategoriesByOrdersCounter(e.target.value)}
-              />
+              <div className="chart-input-counter">
+                <FormControl
+                  type="number"
+                  min={1}
+                  max={Object.keys(categoriesByOrders || {}).length}
+                  value={categoriesByOrdersCounter}
+                  onChange={e => setCategoriesByOrdersCounter(e.target.value)}
+                />
+              </div>
               <div>
                 <Pie
                   data={categoriesPopularityChart}
@@ -297,17 +305,19 @@ const Statistics = () => {
               <p className="text-center mb-3 font-size-14">
                 How many orders were done(By tags)
               </p>
-              <FormControl
-                type="number"
-                min={1}
-                max={Object.keys(tagsByOrders || {}).length}
-                value={tagsByOrdersCounter}
-                onChange={e => setTagsByOrdersCounter(e.target.value)}
-              />
+              <div className="chart-input-counter">
+                <FormControl
+                  type="number"
+                  min={1}
+                  max={Object.keys(tagsByOrders || {}).length}
+                  value={tagsByOrdersCounter}
+                  onChange={e => setTagsByOrdersCounter(e.target.value)}
+                />
+              </div>
               <div>
                 <Pie
                   data={tagsPopularityChart}
-                  height={250}s
+                  height={250}
                   options={roundChartsOptions}
                 />
               </div>
