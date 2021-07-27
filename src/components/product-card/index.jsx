@@ -14,10 +14,17 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
   const [order, setOrder] = useState(false)
   const [favorite, setFavorite] = useState(false)
+  const history = useHistory()
 
   const orderToggle = () => {
     setOrder(true)
   }
+
+  const updateItemHandler = () => {
+    history.push(`edit-item/${elem.id}`)
+  }
+
+
   const favoriteSetter = async () => {
     await axiosInstance.post(`/api/employee/favorites/${elem.id}`)
     setFavorite(true)
@@ -27,10 +34,6 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
     await axiosInstance.put(`/api/employee/favorites/${elem.id}`)
     setFavorite(false)
     isFavorite && setIsFavorite(isFavorite.push(1))
-  }
-  const history = useHistory()
-  const updateItemHandler = () => {
-    history.push(`edit-item/${elem.id}`)
   }
 
   useEffect(() => {
@@ -86,7 +89,7 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             rating={elem.rate ?? 0}
             starRatedColor="#FFD700"
           />
-          {!isOrdered && localStorage.getItem("role") === "USER" && (
+          {!isOrdered && localStorage.getItem("role") !== "MODERATOR" ? (
             <Button
               className="w-100 mt-3"
               variant="primary"
@@ -94,19 +97,15 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             >
               Order
             </Button>
+          ) : (
+            <Button
+              className="w-100 mt-3"
+              variant="primary"
+              onClick={updateItemHandler}
+            >
+              Update
+            </Button>
           )}
-          <br />
-          <div className="justify-center">
-            {localStorage.getItem("role") === "MODERATOR" && (
-              <Button
-                variant="success"
-                className="w-100 mt-3"
-                onClick={updateItemHandler}
-              >
-                Update
-              </Button>
-            )}
-          </div>
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
         </div>
       </Card.Body>
