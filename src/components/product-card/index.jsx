@@ -4,7 +4,7 @@ import { Card, Button, Badge } from "react-bootstrap"
 import moment from "moment"
 import StarRatings from "react-star-ratings"
 import "./styles.scss"
-import { Link, Redirect } from "react-router-dom"
+import { Link, Redirect, useHistory } from "react-router-dom"
 import { Heart, HeartFill } from "react-bootstrap-icons"
 import axiosInstance from "components/api"
 import discountDefaultImg from "../../assets/no-image.png"
@@ -14,10 +14,17 @@ const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
   const [order, setOrder] = useState(false)
   const [favorite, setFavorite] = useState(false)
+  const history = useHistory()
 
   const orderToggle = () => {
     setOrder(true)
   }
+
+  const updateItemHandler = () => {
+    history.push(`edit-item/${elem.id}`)
+  }
+
+
   const favoriteSetter = async () => {
     await axiosInstance.post(`/api/employee/favorites/${elem.id}`)
     setFavorite(true)
@@ -79,13 +86,21 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             rating={elem.rate ?? 0}
             starRatedColor="#FFD700"
           />
-          {!isOrdered && localStorage.getItem("role") !== "MODERATOR" && (
+          {!isOrdered && localStorage.getItem("role") !== "MODERATOR" ? (
             <Button
               className="w-100 mt-3"
               variant="primary"
               onClick={orderToggle}
             >
               Order
+            </Button>
+          ) : (
+            <Button
+              className="w-100 mt-3"
+              variant="primary"
+              onClick={updateItemHandler}
+            >
+              Update
             </Button>
           )}
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
