@@ -100,7 +100,7 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             {localStorage.getItem("role") === "MODERATOR" && (
               <Button
                 variant="success"
-                className="discount-btn"
+                className="w-100 mt-3"
                 onClick={updateItemHandler}
               >
                 Update
