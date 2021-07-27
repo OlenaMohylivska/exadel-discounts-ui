@@ -13,6 +13,7 @@ const Statistics = () => {
   const [tagsByOrders, setTagsByOrders] = useState({})
   const [categoriesByOrders, setCategoriesByOrders] = useState({})
   const [fetchError, setFetchError] = useState(null)
+
   const { bindToken } = useContext(Context)
   useEffect(() => {
     bindToken()
@@ -26,7 +27,6 @@ const Statistics = () => {
           labels: Object.keys(response.data).slice(0, 8),
           datasets: [
             {
-              label: " How many orders were done (by discounts)",
               data: Object.values(response.data).slice(0, 8),
               backgroundColor: "#1fbeff",
             },
@@ -41,7 +41,7 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => { },
+        display: false
       },
     },
   }
@@ -55,7 +55,6 @@ const Statistics = () => {
           labels: Object.keys(response.data).slice(0, 8),
           datasets: [
             {
-              label: " How many views each proposition has (by discounts)",
               data: Object.values(response.data).slice(0, 8),
               backgroundColor: "#1fbeff",
               borderColor: "#c728f6",
@@ -71,7 +70,7 @@ const Statistics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        onClick: () => { },
+        display: false
       },
     },
     scales: {
@@ -167,6 +166,9 @@ const Statistics = () => {
         <Container>
           <Row className="my-4">
             <Col>
+              <p className="text-center mb-3 font-size-14">
+                How many orders were done (by discounts)
+              </p>
               <div>
                 <Bar
                   data={discountsByOrders}
@@ -200,6 +202,9 @@ const Statistics = () => {
             </Col>
 
             <Col>
+              <p className="text-center mb-3 ms-5 font-size-14">
+                How many views each proposition has (by discounts)
+              </p>
               <div>
                 <Line
                   data={discountsByViews}
@@ -207,7 +212,7 @@ const Statistics = () => {
                   options={discountsByViewsOptions}
                 />
               </div>
-              <div className="statistics-btn-area">
+              <div className="statistics-btn-area ms-5">
                 <Button
                   onClick={() => {
                     downloadStatistics(
