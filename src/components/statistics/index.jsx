@@ -6,6 +6,7 @@ import FetchError from "components/fetch-error"
 import "./styles.scss"
 import { Context } from "store/context"
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
+const colors =  ["#2f1bb2", "#540d72", "#0bc1e1", "#ff0fa7", "#d349e2"]
 const Statistics = () => {
   const [discountsByOrders, setDiscountsByOrders] = useState({})
   const [discountsByViews, setDiscountsByViews] = useState({})
@@ -94,7 +95,7 @@ const Statistics = () => {
           datasets: [
             {
               data: Object.values(response.data).slice(0, 5),
-              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#ff0fa7", "#d349e2"],
+              backgroundColor: colors,
             },
           ],
         })
@@ -112,7 +113,7 @@ const Statistics = () => {
           datasets: [
             {
               data: Object.values(response.data).slice(0, 5),
-              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff0fa7"],
+              backgroundColor: colors,
             },
           ],
         })
@@ -130,7 +131,7 @@ const Statistics = () => {
           datasets: [
             {
               data: Object.values(response.data).slice(0, 5),
-              backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff0fa7"],
+              backgroundColor: colors,
             },
           ],
         })
