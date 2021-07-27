@@ -3,20 +3,28 @@ import { FormControl, Button } from "react-bootstrap"
 import axiosInstance from "components/api"
 import PropTypes from "prop-types"
 import "./styles.scss"
-const CreateLocation = ({ country, setLocationArr, locationArr }) => {
+const CreateLocation = ({ setLocationArr, locationArr }) => {
+  const [country, setCountry] = useState(null)
   const [newLocation, setNewLocation] = useState({ address: null, city: {} })
   const [newCity, setNewCity] = useState({})
   useEffect(() => {
     setNewLocation({ city: newCity })
   }, [newCity])
-  const submit = () =>{
-    axiosInstance.post('/api/location', newLocation).then(res=> setLocationArr([...locationArr, res.data]))
+  const submit = () => {
+    axiosInstance
+      .post("/api/location", newLocation)
+      .then((res) => setLocationArr([...locationArr, res.data]))
   }
-
 
   return (
     <>
       <div className="display-flex-column">
+        <FormControl
+          className="form-field margin-bottom-5px"
+          onChange={(e) => setCountry(e.target.value)}
+          id="country"
+          placeholder="country"
+        />
         <FormControl
           placeholder="city"
           className="form-field margin-bottom-5px"
@@ -56,7 +64,6 @@ const CreateLocation = ({ country, setLocationArr, locationArr }) => {
 export default CreateLocation
 
 CreateLocation.propTypes = {
-  country: PropTypes.string,
   setLocationArr: PropTypes.func,
   locationArr: PropTypes.array,
 }

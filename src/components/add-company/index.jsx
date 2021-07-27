@@ -17,7 +17,6 @@ const AddCompany = (props) => {
     nameImage: null,
   })
   const [locationArr, setLocationArr] = useState([])
-  const [country, setCountry] = useState(null)
   const { bindToken } = useContext(Context)
 
   const [nameImage, setNameImage] = useState(null)
@@ -122,18 +121,11 @@ const AddCompany = (props) => {
                 </li>
               ))}
           </ul>
-          <FormControl
-            className="form-field margin-bottom-5px"
-            onChange={(e) => setCountry(e.target.value)}
-            id="country"
-            placeholder="country"
-          />
           {addNewLocation.map((elem) => (
             <CreateLocation
               key={elem.id}
               locationArr={locationArr}
               setLocationArr={setLocationArr}
-              country={country}
             />
           ))}
           <Button
