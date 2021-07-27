@@ -9,22 +9,14 @@ const chartColors = ["#2f1bb2", "#540d72", "#0bc1e1", "#ff0fa7", "#d349e2"]
 
 const Statistics = () => {
   //responses
-  const [discountsByOrders, setDiscountsByOrders] = useState({})
-  const [discountsByViews, setDiscountsByViews] = useState({})
-  const [companiesByOrders, setCompaniesByOrders] = useState({})
-  const [categoriesByOrders, setCategoriesByOrders] = useState({})
-  const [tagsByOrders, setTagsByOrders] = useState({})
-
-  //charts
-  const [discountsByOrdersChart, setDiscountsByOrdersChart] = useState({})
-  const [discountsByViewsChart, setDiscountsByViewsChart] = useState({})
-  const [companiesByOrdersChart, setCompaniesByOrdersChart] = useState({})
-  const [categoriesByOrdersChart, setCategoriesByOrdersChart] = useState({})
-  const [tagsByOrdersChart, setTagsByOrdersChart] = useState({})
+  const [discountsByOrders, setDiscountsByOrders] = useState(null)
+  const [discountsByViews, setDiscountsByViews] = useState(null)
+  const [companiesByOrders, setCompaniesByOrders] = useState(null)
+  const [categoriesByOrders, setCategoriesByOrders] = useState(null)
+  const [tagsByOrders, setTagsByOrders] = useState(null)
 
   //error
   const [fetchError, setFetchError] = useState(null)
-
 
   //counters
   const [discountsByOrdersCounter, setDiscountsByOrdersCounter] = useState(5)
@@ -33,12 +25,18 @@ const Statistics = () => {
   const [categoriesByOrdersCounter, setCategoriesByOrdersCounter] = useState(3)
   const [tagsByOrdersCounter, setTagsByOrdersCounter] = useState(3)
 
+  const chartDefaultColor = "#1fbeff"
+  const chartDefaultOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: false
+  }
 
   const { bindToken } = useContext(Context)
   useEffect(() => {
     bindToken()
   }, [])
-/*eslint-disable*/
+
   const fetchData = async (url, setFunc) => {
     axiosInstance.get(url)
       .then((response) => setFunc(response.data))
@@ -51,65 +49,40 @@ const Statistics = () => {
     fetchData("/api/company/statistic/orders", setCompaniesByOrders)
     fetchData("/api/category/statistic/categories", setCategoriesByOrders)
     fetchData("/api/tags/statistic/orders", setTagsByOrders)
-    console.log("SSS")
   }, [])
 
-  /*1 */
-  useEffect(() => {
-    setDiscountsByOrdersChart({
-      labels: Object.keys(discountsByOrders).slice(0, discountsByOrdersCounter),
+  const getChartData = (data, entriesLimit = 5, colors = chartDefaultColor) => {
+    if(!data) return {}
+    return {
+      labels: Object.keys(data).slice(0, entriesLimit),
       datasets: [
         {
-          data: Object.values(discountsByOrders).slice(0, discountsByOrdersCounter),
-          backgroundColor: "#1fbeff",
+          data: Object.values(data).slice(0, entriesLimit),
+          backgroundColor: colors,
         },
       ],
-    })
-    console.log("SSS")
-  }, [discountsByOrdersCounter])
+    }
+  }
 
-  // discountsByOrders && useEffect(() => {
-  //       setDiscountsByOrders({
-  //         labels: discountsByOrders.labels.slice(0, discountsByOrdersCounter),
-  //         datasets: [
-  //           {
-  //             data: discountsByOrders.datasets.data.slice(0, discountsByOrdersCounter),
-  //             backgroundColor: "#1fbeff",
-  //           },
-  //         ],
-  //       })
-  // }, [discountsByOrdersCounter])
+  const discountsOrdersChartData = getChartData({...discountsByOrders}, discountsByOrdersCounter)
+  const discountsViewsChartData = getChartData(discountsByViews, discountsByViewsCounter)
+  const companiesPopularityChart = getChartData(companiesByOrders, companiesByOrdersCounter, chartColors)
+  const categoriesPopularityChart = getChartData(categoriesByOrders, categoriesByOrdersCounter, chartColors)
+  const tagsPopularityChart = getChartData(tagsByOrders, tagsByOrdersCounter, chartColors)
 
   const discountsByOrdersOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
+    ...chartDefaultOptions,
     plugins: {
       legend: {
-        onClick: () => { },
         display: false
       },
     },
   }
 
-  /*2 */
-  useEffect(() => {
-    setDiscountsByViewsChart({
-      labels: Object.keys(discountsByViews).slice(0, discountsByViewsCounter),
-      datasets: [
-        {
-          data: Object.values(discountsByViews).slice(0, discountsByViewsCounter),
-          backgroundColor: "#1fbeff",
-        },
-      ],
-    })
-  }, [discountsByViewsCounter])
-
   const discountsByViewsOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
+    ...chartDefaultOptions,
     plugins: {
       legend: {
-        onClick: () => { },
         display: false
       },
     },
@@ -124,101 +97,8 @@ const Statistics = () => {
     },
   }
 
-  /*3 */
-  useEffect(() => {
-    setCompaniesByOrdersChart({
-      labels: Object.keys(companiesByOrders).slice(0, companiesByOrdersCounter),
-      datasets: [
-        {
-          data: Object.values(companiesByOrders).slice(0, companiesByOrdersCounter),
-          backgroundColor: chartColors,
-        },
-      ],
-    })
-  }, [companiesByOrdersCounter])
-
-
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get(baseUrl + "/api/company/statistic/orders")
-  //     .then((response) => {
-  //       setCompaniesByOrders({
-  //         labels: Object.keys(response.data).slice(0, companiesByOrdersCounter),
-  //         datasets: [
-  //           {
-  //             data: Object.values(response.data).slice(0, companiesByOrdersCounter),
-  //             backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#ff0fa7", "#d349e2"],
-  //           },
-  //         ],
-  //       })
-  //     })
-  //     .catch((err) => setFetchError(err.message))
-  // }, [])
-
-  /*4 */
-  useEffect(() => {
-    setCategoriesByOrdersChart({
-      labels: Object.keys(categoriesByOrders).slice(0, categoriesByOrdersCounter),
-      datasets: [
-        {
-          data: Object.values(categoriesByOrders).slice(0, categoriesByOrdersCounter),
-          backgroundColor: chartColors,
-        },
-      ],
-    })
-  }, [categoriesByOrdersCounter])
-
-
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get(baseUrl + "/api/category/statistic/categories")
-  //     .then((response) => {
-  //       setCategoriesByOrders({
-  //         labels: Object.keys(response.data).slice(0, categoriesByOrdersCounter),
-  //         datasets: [
-  //           {
-  //             data: Object.values(response.data).slice(0, categoriesByOrdersCounter),
-  //             backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff0fa7"],
-  //           },
-  //         ],
-  //       })
-  //     })
-  //     .catch((err) => setFetchError(err.message))
-  // }, [])
-
-  /*5 */
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get(baseUrl + "/api/tags/statistic/orders")
-  //     .then((response) => {
-  //       setTagsByOrders({
-  //         labels: Object.keys(response.data).slice(0, tagsByOrdersCounter),
-  //         datasets: [
-  //           {
-  //             data: Object.values(response.data).slice(0, tagsByOrdersCounter),
-  //             backgroundColor: ["#2f1bb2", "#540d72", "#0bc1e1", "#d349e2", "#ff0fa7"],
-  //           },
-  //         ],
-  //       })
-  //     })
-  //     .catch((err) => setFetchError(err.message))
-  // }, [])
-
-  useEffect(() => {
-    setTagsByOrdersChart({
-      labels: Object.keys(tagsByOrders).slice(0, tagsByOrdersCounter),
-      datasets: [
-        {
-          data: Object.values(tagsByOrders).slice(0, tagsByOrdersCounter),
-          backgroundColor: chartColors,
-        },
-      ],
-    })
-  }, [tagsByOrdersCounter])
-
   const roundChartsOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
+    ...chartDefaultOptions,
   }
 
   const downloadStatistics = (apiUrl, name) => {
@@ -250,13 +130,14 @@ const Statistics = () => {
               </p>
               <FormControl
                 type="number"
-                min={0}
+                min={1}
+                max={Object.keys(discountsByOrders || {}).length}
                 value={discountsByOrdersCounter}
                 onChange={e => setDiscountsByOrdersCounter(e.target.value)}
               />
               <div>
                 <Bar
-                  data={discountsByOrdersChart}
+                  data={discountsOrdersChartData}
                   height={300}
                   options={discountsByOrdersOptions}
                 />
@@ -292,13 +173,14 @@ const Statistics = () => {
               </p>
               <FormControl
                 type="number"
-                min={0}
+                min={1}
+                max={Object.keys(discountsByViews || {}).length}
                 value={discountsByViewsCounter}
                 onChange={e => setDiscountsByViewsCounter(e.target.value)}
               />
               <div>
                 <Line
-                  data={discountsByViewsChart}
+                  data={discountsViewsChartData}
                   height={300}
                   options={discountsByViewsOptions}
                 />
@@ -335,13 +217,14 @@ const Statistics = () => {
               </p>
               <FormControl
                 type="number"
-                min={0}
+                min={1}
+                max={Object.keys(companiesByOrders || {}).length}
                 value={companiesByOrdersCounter}
                 onChange={e => setCompaniesByOrdersCounter(e.target.value)}
               />
               <div>
                 <Doughnut
-                  data={companiesByOrdersChart}
+                  data={companiesPopularityChart}
                   height={250}
                   options={roundChartsOptions}
                 />
@@ -375,13 +258,14 @@ const Statistics = () => {
               </p>
               <FormControl
                 type="number"
-                min={0}
+                min={1}
+                max={Object.keys(categoriesByOrders || {}).length}
                 value={categoriesByOrdersCounter}
                 onChange={e => setCategoriesByOrdersCounter(e.target.value)}
               />
               <div>
                 <Pie
-                  data={categoriesByOrdersChart}
+                  data={categoriesPopularityChart}
                   height={250}
                   options={roundChartsOptions}
                 />
@@ -415,14 +299,15 @@ const Statistics = () => {
               </p>
               <FormControl
                 type="number"
-                min={0}
+                min={1}
+                max={Object.keys(tagsByOrders || {}).length}
                 value={tagsByOrdersCounter}
                 onChange={e => setTagsByOrdersCounter(e.target.value)}
               />
               <div>
                 <Pie
-                  data={tagsByOrdersChart}
-                  height={250}
+                  data={tagsPopularityChart}
+                  height={250}s
                   options={roundChartsOptions}
                 />
               </div>
