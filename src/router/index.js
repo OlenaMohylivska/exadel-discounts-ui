@@ -63,6 +63,7 @@ function AppRouter() {
       {localStorage.getItem('jwt') && localStorage.getItem('role') === "USER" && userRouts.map((route,index)=><Route path={route.path} key={index}>{route.component}</Route>)}
       {localStorage.getItem('jwt') && localStorage.getItem('role') === "MODERATOR" && adminRouts.map((route,index)=><Route path={route.path} key={index}>{route.component}</Route>) }
       {!localStorage.getItem('jwt') && !localStorage.getItem('role') && <Redirect to="/login"/>}
+      
     </>
   )
 }
