@@ -24,7 +24,7 @@ const AddItem = (props) => {
     periodStart: null,
     tags: null,
     id: 0,
-    views:0
+    views: 0,
   })
   const [errors, setErrors] = useState({})
   const [discountPostError, setDiscountPostError] = useState({
@@ -211,7 +211,7 @@ const AddItem = (props) => {
       quantity: null,
       company: null,
       id: null,
-      views:0,
+      views: 0,
     })
     setChooseLocation([])
     setActualLocation({

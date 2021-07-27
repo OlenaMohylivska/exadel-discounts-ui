@@ -4,7 +4,7 @@ import { Card, Button, Badge } from "react-bootstrap"
 import moment from "moment"
 import StarRatings from "react-star-ratings"
 import "./styles.scss"
-import { Link, Redirect } from "react-router-dom"
+import { Link, Redirect, useHistory } from "react-router-dom"
 import { Heart, HeartFill } from "react-bootstrap-icons"
 import axiosInstance from "components/api"
 import discountDefaultImg from "../../assets/no-image.png"
@@ -26,7 +26,11 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
   const favoriteUnsetter = async () => {
     await axiosInstance.put(`/api/employee/favorites/${elem.id}`)
     setFavorite(false)
-    setIsFavorite([...isFavorite, 1])
+    isFavorite && setIsFavorite(isFavorite.push(1))
+  }
+  const history = useHistory()
+  const updateItemHandler = () => {
+    history.push(`edit-item/${elem.id}`)
   }
 
   useEffect(() => {
@@ -39,11 +43,14 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
     <Card className=" shadow product-card">
       <div className="card-title-items">
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
-        {favorite && localStorage.getItem("role") !== "MODERATOR" && (
-          <HeartFill className="fav-icon" onClick={favoriteUnsetter} />
-        )}
-        {localStorage.getItem("role") !== "MODERATOR" && (
-          <Heart className="fav-icon" onClick={favoriteSetter} />
+        {localStorage.getItem("role") === "USER" && (
+          <>
+            {favorite ? (
+              <HeartFill className="fav-icon" onClick={favoriteUnsetter} />
+            ) : (
+              <Heart className="fav-icon" onClick={favoriteSetter} />
+            )}
+          </>
         )}
       </div>
       <Link
@@ -79,7 +86,7 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             rating={elem.rate ?? 0}
             starRatedColor="#FFD700"
           />
-          {!isOrdered && localStorage.getItem("role") !== "MODERATOR" && (
+          {!isOrdered && localStorage.getItem("role") === "USER" && (
             <Button
               className="w-100 mt-3"
               variant="primary"
@@ -88,6 +95,18 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
               Order
             </Button>
           )}
+          <br />
+          <div className="justify-center">
+            {localStorage.getItem("role") === "MODERATOR" && (
+              <Button
+                variant="success"
+                className="w-100 mt-3"
+                onClick={updateItemHandler}
+              >
+                Update
+              </Button>
+            )}
+          </div>
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
         </div>
       </Card.Body>

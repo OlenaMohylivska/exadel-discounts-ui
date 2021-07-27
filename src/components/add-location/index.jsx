@@ -5,7 +5,6 @@ import { Button } from "react-bootstrap"
 
 const AddLocation = ({
   countryLocation,
-
   setSaveLocation,
   saveLocation,
   addressesList,
@@ -14,7 +13,6 @@ const AddLocation = ({
   buttonIndex,
 }) => {
   const [locationObj, setLocationObj] = useState({ name: "", addresses: [] })
-
   const [isEntered, setIsEntered] = useState(true)
 
   ////city
