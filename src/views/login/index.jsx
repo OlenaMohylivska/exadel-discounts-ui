@@ -6,16 +6,28 @@ import axiosInstance from "components/api"
 import { Route, Redirect } from "react-router-dom"
 import { Context } from "store/context"
 
-// const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
-
 function Login() {
   const [loginData, setLoginData] = useState({})
   const [passwordVisible, setpasswordVisible] = useState(false)
   const [error, setError] = useState(null)
   const { setIsAuthorized, isAuthorized } = useContext(Context)
+  const [warning, setWarning] = useState(false)
 
   const handleChange = (e) => {
-    setLoginData({ ...loginData, [e.target.name]: e.target.value })
+    const regExpWithoutSpace = /[\S]{0,}\s/
+    const regExpCyrillic = /[а-яё]/g
+    const inputString = e.target.value
+    setError(false)
+
+    if(regExpWithoutSpace.test(inputString)) {
+      setWarning("You cannot use spaces")
+    } else if (regExpCyrillic.test(inputString)) {
+      setWarning("You enter Cyrillic. It is not recommended")
+      setLoginData({ ...loginData, [e.target.name]: inputString })
+    } else {
+      setWarning(false)
+      setLoginData({ ...loginData, [e.target.name]: inputString })
+    }
   }
   const onPasswordShow = () => {
     setpasswordVisible(!passwordVisible)
@@ -68,6 +80,7 @@ function Login() {
                 placeholder="Login"
                 name="username"
                 onChange={(event) => handleChange(event)}
+                value={loginData.username}
               />
             </Form.Group>
             <Form.Group className="form-item" controlId="formBasicPassword">
@@ -78,6 +91,7 @@ function Login() {
                   placeholder="Password"
                   name="password"
                   onChange={(event) => handleChange(event)}
+                  value={loginData.password}
                   onKeyPress={() => handleEnter(event)}
                 />
                 <EyeFill
@@ -100,7 +114,13 @@ function Login() {
               <div className="auth-error">
                 Wrong login or password, please try again
                 <div className="auth-error-message">
-                ({error})
+                  ({error})
+                </div>
+              </div>}
+            {warning &&
+              <div className="auth-error">
+                <div className="auth-error-message">
+                  ({warning})
                 </div>
               </div>}
           </Form>
