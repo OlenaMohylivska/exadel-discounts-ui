@@ -96,6 +96,14 @@ const Catalog = () => {
     setSearching(true)
     setLoading(true)
   }
+  const searchChecker = (checkItem, choose) => {
+    if (checkItem) {
+      return { value: checkItem, label: checkItem }
+    }
+    if (!checkItem) {
+      return { value: `Choose ${choose}`, label: `Choose ${choose}` }
+    }
+  }
 
   useEffect(() => {
     if (searching) {
@@ -221,6 +229,7 @@ const Catalog = () => {
               <Form className="search-input">
                 <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Control
+                    value={search.searchText ? search.searchText : ""}
                     type="text"
                     onChange={(e) => handleSearchText(e)}
                     placeholder="Enter your search"
@@ -248,12 +257,14 @@ const Catalog = () => {
               )}
             </div> */}
             <Select
+              value={searchChecker(search.companies, "company")}
               className="catalog-selects"
               options={companiesOptions}
               placeholder="Companies"
               onChange={(e) => handleSearchCompanies(e)}
             />
             <Select
+              value={searchChecker(search.category, "category")}
               className="catalog-selects"
               options={categoriesOptions}
               placeholder="Categories"
@@ -269,6 +280,9 @@ const Catalog = () => {
               />
             )}
             <Select
+              value={
+                search.orders && searchChecker(search.orders[0].sortBy, "sort")
+              }
               className="catalog-selects"
               options={sortingOptions}
               onChange={(e) => handleSortingOption(e)}
