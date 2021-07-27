@@ -47,13 +47,6 @@ function AppRouter() {
       <Route path="/login">
         <Login />
       </Route>
-      <Route path="/admin/all-promotions">
-        {!localStorage.getItem('jwt') && !localStorage.getItem('jwt') &&  <Redirect   push to="/login" />}
-      </Route>
-      <Route  path="/">
-        {!localStorage.getItem('jwt') && !localStorage.getItem('jwt') &&  <Redirect  to="/login" />}
-      </Route>
-
       <Route exact path="/">
         {localStorage.getItem('role') === "USER" ? <Home /> : <Redirect push to="admin/all-promotions" />}
       </Route>
@@ -63,7 +56,6 @@ function AppRouter() {
       {localStorage.getItem('jwt') && localStorage.getItem('role') === "USER" && userRouts.map((route,index)=><Route path={route.path} key={index}>{route.component}</Route>)}
       {localStorage.getItem('jwt') && localStorage.getItem('role') === "MODERATOR" && adminRouts.map((route,index)=><Route path={route.path} key={index}>{route.component}</Route>) }
       {!localStorage.getItem('jwt') && !localStorage.getItem('role') && <Redirect to="/login"/>}
-      
     </>
   )
 }
