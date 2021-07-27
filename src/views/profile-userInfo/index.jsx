@@ -27,7 +27,6 @@ function ProfileUserInfo() {
       .catch((err) => setFetchError(err.message))
   }, [])
 
-
   const categoriesOptions =
     categories.length > 0 &&
     categories.map((category) => ({
@@ -41,13 +40,14 @@ function ProfileUserInfo() {
   }
 
   const subscriptionClickHandler = () => {
+    axiosInstance.put(`/api/employee/${category.id}/subscriptions/add`, {...[category.id]})
     setSuccessMessage(true)
   }
 
   return (
     <>
       {fetchError && <FetchError error={fetchError} />}
-      {!fetchError &&
+      {!fetchError && (
         <div className="profile">
           <Col lg={5} className="profile-info">
             <h4 className="personal-info-title">Personal Info</h4>
@@ -71,7 +71,7 @@ function ProfileUserInfo() {
           <Col lg={4} className="user-subscriptions">
             <h4 className="subscriptions-title">Manage my subscriptions</h4>
             <h5 className="subscriptions-title">Choose by category</h5>
-            {categoriesOptions &&
+            {categoriesOptions && (
               <>
                 <Select
                   className="subscription-category"
@@ -88,11 +88,17 @@ function ProfileUserInfo() {
                 >
                   Subscribe to updates
                 </Button>
-              </>}
-            {successMessage && <ToastElement className="toast-subs-position" setSuccessMessage={setSuccessMessage} />}
+              </>
+            )}
+            {successMessage && (
+              <ToastElement
+                className="toast-subs-position"
+                setSuccessMessage={setSuccessMessage}
+              />
+            )}
           </Col>
         </div>
-      }
+      )}
     </>
   )
 }
