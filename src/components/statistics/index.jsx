@@ -64,7 +64,7 @@ const Statistics = () => {
     }
   }
 
-  const discountsOrdersChartData = getChartData({...discountsByOrders}, discountsByOrdersCounter)
+  const discountsOrdersChartData = getChartData(discountsByOrders, discountsByOrdersCounter)
   const discountsViewsChartData = getChartData(discountsByViews, discountsByViewsCounter)
   const companiesPopularityChart = getChartData(companiesByOrders, companiesByOrdersCounter, chartColors)
   const categoriesPopularityChart = getChartData(categoriesByOrders, categoriesByOrdersCounter, chartColors)
