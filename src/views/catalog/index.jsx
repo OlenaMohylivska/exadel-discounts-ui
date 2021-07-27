@@ -280,6 +280,9 @@ const Catalog = () => {
               />
             )}
             <Select
+              value={
+                search.orders && searchChecker(search.orders[0].sortBy, "sort")
+              }
               className="catalog-selects"
               options={sortingOptions}
               onChange={(e) => handleSortingOption(e)}
