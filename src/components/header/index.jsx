@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Container, Nav, Navbar, NavbarBrand } from "react-bootstrap"
 import { NavLink, Link } from "react-router-dom"
 import Logo from "../icons/logo.png"
+import SmallLogo from "../icons/small-logo.png"
 import "./styles.scss"
 import NavbarToggle from "react-bootstrap/esm/NavbarToggle"
 import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse"
@@ -9,8 +10,10 @@ import { Context } from "store/context"
 
 function Header() {
   const { isAuthorized, setIsAuthorized } = useContext(Context)
+  const [showSmallLogo, setShowSmallLogo] = useState(false)
+
   useEffect(() => {
-    if (!!localStorage.getItem('jwt') && isAuthorized === false) {
+    if (!!localStorage.getItem("jwt") && isAuthorized === false) {
       return setIsAuthorized(true)
     }
   }, [])
@@ -18,6 +21,14 @@ function Header() {
     localStorage.clear()
     setIsAuthorized(false)
   }
+  const changeLogo = () => {
+    if (window.scrollY > 80) {
+      setShowSmallLogo(true)
+    } else {
+      setShowSmallLogo(false)
+    }
+  }
+  window.addEventListener("scroll", changeLogo)
 
   return (
     <Navbar collapseOnSelect expand="md" className="navbar" sticky="top">
@@ -25,7 +36,11 @@ function Header() {
         <NavbarBrand>
           <div className="logo">
             <Link to={isAuthorized ? "/" : "/login"}>
-              <img src={Logo} alt="Exadel logotype" className="logo" />
+              <img
+                src={showSmallLogo ? SmallLogo : Logo}
+                alt="Exadel logotype"
+                className="logo"
+              />
             </Link>
           </div>
         </NavbarBrand>
@@ -38,7 +53,8 @@ function Header() {
                 {localStorage.getItem("role") === "USER" ? (
                   <>
                     <NavLink
-                      exact to="/"
+                      exact
+                      to="/"
                       className="menu-link"
                       activeClassName="menu-link-active"
                     >
