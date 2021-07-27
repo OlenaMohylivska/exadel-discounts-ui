@@ -3,10 +3,10 @@
   max-height: 80vh;
   display: flex;
   justify-content: space-between;
-  margin-top: 3rem;
+  // margin-top: 3rem;
 
   .profile-img {
-    max-width: 25%;
+    max-width: 50%;
     margin-bottom: 1.5rem;
   }
   .profile-info {
@@ -38,12 +38,17 @@
     flex-direction: column;
 
     .subscriptions-title {
-      margin: 1rem 0rem;
+      margin-bottom: 1rem;
       margin-left: 0;
-      padding-left: 0;
+      margin-right: 0;
+     
+    }
+    .category-title{
+      font-size: 1rem;
+      font-weight: 500;
     }
     .subscriptions-btn {
-      margin-top: 2rem;
+      margin: 1.5rem 0;
     }
   }
 }
@@ -52,23 +57,30 @@
   .profile {
     max-width: 100%;
     max-height: 100vh;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
-    .profile-img {
-      max-width: 50%;
-    }
-    .personal-info-title {
-      margin-top: 1rem;
-    }
     .profile-info {
       align-items: center;
       padding-left: 0;
+    }
+    .personal-info-title{
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+    .personal-info{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .profile-img {
+        max-width: 30%;
+        margin-right: 1rem;
+      }
+
     }
     .user-subscriptions {
       text-align: center;
       margin-top: 1rem;
       .subscriptions-title {
-        margin: 0.5rem;
         font-size: 1.2rem;
       }
       
