@@ -39,9 +39,10 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
     <Card className=" shadow product-card">
       <div className="card-title-items">
         <Card.Title className="mb-3 card-title">{elem.name}</Card.Title>
-        {favorite ? (
+        {favorite && localStorage.getItem("role") !== "MODERATOR" && (
           <HeartFill className="fav-icon" onClick={favoriteUnsetter} />
-        ) : (
+        )}
+        {localStorage.getItem("role") !== "MODERATOR" && (
           <Heart className="fav-icon" onClick={favoriteSetter} />
         )}
       </div>
@@ -78,13 +79,15 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             rating={elem.rate ?? 0}
             starRatedColor="#FFD700"
           />
-          {!isOrdered && <Button
-            className="w-100 mt-3"
-            variant="primary"
-            onClick={orderToggle}
-          >
-            Order
-          </Button>}
+          {!isOrdered && localStorage.getItem("role") !== "MODERATOR" && (
+            <Button
+              className="w-100 mt-3"
+              variant="primary"
+              onClick={orderToggle}
+            >
+              Order
+            </Button>
+          )}
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
         </div>
       </Card.Body>
@@ -106,6 +109,6 @@ ProductCard.propTypes = {
     imageId: PropTypes.number,
   }),
   isOrdered: PropTypes.bool,
-  setIsFavorite:PropTypes.bool,
-  isFavorite:PropTypes.array,
+  setIsFavorite: PropTypes.bool,
+  isFavorite: PropTypes.array,
 }
