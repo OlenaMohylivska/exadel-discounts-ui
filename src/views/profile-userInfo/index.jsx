@@ -26,7 +26,7 @@ function ProfileUserInfo() {
     await axiosInstance
       .get("/api/employee/subscriptions")
       .then((response) => setCategoriesToBeDeleted(response.data))
-  }, [selectedCategories])
+  }, [selectedCategories, categoriesToBeDeleted])
 
   useEffect(async () => {
     await axiosInstance
@@ -62,7 +62,7 @@ function ProfileUserInfo() {
   const subscriptionRemoveHandler = () => {
     axiosInstance.put(
       `/api/employee/subscriptions/remove`,
-      categoriesToBeDeleted.map((category) => category.id)
+      categoriesToBeDeleted.filter((category) => category.id)
     )
     setSelectedDeleteCategories([])
     setSuccessMessage(true)
@@ -74,6 +74,7 @@ function ProfileUserInfo() {
       ...category,
       label: category.name,
       value: category.name,
+      id: category.id,
     }))
 
   return (
