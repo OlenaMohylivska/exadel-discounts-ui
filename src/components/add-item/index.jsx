@@ -192,6 +192,7 @@ const AddItem = (props) => {
         throw e.message
       }
     }
+    setSuccessMessage(true)
   }
 
   const check = (checker) => {
