@@ -66,7 +66,6 @@ const DiscountPage = () => {
   }
 
   const getReviews = () => {
-    setLoading(true)
     try {
       axiosInstance.get(`/api/discounts/${id}/reviews`).then((response) => {
         setAllRating({
@@ -77,7 +76,6 @@ const DiscountPage = () => {
             Object.values(response.data).map((item) => Number(item))
           ),
         })
-        setLoading(false)
       })
     } catch (e) {
       setErrorMessage(e.message)
