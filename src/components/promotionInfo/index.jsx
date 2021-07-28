@@ -79,7 +79,7 @@ PromotionInfo.propTypes = {
   elem: PropTypes.shape({
     id: PropTypes.number,
     nameImage: PropTypes.string,
-    periodEnd: PropTypes.number,
+    periodEnd: PropTypes.string,
     name: PropTypes.string,
     description: PropTypes.string,
     img: PropTypes.string,
