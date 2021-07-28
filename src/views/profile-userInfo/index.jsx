@@ -10,9 +10,11 @@ import userProfileImg from "../../assets/userProfileImg.png"
 
 function ProfileUserInfo() {
   const [categories, setCategories] = useState([])
-  const [category, setCategory] = useState([])
+  const [selectedCategories, setSelectedCategories] = useState([])
   const [successMessage, setSuccessMessage] = useState(false)
   const [fetchError, setFetchError] = useState(null)
+  const [categoriesToBeDeleted, setCategoriesToBeDeleted] = useState([])
+  const [selectedDeleteCategories, setSelectedDeleteCategories] = useState([])
 
   const { bindToken } = useContext(Context)
 
@@ -20,13 +22,18 @@ function ProfileUserInfo() {
     bindToken()
   }, [])
 
-  useEffect(() => {
-    axiosInstance
+  useEffect(async () => {
+    await axiosInstance
+      .get("/api/employee/subscriptions")
+      .then((response) => setCategoriesToBeDeleted(response.data))
+  }, [selectedCategories])
+
+  useEffect(async () => {
+    await axiosInstance
       .get("/api/category")
       .then((res) => setCategories(res.data))
       .catch((err) => setFetchError(err.message))
   }, [])
-
 
   const categoriesOptions =
     categories.length > 0 &&
@@ -37,62 +44,115 @@ function ProfileUserInfo() {
     }))
 
   const handleChangeCategory = (e) => {
-    setCategory(e)
+    setSelectedCategories(e)
+  }
+  const handleDeleteCategory = (e) => {
+    setSelectedDeleteCategories(e)
   }
 
-  const subscriptionClickHandler = () => {
+  const subscriptionAddHandler = () => {
+    axiosInstance.put(
+      `/api/employee/subscriptions/add`,
+      selectedCategories.map((category) => category.id)
+    )
+    setSelectedCategories([])
     setSuccessMessage(true)
   }
+
+  const subscriptionRemoveHandler = () => {
+    axiosInstance.put(
+      `/api/employee/subscriptions/remove`,
+      categoriesToBeDeleted.map((category) => category.id)
+    )
+    setSelectedDeleteCategories([])
+    setSuccessMessage(true)
+  }
+
+  const deleteCategories =
+    categoriesToBeDeleted.length > 0 &&
+    categoriesToBeDeleted.map((category) => ({
+      ...category,
+      label: category.name,
+      value: category.name,
+    }))
 
   return (
     <>
       {fetchError && <FetchError error={fetchError} />}
-      {!fetchError &&
+      {!fetchError && (
         <div className="profile">
           <Col lg={5} className="profile-info">
             <h4 className="personal-info-title">Personal Info</h4>
-            <img
-              className="profile-img"
-              src={userProfileImg}
-              alt="user-image"
-            />
-
-            <div>
-              First name: <span className="filled-in">John</span>
-            </div>
-            <div>
-              Last name: <span className="filled-in">Brown </span>
-            </div>
-            <div className="location">
-              Location: <span className="filled-in">Lviv, </span>
-              <span className="filled-in">Ukraine</span>
+            <div className="personal-info">
+              <img
+                className="profile-img"
+                src={userProfileImg}
+                alt="user-image"
+              />
+              <div className="user-details">
+                <div>
+                  First name: <span className="filled-in">John</span>
+                </div>
+                <div>
+                  Last name: <span className="filled-in">Brown </span>
+                </div>
+                <div className="location">
+                  Location: <span className="filled-in">Lviv, </span>
+                  <span className="filled-in">Ukraine</span>
+                </div>
+              </div>
             </div>
           </Col>
           <Col lg={4} className="user-subscriptions">
             <h4 className="subscriptions-title">Manage my subscriptions</h4>
-            <h5 className="subscriptions-title">Choose by category</h5>
-            {categoriesOptions &&
+            <h5 className="category-title">Choose by category</h5>
+            {categoriesOptions && (
               <>
                 <Select
                   className="subscription-category"
                   theme="primary75"
                   options={categoriesOptions}
                   onChange={(e) => handleChangeCategory(e)}
-                  value={category}
+                  value={selectedCategories}
                   placeholder="Select..."
                   isMulti
                 />
                 <Button
                   className="subscriptions-btn"
-                  onClick={subscriptionClickHandler}
+                  onClick={subscriptionAddHandler}
                 >
                   Subscribe to updates
                 </Button>
-              </>}
-            {successMessage && <ToastElement className="toast-subs-position" setSuccessMessage={setSuccessMessage} />}
+              </>
+            )}
+            <h5 className="category-title">
+              Delete previous subscriptions (if any)
+            </h5>
+            <Select
+              className="subscription-category"
+              theme="primary75"
+              options={deleteCategories}
+              onChange={(e) => handleDeleteCategory(e)}
+              placeholder="Select..."
+              value={selectedDeleteCategories}
+              isMulti
+            />
+            <Button
+              className="subscriptions-btn"
+              variant="danger"
+              onClick={subscriptionRemoveHandler}
+            >
+              Delete subscriptions
+            </Button>
+            {successMessage && (
+              <ToastElement
+                className="toast-subs-position"
+                setSuccessMessage={setSuccessMessage}
+              />
+            )}
           </Col>
         </div>
-      }
+      )}
     </>
   )
 }
