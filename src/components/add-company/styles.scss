@@ -47,12 +47,18 @@
 }
 
 .company-info-btn {
-  width: 35%;
+  width: 30%;
 }
 
 .display-flex-column {
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 1280px) {
+  .company-info-btn {
+    width: 50%;
+  }
 }
 
 @media (max-width: 720px) {
@@ -68,6 +74,10 @@
 
 @media (max-width: 320px) {
   .company-info-btn {
-    width: 55%;
+    width: 60%;
   }
+}
+
+.save-btn {
+  margin: 15px auto;
 }
