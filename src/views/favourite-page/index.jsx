@@ -41,31 +41,35 @@ const FavouritePage = () => {
       )}
 
       {fetchError && <FetchError error={fetchError} />}
-      {discounts && discounts.length > 0 && !loading && (
+      {discounts.length > 0 && !loading && (
         <div className="container">
           <div className="discounts-wrapper">
-            {discounts.map((el) => {
-              return (
-                <ProductCard
-                  elem={el}
-                  key={el.id}
-                  isFavorite={isFavorite}
-                  setIsFavorite={setIsFavorite}
-                />
-              )
-            })}
+            {discounts.length > 0 &&
+              discounts.map((el) => {
+                return (
+                  <ProductCard
+                    elem={el}
+                    key={el.id}
+                    isFavorite={isFavorite}
+                    setIsFavorite={setIsFavorite}
+                  />
+                )
+              })}
           </div>
-          {!loading && discounts && discounts.length > 0 (
-            <Pagination
-              favorites={discounts}
-              itemsPerFavoritePage={itemsPerFavoritePage}
-              setItemsPerFavoritePage={setItemsPerFavoritePage}
-              isFavorite={true}
-            />
-          )}
+          {!loading &&
+            discounts &&
+            discounts.length >
+              0(
+                <Pagination
+                  favorites={discounts}
+                  itemsPerFavoritePage={itemsPerFavoritePage}
+                  setItemsPerFavoritePage={setItemsPerFavoritePage}
+                  isFavorite={true}
+                />
+              )}
         </div>
       )}
-      {discounts.length === 0 && (
+      {discounts && discounts.length === 0 && (
         <div className="container d-flex flex-column align-items-center mt-2">
           <div>There is no favorite discounts.</div>
           <div>
