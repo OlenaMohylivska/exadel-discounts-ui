@@ -55,6 +55,12 @@
   flex-direction: column;
 }
 
+@media (max-width: 1280px) {
+  .company-info-btn {
+    width: 50%;
+  }
+}
+
 @media (max-width: 720px) {
   .company-container {
     flex-direction: column-reverse;
@@ -68,6 +74,10 @@
 
 @media (max-width: 320px) {
   .company-info-btn {
-    width: 55%;
+    width: 60%;
   }
+}
+
+.save-btn {
+  margin: 15px auto;
 }

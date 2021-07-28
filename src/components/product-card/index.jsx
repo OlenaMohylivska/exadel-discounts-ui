@@ -40,7 +40,7 @@ function ProductCard({ elem, setIsFavorite, isFavorite }) {
       response.data.content.map((el) => el.id === elem.id && setFavorite(true))
     })
   }, [])
-  favorite
+
   return (
     <Card className=" shadow product-card">
       <div className="card-title-items">
@@ -103,7 +103,7 @@ function ProductCard({ elem, setIsFavorite, isFavorite }) {
               variant="primary"
               onClick={updateItemHandler}
             >
-              Update
+              Edit
             </Button>
           )}
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}

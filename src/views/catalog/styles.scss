@@ -57,7 +57,7 @@
 
 .catalog-selects {
   max-width: 20%;
-  min-width: 20%;
+  min-width: 25%;
   height: 40px;
 }
 
@@ -84,7 +84,8 @@
 .fetch-error-info {
   width: 100%;
   padding: 40px;
-  font-size: 32px;
+  font-size: 28px;
+  text-align: center;
 }
 .spin-container {
   display: flex;

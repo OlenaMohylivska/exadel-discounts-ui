@@ -35,7 +35,7 @@ const Breadcrumbs = (props) => {
                 event.preventDefault()
                 history.push(routeTo)}}
             >
-              {name}
+              {name.replaceAll('-', ' ')}
             </Breadcrumb.Item>
           ) : (
             <Breadcrumb.Item
@@ -46,7 +46,7 @@ const Breadcrumbs = (props) => {
                 history.push(routeTo)
               }}
             >
-              {name}
+              {name.replaceAll('-', ' ')}
             </Breadcrumb.Item>
           )
         })}

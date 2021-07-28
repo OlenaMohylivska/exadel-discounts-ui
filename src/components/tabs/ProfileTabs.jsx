@@ -9,7 +9,7 @@ function ProfileTabs() {
 
   const profileTabsList = [
     {eventKey: "info", title: "Profile"},
-    {eventKey: "favourite", title: "Favourite"},
+    {eventKey: "favourite", title: "Favourites"},
     {eventKey: "history", title: "History"}
   ]
 

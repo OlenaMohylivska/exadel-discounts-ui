@@ -89,7 +89,7 @@ const EditCompaniesAll = () => {
             </label>
           </div>
         </div>
-        <div className="col-lg-2 col-md-3 text-end">
+        <div className="col-lg-2 col-md-3 add-discount-btn-wrapper">
           <Button
             variant="primary"
             className="add-discount-btn px-2"
@@ -116,7 +116,7 @@ const EditCompaniesAll = () => {
       )}
       {companiesFetchError && (
         <div className="fetch-error-info">
-          Sorry no info, {companiesFetchError}
+          {companiesFetchError}
         </div>
       )}
     </div>
