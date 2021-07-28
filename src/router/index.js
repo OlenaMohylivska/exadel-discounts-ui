@@ -25,7 +25,7 @@ const userRouts = [
   { path: "/profile/history", component: <HistoryPage /> },
   { path: "/profile/favourite", component: <FavouritePage /> },
   { path: "/order-confirmation/:id", component: <OrderConfirm /> },
-  { path: "/discount/:id", component: <DiscountPage /> }
+  { path: "/discount/:id", component: <DiscountPage /> },
 ]
 
 const adminRouts = [
@@ -38,7 +38,7 @@ const adminRouts = [
   { path: "/admin/statistics", component: <Statistics /> },
   { path: "/admin/all-companies", component: <Companies /> },
   { path: "/admin/all-promotions", component: <Promotions /> },
-  { path: "/discount/:id", component: <DiscountPage /> }
+  { path: "/discount/:id", component: <DiscountPage /> },
 ]
 
 function AppRouter() {
@@ -48,14 +48,36 @@ function AppRouter() {
         <Login />
       </Route>
       <Route exact path="/">
-        {localStorage.getItem('role') === "USER" ? <Home /> : <Redirect push to="admin/all-promotions" />}
+        {localStorage.getItem("role") === "USER" ? (
+          <Home />
+        ) : (
+          <Redirect push to="admin/all-promotions" />
+        )}
       </Route>
+
       <Route path="/404">
         <NonExistentPage />
       </Route>
-      {localStorage.getItem('jwt') && localStorage.getItem('role') === "USER" && userRouts.map((route,index)=><Route path={route.path} key={index}>{route.component}</Route>)}
-      {localStorage.getItem('jwt') && localStorage.getItem('role') === "MODERATOR" && adminRouts.map((route,index)=><Route path={route.path} key={index}>{route.component}</Route>) }
-      {!localStorage.getItem('jwt') && !localStorage.getItem('role') && <Redirect to="/login"/>}
+      {localStorage.getItem("jwt") &&
+        localStorage.getItem("role") === "USER" &&
+        userRouts.map((route, index) => (
+          <Route path={route.path} key={index}>
+            {route.component}
+          </Route>
+        ))}
+      {localStorage.getItem("jwt") &&
+        localStorage.getItem("role") === "MODERATOR" &&
+        adminRouts.map((route, index) => (
+          <Route path={route.path} key={index}>
+            {route.component}
+          </Route>
+        ))}
+      {!localStorage.getItem("jwt") && !localStorage.getItem("role") && (
+        <Redirect to="/login" />
+      )}
+      <Route path="/admin">
+        {localStorage.getItem("role") !== "MODERATOR" && <Redirect to="/" />}
+      </Route>
     </>
   )
 }

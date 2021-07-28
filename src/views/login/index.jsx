@@ -19,7 +19,7 @@ function Login() {
     const inputString = e.target.value
     setError(false)
 
-    if(regExpWithoutSpace.test(inputString)) {
+    if (regExpWithoutSpace.test(inputString)) {
       setWarning("You cannot use spaces")
     } else if (regExpCyrillic.test(inputString)) {
       setWarning("You enter Cyrillic. It is not recommended")
@@ -45,11 +45,9 @@ function Login() {
 
   const submit = async () => {
     try {
-      await axiosInstance
-        .post("/api/login", loginData)
-        .then((res) => {
-          bindFunc(res.data.jwt, res.data.role[0].authority)
-        })
+      await axiosInstance.post("/api/login", loginData).then((res) => {
+        bindFunc(res.data.jwt, res.data.role[0].authority)
+      })
     } catch (e) {
       setError(e.message)
     }
@@ -110,19 +108,17 @@ function Login() {
                 Log in
               </Button>
             </div>
-            {error &&
+            {error && (
               <div className="auth-error">
                 Wrong login or password, please try again
-                <div className="auth-error-message">
-                  ({error})
-                </div>
-              </div>}
-            {warning &&
+                <div className="auth-error-message">({error})</div>
+              </div>
+            )}
+            {warning && (
               <div className="auth-error">
-                <div className="auth-error-message">
-                  ({warning})
-                </div>
-              </div>}
+                <div className="auth-error-message">({warning})</div>
+              </div>
+            )}
           </Form>
         </Col>
       </Container>
