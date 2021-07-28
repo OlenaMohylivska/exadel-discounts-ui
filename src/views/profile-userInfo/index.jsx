@@ -83,29 +83,25 @@ function ProfileUserInfo() {
         <div className="profile">
           <Col lg={5} className="profile-info">
             <h4 className="personal-info-title">Personal Info</h4>
-            <div className="personal-info">
-              <img
-                className="profile-img"
-                src={userProfileImg}
-                alt="user-image"
-              />
-              <div className="user-details">
-                <div>
-                  First name: <span className="filled-in">John</span>
-                </div>
-                <div>
-                  Last name: <span className="filled-in">Brown </span>
-                </div>
-                <div className="location">
-                  Location: <span className="filled-in">Lviv, </span>
-                  <span className="filled-in">Ukraine</span>
-                </div>
-              </div>
+
+            <img
+              className="profile-img"
+              src={userProfileImg}
+              alt="user-image"
+            />
+
+            <div>
+              User name:{" "}
+              <span className="filled-in">
+                {localStorage.getItem("username")}
+              </span>
             </div>
           </Col>
           <Col lg={4} className="user-subscriptions">
             <h4 className="subscriptions-title">Manage my subscriptions</h4>
+
             <h5 className="category-title">Choose by category</h5>
+
             {categoriesOptions && (
               <>
                 <Select
@@ -125,6 +121,7 @@ function ProfileUserInfo() {
                 </Button>
               </>
             )}
+
             <h5 className="category-title">
               Delete previous subscriptions (if any)
             </h5>

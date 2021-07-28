@@ -177,7 +177,7 @@ const Catalog = () => {
     fetchData()
   }
 
-  const sortingByRate = [{ label: "Sort by rate", value: "rate" }]
+  const sortingByRate = [{ label: "rate", value: "rate" }]
   const companiesOptions = useMemo(() => {
     return searchCompanies.map((company) => ({
       label: company.name,
@@ -216,6 +216,8 @@ const Catalog = () => {
       label: el.label,
     }
   })
+  const sortChecker =
+    search.orders && search.orders.length > 0 ? search.orders[0].sortBy : null
 
   return (
     <>
@@ -280,9 +282,7 @@ const Catalog = () => {
               />
             )}
             <Select
-              value={
-                search.orders && searchChecker(search.orders[0].sortBy, "sort")
-              }
+              value={searchChecker(sortChecker, "sorting by...")}
               className="catalog-selects"
               options={sortingOptions}
               onChange={(e) => handleSortingOption(e)}

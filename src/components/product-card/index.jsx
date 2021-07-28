@@ -11,7 +11,7 @@ import discountDefaultImg from "../../assets/no-image.png"
 
 const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL
 
-function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
+function ProductCard({ elem, setIsFavorite, isFavorite }) {
   const [order, setOrder] = useState(false)
   const [favorite, setFavorite] = useState(false)
   const history = useHistory()
@@ -23,7 +23,6 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
   const updateItemHandler = () => {
     history.push(`edit-item/${elem.id}`)
   }
-
 
   const favoriteSetter = async () => {
     await axiosInstance.post(`/api/employee/favorites/${elem.id}`)
@@ -89,7 +88,7 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             rating={elem.rate ?? 0}
             starRatedColor="#FFD700"
           />
-          {!isOrdered && localStorage.getItem("role") !== "MODERATOR" ? (
+          {localStorage.getItem("role") === "USER" && (
             <Button
               className="w-100 mt-3"
               variant="primary"
@@ -97,7 +96,8 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
             >
               Order
             </Button>
-          ) : (
+          )}
+          {localStorage.getItem("role") === "MODERATOR" && (
             <Button
               className="w-100 mt-3"
               variant="primary"
@@ -126,7 +126,6 @@ ProductCard.propTypes = {
     rate: PropTypes.number,
     imageId: PropTypes.number,
   }),
-  isOrdered: PropTypes.bool,
   setIsFavorite: PropTypes.bool,
   isFavorite: PropTypes.array,
 }
