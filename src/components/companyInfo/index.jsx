@@ -41,7 +41,7 @@ const CompanyInfo = ({ elem }) => {
               variant="primary"
               onClick={updateItemHandler}
             >
-              Update
+              Edit
             </Button>
           </div>
         </Card.Body>

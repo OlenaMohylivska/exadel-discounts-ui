@@ -103,7 +103,7 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
               variant="primary"
               onClick={updateItemHandler}
             >
-              Update
+              Edit
             </Button>
           )}
           {order && <Redirect to={`/order-confirmation/${elem.id}`} />}
