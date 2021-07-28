@@ -89,7 +89,7 @@ const EditCompaniesAll = () => {
             </label>
           </div>
         </div>
-        <div className="col-lg-2 col-md-3 text-end">
+        <div className="col-lg-2 col-md-3 add-discount-btn-wrapper">
           <Button
             variant="primary"
             className="add-discount-btn px-2"
