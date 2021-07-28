@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
+import { Link } from "react-router-dom"
 import axiosInstance from "components/api"
 import "./styles.scss"
 import { Context } from "store/context"
@@ -16,6 +17,7 @@ const FavouritePage = () => {
   const { bindToken } = useContext(Context)
   const [itemsPerFavoritePage, setItemsPerFavoritePage] = useState(9)
   const [isFavorite, setIsFavorite] = useState([1])
+
   useEffect(() => {
     bindToken()
   }, [])
@@ -39,7 +41,7 @@ const FavouritePage = () => {
       )}
 
       {fetchError && <FetchError error={fetchError} />}
-      {discounts && !loading && (
+      {discounts && discounts.length > 0 && !loading && (
         <div className="container">
           <div className="discounts-wrapper">
             {discounts.map((el) => {
@@ -53,7 +55,7 @@ const FavouritePage = () => {
               )
             })}
           </div>
-          {!loading && (
+          {!loading && discounts && discounts.length > 0 (
             <Pagination
               favorites={discounts}
               itemsPerFavoritePage={itemsPerFavoritePage}
@@ -61,6 +63,14 @@ const FavouritePage = () => {
               isFavorite={true}
             />
           )}
+        </div>
+      )}
+      {discounts.length === 0 && (
+        <div className="container d-flex flex-column align-items-center mt-2">
+          <div>There is no favorite discounts.</div>
+          <div>
+            <Link to={"/"}>Add favorites.</Link>
+          </div>
         </div>
       )}
     </>

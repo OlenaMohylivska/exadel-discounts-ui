@@ -10,7 +10,8 @@ const FetchError = ({ error }) => {
     <div className="error-container">
       <div className="error-col">
         <div className="error-text">
-          Sorry, we have some problems with server ({error}). Take a small break and come back later!
+          <div>{error}.</div>
+          <div>Take a small break and come back later!</div>
         </div>
       </div>
       <img className="waiting" src={defaultErrorImage} alt="" />

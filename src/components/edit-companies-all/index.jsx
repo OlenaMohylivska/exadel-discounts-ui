@@ -116,7 +116,7 @@ const EditCompaniesAll = () => {
       )}
       {companiesFetchError && (
         <div className="fetch-error-info">
-          Sorry no info, {companiesFetchError}
+          {companiesFetchError}
         </div>
       )}
     </div>

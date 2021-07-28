@@ -41,7 +41,7 @@ function ProductCard({ elem, isOrdered, setIsFavorite, isFavorite }) {
       response.data.content.map((el) => el.id === elem.id && setFavorite(true))
     })
   }, [])
-  favorite
+
   return (
     <Card className=" shadow product-card">
       <div className="card-title-items">
