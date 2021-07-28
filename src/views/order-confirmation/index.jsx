@@ -79,7 +79,7 @@ const OrderConfirm = () => {
 
   return (
     <div className="order-wrapper">
-      <h4 className="order-title">
+      <h4 className="order-title" data-testid="confirm-header">
         Great choice, hope you`ll enjoy it! Please, find your promocode QR code
         down below
       </h4>
