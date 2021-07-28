@@ -26,7 +26,7 @@ function ProfileUserInfo() {
     await axiosInstance
       .get("/api/employee/subscriptions")
       .then((response) => setCategoriesToBeDeleted(response.data))
-  }, [selectedCategories, categoriesToBeDeleted])
+  }, [successMessage])
 
   useEffect(async () => {
     await axiosInstance
@@ -41,13 +41,14 @@ function ProfileUserInfo() {
       ...category,
       label: category.name,
       value: category.name,
+      id: category.id,
     }))
 
   const handleChangeCategory = (e) => {
     setSelectedCategories(e)
   }
   const handleDeleteCategory = (e) => {
-    setSelectedDeleteCategories(e)
+    setSelectedDeleteCategories(e.map((elem) => elem))
   }
 
   const subscriptionAddHandler = () => {
@@ -62,7 +63,7 @@ function ProfileUserInfo() {
   const subscriptionRemoveHandler = () => {
     axiosInstance.put(
       `/api/employee/subscriptions/remove`,
-      categoriesToBeDeleted.filter((category) => category.id)
+      selectedDeleteCategories.map((category) => category.id)
     )
     setSelectedDeleteCategories([])
     setSuccessMessage(true)
@@ -130,7 +131,7 @@ function ProfileUserInfo() {
               className="subscription-category"
               theme="primary75"
               options={deleteCategories}
-              onChange={(e) => handleDeleteCategory(e)}
+              onChange={handleDeleteCategory}
               placeholder="Select..."
               value={selectedDeleteCategories}
               isMulti
