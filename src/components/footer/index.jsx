@@ -7,7 +7,7 @@ function Footer() {
     <div className="footer-container">
       <div className="footer-inner">
         <div className="footer-corporate">
-          <h5 className="corporate-line">Corporate policy</h5>
+          <h5 className="footer-section-title">Corporate policy</h5>
           <ul className="footer-socials">
             <li>
               <a href="https://www.facebook.com/exadelinc/">
@@ -25,10 +25,10 @@ function Footer() {
               </a>
             </li>
           </ul>
-          <div className="code-version">Version: 30.06.2021</div>
+          <div className="code-version">Version: 28.07.2021-1</div>
         </div>
         <div className="footer-services">
-          <h5>Employee career path</h5>
+          <h5 className="footer-section-title">Employee career path</h5>
           <ul className="footer-career">
             <li>Big Data & Analytics</li>
             <li>AI and Machine Learning</li>
@@ -40,7 +40,7 @@ function Footer() {
         </div>
 
         <div className="footer-industries">
-          <h5>Industries</h5>
+          <h5 className="footer-section-title">Industries</h5>
           <ul className="footer-domains">
             <li>High Tech</li>
             <li>Media and Publishing</li>
