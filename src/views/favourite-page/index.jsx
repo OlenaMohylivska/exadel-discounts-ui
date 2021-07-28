@@ -14,7 +14,7 @@ const FavouritePage = () => {
   const [fetchError, setFetchError] = useState(null)
   const [loading, setLoading] = useState(false)
   const { bindToken } = useContext(Context)
-  const [isFavorite, setIsFavorite] = useState([1])
+  const [isFavorite, setIsFavorite] = useState([])
 
   useEffect(() => {
     bindToken()
@@ -39,19 +39,21 @@ const FavouritePage = () => {
       )}
 
       {fetchError && <FetchError error={fetchError} />}
-      {discounts && discounts.length > 0 && (
+
+      {discounts && discounts.length > 0 && !loading && (
         <div className="container">
           <div className="discounts-wrapper">
-            {discounts.map((el) => {
-              return (
-                <ProductCard
-                  elem={el}
-                  key={el.id}
-                  isFavorite={isFavorite}
-                  setIsFavorite={setIsFavorite}
-                />
-              )
-            })}
+            {discounts.length > 0 &&
+              discounts.map((el) => {
+                return (
+                  <ProductCard
+                    elem={el}
+                    key={el.id}
+                    isFavorite={isFavorite}
+                    setIsFavorite={setIsFavorite}
+                  />
+                )
+              })}
           </div>
         </div>
       )}

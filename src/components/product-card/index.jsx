@@ -32,7 +32,7 @@ function ProductCard({ elem, setIsFavorite, isFavorite }) {
   const favoriteUnsetter = async () => {
     await axiosInstance.put(`/api/employee/favorites/${elem.id}`)
     setFavorite(false)
-    isFavorite && setIsFavorite(isFavorite.push(1))
+    isFavorite && setIsFavorite([...isFavorite, isFavorite.length + 1])
   }
 
   useEffect(() => {
