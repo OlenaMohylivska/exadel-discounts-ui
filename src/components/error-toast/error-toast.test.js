@@ -8,7 +8,7 @@ test("renders Toast with props", () => {
   expect(screen.getByText("Something went wrong")).toBeInTheDocument()
 })
 
-test("renders simple error text", () => {
+test("renders simple error text in Toast", () => {
   render(<ErrorToast/>)
   expect(screen.getByText("Error!")).toBeInTheDocument()
 })
